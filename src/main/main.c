@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include <config.h>
+#include <motor/motor.h>
 #include <dynamixel/dynamixel.h>
 #include <main/main.h>
 
@@ -39,6 +40,8 @@ static void initiate()
         fprintf(stderr, "Error while initializing USB2Dynamixel\n");
         exit(EXIT_FAILURE);
     }
+
+    motor_start_dispatching();
 }
 
 /**
@@ -46,6 +49,8 @@ static void initiate()
  */
 static void terminate()
 {
+    motor_stop_dispatching();
+    
     dxl_terminate();
 }
 
@@ -84,9 +89,9 @@ REGISTER_COMMAND(help, help, "Affiche l'aide sur les commandes disponibles");
  */
 int main(int argc, char *argv[])
 {
-    signal(SIGINT, sigint);
-
     initiate();
+
+    signal(SIGINT, sigint);
 
     if (argc != 2) {
         usage(argv[0]);

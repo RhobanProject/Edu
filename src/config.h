@@ -19,4 +19,9 @@
  */
 #define SCHEDULER_FREQUENCY 100
 
+/**
+ * Vitesse du dispatcher d'ordre Dynamixel (en Hz)
+ */
+#define DISPATCHER_FREQUENCY 100
+
 #endif // _CONFIG_H

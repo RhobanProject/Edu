@@ -81,6 +81,9 @@ void dxl_write_byte(int id, int address, int value);
 int dxl_read_word(int id, int address);
 void dxl_write_word(int id, int address, int value);
 
+void dxl_read(int id, int address, void *data, int size);
+void dxl_write(int id, int address, void *data, int size);
+
 #ifdef __cplusplus
 }
 #endif

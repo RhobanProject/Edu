@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main util dynamixel move
+MODULES := main util dynamixel motor move
 
 PROG := robot
 
@@ -11,7 +11,7 @@ SRC_DIR   := $(addprefix src/,$(MODULES))
 BUILD_DIR := $(addprefix build/,$(MODULES))
 
 DEFS	  := -DF_CPU=$(F_CPU)
-LIBS	  :=
+LIBS	  := -lpthread -lm
 
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.c))
 OBJ       := $(patsubst src/%.c,build/%.o,$(SRC))

@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <dynamixel/dxl_hal.h>
 #include <dynamixel/dynamixel.h>
 
@@ -245,7 +248,7 @@ int dxl_get_rxpacket_parameter( int index )
     return (int)gbStatusPacket[PARAMETER+index];
 }
 
-int dxl_makeword( int lowbyte, int highbyte )
+int dxl_makeword(int lowbyte, int highbyte)
 {
     return (int)((lowbyte&0xff)|((highbyte&0xff)<<8));
 }
@@ -324,6 +327,34 @@ void dxl_write_word(int id, int address, int value)
     gbInstructionPacket[PARAMETER+1] = (unsigned char)dxl_get_lowbyte(value);
     gbInstructionPacket[PARAMETER+2] = (unsigned char)dxl_get_highbyte(value);
     gbInstructionPacket[LENGTH] = 5;
+
+    dxl_txrx_packet();
+}
+
+void dxl_read(int id, int address, void *data, int size)
+{
+    while(giBusUsing);
+
+    gbInstructionPacket[ID] = (unsigned char)id;
+    gbInstructionPacket[INSTRUCTION] = INST_READ;
+    gbInstructionPacket[PARAMETER] = (unsigned char)address;
+    gbInstructionPacket[PARAMETER+1] = size;
+    gbInstructionPacket[LENGTH] = 4;
+
+    dxl_txrx_packet();
+
+    memcpy(data, &gbStatusPacket[PARAMETER], size);
+}
+
+void dxl_write(int id, int address, void *data, int size)
+{
+    while(giBusUsing);
+
+    gbInstructionPacket[ID] = (unsigned char)id;
+    gbInstructionPacket[INSTRUCTION] = INST_WRITE;
+    gbInstructionPacket[PARAMETER] = (unsigned char)address;
+    memcpy(&gbInstructionPacket[PARAMETER+1], data, size);
+    gbInstructionPacket[LENGTH] = size+3;
 
     dxl_txrx_packet();
 }

@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <util/time.h>
-#include <dynamixel/dynamixel.h>
+#include <motor/motor.h>
 #include <main/main.h>
 #include <config.h>
 
