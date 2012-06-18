@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+
+#include <sockets/TCPClient.h>
+
+using namespace std;
+
+namespace Rhoban 
+{
+    TCPClient::TCPClient()
+    {
+        clientSocket = 0;
+    }
+
+    TCPClient::~TCPClient()
+    {
+        stop();
+    }
+
+    void TCPClient::connectTo(const char *address, int port)
+    {
+        stop();
+
+        SOCKADDR_IN sin = { 0 };
+        struct hostent *hostinfo;
+
+        clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+
+        if (clientSocket == INVALID_SOCKET)
+        {   
+            connected = false;
+            throw string("Could not create socket");
+        }   
+
+        hostinfo = gethostbyname(address);
+
+        if (hostinfo == NULL)
+        {   
+            connected = false;
+            throw string("Unknown host " + string(address));
+        }   
+
+        sin.sin_addr = *(IN_ADDR *) hostinfo->h_addr;
+        sin.sin_port = htons(port);
+        sin.sin_family = AF_INET;
+
+        if(connect(clientSocket, (SOCKADDR *)&sin, sizeof(SOCKADDR)) == SOCKET_ERROR)
+        {   
+            connected = false;
+            throw string("Could not connect");
+        } 
+
+        connected = true;
+    }
+
+    void TCPClient::stop()
+    {
+        if (clientSocket) {
+            close(clientSocket);
+        }
+    }
+
+    bool TCPClient::isConnected()
+    {
+        return connected;
+    }
+}

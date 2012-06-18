@@ -1,10 +1,10 @@
 # Modules to be included
-MODULES := main util dynamixel motor move
+MODULES := main util sockets test
 
 PROG := robot
 
-CC := gcc
-LD := gcc
+CPP := g++
+LD := g++
 OBJCOPY := objcopy
 
 SRC_DIR   := $(addprefix src/,$(MODULES))
@@ -13,24 +13,24 @@ BUILD_DIR := $(addprefix build/,$(MODULES))
 DEFS	  := -DF_CPU=$(F_CPU)
 LIBS	  := -lpthread -lm
 
-SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.c))
-OBJ       := $(patsubst src/%.c,build/%.o,$(SRC))
+SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
+OBJ       := $(patsubst src/%.cpp,build/%.o,$(SRC))
 INCLUDES  := -Isrc/
 
 override CFLAGS  := -g -Wall $(OPTIMIZE) $(DEFS) -O2
 
-vpath %.c $(SRC_DIR)
+vpath %.cpp $(SRC_DIR)
 
 all: checkdirs build/$(PROG)
 
 build/$(PROG): $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(CPP) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 checkdirs: $(BUILD_DIR)
 
 define make-goal
-$1/%.o: %.c
-	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -c $$< -o $$@
+$1/%.o: %.cpp
+	$(CPP) $(CFLAGS) $(DEFS) $(INCLUDES) -c $$< -o $$@
 endef
 
 $(BUILD_DIR):
