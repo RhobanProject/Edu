@@ -28,18 +28,14 @@ namespace Rhoban
     }
 
     /**
-     * Initializes the commands
-     */
-    void Command::init()
-    {
-        commands = new vector<Command*>;
-    }
-    
-    /**
      * Registers a new command
      */
     void Command::registerCommand(Command *command)
     {
+        if (commands == NULL) {
+            commands = new vector<Command*>;
+        }
+
         commands->push_back(command);
     }
 
@@ -79,14 +75,5 @@ namespace Rhoban
 
             throw stream.str();
         }
-    }
-
-    /**
-     * Wrapper to call Command::init() on startup
-     */
-    __attribute__((constructor))
-    void command_init()
-    {
-        Command::init();
     }
 }

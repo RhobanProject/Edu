@@ -1,7 +1,7 @@
 # Modules to be included
-MODULES := main util sockets test
+MODULES := main util sockets motion
 
-PROG := robot
+PROG := prog
 
 CPP := g++
 LD := g++
@@ -10,14 +10,19 @@ OBJCOPY := objcopy
 SRC_DIR   := $(addprefix src/,$(MODULES))
 BUILD_DIR := $(addprefix build/,$(MODULES))
 
-DEFS	  := -DF_CPU=$(F_CPU)
+DEFS	  :=
 LIBS	  := -lpthread -lm
 
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJ       := $(patsubst src/%.cpp,build/%.o,$(SRC))
 INCLUDES  := -Isrc/
+CFLAGS 	  := -O2 -Wall
 
-override CFLAGS  := -g -Wall $(OPTIMIZE) $(DEFS) -O2
+SUB_MAKEFILES := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/Makefile))
+
+include $(SUB_MAKEFILES)
+
+override CFLAGS += $(OPTIMIZE) $(DEFS)
 
 vpath %.cpp $(SRC_DIR)
 
@@ -29,7 +34,7 @@ build/$(PROG): $(OBJ)
 checkdirs: $(BUILD_DIR)
 
 define make-goal
-$1/%.o: %.cpp
+$1/%.o: $2/%.cpp
 	$(CPP) $(CFLAGS) $(DEFS) $(INCLUDES) -c $$< -o $$@
 endef
 
@@ -39,4 +44,4 @@ $(BUILD_DIR):
 clean:
 	@rm -rf build/*
 
-$(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir))))
+$(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir),$(patsubst build/%,src/%,$(bdir)))))

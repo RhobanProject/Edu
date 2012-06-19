@@ -2,6 +2,7 @@
 #define _TCPSERVER_H
 
 #include <string.h>
+#include <string>
 
 #include <vector>
 #include <sockets/common.h>

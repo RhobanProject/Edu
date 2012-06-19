@@ -23,7 +23,6 @@ namespace Rhoban
             virtual void execute(int argc, char *argv[]);
 
             static vector<Command*> *commands;
-            static void init();
             static void registerCommand(Command *command);
             static void help();
             static void resolve(int argc, char *argv[]);

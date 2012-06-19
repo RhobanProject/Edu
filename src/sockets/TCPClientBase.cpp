@@ -1,8 +1,14 @@
 #ifndef WIN32
 #include <fcntl.h>
 #endif
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include <errno.h>
+#include <stdarg.h>
+#include <string.h>
 #include <string>
+#include <sstream>
 
 #include <sockets/TCPClientBase.h>
 
@@ -25,6 +31,37 @@ namespace Rhoban
         return n;
     }
 
+    string TCPClientBase::receiveString(bool lineTerminates)
+    {
+        int n;
+        char c;
+        ostringstream stream;
+
+        while (true) {
+            n = receive(&c, 1);
+
+            if (n == 1) {
+                if (c == '\0' || (lineTerminates && c == '\n')) {
+                    break;
+                }
+
+                stream << c;
+            }
+        }
+
+        return stream.str();
+    }
+
+    void TCPClientBase::receiveFormat(const char *format, ...)
+    {
+        va_list args;
+        string str = receiveString(true);
+
+        va_start(args, format);
+        vsscanf(str.c_str(), format, args);
+        va_end(args);
+    }
+
     int TCPClientBase::transmit(const char *buffer, int size)
     {
         int n = send(clientSocket, buffer, size, 0);
@@ -34,6 +71,55 @@ namespace Rhoban
         }
 
         return n;
+    }
+
+    void TCPClientBase::transmitString(string str, bool lineTerminates)
+    {
+        char buffer[str.length()+1];
+
+        memcpy(buffer, str.c_str(), sizeof(buffer));
+
+        if (lineTerminates) {
+            buffer[sizeof(buffer)-1] = '\n';
+        }
+
+        transmit(buffer, sizeof(buffer));
+    }
+
+    void TCPClientBase::transmitFormat(const char *format, ...)
+    {
+        va_list args;
+        int n, size = 100;
+        char *p, *np;
+
+        if ((p = (char*)malloc(size)) == NULL) {
+            throw string("Error while transmitting message");
+        }
+
+        while (true ) {
+            va_start(args, format);
+            n = vsnprintf(p, size, format, args);
+            va_end(args);
+
+            if (n > -1 && n < size) {
+                break;
+            }
+
+            if (n > -1) { 
+                size = n+1;
+            } else {
+                size *= 2; 
+            } if ((np = (char*)realloc(p, size)) == NULL) {
+                free(p);
+                throw string("Error while transmitting message");
+            } else {
+                p = np;
+            }
+        }
+
+        transmitString(string(p));
+
+        free(p);
     }
 
     void TCPClientBase::setBlocking(int blocking)

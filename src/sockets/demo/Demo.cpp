@@ -20,9 +20,15 @@ COMMAND_DEFINE(server, "Socket demo server")
 
 COMMAND_DEFINE(client, "Socket demo client")
 {
+    int a,b;
     TCPClient *client = new TCPClient;
 
+    a = 12;
+    b = 34;
+
     client->connectTo("localhost", 1234);
-    client->transmit("Hello!", 6);
+    client->transmitFormat("a=%d, b=%d\n", a, b);
+    client->receiveFormat("a=%d, b=%d", &a, &b);
+    cout << "Values (a=" << a << ", b=" << b << ")" << endl;
     client->stop();
 }
