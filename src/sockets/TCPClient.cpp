@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <iostream>
 #include <string>
 
@@ -19,6 +20,11 @@ namespace Rhoban
 
     void TCPClient::connectTo(const char *address, int port)
     {
+#ifdef WIN32
+		WSADATA wsa;
+		WSAStartup(MAKEWORD(2,0), &wsa);
+#endif
+
         stop();
 
         SOCKADDR_IN sin = { 0 };

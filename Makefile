@@ -1,10 +1,11 @@
 # Modules to be included
-MODULES := main util sockets motion joystick sendJoystick
+MODULES := main util sockets sockets/demo
 
+# Program output
 PROG := prog
 
-CPP := g++
-LD := g++
+CPP 	:= g++
+LD 	:= g++
 OBJCOPY := objcopy
 
 SRC_DIR   := $(addprefix src/,$(MODULES))
@@ -12,6 +13,12 @@ BUILD_DIR := $(addprefix build/,$(MODULES))
 
 DEFS	  :=
 LIBS	  := -lpthread -lm
+LIBS	  := -lpthread -lm
+OS	  := linux
+
+ifeq ($(OS), windows)
+    LIBS += -lws2_32
+endif
 
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJ       := $(patsubst src/%.cpp,build/%.o,$(SRC))

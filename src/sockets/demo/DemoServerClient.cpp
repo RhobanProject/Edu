@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <sockets/DemoServerClient.h>
+#include <sockets/demo/DemoServerClient.h>
 
 using namespace std;
 

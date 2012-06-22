@@ -1,6 +1,13 @@
 #ifndef _TCPSERVER_H
 #define _TCPSERVER_H
 
+#ifdef WIN32
+#include <io.h>
+#endif
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 #include <string.h>
 #include <string>
 

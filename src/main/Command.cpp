@@ -10,7 +10,7 @@ using namespace std;
 
 namespace Rhoban
 {
-    vector<Command*> *Command::commands;
+    vector<Command*> *Command::commands = NULL;
 
     Command::Command(string _name, string _description, commandFunction *_function)
     {

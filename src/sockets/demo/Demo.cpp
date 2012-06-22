@@ -4,21 +4,21 @@
 #include <sockets/TCPServer.h>
 #include <sockets/TCPClient.h>
 
-#include <sockets/DemoServerClient.h>
+#include <sockets/demo/DemoServerClient.h>
 #include <main/Command.h>
 
 using namespace std;
 using namespace Rhoban;
 
-COMMAND_DEFINE(server, "Socket demo server")
+COMMAND_DEFINE(demo_server, "Socket demo server")
 {
     TCPServer<DemoServerClient> *server = new TCPServer<DemoServerClient>;
 
-    cout << "*** Creating DemoServer" << endl;
+    cout << "*** Creating \"echo\" DemoServer" << endl;
     server->run(1234);
 }
 
-COMMAND_DEFINE(client, "Socket demo client")
+COMMAND_DEFINE(demo_client, "Socket demo client")
 {
     int a,b;
     TCPClient *client = new TCPClient;
