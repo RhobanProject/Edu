@@ -12,10 +12,9 @@
 #include <stdio.h>
 
 #define SOCKET int
-#endif
-
-#define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
+#define INVALID_SOCKET -1
+#endif
 
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;

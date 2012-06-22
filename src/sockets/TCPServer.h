@@ -1,6 +1,10 @@
 #ifndef _TCPSERVER_H
 #define _TCPSERVER_H
 
+#include <io.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 #include <string.h>
 
 #include <vector>

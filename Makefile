@@ -11,7 +11,7 @@ SRC_DIR   := $(addprefix src/,$(MODULES))
 BUILD_DIR := $(addprefix build/,$(MODULES))
 
 DEFS	  := -DF_CPU=$(F_CPU)
-LIBS	  := -lpthread -lm
+LIBS	  := -lpthread -lm -lws2_32
 
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJ       := $(patsubst src/%.cpp,build/%.o,$(SRC))

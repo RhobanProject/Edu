@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #ifndef WIN32
 #include <fcntl.h>
 #endif
@@ -18,7 +20,11 @@ namespace Rhoban
             throw string("Connection closed");
         }
 
+#ifdef WIN32
+		if (n < 0 && errno != EAGAIN && errno != WSAEWOULDBLOCK ) {
+#else 
         if (n < 0 && errno != EAGAIN && errno != EWOULDBLOCK) {
+#endif
             throw string("Error while receiving data");
         }
 
@@ -29,7 +35,11 @@ namespace Rhoban
     {
         int n = send(clientSocket, buffer, size, 0);
 
+#ifdef WIN32
+		if (n < 0 && errno != EAGAIN && errno != WSAEWOULDBLOCK ) {
+#else 
         if (n < 0 && errno != EAGAIN && errno != EWOULDBLOCK) {
+#endif
             throw string("Error while sending data");
         }
 
@@ -43,7 +53,7 @@ namespace Rhoban
 
         arg = blocking ? 1 : 0;
 
-        result = ioctlsocket(clientSocket, FIONBIO, &arg); 
+        ioctlsocket(clientSocket, FIONBIO, &arg); 
 #else
         int flags;
 

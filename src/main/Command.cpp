@@ -10,7 +10,7 @@ using namespace std;
 
 namespace Rhoban
 {
-    vector<Command*> *Command::commands;
+    vector<Command*> *Command::commands = NULL;
 
     Command::Command(string _name, string _description, commandFunction *_function)
     {
@@ -40,6 +40,10 @@ namespace Rhoban
      */
     void Command::registerCommand(Command *command)
     {
+		if (commands == NULL) {
+			Command::init();
+		}
+		
         commands->push_back(command);
     }
 
@@ -79,14 +83,5 @@ namespace Rhoban
 
             throw stream.str();
         }
-    }
-
-    /**
-     * Wrapper to call Command::init() on startup
-     */
-    __attribute__((constructor))
-    void command_init()
-    {
-        Command::init();
     }
 }

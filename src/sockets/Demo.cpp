@@ -24,5 +24,6 @@ COMMAND_DEFINE(client, "Socket demo client")
 
     client->connectTo("localhost", 1234);
     client->transmit("Hello!", 6);
+	client->receive(buffer, 1024);
     client->stop();
 }
