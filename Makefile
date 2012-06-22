@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main util sockets motion
+MODULES := main util sockets motion joystick sendJoystick
 
 PROG := prog
 
