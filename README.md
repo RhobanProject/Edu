@@ -7,7 +7,7 @@ version éducation.
 Licence
 =======
 
-Tout le contenu de ce dépôt est libre d'utilisation personnel, de modification
-et de redistribution. Cependant, tout usage à des fin commercial ne peut pas
-être réalisé sans nous avoir préalablement contacté et informé.
+Tout le contenu de ce dépôt est libre d'utilisation personnelle, de modification
+et de redistribution. Cependant, tout usage à des fins commercialles ne pourra en 
+aucun cas être réalisé sans nous avoir préalablement contacté et informé.
 
