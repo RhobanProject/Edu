@@ -1,2 +1,5 @@
 sdk/cpp/build
 docs/build/
+
+sdk/python/rhoban/*.pyc
+sdk/python/rhoban/*/*.pyc
