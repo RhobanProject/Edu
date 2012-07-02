@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main util sockets sockets/demo
+MODULES := main util sockets sockets/demo motion
 
 # Program output
 PROG := prog
@@ -8,8 +8,10 @@ CPP 	:= g++
 LD 	:= g++
 OBJCOPY := objcopy
 
+OUT_DIR	  := build
 SRC_DIR   := $(addprefix src/,$(MODULES))
-BUILD_DIR := $(addprefix build/,$(MODULES))
+BUILD_DIR := $(addprefix $(OUT_DIR)/,$(MODULES))
+COMMON_DIR := ../common
 
 DEFS	  :=
 LIBS	  := -lpthread -lm
@@ -21,7 +23,7 @@ ifeq ($(OS), windows)
 endif
 
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
-OBJ       := $(patsubst src/%.cpp,build/%.o,$(SRC))
+OBJ       := $(patsubst src/%.cpp,$(OUT_DIR)/%.o,$(SRC))
 INCLUDES  := -Isrc/
 CFLAGS 	  := -O2 -Wall
 
@@ -33,12 +35,15 @@ override CFLAGS += $(OPTIMIZE) $(DEFS)
 
 vpath %.cpp $(SRC_DIR)
 
-all: checkdirs build/$(PROG)
+all: checkdirs $(OUT_DIR)/$(PROG) copycommons
 
-build/$(PROG): $(OBJ)
+$(OUT_DIR)/$(PROG): $(OBJ)
 	$(CPP) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 checkdirs: $(BUILD_DIR)
+
+copycommons:
+	cp -R $(COMMON_DIR)/* $(OUT_DIR)/
 
 define make-goal
 $1/%.o: $2/%.cpp
@@ -49,6 +54,6 @@ $(BUILD_DIR):
 	@mkdir -p $@
 
 clean:
-	@rm -rf build/*
+	@rm -rf $(OUT_DIR)/*
 
-$(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir),$(patsubst build/%,src/%,$(bdir)))))
+$(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir),$(patsubst $(OUT_DIR)/%,src/%,$(bdir)))))

@@ -1,0 +1,10 @@
+.sphinxsidebar ul ul {
+    font-size: 80%;
+}
+
+pre {
+    display:block;
+    background-color:#f2f2f2;
+    color:#222;
+    border:1px solid #666;
+}
