@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main util sockets sockets/demo motion
+MODULES := main sockets
 
 # Program output
 PROG := prog
