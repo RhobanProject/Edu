@@ -1,0 +1,5 @@
+
+.. _server:
+
+Documentation: Serveur
+======================
