@@ -78,3 +78,20 @@ le type ``float[][][]`` sera alors un tableau de tableau de tableau de flottants
 
 Le type spécial ``string`` est équivalent à ``byte[]``.
 
+Destinations
+~~~~~~~~~~~~
+
+Dans le fichier ``commands.xml``, vous trouverez les destinations sous la forme
+de chaînes de caractères, voici le tableau de correspondance avec les entiers :
+
+======================== ===============================
+Nom de la destination    Indice correspondant
+======================== ===============================
+``error``                0
+``server``               1
+``system``               2
+``low_level``            3
+``move_scheduler``       4
+``vision``               5
+``localisation``         6
+======================== ===============================
