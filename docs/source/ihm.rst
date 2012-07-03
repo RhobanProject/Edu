@@ -1,4 +1,0 @@
-
-Documentation de l'IHM
-======================
-

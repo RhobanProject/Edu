@@ -1,4 +1,6 @@
 
+.. _telechargements:
+
 Téléchargements
 ===============
 
@@ -14,7 +16,7 @@ IHM
 
 L'**IHM** (Interface Homme Machine) permet de gérer la liste des
 moteurs et de concevoir des mouvements. Pour la documentation, rendez-vous dans
-la rubrique :ref:`sdk`.
+la rubrique :ref:`ihm`.
 
 *A venir*
 
@@ -22,14 +24,15 @@ SDK
 ~~~
 
 Le **SDK** (Software Development Kit), est un kit de développement logiciel qui 
-vous permettra de dialoguer avec les robots.
+vous permettra de dialoguer avec les robots.  Pour la documentation, rendez-vous
+dans la rubrique :ref:`sdk`.
 
 *A venir*
 
-Rhoban Server
+Serveur
 ~~~~~~~~~~~~~
 
 Le serveur Rhoban sert d'intermédiaire pour accéder à la couche "bas niveau" des
-différents robots.
+différents robots. Pour la documentation, rendez-vous dans la rubrique :ref:`server`.
 
 *A venir*
