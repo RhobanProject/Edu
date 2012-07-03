@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main sockets tinyxml
+MODULES := main sockets tinyxml commandsStore
 
 # Program output
 PROG := prog
