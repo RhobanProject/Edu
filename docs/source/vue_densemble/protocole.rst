@@ -68,7 +68,7 @@ Taille (bit)   Nom du type     Specification
 **32**         ``float``       Un nombre flottant suivant la spécification IEEE 754,
                                codé sur 32 bits
 
-**1**          ``byte``        Un octet
+**8**          ``byte``        Un octet
 ============== =============== =================================================
 
 Il est également possible de représenter des tableaux à l'aide de la notation 
