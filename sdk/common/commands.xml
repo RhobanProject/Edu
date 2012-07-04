@@ -246,7 +246,7 @@
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
-    <Name>Error for low level</Name>
+    <Name>ErrorForLowLevel</Name>
     <Destination>low_level</Destination>
     <CommandIndex>0</CommandIndex>
     <ParametersPattern />
