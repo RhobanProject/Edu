@@ -6,7 +6,8 @@ import rhoban.communication as com
 import sockets.tcp as tcp
 
 filename = '../common/commands.xml'
-store = com.CommandStore(filename)
+store = com.CommandsStore
+store.parseXml(filename)
 
 connection = com.Connection('localhost', 12345)
 message = store.builder.ServerEcho("hello!")

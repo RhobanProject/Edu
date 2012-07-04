@@ -11,7 +11,7 @@ import sockets.tcp as tcp
 class CommandSpecification:
     def __init__(self, name, description, destination, command, parametersPattern, answerPattern):
         self.name = name
-        self.descritption = description
+        self.description = description
         self.destination = destination
         self.command = command
         self.parametersPattern = ParametersPattern(parametersPattern)
@@ -109,7 +109,7 @@ class MessageBuilder:
 
         def messageBuilder(*args):
             message = Message(uid, specification.destination, specification.command)
-            message.data = specification.parametersPattern.getData(args)
+            message.data = specification.parametersPattern.getData(*args)
 
             return message
 
@@ -118,7 +118,7 @@ class MessageBuilder:
 """
     Magasin de commandes
 """
-class CommandStore:
+class CommandsStore:
     destinationToIndex = {
         'error': 0,
         'server': 1,
@@ -129,10 +129,12 @@ class CommandStore:
         'localisation': 6
     }
 
-    def __init__(self, filename):
+    def __init__(self):
         self.commands = {}
         self.indexCommands = {}
         self.builder = MessageBuilder(self)
+
+    def parseXml(self, filename):
         xmldoc = minidom.parse(filename)
 
         def getText(command, name):
@@ -151,8 +153,10 @@ class CommandStore:
             parametersPattern = getText(commandSpec, 'ParametersPattern')
             answerPattern = getText(commandSpec, 'AnswerPattern')
 
-            specification = CommandSpecification(name, description, self.destinationToIndex[destination], command, parametersPattern, answerPattern)
-            self.commands[name] = specification
+            self.addSpecification(CommandSpecification(name, description, self.destinationToIndex[destination], command, parametersPattern, answerPattern))
+
+    def addSpecification(self, specification):
+            self.commands[specification.name] = specification
             self.indexCommands[(int(specification.destination), int(specification.command))] = specification
 
     def readData(self, message):
@@ -180,7 +184,10 @@ class ParametersPattern:
     def __iter__(self):
         return iter(self.patterns)
 
-    def getData(self, args):
+    def __len__(self):
+        return len(self.patterns)
+
+    def getData(self, *args):
         if len(args) != len(self.patterns):
             raise Exception('Arguments error')
 
@@ -210,6 +217,7 @@ class ParameterPattern:
         'ui32': [int, 'I', 4],
         'int': [int, 'i', 4],
         'byte': [str, 'c', 1],
+        'string': [str, 's', 1],
     }
 
     def __init__(self, specification):
@@ -281,19 +289,19 @@ class ParameterPattern:
             argument = []
 
             if self.depth == 1:
-                length = length * self.typesMapping[self.baseType][2]
-                argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[:length]))
+                size = length * self.typesMapping[self.baseType][2]
+                argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[:size]))
 
                 if self.specification == 'byte[]':
                     argument = argument[0]
 
-                return (data[length:], argument)
+                return (data[size:], argument)
             else:
                 for n in xrange(length):
                     (data, subArgument) = self.subPattern.readData(data)
                     argument += [subArgument]
 
-                return (data, subArgument)
+                return (data, argument)
         else:
             length = self.typesMapping[self.baseType][2]
             argument = struct.unpack('>' + self.typesMapping[self.baseType][1], data[:length])[0]
