@@ -277,16 +277,23 @@ class ParameterPattern:
 
     def readData(self, data):
         if self.subPattern != None:
+            length = struct.unpack('>I', data[:4])[0]
+            data = data[4:]
+            argument = []
+
             if self.depth == 1:
-                length = struct.unpack('>I', data[:4])[0]
-                argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[4:length+4]))
+                argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[:length]))
 
                 if self.specification == 'byte[]':
                     argument = argument[0]
 
-                return (data[length+4:], argument)
+                return (data[length:], argument)
             else:
-                print 'Error, reading array not implemented'
+                for n in xrange(length):
+                    (data, subArgument) = self.subPattern.readData(data)
+                    argument += [subArgument]
+
+                return (data, subArgument)
         else:
             length = self.typesMapping[self.baseType][2]
             argument = struct.unpack('>' + self.typesMapping[self.baseType][1], data[:length])[0]
