@@ -35,14 +35,36 @@ class TestSpecification(unittest.TestCase):
     def test_simple_pattern(self):
         pattern = self.paramsClass('ui32 float byte string')
 
-        self.assertEquals(pattern.getData(1,1.0,'c','hello'), '\x00\x00\x00\x01?\x80\x00\x00c\x00\x00\x00\x05hello')
-        self.assertEquals(pattern.readData('\x00\x00\x00\x01?\x80\x00\x00c\x00\x00\x00\x05hello'), [1,1.0,'c','hello'])
+        argument = [1,1.0,'c','hello']
+        data = '\x00\x00\x00\x01?\x80\x00\x00c\x00\x00\x00\x05hello'
+
+        self.assertEquals(pattern.getData(*argument), data)
+        self.assertEquals(pattern.readData(data), argument)
 
     def test_array_pattern(self):
         pattern = self.paramsClass('ui32[][]')
 
-        self.assertEquals(pattern.getData([[1,2],[3,4]]), '\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00\x04')
-        self.assertEquals(pattern.readData('\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00\x04'), [[[1,2],[3,4]]])
+        argument = [[[1,2],[3,4]]]
+        data = '\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00\x04'
+        
+        self.assertEquals(pattern.getData(*argument), data)
+        self.assertEquals(pattern.readData(data), argument)
+
+    def test_strings(self):
+        pattern = self.paramsClass('string string[]')
+
+        argument = ['hello', ['worl', 'd!']]
+        data = '\x00\x00\x00\x05hello\x00\x00\x00\x02\x00\x00\x00\x04worl\x00\x00\x00\x02d!'
+        
+        self.assertEquals(pattern.getData(*argument), data)
+        self.assertEquals(pattern.readData(data), argument)
+
+    def test_builder(self):
+        store = self.storeClass()
+        store.addSpecification(self.specClass('test', 'desc', 12, 34, 'ui32 ui32', ''))
+        message = store.builder.test(5, 8)
+
+        self.assertEquals(message.getRaw(), '\x00\x00\x00\x01\x00\x00\x00\x0c\x00\x00\x00"\x00\x00\x00\x08\x00\x00\x00\x05\x00\x00\x00\x08')
 
 
 if __name__ == '__main__':
