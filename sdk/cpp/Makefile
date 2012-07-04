@@ -24,7 +24,7 @@ ifeq ($(OS), windows)
 endif
 
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
-OBJ       := $(patsubst $(SRC)/%.cpp,$(OUT_DIR)/%.o,$(SRC))
+OBJ       := $(patsubst $(IN_DIR)/%.cpp,$(OUT_DIR)/%.o,$(SRC))
 INCLUDES  := -I$(IN_DIR)/
 CFLAGS 	  := -O2 -Wall
 CLEANS	  :=

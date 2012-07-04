@@ -10,9 +10,8 @@
 
 namespace Rhoban
 {
-    MessageBuilder::MessageBuilder(CommandsStore *store_)
+    MessageBuilder::MessageBuilder()
     {
-        store = store_;
         uid = 0;
     }
 
@@ -21,5 +20,5 @@ namespace Rhoban
         return uid++;
     }
 
-    <METHODS>
+<METHODS>
 }

@@ -15,7 +15,7 @@ namespace Rhoban
     class MessageBuilder
     {
         public:
-            MessageBuilder(CommandStore *store_);
+            MessageBuilder();
 
 <METHODS_PROTOTYPES>
 

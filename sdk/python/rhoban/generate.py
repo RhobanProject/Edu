@@ -37,7 +37,7 @@ def generate_message_builder(filename, out_h, out_cpp):
 
         specification = store.get(name)
         prototypes += u'            Message *{0}('.format(name)
-        methods += u'    MessageBuilder::Message *{0}('.format(name)
+        methods += u'    Message *MessageBuilder::Message *{0}('.format(name)
         arguments = []
         argumentNumber = 1
 
