@@ -1,0 +1,6 @@
+
+.. _ihm:
+
+Documentation: IHM
+==================
+
