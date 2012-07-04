@@ -6,10 +6,9 @@ import sys, os, socket
 """
     Client TCP, peut se connecter et envoyer/recevoir des données
 """
-class TCPClient:
+class TCPClient(object):
     def __init__(self):
         self.socket = None
-        pass
 
     def connectTo(self, hostname, port):
         if self.socket != None:

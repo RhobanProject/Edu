@@ -13,7 +13,7 @@ def template_tag(filename, tag, contents):
 def generate_method(specification):
     method = u''
 
-    method += "        Message *message = new Message(getUid(), {0}, {1})\n".format(specification.destinationIndex,
+    method += "        Message *message = new Message(getUid(), {0}, {1})\n".format(specification.destination,
             specification.index)
 
     argumentNumber = 1
