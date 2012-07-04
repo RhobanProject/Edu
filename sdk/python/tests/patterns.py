@@ -1,9 +1,9 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: utf8 -*-
 
 import sys, os
 import unittest
-sys.path.append('../')
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import rhoban.communication as com
 
 """
