@@ -210,7 +210,6 @@ class ParameterPattern:
         'ui32': [int, 'I', 4],
         'int': [int, 'i', 4],
         'byte': [str, 'c', 1],
-        'string': [str, 's', 1]
     }
 
     def __init__(self, specification):
@@ -282,6 +281,7 @@ class ParameterPattern:
             argument = []
 
             if self.depth == 1:
+                length = length * self.typesMapping[self.baseType][2]
                 argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[:length]))
 
                 if self.specification == 'byte[]':
