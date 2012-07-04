@@ -14,7 +14,7 @@
     <Destination>server</Destination>
     <CommandIndex>0</CommandIndex>
     <ParametersPattern />
-    <AnswerPattern />
+    <AnswerPattern>ui32</AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
     <Name>SendXml</Name>
@@ -39,7 +39,7 @@
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
-    <Name>MSG_SERVER_ECHO</Name>
+    <Name>ServerEcho</Name>
     <Description>sends a message returned with same content</Description>
     <Destination>server</Destination>
     <CommandIndex>2</CommandIndex>
