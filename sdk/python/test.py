@@ -6,25 +6,28 @@ import rhoban.communication as com
 import sockets.tcp as tcp
 
 filename = '../common/commands.xml'
-store = com.CommandsStore
+store = com.CommandsStore()
 store.parseXml(filename)
 
 connection = com.Connection('localhost', 12345)
 message = store.builder.ServerEcho("hello!")
     
-connection.sendMessage(message)
+message = connection.sendAndReceive(message)
+arguments = store.readData(message)
 
-while True:
-    message = connection.getMessage()
-    arguments = store.readData(message)
+print arguments[0]
 
-    print arguments
+#while True:
+#    message = connection.getMessage()
+#    arguments = store.readData(message)
 
-    out  = 'MSG: uid={0}, destination={1}, command={2}, length={3} - '.format(
-            message.uid, message.destination, message.command, len(message.data))
-    raw = message.getRaw()
+#    print arguments
 
-    for i in xrange(0, len(raw)):
-        out += '%02X ' % ord(raw[i])
+#    out  = 'MSG: uid={0}, destination={1}, command={2}, length={3} - '.format(
+#            message.uid, message.destination, message.command, len(message.data))
+#    raw = message.getRaw()
 
-    print out
+#    for i in xrange(0, len(raw)):
+#        out += '%02X ' % ord(raw[i])
+
+#    print out

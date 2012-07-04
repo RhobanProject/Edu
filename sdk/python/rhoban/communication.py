@@ -29,6 +29,11 @@ class Connection(tcp.TCPClient):
         self.length = 0
         self.connectTo(hostname, port)
 
+    def sendAndReceive(self, message):
+        self.sendMessage(message)
+
+        return self.getMessage()
+
     def sendMessage(self, message):
         self.transmit(message.getRaw())
 
