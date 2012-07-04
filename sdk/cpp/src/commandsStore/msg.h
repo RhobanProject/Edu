@@ -4,21 +4,11 @@
 #include <string>
 #include <vector>
 
-#include "types.h" // modif
-
-//#include "rhobanProtocol.h"
+#include "types.h"
 #include "Buffer.h"
-
 #include "header.h"
 
 using namespace std;
-
-#define MSG_TYPE_MAX_NB 8
-#define MSG_HEADER_SIZE 4*sizeof(ui32)
-#define MSG_MIN_SIZE MSG_HEADER_SIZE + 32
-#define MSG_MAX_SIZE 2000000
-
-
 
 class Msg : public Header, public Buffer
 {

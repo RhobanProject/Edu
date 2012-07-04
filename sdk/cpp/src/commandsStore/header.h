@@ -4,9 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "types.h" // modif
-
-//#include "rhobanProtocol.h"
+#include "types.h"
 #include "Buffer.h"
 
 using namespace std;

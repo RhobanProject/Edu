@@ -12,9 +12,8 @@
 #include <memory.h>
 #include <string>
 
-//#include "util.h"
 #include "types.h"
-//#include "encodings.h"
+#include "encodings.h"
 
 using namespace std;
 

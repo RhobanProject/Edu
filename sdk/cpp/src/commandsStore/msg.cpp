@@ -9,12 +9,9 @@
 
 #include "msg.h"
 #include "header.h"
-//#include "encodings.h"
 #include "Buffer.h"
  
 using namespace std;
-
-ui32 Header::_timestamp = 0;
 
 
 Msg::Msg()

@@ -8,7 +8,6 @@
 #include <iostream>
 
 #include "header.h"
-//#include "encodings.h"
 #include "Buffer.h"
  
 using namespace std;

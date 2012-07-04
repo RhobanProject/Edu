@@ -6,10 +6,11 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <sstream>
 
 #include "Buffer.h"
-//#include "encodings.h"
+#include "encodings.h"
 #include "msg.h"
 
 
@@ -37,7 +38,11 @@ void Buffer::alloc(ui32 new_size)
   if(new_size <= buffer_size)
     return ;
   if(new_size>MSG_MAX_SIZE)
-    throw string("Message too large "+my_itoa(new_size));
+    {
+    ostringstream os;
+    os << new_size;
+    throw string("Message too large "+os.str());
+    }
   if(!buffer || !owned)
     {
       buffer = (char *)malloc(new_size * sizeof(char));
