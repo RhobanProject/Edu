@@ -10,155 +10,156 @@
 
 using namespace std;
 
-class Msg : public Header, public Buffer
-{
-private:
+namespace Rhoban{
+  class Msg : public Header, public Buffer
+  {
+  private:
 
-  int cursor; // internal cursor (to read data)
+    int cursor; // internal cursor (to read data)
 
-public:
+  public:
 
-  Msg();
-  virtual ~Msg();
-  /**
-     @brief build a new message
-     @param t type of the message (MSG_TYPE_?)
-     @param size size of the buffer
-     @param buffer pointer of the buffer to use
-  */
-  Msg(ui32 type, ui32 size, char * buffer );
-
-
-  /*
-   * clears the message
-   */
-  void clear();
-
-  /*!
-   * *************************************************
-   * READING DATA
-   * *************************************************
-   */
-
-  /**
-     @brief read int from content base on an internal cursor
-  */
-  ui32 read_uint(void);
-  int read_int(void);
-
-  /**
-     @brief read a float from the intenal buffer based on internal cursor
-  */
-  float read_float(void);
-  double read_double(void);
-
-  /**
-     @brief read a string from the internal buffer based on internal cursor
-  */
-  string read_string(void);
-
-  /**
-     @brief read a char array from the internal buffer based on internal cursor
-  */
-  vector<ui8> read_array(void);
+    Msg();
+    virtual ~Msg();
+    /**
+       @brief build a new message
+       @param t type of the message (MSG_TYPE_?)
+       @param size size of the buffer
+       @param buffer pointer of the buffer to use
+    */
+    Msg(ui32 type, ui32 size, char * buffer );
 
 
-  /**
-     @brief read a string array from the internal buffer based on internal cursor
-  */
-  vector<string> read_string_array(void);
+    /*
+     * clears the message
+     */
+    void clear();
 
-  /**
-     @brief read an int array from the internal buffer based on internal cursor
-  */
-  vector<ui32> read_uint_array(void);
-  vector<int> read_int_array(void);
+    /*!
+     * *************************************************
+     * READING DATA
+     * *************************************************
+     */
 
-  /**
-     @brief read a float array from the internal buffer based on internal cursor
-  */
-  vector<float> read_float_array(void);
-  vector<double> read_double_array(void);
+    /**
+       @brief read int from content base on an internal cursor
+    */
+    ui32 read_uint(void);
+    int read_int(void);
 
-  /*!
-   * *************************************************
-   * WRITING DATA
-   * *************************************************
-   */
+    /**
+       @brief read a float from the intenal buffer based on internal cursor
+    */
+    float read_float(void);
+    double read_double(void);
+
+    /**
+       @brief read a string from the internal buffer based on internal cursor
+    */
+    string read_string(void);
+
+    /**
+       @brief read a char array from the internal buffer based on internal cursor
+    */
+    vector<ui8> read_array(void);
 
 
-  /*!
-   * append data at the end of the buffer
-   */
-  void append(ui8 value);
+    /**
+       @brief read a string array from the internal buffer based on internal cursor
+    */
+    vector<string> read_string_array(void);
 
-  void append(ui32 value);
+    /**
+       @brief read an int array from the internal buffer based on internal cursor
+    */
+    vector<ui32> read_uint_array(void);
+    vector<int> read_int_array(void);
 
-  void append(int value);
+    /**
+       @brief read a float array from the internal buffer based on internal cursor
+    */
+    vector<float> read_float_array(void);
+    vector<double> read_double_array(void);
 
-  void append(float value);
+    /*!
+     * *************************************************
+     * WRITING DATA
+     * *************************************************
+     */
 
-  void append(double value);
 
-  /*! append data using stream operator */
-  friend Msg & operator<< (Msg & msg , ui8 & val );
-  friend Msg & operator<< (Msg & msg , ui32 & val );
-  friend Msg & operator<< (Msg & msg , int & val );
-  friend Msg & operator<< (Msg & msg , float & val );
-  friend Msg & operator<< (Msg & msg , double & val );
-  friend Msg & operator<< (Msg & msg , string & val );
-  friend Msg & operator<< (Msg & msg , vector<double> & val );
-  friend Msg & operator<< (Msg & msg , vector<float> & val );
-  friend Msg & operator<< (Msg & msg , vector<int> & val );
-  friend Msg & operator<< (Msg & msg , vector<uint> & val );
+    /*!
+     * append data at the end of the buffer
+     */
+    void append(ui8 value);
 
-  /*!
-   * append data to the message
-   * a copy is performed
-   */
-  void append(const char * data, ui32 siz);
+    void append(ui32 value);
 
-  /**
-     @brief appends a string to a message
-     first, a ui32 is written which represents the length of the array
-     then, the array itself is writtent in the message
-  */
-  void append(const string &value);
+    void append(int value);
 
-  /** same but less efficient
-      first, a ui32 is written which represents the number of strings
-      then, each char is written using append
-  */
-  void append(vector<ui8> & values);
+    void append(float value);
 
-  /**
-     @brief appends an array of strings to a message
-     first, a ui32 is written which represents the number of strings
-     then, each string is written using append_string
-  */
-  void append(vector<string> & words);
+    void append(double value);
 
-  void append(vector<ui32> & values);
-  void append(vector<int> & values);
+    /*! append data using stream operator */
+    friend Msg & operator<< (Msg & msg , ui8 & val );
+    friend Msg & operator<< (Msg & msg , ui32 & val );
+    friend Msg & operator<< (Msg & msg , int & val );
+    friend Msg & operator<< (Msg & msg , float & val );
+    friend Msg & operator<< (Msg & msg , double & val );
+    friend Msg & operator<< (Msg & msg , string & val );
+    friend Msg & operator<< (Msg & msg , vector<double> & val );
+    friend Msg & operator<< (Msg & msg , vector<float> & val );
+    friend Msg & operator<< (Msg & msg , vector<int> & val );
+    friend Msg & operator<< (Msg & msg , vector<uint> & val );
 
-  void append(vector<double> & values);
-  void append(vector<float> & values);
+    /*!
+     * append data to the message
+     * a copy is performed
+     */
+    void append(const char * data, ui32 siz);
 
-  void append(vector<vector<double> > & values);
-  void append(vector<vector<float> > & values);
-  void append(vector<vector<uint> > & values);
+    /**
+       @brief appends a string to a message
+       first, a ui32 is written which represents the length of the array
+       then, the array itself is writtent in the message
+    */
+    void append(const string &value);
 
-  /**
-     @brief print the message (type, subtype, timestamp and length)
-  */
-  void print(void);
+    /** same but less efficient
+	first, a ui32 is written which represents the number of strings
+	then, each char is written using append
+    */
+    void append(vector<ui8> & values);
 
-  /**
-     @brief print the message byte per byte with the %d format
-  */
-  void rawprint(void);
+    /**
+       @brief appends an array of strings to a message
+       first, a ui32 is written which represents the number of strings
+       then, each string is written using append_string
+    */
+    void append(vector<string> & words);
 
-};
+    void append(vector<ui32> & values);
+    void append(vector<int> & values);
 
+    void append(vector<double> & values);
+    void append(vector<float> & values);
+
+    void append(vector<vector<double> > & values);
+    void append(vector<vector<float> > & values);
+    void append(vector<vector<uint> > & values);
+
+    /**
+       @brief print the message (type, subtype, timestamp and length)
+    */
+    void print(void);
+
+    /**
+       @brief print the message byte per byte with the %d format
+    */
+    void rawprint(void);
+
+  };
+}
 
 #endif // MSG_H_
