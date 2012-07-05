@@ -27,11 +27,15 @@ namespace Rhoban{
   class Header
   {
   public:
-    ui32 timestamp; // timestamp to uniquely identify message
-    ui32 type; // type of message
-    ui32 subtype; // subtype of message
+    // ui32 timestamp; // timestamp to uniquely identify message
+    // ui32 type; // type of message
+    // ui32 subtype; // subtype of message
+    // ui32 length; // content length of the message
+    
+    ui32 uid; // timestamp to uniquely identify message
+    ui32 destination; // type of message
+    ui32 command; // subtype of message
     ui32 length; // content length of the message
-
 
     Header();
     void clear();
@@ -46,9 +50,9 @@ namespace Rhoban{
     void write_header(char * raw_header);
 
 
-    static const ui32 timestamp_offset = 0;
-    static const ui32 type_offset = 4;
-    static const ui32 subtype_offset = 8;
+    static const ui32 uid_offset = 0;
+    static const ui32 destination_offset = 4;
+    static const ui32 command_offset = 8;
     static const ui32 length_offset = 12;
 
   protected:

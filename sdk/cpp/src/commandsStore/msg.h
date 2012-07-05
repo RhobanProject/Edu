@@ -27,7 +27,7 @@ namespace Rhoban{
        @param size size of the buffer
        @param buffer pointer of the buffer to use
     */
-    Msg(ui32 type, ui32 size, char * buffer );
+    Msg(ui32 dest, ui32 size, char * buffer );
 
 
     /*
@@ -159,6 +159,7 @@ namespace Rhoban{
     */
     void rawprint(void);
 
+    char* getRaw();
   };
 }
 

@@ -1,10 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <time.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cerrno>
+#include <ctime>
+#include <string>
 #include <unistd.h>
-#include <time.h>
 #include <iostream>
 
 #include "msg.h"
@@ -24,10 +23,10 @@ namespace Rhoban{
   {
 
   }
-  Msg::Msg(ui32 t, ui32 size, char *buffer)
+  Msg::Msg(ui32 dest, ui32 size, char *buffer)
   {
-    type = t;
-    subtype = 0;
+    destination = dest;
+    command = 0;
     length = 0;
     cursor = 0;
     if(buffer)
@@ -50,7 +49,7 @@ namespace Rhoban{
 
 
   /**
-     @brief write a string in the internal buffer with an offset (internal cursor)
+     @brief write a string in the internal buffer with an offset (Internal cursor)
   */
   void Msg::append(vector<ui8> & values)
   {
@@ -297,14 +296,18 @@ namespace Rhoban{
     cursor=MSG_HEADER_SIZE;
   }
 
-
+  char* Msg::getRaw()
+  {
+    write_header(buffer);
+    return buffer;
+  }
 
 
   void Msg::print(void)
   {
     printf(" { ");
-    printf("Type : %d, SubType : %d, TimeStamp : %d, Length : %d }\n",
-	   type, subtype, timestamp, length);
+    printf("Destination : %d, Command : %d, UID : %d, Length : %d }\n",
+	   destination, command, uid, length);
   }
 
   void Msg::rawprint(void)

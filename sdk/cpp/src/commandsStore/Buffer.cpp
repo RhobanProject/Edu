@@ -4,8 +4,8 @@
  *  Created on: 21 mars 2011
  *      Author: hugo
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <string>
 #include <sstream>
 

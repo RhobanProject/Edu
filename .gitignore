@@ -3,3 +3,6 @@ docs/build/
 
 sdk/python/rhoban/*.pyc
 sdk/python/rhoban/*/*.pyc
+sdk/python/sockets/*.pyc
+sdk/cpp/src/commandsStore/MessageBuilder.h
+sdk/cpp/src/commandsStore/MessageBuilder.cpp
