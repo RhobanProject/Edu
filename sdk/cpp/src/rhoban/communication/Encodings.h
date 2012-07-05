@@ -9,7 +9,7 @@
 #define ENCODINGS_H_
 
 #include <iostream>
-#include "types.h"
+#include <rhoban/types.h>
 
 using namespace std;
 

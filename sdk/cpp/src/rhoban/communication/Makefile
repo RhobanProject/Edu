@@ -1,5 +1,5 @@
-MESSAGE_BUILDER_H := $(IN_DIR)/commandsStore/MessageBuilder.h
-MESSAGE_BUILDER_CPP := $(IN_DIR)/commandsStore/MessageBuilder.cpp
+MESSAGE_BUILDER_H := $(IN_DIR)/rhoban/communication/MessageBuilder.h
+MESSAGE_BUILDER_CPP := $(IN_DIR)/rhoban/communication/MessageBuilder.cpp
 
 CLEANS += clean_message_builder
 PREPARE += generate_message_builder

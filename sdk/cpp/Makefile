@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main sockets commandsStore
+MODULES := main sockets rhoban/communication rhoban
 
 # Program output
 PROG := prog

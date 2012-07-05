@@ -3,8 +3,8 @@
 
 #include <cstdlib>
 #include <cstdio>
-#include "msg.h"
-#include "sockets/TCPClient.h"
+#include <sockets/TCPClient.h>
+#include "Message.h"
 
 using namespace std;
 
@@ -13,8 +13,9 @@ namespace Rhoban
   class Connection : public TCPClient
   {
   public:
-    void sendMessage(Msg *msg);
-    Msg* getMessage();
+    void sendMessage(Message *message);
+    Message* getMessage();
+    void getMessage(Message *message);
   };
 }
 

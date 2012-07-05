@@ -28,9 +28,14 @@ namespace Rhoban
             void transmitFormat(const char *format, ...);
 
             /**
-             * Receive data
+             * Receive data (returns the size actually received)
              */
             int receive(char *buffer, int size);
+
+            /**
+             * Receive all the data
+             */
+            void receiveAll(char *buffer, int size);
 
             /**
              * Receives a string

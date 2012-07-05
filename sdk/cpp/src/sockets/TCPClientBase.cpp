@@ -37,6 +37,17 @@ namespace Rhoban
         return n;
     }
 
+    void TCPClientBase::receiveAll(char *buffer, int size)
+    {
+        int n;
+
+        while (size > 0) {
+            n = receive(buffer, size);
+            buffer += n;
+            size -= n;
+        }
+    }
+
     string TCPClientBase::receiveString(bool lineTerminates)
     {
         int n;
@@ -73,7 +84,7 @@ namespace Rhoban
         int n = send(clientSocket, buffer, size, 0);
 
 #ifdef WIN32
-		if (n < 0 && errno != EAGAIN && errno != WSAEWOULDBLOCK ) {
+	if (n < 0 && errno != EAGAIN && errno != WSAEWOULDBLOCK ) {
 #else 
         if (n < 0 && errno != EAGAIN && errno != EWOULDBLOCK) {
 #endif
