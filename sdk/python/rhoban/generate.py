@@ -14,7 +14,7 @@ def generate_method(specification):
     method = u''
 
     method += "        Message *message = new Message(getUid(), {0}, {1})\n".format(specification.destination,
-            specification.index)
+            specification.command)
 
     argumentNumber = 1
 
@@ -27,7 +27,8 @@ def generate_method(specification):
     return method
 
 def generate_message_builder(filename, out_h, out_cpp):
-    store = com.CommandsStore(filename)
+    store = com.CommandsStore()
+    store.parseXml(filename)
     prototypes = u''
     methods = u''
 
