@@ -74,6 +74,8 @@ class Connection(tcp.TCPClient):
                 break
 
             self.buffer += self.receive(1024)
+
+        message.setStore(self.store)
         
         return message
 
@@ -83,7 +85,7 @@ class Connection(tcp.TCPClient):
             self.sendMessage(message)
             response = self.getMessage()
 
-            return self.store.readData(response)
+            return response
 
         return buildAndSend
         
@@ -107,6 +109,12 @@ class Message:
         raw += self.data
 
         return raw
+
+    def setStore(self, store):
+        self.store = store
+
+    def readData(self):
+        return self.store.readData(self)
 
 """
     Créateur de message
