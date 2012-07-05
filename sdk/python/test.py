@@ -13,5 +13,6 @@ connection = com.Connection('localhost', 12345)
 connection.setStore(store)
 
 response = connection.ServerEcho('Hello world')
+data = response.readData()
 
-print response[0]
+print data[0]
