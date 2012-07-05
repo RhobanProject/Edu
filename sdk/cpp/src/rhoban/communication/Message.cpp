@@ -142,6 +142,12 @@ namespace Rhoban{
     for(uint i=0;i<values.size();i++)
       append(values[i]);
   }
+  void Message::append(vector<vector<string> > & values)
+  {
+    append((int) values.size());
+    for(uint i=0;i<values.size();i++)
+      append(values[i]);
+  }
 
   void Message::append(ui8 value)
   {

@@ -147,6 +147,7 @@ namespace Rhoban{
     void append(vector<vector<double> > & values);
     void append(vector<vector<float> > & values);
     void append(vector<vector<uint> > & values);
+    void append(vector<vector<string> > & values);
 
     /**
        @brief print the message (type, subtype, timestamp and length)

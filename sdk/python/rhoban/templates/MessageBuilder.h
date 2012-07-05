@@ -8,23 +8,28 @@
 #ifndef _MESSAGE_BUILDER_H
 #define _MESSAGE_BUILDER_H
 
+#include <string>
+#include <vector>
+#include <rhoban/types.h>
 #include "CommandsStore.h"
+#include "Message.h"
+
 
 namespace Rhoban
 {
-    class MessageBuilder
-    {
-        public:
-            MessageBuilder();
+  class MessageBuilder
+  {
+  public:
+    MessageBuilder();
 
 <METHODS_PROTOTYPES>
 
-        protected:
-            CommandStore *store;
-            ui32 uid;
+    protected:
+    CommandsStore *store;
+    ui32 uid;
 
-            ui32 getUid();
-    };
+    ui32 getUid();
+  };
 }
 
 #endif // _MESSAGE_BUILDER_H

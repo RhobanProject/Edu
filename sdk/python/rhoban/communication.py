@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 import sys, os, re, struct
 from xml.dom import minidom
@@ -273,7 +273,7 @@ class ParameterPattern:
             self.subPattern = ParameterPattern(self.specification[:-2])
 
     def cpp(self):
-        return ('vector<'*self.depth) + self.baseType + ('>'*self.depth) + ' '
+        return ('vector<'*self.depth) + self.baseType + (' >'*self.depth) + ' '
     
     def check(self, var):
         if self.subPattern != None:

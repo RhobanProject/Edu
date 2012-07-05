@@ -11,15 +11,15 @@
 
 namespace Rhoban
 {
-    MessageBuilder::MessageBuilder()
-    {
-        uid = 0;
-    }
+  MessageBuilder::MessageBuilder()
+  {
+    uid = 0;
+  }
 
-    MessageBuilder::getUid()
-    {
-        return uid++;
-    }
+  ui32 MessageBuilder::getUid()
+  {
+    return uid++;
+  }
 
-<METHODS>
+  <METHODS>
 }

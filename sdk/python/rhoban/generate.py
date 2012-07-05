@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 import sys, os, codecs
 import rhoban.communication as com
@@ -13,13 +13,16 @@ def template_tag(filename, tag, contents):
 def generate_method(specification):
     method = u''
 
-    method += "        Message *message = new Message(getUid(), {0}, {1})\n".format(specification.destination,
-            specification.command)
+    method += "        Message *message = new Message;\n"
+    method += "        message->uid=getUid();\n"
+    method += "        message->destination="+str(specification.destination)+";\n"
+    method += "        message->command="+str(specification.command)+";\n"
+
 
     argumentNumber = 1
 
     for argument in specification.parametersPattern:
-        method += u"        message.append(arg{0});\n".format(argumentNumber)
+        method += u"        message->append(arg{0});\n".format(argumentNumber)
         argumentNumber += 1
 
     method += u"\n        return message;";
@@ -38,7 +41,7 @@ def generate_message_builder(filename, out_h, out_cpp):
 
         specification = store.get(name)
         prototypes += u'            Message *{0}('.format(name)
-        methods += u'    Message *MessageBuilder::Message *{0}('.format(name)
+        methods += u'    Message *MessageBuilder::{0}('.format(name)
         arguments = []
         argumentNumber = 1
 
