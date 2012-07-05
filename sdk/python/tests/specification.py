@@ -50,6 +50,29 @@ class TestSpecification(unittest.TestCase):
         self.assertEquals(pattern.getData(*argument), data)
         self.assertEquals(pattern.readData(data), argument)
 
+    def test_bad_patterns(self):
+        pattern = self.paramsClass('ui32')
+
+        self.assertRaises(TypeError, pattern.getData, [])
+        self.assertRaises(TypeError, pattern.getData, 'x')
+        self.assertRaises(TypeError, pattern.getData, None)
+
+    def test_bad_datas(self):
+        pattern = self.paramsClass('ui32')
+
+        dataIncomplete = '\x00\x00\x00'
+        dataOverflow = '\x00\x00\x00\x01\x02'
+
+        self.assertRaises(IOError, pattern.readData, dataIncomplete)
+        self.assertRaises(IOError, pattern.readData, dataOverflow)
+
+    def test_bad_datas_array(self):
+        pattern = self.paramsClass('ui32[]')
+
+        data = '\x00\x00\x00\x99\x00\x00\x00\x01'
+
+        self.assertRaises(IOError, pattern.readData, data)
+
     def test_strings(self):
         pattern = self.paramsClass('string string[]')
 

@@ -10,10 +10,9 @@ store = com.CommandsStore()
 store.parseXml(filename)
 
 connection = com.Connection('localhost', 12345)
-message = store.builder.ServerEcho("hello!")
-    
-message = connection.sendAndReceive(message)
-arguments = store.readData(message)
+connection.setStore(store)
+
+arguments = connection.ServerEcho([])
 
 print arguments[0]
 

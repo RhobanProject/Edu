@@ -29,6 +29,9 @@ class Connection(tcp.TCPClient):
         self.length = 0
         self.connectTo(hostname, port)
 
+    def setStore(self, store):
+        self.store = store
+
     def sendAndReceive(self, message):
         self.sendMessage(message)
 
@@ -73,6 +76,16 @@ class Connection(tcp.TCPClient):
             self.buffer += self.receive(1024)
         
         return message
+
+    def __getattr__(self, name):
+        def buildAndSend(*args):
+            message = self.store.builder.build(name, *args)
+            self.sendMessage(message)
+            response = self.getMessage()
+
+            return self.store.readData(response)
+
+        return buildAndSend
         
 
 """
@@ -108,15 +121,17 @@ class MessageBuilder:
 
         return self.uid
 
-    def __getattr__(self, name):
+    def build(self, name, *args):
         specification = self.store.get(name)
-        uid = self.getUid()
 
+        message = Message(self.getUid(), specification.destination, specification.command)
+        message.data = specification.parametersPattern.getData(*args)
+
+        return message
+
+    def __getattr__(self, name):
         def messageBuilder(*args):
-            message = Message(uid, specification.destination, specification.command)
-            message.data = specification.parametersPattern.getData(*args)
-
-            return message
+            return self.build(name, *args)
 
         return messageBuilder
 
@@ -198,17 +213,26 @@ class ParametersPattern:
 
         data = ''
 
-        for (argument, pattern) in zip(args, self.patterns):
-            data += pattern.getData(argument)
+        try:
+            for (argument, pattern) in zip(args, self.patterns):
+                data += pattern.getData(argument)
+        except ValueError, TypeError:
+            raise TypeError('Bad arguments')
 
         return data
 
     def readData(self, data):
         arguments = []
 
-        for pattern in self.patterns:
-            (data, argument) = pattern.readData(data)
-            arguments += [argument]
+        try:
+            for pattern in self.patterns:
+                (data, argument) = pattern.readData(data)
+                arguments += [argument]
+        except Exception:
+            raise IOError('Unable to read arguments from data')
+
+        if data:
+            raise IOError('Remaning data')
 
         return arguments
 
@@ -269,7 +293,7 @@ class ParameterPattern:
     def getData(self, argument):
         data = ''
 
-        if self.subPattern != None:
+        if self.depth > 1:
             data += struct.pack('>I', len(argument))
 
             for subArgument in argument:
@@ -278,12 +302,15 @@ class ParameterPattern:
             if self.depth == 1:
                 packFormat = '>' + str(len(argument)) + self.typesMapping[self.baseType][1]
                 data += struct.pack('>I', len(argument))
-                if type(argument) == 'list':
+
+                if type(argument) == list:
                     data += struct.pack(packFormat, *argument)
                 else:
+                    argument = self.typesMapping[self.baseType][0](argument)
                     data += struct.pack(packFormat, argument)
             else:
-                data += struct.pack('>' + self.typesMapping[self.baseType][1], self.typesMapping[self.baseType][0](argument))
+                argument = self.typesMapping[self.baseType][0](argument)
+                data += struct.pack('>' + self.typesMapping[self.baseType][1], argument)
 
         return data
 
