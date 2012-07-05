@@ -27,7 +27,7 @@ def generate_method(specification):
     return method
 
 def generate_message_builder(filename, out_h, out_cpp):
-    store = com.CommandStore(filename)
+    store = com.CommandsStore(filename)
     prototypes = u''
     methods = u''
 
