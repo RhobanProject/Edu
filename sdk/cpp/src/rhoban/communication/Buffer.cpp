@@ -10,8 +10,8 @@
 #include <sstream>
 
 #include "Buffer.h"
-#include "encodings.h"
-#include "msg.h"
+#include "Encodings.h"
+#include "Message.h"
 
 namespace Rhoban{
   Buffer::Buffer(): buffer(0), size(0), buffer_size(0), owned(1)
@@ -69,7 +69,7 @@ namespace Rhoban{
   ui32 Buffer::read_uint(ui32 offset)
   {
     if(offset<= size)
-      return encodings::decode_uint((const char *) buffer+offset);
+      return Encodings::decode_uint((const char *) buffer+offset);
     else
       throw string("buffer too small to read int at this offset");
   }
@@ -77,7 +77,7 @@ namespace Rhoban{
   int Buffer::read_int(ui32 offset)
   {
     if(offset<=size)
-      return encodings::decode_int((const char *) buffer+offset);
+      return Encodings::decode_int((const char *) buffer+offset);
     else
       throw string("buffer too small to read int at this offset");
   }
@@ -85,7 +85,7 @@ namespace Rhoban{
   float Buffer::read_float(ui32 offset)
   {
     if(offset<=size)
-      return encodings::decode_float(buffer+offset);
+      return Encodings::decode_float(buffer+offset);
     else
       throw string("buffer too small to read int at this offset");
   }

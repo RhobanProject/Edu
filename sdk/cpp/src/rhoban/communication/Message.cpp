@@ -5,25 +5,24 @@
 #include <string>
 #include <unistd.h>
 #include <iostream>
-
-#include "msg.h"
-#include "header.h"
+#include "Message.h"
+#include "Header.h"
 #include "Buffer.h"
  
 using namespace std;
 
 namespace Rhoban{
-  Msg::Msg()
+  Message::Message()
   {
     alloc(MSG_MIN_SIZE);
     clear();
   }
   //deallocation is done by the buffer destructor
-  Msg::~Msg()
+  Message::~Message()
   {
 
   }
-  Msg::Msg(ui32 dest, ui32 size, char *buffer)
+  Message::Message(ui32 dest, ui32 size, char *buffer)
   {
     destination = dest;
     command = 0;
@@ -40,7 +39,7 @@ namespace Rhoban{
   /**
      @brief write a string in the internal buffer with an offset (internal cursor)
   */
-  void Msg::append(const string &value)
+  void Message::append(const string &value)
   {
     append((uint) value.size());
     append_to_buffer(value.c_str(),value.size());
@@ -51,7 +50,7 @@ namespace Rhoban{
   /**
      @brief write a string in the internal buffer with an offset (Internal cursor)
   */
-  void Msg::append(vector<ui8> & values)
+  void Message::append(vector<ui8> & values)
   {
     int n = values.size();
     append((ui32) n);
@@ -66,7 +65,7 @@ namespace Rhoban{
      first, a ui32 is written which represents the number of strings
      then, each string is written using append_string
   */
-  void Msg::append(vector<string> & words)
+  void Message::append(vector<string> & words)
   {
     int n = words.size();
     append(n);
@@ -82,7 +81,7 @@ namespace Rhoban{
      first, a ui32 is written which represents the number of strings
      then, each string is written using append_string
   */
-  void Msg::append(vector<ui32> & values)
+  void Message::append(vector<ui32> & values)
   {
     int n = values.size();
     append((ui32) n);
@@ -91,7 +90,7 @@ namespace Rhoban{
 	append(values[i]);
       }
   }
-  void Msg::append(vector<int> & values)
+  void Message::append(vector<int> & values)
   {
     int n = values.size();
     append((ui32) n);
@@ -105,7 +104,7 @@ namespace Rhoban{
      first, a ui32 is written which represents the number of strings
      then, each string is written using append_string
   */
-  void Msg::append(vector<double> & values)
+  void Message::append(vector<double> & values)
   {
     int n = values.size();
     //cout << "Appending float array length "<<n<<endl;
@@ -114,7 +113,7 @@ namespace Rhoban{
       append(values[i]);
   }
 
-  void Msg::append(vector<float> & values)
+  void Message::append(vector<float> & values)
   {
     int n = values.size();
     //cout << "Appending float array length "<<n<<endl;
@@ -123,97 +122,97 @@ namespace Rhoban{
       append(values[i]);
   }
 
-  void Msg::append(vector<vector<double> > & values)
+  void Message::append(vector<vector<double> > & values)
   {
     append((int) values.size());
     for(uint i=0;i<values.size();i++)
       append(values[i]);
   }
 
-  void Msg::append(vector<vector<float> > & values)
+  void Message::append(vector<vector<float> > & values)
   {
     append((int) values.size());
     for(uint i=0;i<values.size();i++)
       append(values[i]);
   }
 
-  void Msg::append(vector<vector<uint> > & values)
+  void Message::append(vector<vector<uint> > & values)
   {
     append((int) values.size());
     for(uint i=0;i<values.size();i++)
       append(values[i]);
   }
 
-  void Msg::append(ui8 value)
+  void Message::append(ui8 value)
   {
     alloc(size+sizeof(ui8));
     buffer[size]=value;
     size+=sizeof(ui8);
   }
 
-  void Msg::append(ui32 value)
+  void Message::append(ui32 value)
   {
     alloc(size+sizeof(ui32));
-    encodings::encode_uint(value,buffer+size);
+    Encodings::encode_uint(value,buffer+size);
     size+=sizeof(ui32);
   }
 
-  void Msg::append(int value)
+  void Message::append(int value)
   {
     alloc(size+sizeof(ui32));
-    encodings::encode_int(value,buffer+size);
+    Encodings::encode_int(value,buffer+size);
     size+=sizeof(ui32);
   }
-  void Msg::append(float value)
+  void Message::append(float value)
   {
     alloc(size+sizeof(ui32));
-    encodings::encode_float(value,buffer+size);
+    Encodings::encode_float(value,buffer+size);
     size+=sizeof(ui32);
   }
-  void Msg::append(double value)
+  void Message::append(double value)
   {
     alloc(size+sizeof(ui32));
-    encodings::encode_double(value,buffer+size);
+    Encodings::encode_double(value,buffer+size);
     size+=sizeof(ui32);
   }
 
-  void Msg::append(const char * data, ui32 siz)
+  void Message::append(const char * data, ui32 siz)
   {
     append(siz);
     append_to_buffer(data,siz);
   }
 
-  Msg & operator<< (Msg & msg , ui8 & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , ui32 & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , int & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , float & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , double & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , string & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , vector<double> & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , vector<float> & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , vector<int> & val ){msg.append(val); return msg;}
-  Msg & operator<< (Msg & msg , vector<uint> & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , ui8 & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , ui32 & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , int & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , float & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , double & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , string & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , vector<double> & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , vector<float> & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , vector<int> & val ){msg.append(val); return msg;}
+  Message & operator<< (Message & msg , vector<uint> & val ){msg.append(val); return msg;}
 
 
-  ui32 Msg::read_uint(void)
+  ui32 Message::read_uint(void)
   {
     cursor += sizeof(ui32);
     return Buffer::read_uint(cursor-sizeof(ui32));
   }
 
-  int Msg::read_int(void)
+  int Message::read_int(void)
   {
     cursor += sizeof(ui32);
     return Buffer::read_int(cursor-sizeof(ui32));
   }
 
-  float Msg::read_float(void)
+  float Message::read_float(void)
   {
     cursor += sizeof(float);
     return Buffer::read_float(cursor-sizeof(float));
   }
 
-  double Msg::read_double(void)
+  double Message::read_double(void)
   {
     return (double) read_float();
   }
@@ -221,14 +220,14 @@ namespace Rhoban{
   /**
      @brief read a string from the intenal buffer with an offset (internal cursor)
   */
-  string Msg::read_string(void)
+  string Message::read_string(void)
   {
     ui32 length=read_uint();
     cursor += length;
     return Buffer::read_string(length,cursor-length);
   }
 
-  vector<ui8> Msg::read_array(void)
+  vector<ui8> Message::read_array(void)
   {
     ui32 length=read_uint();
     cursor += length;
@@ -238,7 +237,7 @@ namespace Rhoban{
   /**
      @brief read a string array from the internal buffer based on internal cursor
   */
-  vector<string> Msg::read_string_array(void)
+  vector<string> Message::read_string_array(void)
   {
     vector<string> strs;
     ui32 length = read_uint();
@@ -247,7 +246,7 @@ namespace Rhoban{
     return strs;
   }
 
-  vector<ui32> Msg::read_uint_array(void)
+  vector<ui32> Message::read_uint_array(void)
   {
     vector<ui32> values;
     ui32 length = read_uint();
@@ -257,7 +256,7 @@ namespace Rhoban{
       }
     return values;
   }
-  vector<int> Msg::read_int_array(void)
+  vector<int> Message::read_int_array(void)
   {
     vector<int> values;
     ui32 length = read_uint();
@@ -265,7 +264,7 @@ namespace Rhoban{
       values.push_back(read_int());
     return values;
   }
-  vector<float> Msg::read_float_array(void)
+  vector<float> Message::read_float_array(void)
   {
     vector<float> values;
     ui32 length = read_uint();
@@ -273,7 +272,7 @@ namespace Rhoban{
       values.push_back(read_float());
     return values;
   }
-  vector<double> Msg::read_double_array(void)
+  vector<double> Message::read_double_array(void)
   {
     vector<double> values;
     ui32 length = read_uint();
@@ -286,7 +285,7 @@ namespace Rhoban{
   /*
    * clears the message
    */
-  void Msg::clear()
+  void Message::clear()
   {
     Header::clear();
     Buffer::clear();
@@ -296,25 +295,25 @@ namespace Rhoban{
     cursor=MSG_HEADER_SIZE;
   }
 
-  char* Msg::getRaw()
+  char* Message::getRaw()
   {
     write_header(buffer);
     return buffer;
   }
 
 
-  void Msg::print(void)
+  void Message::print(void)
   {
     printf(" { ");
     printf("Destination : %d, Command : %d, UID : %d, Length : %d }\n",
 	   destination, command, uid, length);
   }
 
-  void Msg::rawprint(void)
+  void Message::rawprint(void)
   {
     for(ui32 i=0;i<size/4;i++)
       {
-	printf("%d ", encodings::decode_uint(buffer+4*i));
+	printf("%d ", Encodings::decode_uint(buffer+4*i));
       }
     printf("\n");
   }

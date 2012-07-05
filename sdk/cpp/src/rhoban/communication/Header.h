@@ -3,8 +3,7 @@
 
 #include <string>
 #include <vector>
-
-#include "types.h"
+#include <rhoban/types.h>
 #include "Buffer.h"
 
 using namespace std;

@@ -3,15 +3,14 @@
 
 #include <string>
 #include <vector>
-
-#include "types.h"
+#include <rhoban/types.h>
 #include "Buffer.h"
-#include "header.h"
+#include "Header.h"
 
 using namespace std;
 
 namespace Rhoban{
-  class Msg : public Header, public Buffer
+  class Message : public Header, public Buffer
   {
   private:
 
@@ -19,15 +18,15 @@ namespace Rhoban{
 
   public:
 
-    Msg();
-    virtual ~Msg();
+    Message();
+    virtual ~Message();
     /**
        @brief build a new message
        @param t type of the message (MSG_TYPE_?)
        @param size size of the buffer
        @param buffer pointer of the buffer to use
     */
-    Msg(ui32 dest, ui32 size, char * buffer );
+    Message(ui32 dest, ui32 size, char * buffer );
 
 
     /*
@@ -102,16 +101,16 @@ namespace Rhoban{
     void append(double value);
 
     /*! append data using stream operator */
-    friend Msg & operator<< (Msg & msg , ui8 & val );
-    friend Msg & operator<< (Msg & msg , ui32 & val );
-    friend Msg & operator<< (Msg & msg , int & val );
-    friend Msg & operator<< (Msg & msg , float & val );
-    friend Msg & operator<< (Msg & msg , double & val );
-    friend Msg & operator<< (Msg & msg , string & val );
-    friend Msg & operator<< (Msg & msg , vector<double> & val );
-    friend Msg & operator<< (Msg & msg , vector<float> & val );
-    friend Msg & operator<< (Msg & msg , vector<int> & val );
-    friend Msg & operator<< (Msg & msg , vector<uint> & val );
+    friend Message & operator<< (Message & msg , ui8 & val );
+    friend Message & operator<< (Message & msg , ui32 & val );
+    friend Message & operator<< (Message & msg , int & val );
+    friend Message & operator<< (Message & msg , float & val );
+    friend Message & operator<< (Message & msg , double & val );
+    friend Message & operator<< (Message & msg , string & val );
+    friend Message & operator<< (Message & msg , vector<double> & val );
+    friend Message & operator<< (Message & msg , vector<float> & val );
+    friend Message & operator<< (Message & msg , vector<int> & val );
+    friend Message & operator<< (Message & msg , vector<uint> & val );
 
     /*!
      * append data to the message

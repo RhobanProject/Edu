@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cstdio>
+#include <string>
 #include "Message.h"
 #include "Connection.h"
 
@@ -8,15 +9,15 @@ using namespace std;
 namespace Rhoban{
   void Connection::sendMessage(Message *message)
   {
-    transmit(msg->getRaw(), msg->size);
+    transmit(message->getRaw(), message->size);
   }
 
   Message* Connection::getMessage() {
     Message* message = new Message;
 
     try {
-        getMessage(message)
-    } catch (e) {
+      getMessage(message);
+    } catch (string e) {
         delete message;
         throw e;
     }

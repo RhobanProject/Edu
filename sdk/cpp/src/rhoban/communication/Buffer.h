@@ -11,9 +11,8 @@
 #include <vector>
 #include <memory.h>
 #include <string>
-
-#include "types.h"
-#include "encodings.h"
+#include <rhoban/types.h>
+#include "Encodings.h"
 
 using namespace std;
 

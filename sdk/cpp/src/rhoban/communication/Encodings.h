@@ -14,7 +14,7 @@
 using namespace std;
 
 namespace Rhoban{
-  class encodings{
+  class Encodings{
   public:
     /*!
      * encode and decode values to and from a buffer

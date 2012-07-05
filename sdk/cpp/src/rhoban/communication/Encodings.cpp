@@ -1,6 +1,6 @@
 #include <iostream>
-#include "types.h"
-#include "encodings.h"
+#include <rhoban/types.h>
+#include "Encodings.h"
 
 using namespace std;
 
@@ -9,7 +9,7 @@ namespace Rhoban{
   /*!
    * encode and decode values to and from a buffer
    */
-  void encodings::encode_int(int value, char * buf)
+  void Encodings::encode_int(int value, char * buf)
   {
     //faster solution but there may be big/small endian problems
     //as well as alignment problems
@@ -20,7 +20,7 @@ namespace Rhoban{
     buf[3] = (char) ((value & 0x000000ff) >>0);
   }
 
-  void encodings::encode_uint(ui32 value, char * buf)
+  void Encodings::encode_uint(ui32 value, char * buf)
   {
     //faster solution but there may be big/small endian problems
     //as well as alignment problems
@@ -33,7 +33,7 @@ namespace Rhoban{
 
   //static float double_coef = 1000.0;
 
-  void encodings::encode_float(float value, char * buf)
+  void Encodings::encode_float(float value, char * buf)
   {
     //Hugo: dangerous, plateform dependent
     /*
@@ -57,7 +57,7 @@ namespace Rhoban{
     encode_int((int) (value * 1000), buf);
   }
 
-  void encodings::encode_double(double value, char * buf)
+  void Encodings::encode_double(double value, char * buf)
   {
     encode_int((int) (value * 1000), buf);
   }
@@ -66,7 +66,7 @@ namespace Rhoban{
    * this one wont be properly decoded on every architecture
    */
 
-  ui32 encodings::decode_uint(const char * buf)
+  ui32 Encodings::decode_uint(const char * buf)
   {
     //return ((ui32 *) buf)[0];
     //cout << "Decoding int \t"<<((ui32 *) buf)[0]<< "\t\t("<<(int) buf[0]<<" "<< (int) buf[1]<<" "<< (int) buf[2]<<" "<< (int) buf[3]<<")"<<endl;
@@ -81,7 +81,7 @@ namespace Rhoban{
     // return ((ui32)buf[0])<<24 | ((ui32)buf[1])<<16 | ((ui32)buf[2])<<8 | ((ui32)buf[3]);
   }
 
-  int encodings::decode_int(const char * buf)
+  int Encodings::decode_int(const char * buf)
   {
     //return ((ui32 *) buf)[0];
     //cout << "Decoding int \t"<<((ui32 *) buf)[0]<< "\t\t("<<(int) buf[0]<<" "<< (int) buf[1]<<" "<< (int) buf[2]<<" "<< (int) buf[3]<<")"<<endl;
@@ -97,7 +97,7 @@ namespace Rhoban{
   }
 
 
-  float encodings::decode_float(const char * buf)
+  float Encodings::decode_float(const char * buf)
   {
     //return ldexp( decode_uint(buf+1) ,(int) buf[0]-128);
     //Hugo: dangerous, plateform dependent
@@ -108,7 +108,7 @@ namespace Rhoban{
     return decode_int(buf)/1000.0;
   }
 
-  string encodings::decode_string(const char * buf)
+  string Encodings::decode_string(const char * buf)
   {
     ui32 length = decode_uint(buf);
     return string(buf+4,length);

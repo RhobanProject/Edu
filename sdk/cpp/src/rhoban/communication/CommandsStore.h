@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <string>
 #include <map>
-#include "commandsStore/commandSpecification.h"
+#include "CommandSpecification.h"
 
 using namespace std;
 

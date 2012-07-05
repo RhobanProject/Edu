@@ -3,8 +3,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "commandsStore/commandSpecification.h"
-#include "commandsStore/commandsStore.h"
+#include "CommandSpecification.h"
+#include "CommandsStore.h"
 
 using namespace std;
 

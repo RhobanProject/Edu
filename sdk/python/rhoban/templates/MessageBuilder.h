@@ -8,7 +8,7 @@
 #ifndef _MESSAGE_BUILDER_H
 #define _MESSAGE_BUILDER_H
 
-#include <commandsStore/commandsStore.h>
+#include "CommandsStore.h"
 
 namespace Rhoban
 {
@@ -21,9 +21,9 @@ namespace Rhoban
 
         protected:
             CommandStore *store;
-            unsigned int uid;
+            ui32 uid;
 
-            unsigned int getUid();
+            ui32 getUid();
     };
 }
 
