@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Bienvenue sur la documentation de Rhoban Project pour l'éducation
-=================================================================
+Rhoban édition Education
+========================
 
 Le projet Rhoban est principalement constitué d'un :ref:`serveur <server>`, 
 qui accède à une  couche bas niveau constituée de moteurs, de capteurs etc. 
