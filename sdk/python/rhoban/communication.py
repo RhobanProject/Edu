@@ -4,7 +4,6 @@
 import sys, os, re, struct, threading, time
 from xml.dom import minidom
 import sockets.tcp as tcp
-import threads.threads as threads
 
 """
     Représente la specification d'une commande
@@ -42,7 +41,6 @@ class Connection(tcp.TCPClient):
 
     def close(self):
         super(Connection, self).close()
-        self.mailbox.stop()
 
     def setStore(self, store):
         self.store = store
@@ -158,7 +156,7 @@ class MailboxEntry:
 """
     Boîte aux lettres d'échange de messages
 """
-class Mailbox(threads.StoppableThread):
+class Mailbox(threading.Thread):
     def __init__(self, connection):
         super(Mailbox, self).__init__()
         self.entries = {}

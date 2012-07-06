@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 import sys, os, time
 import rhoban.communication as com
@@ -19,8 +19,9 @@ try:
     response = connection.ServerEcho_callback('Hello world', func)
 
     time.sleep(10)
+    connection.stop()
+
 except (Exception, KeyboardInterrupt, SystemExit):
     connection.stop()
     raise
 
-connection.stop()
