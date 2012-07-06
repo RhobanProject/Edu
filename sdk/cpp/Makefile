@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main sockets rhoban/communication rhoban
+MODULES := main sockets rhoban/communication
 
 # Program output
 PROG := prog
@@ -23,12 +23,19 @@ ifeq ($(OS), windows)
     LIBS += -lws2_32
 endif
 
-SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
-OBJ       := $(patsubst $(IN_DIR)/%.cpp,$(OUT_DIR)/%.o,$(SRC))
+SRC	  :=
+OBJ	  :=
 INCLUDES  := -I$(IN_DIR)/
 CFLAGS 	  := -O2 -Wall
 CLEANS	  :=
 PREPARE	  :=
+
+fetch-sources = $(eval include $(IN_DIR)/$1/Makefile.sources); \
+    $(eval SRC += $(addprefix $(IN_DIR)/$1/,$(SOURCES))); \
+    $(eval OBJ += $(subst .cpp,.o,$(addprefix $(OUT_DIR)/$1/,$(SOURCES)))) \
+    $(foreach src,$(SOURCES),$(call make-goal,$(IN_DIR)/$1/$(src),$(subst .cpp,.o,$(addprefix $(OUT_DIR)/$1/,$(src)))))
+
+$(foreach module,$(MODULES),$(call fetch-sources,$(module)))
 
 SUB_MAKEFILES := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/Makefile))
 
@@ -36,7 +43,7 @@ override CFLAGS += $(OPTIMIZE) $(DEFS)
 
 vpath %.cpp $(SRC_DIR)
 
-all: checkdirs prepare $(OUT_DIR)/$(PROG) copycommons
+all: prepare checkdirs $(OUT_DIR)/$(PROG) copycommons
 
 include $(SUB_MAKEFILES)
 
@@ -50,15 +57,18 @@ checkdirs: $(BUILD_DIR)
 copycommons:
 	cp -R $(COMMON_DIR)/* $(OUT_DIR)/
 
-define make-goal
-$1/%.o: $2/%.cpp
-	$(CPP) $(CFLAGS) $(DEFS) $(INCLUDES) -c $$< -o $$@
-endef
-
 $(BUILD_DIR):
 	@mkdir -p $@
 
 clean: $(CLEANS)
 	@rm -rf $(OUT_DIR)/*
 
-$(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir),$(patsubst $(OUT_DIR)/%,$(IN_DIR)/%,$(bdir)))))
+define make-goal
+$2: $1
+	$(CPP) $(CFLAGS) $(DEFS) $(INCLUDES) -c $1 -o $2
+endef
+
+make-goals = $(eval include $(IN_DIR)/$1/Makefile.sources); \
+    $(foreach src,$(SOURCES),$(eval $(call make-goal,$(IN_DIR)/$1/$(src),$(subst .cpp,.o,$(addprefix $(OUT_DIR)/$1/,$(src))))))
+
+$(foreach module,$(MODULES),$(call make-goals,$(module)))
