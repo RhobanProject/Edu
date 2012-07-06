@@ -12,11 +12,11 @@ namespace Rhoban
 {
   CommandsStore::CommandsStore()
   {
-    store=new MessageBuilder;
+    builder=new MessageBuilder;
   }
 
   CommandsStore::~CommandsStore()
   {
-    delete(store);
+    delete(builder);
   }
 }

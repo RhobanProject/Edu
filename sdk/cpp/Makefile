@@ -1,5 +1,5 @@
 # Modules to be included
-MODULES := main sockets rhoban/communication
+MODULES := main sockets rhoban/communication sockets/demo rhoban/test
 
 # Program output
 PROG := prog
