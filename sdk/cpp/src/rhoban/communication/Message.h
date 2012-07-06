@@ -1,6 +1,8 @@
 #ifndef MSG_H_
 #define MSG_H_
 
+#include <cstdlib>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <rhoban/types.h>

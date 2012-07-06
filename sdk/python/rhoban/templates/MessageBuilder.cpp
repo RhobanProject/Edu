@@ -5,8 +5,8 @@
  *
  * Toute modification pourra être perdue
  */
+#include <rhoban/types.h>
 #include "MessageBuilder.h"
-#include "CommandsStore.h"
 #include "Message.h"
 
 namespace Rhoban

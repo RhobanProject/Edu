@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 #include <rhoban/types.h>
-#include "CommandsStore.h"
 #include "Message.h"
 
 
@@ -25,7 +24,6 @@ namespace Rhoban
 <METHODS_PROTOTYPES>
 
     protected:
-    CommandsStore *store;
     ui32 uid;
 
     ui32 getUid();

@@ -4,8 +4,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <string>
-#include <map>
-#include "CommandSpecification.h"
+#include "MessageBuilder.h"
 
 using namespace std;
 
@@ -14,12 +13,11 @@ namespace Rhoban
   class CommandsStore
   {
   public:
-    CommandsStore(string filepath);
+    CommandsStore();
     ~CommandsStore();
-    CommandSpecification* get(string name);
 
   protected:
-    map<string, CommandSpecification*> store;
+    MessageBuilder *store;
   };
 }
 
