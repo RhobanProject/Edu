@@ -25,7 +25,7 @@ namespace Rhoban{
     return message;
   }  
 
-  void Connection::getMessage(Message *message) {
+  Message *Connection::getMessage(Message *message) {
     message->clear();
 
     receiveAll(message->buffer, MSG_HEADER_SIZE);
@@ -34,5 +34,7 @@ namespace Rhoban{
     message->alloc(message->length + MSG_HEADER_SIZE);
     message->size = message->length + MSG_HEADER_SIZE;
     receiveAll(message->buffer + MSG_HEADER_SIZE, message->length);
+
+    return message;
   }
 }

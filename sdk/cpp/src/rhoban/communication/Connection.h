@@ -14,8 +14,8 @@ namespace Rhoban
   {
   public:
     void sendMessage(Message *message);
-    Message* getMessage();
-    void getMessage(Message *message);
+    Message *getMessage();
+    Message *getMessage(Message *message);
   };
 }
 
