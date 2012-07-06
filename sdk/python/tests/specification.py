@@ -14,6 +14,7 @@ class TestSpecification(unittest.TestCase):
     storeClass = com.CommandsStore
     specClass = com.CommandSpecification
     paramsClass = com.ParametersPattern
+    paramClass = com.ParameterPattern
 
     def test_store(self):
         store = self.storeClass()
@@ -88,6 +89,15 @@ class TestSpecification(unittest.TestCase):
         message = store.builder.test(5, 8)
 
         self.assertEquals(message.getRaw(), '\x00\x00\x00\x01\x00\x00\x00\x0c\x00\x00\x00"\x00\x00\x00\x08\x00\x00\x00\x05\x00\x00\x00\x08')
+
+    def test_cpp(self):
+        self.assertEqual(self.paramClass('ui32').cpp().strip(), 'ui32')
+        self.assertEqual(self.paramClass('float').cpp().strip(), 'float')
+        self.assertEqual(self.paramClass('byte').cpp().strip(), 'byte')
+        self.assertEqual(self.paramClass('string').cpp().strip(), 'string')
+        self.assertEqual(self.paramClass('ui32[]').cpp().strip(), 'vector<ui32 >')
+        self.assertEqual(self.paramClass('string[]').cpp().strip(), 'vector<string >')
+        self.assertEqual(self.paramClass('float[][]').cpp().strip(), 'vector<vector<float > >')
 
 
 if __name__ == '__main__':

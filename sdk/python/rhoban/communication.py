@@ -273,7 +273,12 @@ class ParameterPattern:
             self.subPattern = ParameterPattern(self.specification[:-2])
 
     def cpp(self):
-        return ('vector<'*self.depth) + self.baseType + (' >'*self.depth) + ' '
+        depth = self.depth
+
+        if self.baseType == 'string':
+            depth = depth-1
+
+        return ('vector<'*depth) + self.baseType + (' >'*depth) + ' '
     
     def check(self, var):
         if self.subPattern != None:
