@@ -32,6 +32,7 @@ namespace Rhoban{
     message->read_header(message->buffer);
 
     message->alloc(message->length + MSG_HEADER_SIZE);
+    message->size = message->length + MSG_HEADER_SIZE;
     receiveAll(message->buffer + MSG_HEADER_SIZE, message->length);
   }
 }

@@ -303,6 +303,7 @@ namespace Rhoban{
 
   char* Message::getRaw()
   {
+      length = size - MSG_HEADER_SIZE;
     write_header(buffer);
     return buffer;
   }
