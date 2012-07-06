@@ -52,6 +52,11 @@ namespace Rhoban
              */
             void setBlocking(int blocking);
 
+            /**
+             * Closes the connection
+             */
+            void stop();
+
         protected:
             /**
              * Internal socket

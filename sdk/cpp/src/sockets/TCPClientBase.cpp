@@ -163,4 +163,11 @@ namespace Rhoban
         }
 #endif
     }
+
+    void TCPClientBase::stop()
+    {
+        if (clientSocket) {
+            close(clientSocket);
+        }
+    }
 }

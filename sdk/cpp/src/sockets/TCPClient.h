@@ -18,11 +18,6 @@ namespace Rhoban
             void connectTo(const char *address, int port);
 
             /**
-             * Closes the connection
-             */
-            void stop();
-
-            /**
              * Is the connection established ?
              */
             bool isConnected();

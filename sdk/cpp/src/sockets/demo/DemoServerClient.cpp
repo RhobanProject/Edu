@@ -17,9 +17,8 @@ namespace Rhoban
 
         cout << "Entering the loop" << endl;
 
-        while (1) {
-            n = receive(buffer, sizeof(buffer));
-            transmit(buffer, n);
-        }
+        n = receive(buffer, sizeof(buffer));
+        transmit(buffer, n);
+        stop();
     }
 }

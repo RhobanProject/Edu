@@ -59,13 +59,6 @@ namespace Rhoban
         connected = true;
     }
 
-    void TCPClient::stop()
-    {
-        if (clientSocket) {
-            close(clientSocket);
-        }
-    }
-
     bool TCPClient::isConnected()
     {
         return connected;
