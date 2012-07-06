@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys, os, re, struct
+import sys, os, re, struct, threading, time
 from xml.dom import minidom
 import sockets.tcp as tcp
+import threads.threads as threads
 
 """
     Représente la specification d'une commande
@@ -29,13 +30,45 @@ class Connection(tcp.TCPClient):
         self.length = 0
         self.connectTo(hostname, port)
 
+    def connectTo(self, hostname, port):
+        super(Connection, self).connectTo(hostname, port)
+
+        if self.connected:
+            self.mailbox = Mailbox(self)
+            self.mailbox.start()
+
+    def stop(self):
+        self.close()
+
+    def close(self):
+        super(Connection, self).close()
+        self.mailbox.stop()
+
     def setStore(self, store):
         self.store = store
 
-    def sendAndReceive(self, message):
-        self.sendMessage(message)
+    def sendMessageReceive(self, message, timeout = 1):
+        entry = MailboxEntry(self.store.getSpecification(message))
+        entry.event = threading.Event()
 
-        return self.getMessage()
+        entry.event.clear()
+        self.mailbox.entries[message.uid] = entry
+        self.sendMessage(message)
+        entry.event.wait(timeout)
+
+        if message.uid in self.mailbox.entries:
+            response = self.mailbox.entries[message.uid].response
+            del self.mailbox.entries[message.uid]
+            return response
+
+        return None
+
+    def sendMessageCallback(self, message, callback):
+        entry = MailboxEntry(self.store.getSpecification(message))
+        entry.callback = callback
+        self.mailbox.entries[message.uid] = entry
+
+        self.sendMessage(message)
 
     def sendMessage(self, message):
         self.transmit(message.getRaw())
@@ -66,29 +99,76 @@ class Connection(tcp.TCPClient):
     def getMessage(self):
         message = None
 
-        while message == None:
-            if len(self.buffer):
-                message = self.processData()
+        try:
+            while message == None:
+                if len(self.buffer):
+                    message = self.processData()
 
-            if message != None:
-                break
+                if message != None:
+                    break
 
-            self.buffer += self.receive(1024)
+                self.buffer += self.receive(1024)
 
-        message.setStore(self.store)
+            message.setStore(self.store)
+        except Exception:
+            pass
         
         return message
 
     def __getattr__(self, name):
         def buildAndSend(*args):
             message = self.store.builder.build(name, *args)
-            self.sendMessage(message)
-            response = self.getMessage()
 
-            return response
+            return self.sendMessageAndReceive(message)
 
         return buildAndSend
-        
+
+"""
+    Une entrée dans la boite aux lettres
+"""
+class MailboxEntry:
+    def __init__(self, specification):
+        self.creation = time.time()
+        self.response = None
+        self.specification = specification
+        self.callback = None
+        self.event = None
+
+    def expires(self):
+        return time.time()-self.creation > 300
+
+"""
+    Boîte aux lettres d'échange de messages
+"""
+class Mailbox(threads.StoppableThread):
+    def __init__(self, connection):
+        super(Mailbox, self).__init__()
+        self.entries = {}
+        self.connection = connection
+
+    def run(self):
+        while self.connection.connected:
+            message = self.connection.getMessage()
+
+            if message == None:
+                break
+
+            uid = message.uid
+
+            if uid in self.entries:
+                entry = self.entries[uid]
+                entry.response = entry.specification.answerPattern.readData(message.data)
+
+                if entry.event != None:
+                    entry.event.set()
+
+                if entry.callback != None:
+                    entry.callback(entry.response)
+                    del self.entries[uid]
+
+            for uid in self.entries:
+                if self.entries[uid].expires():
+                    del self.entries[uid]
 
 """
     Message à envoyer au serveur
@@ -187,9 +267,11 @@ class CommandsStore:
             self.commands[specification.name] = specification
             self.indexCommands[(int(specification.destination), int(specification.command))] = specification
 
+    def getSpecification(self, message):
+        return self.indexCommands[(int(message.destination), int(message.command))]
+
     def readData(self, message):
-        specification = self.indexCommands[(int(message.destination), int(message.command))]
-        return specification.answerPattern.readData(message.data)
+        return self.getSpecification(message).answerPattern.readData(message.data)
 
     def get(self, name):
         return(self.commands[name])

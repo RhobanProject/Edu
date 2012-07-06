@@ -1,18 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 
-import sys, os
+import sys, os, time
 import rhoban.communication as com
 import sockets.tcp as tcp
 
-filename = '../common/commands.xml'
-store = com.CommandsStore()
-store.parseXml(filename)
+try:
+    filename = '../common/commands.xml'
+    store = com.CommandsStore()
+    store.parseXml(filename)
 
-connection = com.Connection('localhost', 12345)
-connection.setStore(store)
+    connection = com.Connection('localhost', 12345)
+    connection.setStore(store)
 
-response = connection.ServerEcho('Hello world')
-data = response.readData()
+    response = connection.sendMessageReceive(store.builder.ServerEcho('Hello world'))
 
-print data[0]
+    print response[0]
+except (Exception, KeyboardInterrupt, SystemExit):
+    connection.stop()
+    raise
+
+connection.stop()

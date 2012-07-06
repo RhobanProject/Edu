@@ -9,19 +9,33 @@ import sys, os, socket
 class TCPClient(object):
     def __init__(self):
         self.socket = None
+        self.connected = False
 
     def connectTo(self, hostname, port):
         if self.socket != None:
             self.close()
 
         self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.socket.connect((hostname, port))
+
+        try:
+            self.connected = True
+            self.socket.connect((hostname, port))
+        except Exception:
+            self.connected = False
 
     def transmit(self, data):
         self.socket.send(data)
 
     def receive(self, size):
-        return self.socket.recv(size)
+        ret = self.socket.recv(size)
+
+        if ret != 0:
+            return ret
+        else:
+            self.connected = False
+            return 0
 
     def close(self):
+        self.socket.shutdown(2)
         self.socket.close()
+        self.connected = False
