@@ -13,9 +13,12 @@ try:
     connection = com.Connection('localhost', 12345)
     connection.setStore(store)
 
-    response = connection.sendMessageReceive(store.builder.ServerEcho('Hello world'))
+    def func(x):
+        print '~~> '+x[0]
 
-    print response[0]
+    response = connection.ServerEcho_callback('Hello world', func)
+
+    time.sleep(10)
 except (Exception, KeyboardInterrupt, SystemExit):
     connection.stop()
     raise

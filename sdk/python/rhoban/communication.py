@@ -116,10 +116,28 @@ class Connection(tcp.TCPClient):
         return message
 
     def __getattr__(self, name):
-        def buildAndSend(*args):
-            message = self.store.builder.build(name, *args)
+        responseSuffix = '_response'
+        callbackSuffix = '_callback'
 
-            return self.sendMessageAndReceive(message)
+        if name.endswith(responseSuffix):
+            name = name[:-len(responseSuffix)]
+            def buildAndSend(*args):
+                message = self.store.builder.build(name, *args)
+
+                return self.sendMessageReceive(message)
+
+        else:
+            if name.endswith(callbackSuffix):
+                name = name[:-len(callbackSuffix)]
+                def buildAndSend(*args):
+                    callback = args[-1]
+                    args = args[:-1]
+                    message = self.store.builder.build(name, *args)
+                    return self.sendMessageCallback(message, callback)
+            else:
+                def buildAndSend(*args):
+                    message = self.store.builder.build(name, *args)
+                    return self.sendMessage(message)
 
         return buildAndSend
 
