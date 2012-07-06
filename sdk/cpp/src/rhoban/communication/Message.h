@@ -1,5 +1,5 @@
-#ifndef MSG_H_
-#define MSG_H_
+#ifndef MESSAGE_H___
+#define MESSAGE_H___
 
 #include <cstdlib>
 #include <cstdio>
@@ -165,4 +165,4 @@ namespace Rhoban{
   };
 }
 
-#endif // MSG_H_
+#endif // MESSAGE_H___

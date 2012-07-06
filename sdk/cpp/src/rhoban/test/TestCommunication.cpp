@@ -26,6 +26,6 @@ COMMAND_DEFINE(test_communication, "Test Communication")
 
     client->sendMessage(commandsstore->builder->ServerEcho("Hello"));
     cout << "Value = " << client->getMessage(&response)->read_string() << endl;
-
+ 
     client->stop();
 }
