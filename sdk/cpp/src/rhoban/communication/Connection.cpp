@@ -39,7 +39,7 @@ namespace Rhoban{
   }
   
   Message *sendMessangeAndRecieve(Message *message, int timeout=100){
-    
+    return(new Message);
   }
   
   void sendMessageCallback(Message *message, sendCallback *callback){

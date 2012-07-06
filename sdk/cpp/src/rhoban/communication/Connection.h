@@ -9,10 +9,10 @@
 
 using namespace std;
 
-typedef void sendCallback(Message *);
-
 namespace Rhoban
 {
+  typedef void sendCallback(Message *);
+
   class Connection : public TCPClient
   {
   public:
