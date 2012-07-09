@@ -61,10 +61,14 @@ void TestCase::_assertFalse(bool expression)
     }
 }
 
-void TestCase::_assertEquals(string str1, string str2)
+void TestCase::_assertEquals(string str1, string str2, bool neg)
 {
-    if (str1 != str2) {
-        error("String differs");
+    if ((str1 != str2) xor neg) {
+        if (neg) {
+            error("String are equals (" + str1 + " == " + str2 + ")");
+        } else {
+            error("String differs (" + str1 + " != " + str2 + ")");
+        }
     } else {
         pass();
     }
@@ -84,21 +88,35 @@ void TestCase::_assertEquals(char *char1, char *char2, int size)
     }
 }
 
-void TestCase::_assertEquals(int int1, int int2)
+void TestCase::_assertEquals(int int1, int int2, bool neg)
 {
-    if (int1 != int2) {
+    if ((int1 != int2) xor neg) {
         ostringstream oss;
-        oss << "Int differs (" << int1 << " != " << int2 << ")";
+
+        if (neg) {
+            oss << "Int are equals (" << int1 << " == " << int2 << ")";
+        } else {
+            oss << "Int differs (" << int1 << " != " << int2 << ")";
+        }
+
         error(oss.str());
     } else {
         pass();
     }
 }
 
-void TestCase::_assertEquals(char char1, char char2)
+void TestCase::_assertEquals(char char1, char char2, bool neg)
 {
-    if (char1 != char2) {
-        error("Char differs");
+    if ((char1 != char2) xor neg) {
+        ostringstream oss;
+
+        if (neg) {
+            oss << "Char are equals (" << char1 << " == " << char2 << ")";
+        } else {
+            oss << "Char differs (" << char1 << " != " << char2 << ")";
+        }
+
+        error(oss.str());
     } else {
         pass();
     }

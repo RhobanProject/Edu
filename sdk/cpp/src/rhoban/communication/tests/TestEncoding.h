@@ -67,7 +67,7 @@ class TestEncoding : public TestCase
         {
             char buffer[4] = {0x00, 0x00, 0x04, 0xD2};
 
-            assertEquals(Encodings::decode_uint(buffer), 1234);
+            assertEquals((int)Encodings::decode_uint(buffer), 1234);
         }
         
         /**

@@ -44,9 +44,13 @@ class TestCase
         setPlace(__FILE__, __LINE__, __FUNCTION__); \
         _assertEquals(exp1, exp2);
 
-        void _assertEquals(string str1, string str2);
-        void _assertEquals(int int1, int int2);
-        void _assertEquals(char char1, char char2);
+#define assertNotEquals(exp1, exp2) current = string("assertNotEquals(") + #exp1 + ", " + #exp2 + ")"; \
+        setPlace(__FILE__, __LINE__, __FUNCTION__); \
+        _assertEquals(exp1, exp2, true);
+
+        void _assertEquals(string str1, string str2, bool neg = false);
+        void _assertEquals(int int1, int int2, bool neg = false);
+        void _assertEquals(char char1, char char2, bool neg = false);
 
 #define assertEqualsSize(exp1, exp2, size) current = string("assertEqualsSize(") + #exp1 + ", " + #exp2 + ", " + #size ")"; \
         setPlace(__FILE__, __LINE__, __FUNCTION__); \

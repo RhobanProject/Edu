@@ -1,5 +1,5 @@
-#ifndef HEADER_H_
-#define HEADER_H_
+#ifndef _HEADER_H
+#define _HEADER_H
 
 #include <string>
 #include <vector>
@@ -8,56 +8,77 @@
 
 using namespace std;
 
-#define MSG_TYPE_MAX_NB 8
+/**
+ * Taille des en-têtes d'un message
+ */
 #define MSG_HEADER_SIZE 4*sizeof(ui32)
+
+/**
+ * Taille minimum d'un message
+ */
 #define MSG_MIN_SIZE MSG_HEADER_SIZE + 32
+
+/**
+ * Taille maximale d'un message
+ */
 #define MSG_MAX_SIZE 2000000
 
-namespace Rhoban{
-  /*!
-   *\brief the Msg struct encapsulates messages
-   * there is no constraint on the length a priori,
-   * this may be used to send pictures as well as short commands
-   *
-   * the type variable is used to dispatch messages to ressources like
-   * module, low_level, mid_level, peripherals etc
-   */
+namespace Rhoban
+{
+    class Header
+    {
+        public:
+            /**
+             * Unique ID, identifie le message de manièreu nique
+             */
+            ui32 uid;
+            
+            /**
+             * Destination du message (composant cible)
+             */
+            ui32 destination;
 
-  class Header
-  {
-  public:
-    // ui32 timestamp; // timestamp to uniquely identify message
-    // ui32 type; // type of message
-    // ui32 subtype; // subtype of message
-    // ui32 length; // content length of the message
-    
-    ui32 uid; // timestamp to uniquely identify message
-    ui32 destination; // type of message
-    ui32 command; // subtype of message
-    ui32 length; // content length of the message
+            /**
+             * Commande du message
+             */
+            ui32 command;
 
-    Header();
-    void clear();
+            /**
+             * Taille des données du message
+             */
+            ui32 length;
 
-    /*!
-     * reads header from a char * of size MSG_HEADER_SIZE
-     */
-    void read_header(const char * raw_header);
-    /*!
-     * writes header to a char of size MSG_HEADER_SIZE
-     */
-    void write_header(char * raw_header);
+            Header();
+
+            void clear();
+
+            /**
+             * Lis les en-têtes à partir d'un buffer brut
+             */
+            void read_header(const char * raw_header);
+
+            /**
+             * Ecris les en-têtes dans un buffer brut
+             */ 
+            void write_header(char * raw_header);
 
 
-    static const ui32 uid_offset = 0;
-    static const ui32 destination_offset = 4;
-    static const ui32 command_offset = 8;
-    static const ui32 length_offset = 12;
+            /**
+             * Offset des éléments à l'intérieur d'un message
+             */
+            static const ui32 uid_offset         = 0;
+            static const ui32 destination_offset = 4;
+            static const ui32 command_offset     = 8;
+            static const ui32 length_offset      = 12;
 
-  protected:
-    static ui32 _timestamp; // internal counter of timestamp
+        protected:
 
-  };
+            /**
+             * Compteur interne utilisé pour générer les identifiants uniques
+             */
+            static ui32 _uid; 
+
+    };
 }
 
-#endif // HEADER_H_
+#endif // _HEADER_H

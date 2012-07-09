@@ -19,7 +19,7 @@ class TestMessage : public TestCase
             Message msg;
             msg.clear();
 
-            assertEquals((int)msg.size, MSG_HEADER_SIZE);
+            assertEquals((int)msg.size, (int)MSG_HEADER_SIZE);
         }
 
         /**
@@ -69,25 +69,18 @@ class TestMessage : public TestCase
          */
         void testReadContents()
         {
-            char header[] = {
+            char contents[] = {
                 0x00, 0x00, 0x00, 0x7b, // 123
                 0x00, 0x00, 0x00, 0x03, // 3
                 0x00, 0x00, 0x00, 0x02, // 2
                 0x00, 0x00, 0x00, 0x09, // 9
-            };
-
-            char contents[] = {
                 0x00, 0x00, 0x00, 0x01, // 1
                 0x00, 0x00, 0x00, 0x05, // 5
                 'H', 'e', 'l', 'l', 'o'
             };
 
-            Message msg;
-            msg.clear();
-            msg.read_header(header);
-            msg.alloc(sizeof(contents) + MSG_HEADER_SIZE);
-            msg.size = sizeof(contents) + MSG_HEADER_SIZE;
-            memcpy(msg.buffer + MSG_HEADER_SIZE, contents, sizeof(contents));
+            Message msg(sizeof(contents), contents);
+            msg.read_header(msg.buffer);
             
             assertEquals(msg.uid, 123);
             assertEquals(msg.destination, 3);
@@ -97,6 +90,39 @@ class TestMessage : public TestCase
             assertEquals(msg.read_string(), "Hello");
         }
 
+        /**
+         * Test de l'ajout d'un vector
+         */
+        void testAppendVector()
+        {
+            Message msg;
+            vector<int> ints, back;
+
+            ints.push_back(123);
+            ints.push_back(456);
+            ints.push_back(789);
+
+            msg.append(ints);
+            back = msg.read_int_array();
+
+            assertEquals((int)back.size(), (int)ints.size());
+            assertEquals(back[0], ints[0]);
+            assertEquals(back[1], ints[1]);
+            assertEquals(back[2], ints[2]);
+        }
+
+        /**
+         * Test de la génération des UIDs
+         */
+        void testUidGeneration()
+        {
+            Message msg1, msg2, msg3;
+
+            assertNotEquals((int)msg1.uid, (int)msg2.uid);
+            assertNotEquals((int)msg1.uid, (int)msg3.uid);
+            assertNotEquals((int)msg2.uid, (int)msg3.uid);
+        }
+
     protected:
         void _run()
         {
@@ -104,5 +130,7 @@ class TestMessage : public TestCase
             testHeader();
             testWriteContents();
             testReadContents();
+            testAppendVector();
+            testUidGeneration();
         }
 };
