@@ -20,7 +20,7 @@ void TestCase::run()
 
     cout << endl;
     cout << "-------------------------------" << endl;
-    cout << "Ended, " << assertionsPassed << "/" << assertions << " assertions passed" << endl;
+    cout << "Ended, " << assertionsPassed << "/" << assertions << " assertions passed" << endl << endl;
 }
 
 void TestCase::setPlace(string file, int line, string function)

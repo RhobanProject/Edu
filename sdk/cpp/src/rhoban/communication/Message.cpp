@@ -142,6 +142,7 @@ namespace Rhoban{
     for(uint i=0;i<values.size();i++)
       append(values[i]);
   }
+
   void Message::append(vector<vector<string> > & values)
   {
     append((int) values.size());
@@ -298,7 +299,7 @@ namespace Rhoban{
 
     //buffer overhead used to write header
     size = MSG_HEADER_SIZE;
-    cursor=MSG_HEADER_SIZE;
+    cursor = MSG_HEADER_SIZE;
   }
 
   char* Message::getRaw()
@@ -307,7 +308,6 @@ namespace Rhoban{
     write_header(buffer);
     return buffer;
   }
-
 
   void Message::print(void)
   {
@@ -325,6 +325,4 @@ namespace Rhoban{
     printf("\n");
   }
 }
-
-
   

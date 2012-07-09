@@ -12,7 +12,7 @@ template<class T>
 void runTests(string message)
 {
     T tests;
-    cout << "~~~~~~~ " << message << " ~~~~~~~" << endl;
+    cout << "===== " << message << endl;
     tests.run();
 }
 
