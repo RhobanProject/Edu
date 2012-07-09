@@ -1,0 +1,61 @@
+#ifndef _TESTCASE_H
+#define _TESTCASE_H
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+typedef void testFunction();
+
+class TestCase
+{
+    public:
+        TestCase();
+
+        void run();
+
+    protected:
+        string place;
+        string current;
+        int assertions;
+        int assertionsPassed;
+        vector<testFunction*> tests;
+
+        void setPlace(string file, int line, string function);
+        
+        virtual void _run() = 0;
+
+        void addTest(testFunction *function);
+
+#define assertTrue(expression) current = string("assertTrue(") + string(#expression) + string(")"); \
+        setPlace(__FILE__, __LINE__, __FUNCTION__); \
+        _assertTrue(expression);
+
+        void _assertTrue(bool expression);
+
+#define assertFalse(expression) current = string("assertFalse(") + #expression + ")"; \
+        setPlace(__FILE__, __LINE__, __FUNCTION__); \
+        _assertFalse(expression);
+
+        void _assertFalse(bool expression);
+
+#define assertEquals(exp1, exp2) current = string("assertEquals(") + #exp1 + ", " + #exp2 + ")"; \
+        setPlace(__FILE__, __LINE__, __FUNCTION__); \
+        _assertEquals(exp1, exp2);
+
+        void _assertEquals(string str1, string str2);
+        void _assertEquals(int int1, int int2);
+        void _assertEquals(char char1, char char2);
+
+#define assertEqualsSize(exp1, exp2, size) current = string("assertEquals(") + #exp1 + ", " + #exp2 + ", " + #size ")"; \
+        setPlace(__FILE__, __LINE__, __FUNCTION__); \
+        _assertEquals(exp1, exp2, size);
+
+        void _assertEquals(char *char1, char *char2, int size);
+
+        void error(string error);
+        void pass();
+};
+
+#endif // _TESTCAST_H
