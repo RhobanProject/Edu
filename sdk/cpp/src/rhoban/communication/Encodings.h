@@ -32,7 +32,6 @@ namespace Rhoban{
     static ui32 decode_uint(const char * buf);
     static int decode_int(const char * buf);
     static float decode_float(const char * buf);
-    static string decode_string(const char * buf);
   };
 }
 

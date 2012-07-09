@@ -48,11 +48,17 @@ class TestCase
         void _assertEquals(int int1, int int2);
         void _assertEquals(char char1, char char2);
 
-#define assertEqualsSize(exp1, exp2, size) current = string("assertEquals(") + #exp1 + ", " + #exp2 + ", " + #size ")"; \
+#define assertEqualsSize(exp1, exp2, size) current = string("assertEqualsSize(") + #exp1 + ", " + #exp2 + ", " + #size ")"; \
         setPlace(__FILE__, __LINE__, __FUNCTION__); \
         _assertEquals(exp1, exp2, size);
 
         void _assertEquals(char *char1, char *char2, int size);
+
+#define assertEqualsDelta(exp1, exp2, delta) current = string("assertEqualsDelta(") + #exp1 + ", " + #exp2 + ", " + #delta ")"; \
+        setPlace(__FILE__, __LINE__, __FUNCTION__); \
+        _assertEqualsDelta(exp1, exp2, delta);
+
+        void _assertEqualsDelta(float f1, float f2, float delta);
 
         void error(string error);
         void pass();

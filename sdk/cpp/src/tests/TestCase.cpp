@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 #include <string.h>
 #include "TestCase.h"
 
@@ -96,6 +97,15 @@ void TestCase::_assertEquals(char char1, char char2)
 {
     if (char1 != char2) {
         error("Char differs");
+    } else {
+        pass();
+    }
+}
+
+void TestCase::_assertEqualsDelta(float f1, float f2, float delta)
+{
+    if (abs(f1-f2) > delta) {
+        error("Number differs");
     } else {
         pass();
     }
