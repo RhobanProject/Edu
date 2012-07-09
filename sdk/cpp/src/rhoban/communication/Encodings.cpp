@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <rhoban/types.h>
 #ifdef WIN32
 #include <winsock2.h>

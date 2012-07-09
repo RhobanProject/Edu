@@ -87,7 +87,9 @@ void TestCase::_assertEquals(char *char1, char *char2, int size)
 void TestCase::_assertEquals(int int1, int int2)
 {
     if (int1 != int2) {
-        error("Int differs");
+        ostringstream oss;
+        oss << "Int differs (" << int1 << " != " << int2 << ")";
+        error(oss.str());
     } else {
         pass();
     }
