@@ -15,7 +15,9 @@ namespace Rhoban{
 using namespace std;
 
 namespace Rhoban
-{
+{  
+  typedef void sendCallback(Message *);
+
   class Connection : public TCPClient
   {
   public:

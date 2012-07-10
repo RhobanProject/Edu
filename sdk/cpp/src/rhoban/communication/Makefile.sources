@@ -1,1 +1,1 @@
-SOURCES := Buffer.cpp  CommandSpecification.cpp  CommandsStore.cpp  Connection.cpp  Encodings.cpp  Header.cpp  MessageBuilder.cpp  Message.cpp Mailbox.cpp
+SOURCES := Buffer.cpp  CommandSpecification.cpp  CommandsStore.cpp  Connection.cpp  Encodings.cpp  Header.cpp  MessageBuilder.cpp  Message.cpp Mailbox.cpp MailboxEntry.cpp

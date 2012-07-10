@@ -3,14 +3,13 @@
 #include <string>
 #include "Message.h"
 #include "Connection.h"
+#include "MailboxEntry.h"
 
 using namespace std;
 
 namespace Rhoban
 {
-  Connection::Connection() : mailbox((Connection *)this)
-  {
-  }
+  Connection::Connection():mailbox(this){}
 
   void Connection::sendMessage(Message *message)
   {
@@ -47,21 +46,17 @@ namespace Rhoban
   
   Message *Connection::sendMessangeRecieve(Message *message, int timeout)
   {
-    mailbox.waiting[message->uid]=new Condition;
+    Message * retval;
+    mailbox.addEntry(new MailboxEntry(message->uid, new Condition));
     sendMessage(message);
-    mailbox.waiting[message->uid]->wait(new Mutex,timeout);
-    if(mailbox.response.count(message->uid))
-      return(mailbox.response[message->uid]);
-    else
-      {
-	mailbox.waiting.erase(message->uid);
-	return NULL;
-      }
+    mailbox.wait(message->uid, timeout);
+    retval = mailbox.getResponse(message->uid);
+    return retval;
   }
   
   void Connection::sendMessageCallback(Message *message, sendCallback *callback)
   {
-    mailbox.callback[message->uid]=callback;
+    mailbox.addEntry(new MailboxEntry(message->uid, callback));
     sendMessage(message);
   }
 }

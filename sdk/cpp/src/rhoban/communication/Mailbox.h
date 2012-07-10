@@ -1,11 +1,6 @@
 #ifndef MAILBOX_H___
 #define MAILBOX_H___
 
-namespace Rhoban {
-  class Connection;
-  class Mailbox;
-}
-
 #include <cstdlib>
 #include <cstdio>
 #include <map>
@@ -13,24 +8,32 @@ namespace Rhoban {
 #include <threading/Mutex.h>
 #include <threading/Thread.h>
 #include "Connection.h"
+#include "MailboxEntry.h"
 
 using namespace std;
 
 namespace Rhoban
 {
   typedef void sendCallback(Message *);
-  
+
   class Mailbox : public Thread
   {
   public :
     Mailbox(Connection* connection);
     void execute();
-    map<ui32, Message *> response;
-    map<ui32, Condition *> waiting;
-    map<ui32, sendCallback *> callback;
-            
+    void addEntry(MailboxEntry *entry);
+    void deleteEntry(ui32 uid); 
+    int entryIsWaiting(ui32 uid);
+    int entryIsCallback(ui32 uid);
+    void setResponse(ui32 uid, Message * message);
+    Message * getResponse(ui32 uid);
+    void wait(ui32 uid, int timeout);
+    void broadcastCondition(ui32 uid);
+    void garbageCollector();
   protected:
     Connection *connection;
+    map<ui32, MailboxEntry *> entries;
+    int garbageCounter;
   };
 }
 
