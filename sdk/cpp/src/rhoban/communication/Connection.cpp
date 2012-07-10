@@ -6,13 +6,19 @@
 
 using namespace std;
 
-namespace Rhoban{
+namespace Rhoban
+{
+  Connection::Connection() : mailbox((Connection *)this)
+  {
+  }
+
   void Connection::sendMessage(Message *message)
   {
     transmit(message->getRaw(), message->size);
   }
-
-  Message* Connection::getMessage() {
+  
+  Message* Connection::getMessage() 
+  {
     Message* message = new Message;
 
     try {
@@ -25,7 +31,8 @@ namespace Rhoban{
     return message;
   }  
 
-  Message *Connection::getMessage(Message *message) {
+  Message *Connection::getMessage(Message *message)
+  {
     message->clear();
 
     receiveAll(message->buffer, MSG_HEADER_SIZE);
@@ -38,11 +45,23 @@ namespace Rhoban{
     return message;
   }
   
-  Message *sendMessangeAndRecieve(Message *message, int timeout=100){
-    return(new Message);
+  Message *Connection::sendMessangeRecieve(Message *message, int timeout)
+  {
+    mailbox.waiting[message->uid]=new Condition;
+    sendMessage(message);
+    mailbox.waiting[message->uid]->wait(new Mutex,timeout);
+    if(mailbox.response.count(message->uid))
+      return(mailbox.response[message->uid]);
+    else
+      {
+	mailbox.waiting.erase(message->uid);
+	return NULL;
+      }
   }
   
-  void sendMessageCallback(Message *message, sendCallback *callback){
-    
+  void Connection::sendMessageCallback(Message *message, sendCallback *callback)
+  {
+    mailbox.callback[message->uid]=callback;
+    sendMessage(message);
   }
 }

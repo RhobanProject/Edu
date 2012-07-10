@@ -1,5 +1,10 @@
-#ifndef _CONNECTION_H_
-#define _CONNECTION_H_
+#ifndef __CONNECTION_H_
+#define __CONNECTION_H_
+
+namespace Rhoban{
+  class Connection;
+  class Mailbox;
+}
 
 #include <cstdlib>
 #include <cstdio>
@@ -11,19 +16,18 @@ using namespace std;
 
 namespace Rhoban
 {
-  typedef void sendCallback(Message *);
-
   class Connection : public TCPClient
   {
   public:
+    Connection();
     void sendMessage(Message *message);
-    Message *sendMessangeAndRecieve(Message *message, int timeout=100);
+    Message *sendMessangeRecieve(Message *message, int timeout=100);
     void sendMessageCallback(Message *message, sendCallback *callback);
     Message *getMessage();
     Message *getMessage(Message *message);
   protected:
-    Mailbox *mailbox;
+    Mailbox mailbox;
   };
 }
 
-#endif // _CONNECTION_H_
+#endif // __CONNECTION_H_

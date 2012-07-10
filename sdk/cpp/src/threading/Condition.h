@@ -5,20 +5,20 @@
 
 class Condition
 {
-    public:
+public:
 
-        Condition();
-        ~Condition();
+  Condition();
+  ~Condition();
 
-        // wait for the condition to be brodcasted (optional timeout in ms)
-        int wait(Mutex *mutex, unsigned int timeout);
+  // wait for the condition to be brodcasted (optional timeout in ms)
+  int wait(Mutex *mutex, unsigned int timeout);
+  
+  // broadcast a condition
+  void broadcast();
 
-        // broadcast a condition
-        void broadcast();
+private:
 
-    private:
-
-        pthread_cond_t condition;
+  pthread_cond_t condition;
 };
 
 #endif // _CONDITION_H

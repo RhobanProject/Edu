@@ -1,6 +1,6 @@
 # Modules to be included
 MODULES := main sockets rhoban/communication sockets/demo rhoban/test tests \
-    rhoban/communication/tests
+    rhoban/communication/tests threading
 
 # Program output
 PROG := prog
@@ -16,8 +16,8 @@ BUILD_DIR := $(addprefix $(OUT_DIR)/,$(MODULES))
 COMMON_DIR := ../common
 
 DEFS	  :=
-LIBS	  := -lpthread -lm
-LIBS	  := -lpthread -lm
+LIBS	  := -lpthread -lm -lrt
+LIBS	  := -lpthread -lm -lrt
 OS	  := linux
 
 ifeq ($(OS), windows)
