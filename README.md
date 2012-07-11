@@ -8,6 +8,6 @@ Licence
 =======
 
 Tout le contenu de ce dépôt est libre d'utilisation personnelle, de modification
-et de redistribution. Cependant, tout usage à des fins commercialles ne pourra en 
+et de redistribution. Cependant, tout usage à des fins commerciales ne pourra en 
 aucun cas être réalisé sans nous avoir préalablement contacté et informé.
 
