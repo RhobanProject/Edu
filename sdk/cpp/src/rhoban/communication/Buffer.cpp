@@ -51,9 +51,15 @@ namespace Rhoban
         else
             buffer = (char *)realloc(buffer, (new_size + MSG_HEADER_SIZE) * sizeof(char) + 32);
         if(buffer)
+        {
             buffer_size = new_size;
+        }
         else
-            buffer_size=0;
+        {
+            ostringstream os;
+            os << "Could not allocate buffer of size " << new_size;
+            throw os.str();
+        }
     }
 
 
@@ -69,7 +75,7 @@ namespace Rhoban
 
     ui32 Buffer::read_uint(ui32 offset)
     {
-        if(offset<= size)
+        if(offset + sizeof(ui32) <= size)
             return Encodings::decode_uint((const char *) buffer+offset);
         else
             throw string("buffer too small to read int at this offset");
@@ -77,7 +83,7 @@ namespace Rhoban
 
     int Buffer::read_int(ui32 offset)
     {
-        if(offset<=size)
+        if(offset + sizeof(int) <=size)
             return Encodings::decode_int((const char *) buffer+offset);
         else
             throw string("buffer too small to read int at this offset");
@@ -85,7 +91,7 @@ namespace Rhoban
 
     float Buffer::read_float(ui32 offset)
     {
-        if(offset<=size)
+        if(offset + sizeof(int) <=size)
             return Encodings::decode_float(buffer+offset);
         else
             throw string("buffer too small to read int at this offset");
