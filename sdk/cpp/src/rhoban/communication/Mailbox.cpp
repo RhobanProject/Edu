@@ -22,10 +22,12 @@ namespace Rhoban
 
   void Mailbox::execute()
   {
-    Message *message;
-    while(connection->isConnected())
+    Message *message = new Message;
+	while(connection->isConnected())
       {
 	message = connection->getMessage();
+
+	process.lock();
 	if(entries.count(message->uid))
 	  {
 	    if(entries[message->uid]->isWaiting())
@@ -39,6 +41,7 @@ namespace Rhoban
 		deleteEntry(message->uid);
 	      }
 	  }
+	process.unlock();
       }
   }
 
@@ -49,7 +52,8 @@ namespace Rhoban
 
   void Mailbox::wait(ui32 uid, int timeout)
   {
-    entries[uid]->wait(timeout);
+    entries[uid]->wait(timeout, &process);
+    process.unlock();
   }
 
   void Mailbox::setResponse(ui32 uid, Message * message)
@@ -61,6 +65,11 @@ namespace Rhoban
   {
     return(entries[uid]->getResponse());
   }
+
+	void Mailbox::lock()
+	{
+		process.lock();
+	}
 
   void Mailbox::broadcastCondition(ui32 uid)
   {

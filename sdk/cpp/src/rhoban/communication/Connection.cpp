@@ -44,10 +44,12 @@ namespace Rhoban
     return message;
   }
   
-  Message *Connection::sendMessangeRecieve(Message *message, int timeout)
+  Message *Connection::sendMessageRecieve(Message *message, int timeout)
   {
     Message * retval;
     mailbox.addEntry(new MailboxEntry(message->uid, new Condition));
+
+	mailbox.lock();
     sendMessage(message);
     mailbox.wait(message->uid, timeout);
     retval = mailbox.getResponse(message->uid);
@@ -58,5 +60,10 @@ namespace Rhoban
   {
     mailbox.addEntry(new MailboxEntry(message->uid, callback));
     sendMessage(message);
+  }
+
+  void Connection::startMailbox()
+  {
+    mailbox.start(NULL);
   }
 }

@@ -30,7 +30,9 @@ namespace Rhoban
     void wait(ui32 uid, int timeout);
     void broadcastCondition(ui32 uid);
     void garbageCollector();
+	void lock();
   protected:
+	Mutex process;
     Connection *connection;
     map<ui32, MailboxEntry *> entries;
     int garbageCounter;

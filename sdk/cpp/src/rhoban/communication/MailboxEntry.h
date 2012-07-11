@@ -21,7 +21,7 @@ namespace Rhoban
     MailboxEntry(ui32 uid, Condition *condition);
     MailboxEntry(ui32 uid, sendCallback *callback);
     ~MailboxEntry();
-    void wait(int timeout);
+    void wait(int timeout, Mutex *mutex);
     int isWaiting();
     int isCallback();
     void executeCallback(Message *message);

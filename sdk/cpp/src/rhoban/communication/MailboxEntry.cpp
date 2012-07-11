@@ -32,9 +32,9 @@ namespace Rhoban
     delete waiting;
   }
 
-  void MailboxEntry::wait(int timeout)
+  void MailboxEntry::wait(int timeout, Mutex *mutex)
   {
-    waiting->wait(new Mutex, timeout);
+    waiting->wait(mutex, timeout);
   }
 
   int MailboxEntry::isWaiting()

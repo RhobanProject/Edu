@@ -23,8 +23,9 @@ namespace Rhoban
   public:
     Connection();
     void sendMessage(Message *message);
-    Message *sendMessangeRecieve(Message *message, int timeout=100);
+    Message *sendMessageRecieve(Message *message, int timeout=100);
     void sendMessageCallback(Message *message, sendCallback *callback);
+	void startMailbox();
     Message *getMessage();
     Message *getMessage(Message *message);
   protected:

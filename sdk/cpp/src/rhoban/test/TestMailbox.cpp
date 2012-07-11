@@ -1,0 +1,114 @@
+#include <cstdlib>
+#include <iostream>
+#include <main/Command.h>
+#include <rhoban/types.h>
+#include <rhoban/communication/CommandsStore.h>
+#include <rhoban/communication/Connection.h>
+#include <rhoban/communication/Message.h>
+
+using namespace std;
+using namespace Rhoban;
+
+void test_sendMessage(Connection *client, CommandsStore *commandsstore)
+{
+  cout << "\n Testing sendMessage()" << endl;
+
+  cout << "sendMessage(ServerGetVersion)" << endl;
+  client->sendMessage(commandsstore->builder->ServerGetVersion()); // 1
+  
+  cout << "sendMessage(ServerEcho(Hello))" << endl;
+  client->sendMessage(commandsstore->builder->ServerEcho("Hello")); // Hello 
+}
+
+void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
+{
+  cout << "\n Testing sendMessageRecieve()" << endl;
+
+  Message *response;
+
+  cout << "sendMessageRecieve(ServerGetVersion,1)" << endl;
+  response = client->sendMessageRecieve(commandsstore->builder->ServerGetVersion(),1);
+  if(response != NULL)
+    cout << "Value = " << response->read_uint() << endl;
+  else
+    cout << "Value = NULL" << endl;
+
+  cout << "sendMessageRecieve(ServerGetVersion,2000)" << endl;
+  response = client->sendMessageRecieve(commandsstore->builder->ServerGetVersion(),2000);
+  if(response != NULL)
+    cout << "Value = " << response->read_uint() << endl;
+  else
+    cout << "Value = NULL" << endl;
+
+  cout << "sendMessageRecieve(ServerGetVersion)" << endl;
+  response = client->sendMessageRecieve(commandsstore->builder->ServerGetVersion());
+  if(response != NULL)
+    cout << "Value = " << response->read_uint() << endl;
+  else
+    cout << "Value = NULL" << endl;
+  
+  cout << "sendMessageRecieve(ServerEcho(Hello),1)" << endl;
+  response = client->sendMessageRecieve(commandsstore->builder->ServerEcho("Hello"),1);
+  if(response != NULL)
+    cout << "Value = " << response->read_string() << endl;
+  else
+    cout << "Value = NULL" << endl;
+
+  cout << "sendMessageRecieve(ServerEcho(Hello),2000)" << endl;
+  response = client->sendMessageRecieve(commandsstore->builder->ServerEcho("Hello"),2000);
+  if(response != NULL)
+    cout << "Value = " << response->read_string() << endl;
+  else
+    cout << "Value = NULL" << endl;
+
+  cout << "sendMessageRecieve(ServerEcho(Hello))" << endl;
+  response = client->sendMessageRecieve(commandsstore->builder->ServerEcho("Hello"));
+  if(response != NULL)
+    cout << "Value = " << response->read_string() << endl;
+  else
+    cout << "Value = NULL" << endl;
+}
+
+void callbackResponseUint(Message *msg)
+{
+  cout << "Value = " << msg->read_uint() << endl;
+}
+ 
+void callbackResponseString(Message *msg)
+{
+  cout << "Value = " << msg->read_string() << endl;
+}
+
+void test_sendMessageCallback(Connection *client, CommandsStore *commandsstore)
+{
+  cout << "\n Testing sendMessageCallback()" << endl;
+
+  cout << "sendMessageCallback(ServerGetVersion)" << endl;
+  client->sendMessageCallback(commandsstore->builder->ServerGetVersion(), callbackResponseUint);
+
+  cout << "sendMessageCallback(ServerEcho(Hello))" << endl;
+  client->sendMessageCallback(commandsstore->builder->ServerEcho("Hello"), callbackResponseString);
+
+}
+
+COMMAND_DEFINE(test_mailbox, "Test Mailbox")
+{
+  cout << "\n Begin Test Mailbox" << endl;
+  
+  CommandsStore *commandsstore = new CommandsStore;
+  Connection *client = new Connection;
+
+  client->connectTo("localhost", 12345);
+  cout << "\n Connected" << endl;  
+  
+  client->startMailbox();
+  cout << "\n Running Mailbox" << endl;
+
+  test_sendMessage(client, commandsstore);
+
+  test_sendMessageCallback(client, commandsstore);
+
+  test_sendMessageRecieve(client, commandsstore);
+  
+  client->stop();
+}
