@@ -79,16 +79,34 @@ void callbackResponseString(Message *msg)
   cout << "Value = " << msg->read_string() << endl;
 }
 
+void printCallingBack(Message *msg)
+{
+  cout << "Value = Calling back after receiving message from server" << endl;
+}
+
+
+
 void test_sendMessageCallback(Connection *client, CommandsStore *commandsstore)
 {
   cout << "\n Testing sendMessageCallback()" << endl;
 
-  cout << "sendMessageCallback(ServerGetVersion)" << endl;
+  cout << "sendMessageCallback(ServerGetVersion, callbackResponse)" << endl;
   client->sendMessageCallback(commandsstore->builder->ServerGetVersion(), callbackResponseUint);
+  sleep(1);
 
-  cout << "sendMessageCallback(ServerEcho(Hello))" << endl;
+  cout << "sendMessageCallback(ServerGetVersion, print(callingback))" << endl;
+  client->sendMessageCallback(commandsstore->builder->ServerGetVersion(), printCallingBack);
+  sleep(1);
+
+  cout << "" << endl;
+
+  cout << "sendMessageCallback(ServerEcho(Hello), callbackReponse)" << endl;
   client->sendMessageCallback(commandsstore->builder->ServerEcho("Hello"), callbackResponseString);
+  sleep(1);
 
+  cout << "sendMessageCallback(ServerEcho(Hello), print(callingback))" << endl;
+  client->sendMessageCallback(commandsstore->builder->ServerEcho("Hello"), printCallingBack);
+  sleep(1);
 }
 
 COMMAND_DEFINE(test_mailbox, "Test Mailbox")
@@ -109,6 +127,6 @@ COMMAND_DEFINE(test_mailbox, "Test Mailbox")
   test_sendMessageCallback(client, commandsstore);
 
   test_sendMessageRecieve(client, commandsstore);
-  
+
   client->stop();
 }
