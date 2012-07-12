@@ -20,6 +20,7 @@ namespace Rhoban
   {
   public :
     Mailbox(Connection* connection);
+	~Mailbox();
     void execute();
     void addEntry(MailboxEntry *entry);
     void deleteEntry(ui32 uid); 

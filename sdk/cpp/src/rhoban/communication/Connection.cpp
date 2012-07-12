@@ -14,6 +14,7 @@ namespace Rhoban
   void Connection::sendMessage(Message *message)
   {
     transmit(message->getRaw(), message->size);
+    delete(message);
   }
   
   Message* Connection::getMessage() 
@@ -23,8 +24,8 @@ namespace Rhoban
     try {
       getMessage(message);
     } catch (string e) {
-        delete message;
-        throw e;
+      delete message;
+      throw e;
     }
 
     return message;
@@ -44,22 +45,28 @@ namespace Rhoban
     return message;
   }
   
-  Message *Connection::sendMessageRecieve(Message *message, int timeout)
+  Message * Connection::sendMessageRecieve(Message *message, int timeout)
   {
     Message * retval;
-    mailbox.addEntry(new MailboxEntry(message->uid, new Condition));
+    ui32 uid = message->uid;
+    
+    Condition condition;
+    
+    mailbox.addEntry(new MailboxEntry(uid, &condition));
 
-	mailbox.lock();
+    mailbox.lock();
     sendMessage(message);
-    mailbox.wait(message->uid, timeout);
-    retval = mailbox.getResponse(message->uid);
+    mailbox.wait(uid, timeout);
+    retval = mailbox.getResponse(uid);
     return retval;
   }
   
   void Connection::sendMessageCallback(Message *message, sendCallback *callback)
   {
-    mailbox.addEntry(new MailboxEntry(message->uid, callback));
+    MailboxEntry *entry = new MailboxEntry(message->uid, callback);
+    mailbox.addEntry(entry);
     sendMessage(message);
+    delete(entry);
   }
 
   void Connection::startMailbox()

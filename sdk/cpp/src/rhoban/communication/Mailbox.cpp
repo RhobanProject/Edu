@@ -20,13 +20,18 @@ namespace Rhoban
     garbageCounter = 0;
   }
 
+  Mailbox::~Mailbox()
+  {
+    this->thread_state=Dead;
+    entries.clear();
+  }
+
   void Mailbox::execute()
   {
-    Message *message = new Message;
-	while(connection->isConnected())
+    while(connection->isConnected())
       {
-	message = connection->getMessage();
-
+	Message *message = connection->getMessage();
+	
 	process.lock();
 	if(entries.count(message->uid))
 	  {
@@ -41,6 +46,8 @@ namespace Rhoban
 		deleteEntry(message->uid);
 	      }
 	  }
+	else
+	  delete(message);
 	process.unlock();
       }
   }
@@ -66,19 +73,16 @@ namespace Rhoban
     return(entries[uid]->getResponse());
   }
 
-	void Mailbox::lock()
-	{
-		process.lock();
-	}
+  void Mailbox::lock()
+  {
+    process.lock();
+  }
 
   void Mailbox::broadcastCondition(ui32 uid)
   {
     entries[uid]->broadcast();
   }
   
-  //mailbox.addEntry(new MailboxEntry(message->uid, new Condition));
-  //mailbox.entries[message->uid]=new MailboxEntry(message->uid, new Condition);
-
   void Mailbox::addEntry(MailboxEntry *entry)
   {
     entries[entry->getUid()]=entry;
@@ -99,5 +103,5 @@ namespace Rhoban
 	  deleteEntry(it->second->getUid());
       }
   }
-  
+ 
 }

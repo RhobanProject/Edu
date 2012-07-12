@@ -12,19 +12,19 @@ using namespace Rhoban;
 
 COMMAND_DEFINE(test_communication, "Test Communication")
 {
-    cout << "Begin Test Communication" << endl;
+  cout << "Begin Test Communication" << endl;
+  
+  CommandsStore commandsstore;
+  Connection client;
+  Message message;
+  
+  client.connectTo("localhost", 12345);
+ 
+  client.sendMessage(commandsstore.builder->ServerGetVersion());
+  cout << "Value = " << client.getMessage(&message)->read_uint() << endl;
 
-    CommandsStore *commandsstore = new CommandsStore;
-    Connection *client = new Connection;
-
-    client->connectTo("192.168.16.105", 12345);
-    //client->connectTo("localhost", 1234);
-
-    client->sendMessage(commandsstore->builder->ServerGetVersion());
-    cout << "Value = " << client->getMessage(new Message)->read_uint() << endl;
-
-    client->sendMessage(commandsstore->builder->ServerEcho("Hello"));
-    cout << "Value = " << client->getMessage(new Message)->read_string() << endl;
+  client.sendMessage(commandsstore.builder->ServerEcho("Hello"));
+  cout << "Value = " << client.getMessage(&message)->read_string() << endl;
      
-    client->stop();
+  client.stop();
 }
