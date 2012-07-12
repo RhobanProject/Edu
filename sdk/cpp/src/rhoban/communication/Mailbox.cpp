@@ -44,6 +44,7 @@ namespace Rhoban
 	      {
 		entries[message->uid]->executeCallback(message);
 		deleteEntry(message->uid);
+		delete(message);
 	      }
 	  }
 	else

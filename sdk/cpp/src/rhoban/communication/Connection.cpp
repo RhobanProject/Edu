@@ -27,7 +27,7 @@ namespace Rhoban
       delete message;
       throw e;
     }
-
+    
     return message;
   }  
 

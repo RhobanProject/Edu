@@ -134,11 +134,11 @@ COMMAND_DEFINE(test_mailbox, "Test Mailbox")
   client.startMailbox();
   cout << "\n Running Mailbox" << endl;
 
-  //  test_sendMessage(&client, &commandsstore);
+  test_sendMessage(&client, &commandsstore);
 
   test_sendMessageCallback(&client, &commandsstore);
 
-  //  test_sendMessageRecieve(&client, &commandsstore);
+  test_sendMessageRecieve(&client, &commandsstore);
   
   client.stop();
 }

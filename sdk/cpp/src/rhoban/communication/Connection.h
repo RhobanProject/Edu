@@ -25,7 +25,7 @@ namespace Rhoban
     void sendMessage(Message *message);
     Message *sendMessageRecieve(Message *message, int timeout=100);
     void sendMessageCallback(Message *message, sendCallback *callback);
-	void startMailbox();
+    void startMailbox();
     Message *getMessage();
     Message *getMessage(Message *message);
   protected:

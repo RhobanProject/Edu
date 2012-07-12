@@ -16,15 +16,21 @@ COMMAND_DEFINE(test_communication, "Test Communication")
   
   CommandsStore commandsstore;
   Connection client;
-  Message message;
-  
+  Message *message;
+    
   client.connectTo("localhost", 12345);
  
   client.sendMessage(commandsstore.builder->ServerGetVersion());
-  cout << "Value = " << client.getMessage(&message)->read_uint() << endl;
+  message = client.getMessage();
+  cout << "Value = " << message->read_uint() << endl;
+  
+  delete(message);
 
   client.sendMessage(commandsstore.builder->ServerEcho("Hello"));
-  cout << "Value = " << client.getMessage(&message)->read_string() << endl;
+  message = client.getMessage();
+  cout << "Value = " << message->read_string() << endl;
      
+  delete(message);
+
   client.stop();
 }
