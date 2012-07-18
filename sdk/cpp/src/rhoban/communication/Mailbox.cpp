@@ -31,19 +31,19 @@ namespace Rhoban
     while(connection->isConnected())
       {
 	Message *message = connection->getMessage();
-	
+
 	process.lock();
-	if(entries.count(message->uid))
+	if(entries.count(message->getUid()))
 	  {
-	    if(entries[message->uid]->isWaiting())
+	    if(entries[message->getUid()]->isWaiting())
 	      {
-		setResponse(message->uid, message);
-		broadcastCondition(message->uid);
+		setResponse(message->getUid(), message);
+		broadcastCondition(message->getUid());
 	      }
-	    else if(entries[message->uid]->isCallback())
+	    else if(entries[message->getUid()]->isCallback())
 	      {
-		entries[message->uid]->executeCallback(message);
-		deleteEntry(message->uid);
+		entries[message->getUid()]->executeCallback(message);
+		deleteEntry(message->getUid());
 		delete(message);
 	      }
 	  }

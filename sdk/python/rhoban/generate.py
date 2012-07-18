@@ -14,9 +14,9 @@ def generate_method(specification):
     method = u''
 
     method += "        Message *message = new Message;\n"
-    method += "        message->uid=getUid();\n"
-    method += "        message->destination="+str(specification.destination)+";\n"
-    method += "        message->command="+str(specification.command)+";\n"
+    method += "        message->setUid(getUid());\n"
+    method += "        message->setDestination("+str(specification.destination)+");\n"
+    method += "        message->setCommand("+str(specification.command)+");\n"
 
 
     argumentNumber = 1

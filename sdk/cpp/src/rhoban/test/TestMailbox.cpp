@@ -14,10 +14,10 @@ void test_sendMessage(Connection *client, CommandsStore *commandsstore)
   cout << "\n Testing sendMessage()" << endl;
 
   cout << "sendMessage(ServerGetVersion)" << endl;
-  client->sendMessage(commandsstore->builder->ServerGetVersion()); // 1
+  client->sendMessage(commandsstore->getBuilder()->ServerGetVersion()); // 1
   
   cout << "sendMessage(ServerEcho(Hello))" << endl;
-  client->sendMessage(commandsstore->builder->ServerEcho("Hello")); // Hello 
+  client->sendMessage(commandsstore->getBuilder()->ServerEcho("Hello")); // Hello 
 }
 
 void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
@@ -27,7 +27,7 @@ void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
   Message *response;
 
   cout << "sendMessageRecieve(ServerGetVersion,1)" << endl;
-  response = client->sendMessageRecieve(commandsstore->builder->ServerGetVersion(),1);
+  response = client->sendMessageRecieve(commandsstore->getBuilder()->ServerGetVersion(),1);
   if(response != NULL)
     cout << "Value = " << response->read_uint() << endl;
   else
@@ -36,7 +36,7 @@ void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
   delete(response);
     
   cout << "sendMessageRecieve(ServerGetVersion,2000)" << endl;
-  response = client->sendMessageRecieve(commandsstore->builder->ServerGetVersion(),2000);
+  response = client->sendMessageRecieve(commandsstore->getBuilder()->ServerGetVersion(),2000);
   if(response != NULL)
     cout << "Value = " << response->read_uint() << endl;
   else
@@ -45,7 +45,7 @@ void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
   delete(response);
 
   cout << "sendMessageRecieve(ServerGetVersion)" << endl;
-  response = client->sendMessageRecieve(commandsstore->builder->ServerGetVersion());
+  response = client->sendMessageRecieve(commandsstore->getBuilder()->ServerGetVersion());
   if(response != NULL)
     cout << "Value = " << response->read_uint() << endl;
   else
@@ -54,7 +54,7 @@ void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
   delete(response);
   
   cout << "sendMessageRecieve(ServerEcho(Hello),1)" << endl;
-  response = client->sendMessageRecieve(commandsstore->builder->ServerEcho("Hello"),1);
+  response = client->sendMessageRecieve(commandsstore->getBuilder()->ServerEcho("Hello"),1);
   if(response != NULL)
     cout << "Value = " << response->read_string() << endl;
   else
@@ -63,7 +63,7 @@ void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
   delete(response);
 
   cout << "sendMessageRecieve(ServerEcho(Hello),2000)" << endl;
-  response = client->sendMessageRecieve(commandsstore->builder->ServerEcho("Hello"),2000);
+  response = client->sendMessageRecieve(commandsstore->getBuilder()->ServerEcho("Hello"),2000);
   if(response != NULL)
     cout << "Value = " << response->read_string() << endl;
   else
@@ -72,7 +72,7 @@ void test_sendMessageRecieve(Connection *client, CommandsStore *commandsstore)
   delete(response);
 
   cout << "sendMessageRecieve(ServerEcho(Hello))" << endl;
-  response = client->sendMessageRecieve(commandsstore->builder->ServerEcho("Hello"));
+  response = client->sendMessageRecieve(commandsstore->getBuilder()->ServerEcho("Hello"));
   if(response != NULL)
     cout << "Value = " << response->read_string() << endl;
   else
@@ -103,21 +103,21 @@ void test_sendMessageCallback(Connection *client, CommandsStore *commandsstore)
   cout << "\n Testing sendMessageCallback()" << endl;
   
   cout << "sendMessageCallback(ServerGetVersion, callbackResponse)" << endl;
-  client->sendMessageCallback(commandsstore->builder->ServerGetVersion(), callbackResponseUint);
+  client->sendMessageCallback(commandsstore->getBuilder()->ServerGetVersion(), callbackResponseUint);
   sleep(1);
   
   cout << "sendMessageCallback(ServerGetVersion, print(callingback))" << endl;
-  client->sendMessageCallback(commandsstore->builder->ServerGetVersion(), printCallingBack);
+  client->sendMessageCallback(commandsstore->getBuilder()->ServerGetVersion(), printCallingBack);
   sleep(1);
 
   cout << "" << endl;
   
   cout << "sendMessageCallback(ServerEcho(Hello), callbackReponse)" << endl;
-  client->sendMessageCallback(commandsstore->builder->ServerEcho("Hello"), callbackResponseString);
+  client->sendMessageCallback(commandsstore->getBuilder()->ServerEcho("Hello"), callbackResponseString);
   sleep(1);
 
   cout << "sendMessageCallback(ServerEcho(Hello), print(callingback))" << endl;
-  client->sendMessageCallback(commandsstore->builder->ServerEcho("Hello"), printCallingBack);
+  client->sendMessageCallback(commandsstore->getBuilder()->ServerEcho("Hello"), printCallingBack);
   sleep(1);
 }
 

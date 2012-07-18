@@ -13,14 +13,14 @@ namespace Rhoban
 
   void Connection::sendMessage(Message *message)
   {
-    transmit(message->getRaw(), message->size);
+    transmit(message->getRaw(), message->getSize());
     delete(message);
   }
   
   Message* Connection::getMessage() 
   {
     Message* message = new Message;
-
+    
     try {
       getMessage(message);
     } catch (string e) {
@@ -35,12 +35,12 @@ namespace Rhoban
   {
     message->clear();
 
-    receiveAll(message->buffer, MSG_HEADER_SIZE);
-    message->read_header(message->buffer);
+    receiveAll(message->getBuffer(), MSG_HEADER_SIZE);
+    message->read_header(message->getBuffer());
 
-    message->alloc(message->length + MSG_HEADER_SIZE);
-    message->size = message->length + MSG_HEADER_SIZE;
-    receiveAll(message->buffer + MSG_HEADER_SIZE, message->length);
+    message->alloc(message->getLength() + MSG_HEADER_SIZE);
+    message->setSize(message->getLength() + MSG_HEADER_SIZE);
+    receiveAll(message->getBuffer() + MSG_HEADER_SIZE, message->getLength());
 
     return message;
   }
@@ -48,7 +48,7 @@ namespace Rhoban
   Message * Connection::sendMessageRecieve(Message *message, int timeout)
   {
     Message * retval;
-    ui32 uid = message->uid;
+    ui32 uid = message->getUid();
     
     Condition condition;
     
@@ -63,7 +63,7 @@ namespace Rhoban
   
   void Connection::sendMessageCallback(Message *message, sendCallback *callback)
   {
-    MailboxEntry *entry = new MailboxEntry(message->uid, callback);
+    MailboxEntry *entry = new MailboxEntry(message->getUid(), callback);
     mailbox.addEntry(entry);
     sendMessage(message);
     delete(entry);

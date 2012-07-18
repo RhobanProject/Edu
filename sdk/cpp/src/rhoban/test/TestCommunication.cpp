@@ -20,13 +20,13 @@ COMMAND_DEFINE(test_communication, "Test Communication")
     
   client.connectTo("localhost", 12345);
  
-  client.sendMessage(commandsstore.builder->ServerGetVersion());
+  client.sendMessage(commandsstore.getBuilder()->ServerGetVersion());
   message = client.getMessage();
   cout << "Value = " << message->read_uint() << endl;
   
   delete(message);
 
-  client.sendMessage(commandsstore.builder->ServerEcho("Hello"));
+  client.sendMessage(commandsstore.getBuilder()->ServerEcho("Hello"));
   message = client.getMessage();
   cout << "Value = " << message->read_string() << endl;
      

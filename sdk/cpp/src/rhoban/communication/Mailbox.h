@@ -20,7 +20,7 @@ namespace Rhoban
   {
   public :
     Mailbox(Connection* connection);
-	~Mailbox();
+    ~Mailbox();
     void execute();
     void addEntry(MailboxEntry *entry);
     void deleteEntry(ui32 uid); 
@@ -31,9 +31,9 @@ namespace Rhoban
     void wait(ui32 uid, int timeout);
     void broadcastCondition(ui32 uid);
     void garbageCollector();
-	void lock();
+    void lock();
   protected:
-	Mutex process;
+    Mutex process;
     Connection *connection;
     map<ui32, MailboxEntry *> entries;
     int garbageCounter;

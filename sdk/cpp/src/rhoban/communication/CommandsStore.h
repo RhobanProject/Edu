@@ -15,6 +15,8 @@ namespace Rhoban
   public:
     CommandsStore();
     ~CommandsStore();
+    MessageBuilder *getBuilder();
+  protected:
     MessageBuilder *builder;
   };
 }
