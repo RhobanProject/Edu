@@ -5,13 +5,14 @@
 
 class Mutex
 {
-    public:
-        Mutex(void);
-        ~Mutex(void);
-        void lock(void);
-        void unlock(void);
+public:
+  Mutex(void);
+  ~Mutex(void);
+  void lock(void);
+  void unlock(void);
+  pthread_mutex_t getMutex();
 
-        pthread_mutex_t _mutex;
+  pthread_mutex_t _mutex;
 };
 
 #endif
