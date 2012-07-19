@@ -34,11 +34,21 @@
       <type id="Iner" name="Iner" description="" />
       <type id="vector&lt;Command*&gt;" name="vector&lt;Command*&gt;" description="" />
       <type id="Command *" name="Command *" description="" />
+      <type id="MessageBuilder *" name="MessageBuilder *" description="" />
+      <type id="Mailbox" name="Mailbox" description="" />
+      <type id="Message *" name="Message *" description="" />
+      <type id="sendcallback *" name="sendcallback *" description="" />
+      <type id="ui32" name="ui32" description="" />
+      <type id="float" name="float" description="" />
+      <type id="double" name="double" description="" />
+      <type id="int" name="int" description="" />
+      <type id="const char *" name="const char *" description="" />
+      <type id="const ui32" name="const ui32" description="" />
     </custom-types>
   </types>
   <filters />
   <items>
-    <item id="ddip145228911438255645_629969706234094467" cid="C023" type="class" name="Class23" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:00">
+    <item id="ddip145228911438255645_629969706234094467" cid="C023" type="class" name="Class23" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:00">
       <stereotypes />
       <tagged-values />
       <associated-diagrams />
@@ -50,7 +60,7 @@
         <source-codes />
       </template-parameters>
     </item>
-    <item id="di827452061150610233" cid="CMT001" type="comment" name="Comment" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:14">
+    <item id="di827452061150610233" cid="CMT001" type="comment" name="Comment" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:14">
       <stereotypes />
       <tagged-values />
       <associated-diagrams />
@@ -58,7 +68,7 @@
       <style class="default" />
       <comment />
     </item>
-    <item id="di266580860972353587" cid="CN001" type="comment-connector" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:14">
+    <item id="di266580860972353587" cid="CN001" type="comment-connector" name="" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:14">
       <stereotypes />
       <tagged-values />
       <associated-diagrams />
@@ -92,12 +102,12 @@
           </authors>
           <description />
           <creation-date>07/18/2012 11:00:19</creation-date>
-          <change-date>07/18/2012 16:48:54</change-date>
+          <change-date>07/19/2012 17:11:17</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
         <abstract-items>
-          <item id="ddip145228911438255645_209946536768647177" cid="C021" type="class" name="Command" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:18:44">
+          <item id="ddip145228911438255645_209946536768647177" cid="C021" type="class" name="Command" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:18:44">
             <stereotypes />
             <tagged-values />
             <documentation>
@@ -134,33 +144,15 @@
                 <stereotypes />
                 <documentation>
                   <text>
-                    <content>
-                      <p index="0">
-                        <t />
-                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                          <text>
-                            <solid-brush color="#FF000000" />
-                          </text>
-                        </style>
-                      </p>
-                    </content>
+                    <content />
                   </text>
                 </documentation>
               </attribute>
-              <attribute id="a4a5df75cd52a4d0081af14e965e10d25724" name="function" type="commandFunction *" type-id="commandFunction *" visibility="private" abstract="false" virtual="false">
+              <attribute id="a4a5df75cd52a4d0081af14e965e10d25724" name="function" type="commandFunction *" type-id="commandFunction *" visibility="protected" abstract="false" virtual="false">
                 <stereotypes />
                 <documentation>
                   <text>
-                    <content>
-                      <p index="0">
-                        <t />
-                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                          <text>
-                            <solid-brush color="#FF000000" />
-                          </text>
-                        </style>
-                      </p>
-                    </content>
+                    <content />
                   </text>
                 </documentation>
               </attribute>
@@ -175,16 +167,7 @@
                 <stereotypes />
                 <documentation>
                   <text>
-                    <content>
-                      <p index="0">
-                        <t />
-                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                          <text>
-                            <solid-brush color="#FF000000" />
-                          </text>
-                        </style>
-                      </p>
-                    </content>
+                    <content />
                   </text>
                 </documentation>
                 <source-codes>
@@ -199,16 +182,7 @@
                 <stereotypes />
                 <documentation>
                   <text>
-                    <content>
-                      <p index="0">
-                        <t />
-                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                          <text>
-                            <solid-brush color="#FF000000" />
-                          </text>
-                        </style>
-                      </p>
-                    </content>
+                    <content />
                   </text>
                 </documentation>
                 <source-codes>
@@ -222,16 +196,7 @@
                 <stereotypes />
                 <documentation>
                   <text>
-                    <content>
-                      <p index="0">
-                        <t />
-                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                          <text>
-                            <solid-brush color="#FF000000" />
-                          </text>
-                        </style>
-                      </p>
-                    </content>
+                    <content />
                   </text>
                 </documentation>
                 <source-codes>
@@ -243,16 +208,7 @@
                 <stereotypes />
                 <documentation>
                   <text>
-                    <content>
-                      <p index="0">
-                        <t />
-                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                          <text>
-                            <solid-brush color="#FF000000" />
-                          </text>
-                        </style>
-                      </p>
-                    </content>
+                    <content />
                   </text>
                 </documentation>
                 <source-codes>
@@ -272,30 +228,12 @@
                         <section name="">
                           <header>
                             <text>
-                              <content>
-                                <p index="0">
-                                  <t />
-                                  <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                                    <text>
-                                      <solid-brush color="#FF000000" />
-                                    </text>
-                                  </style>
-                                </p>
-                              </content>
+                              <content />
                             </text>
                           </header>
                           <footer>
                             <text>
-                              <content>
-                                <p index="0">
-                                  <t />
-                                  <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
-                                    <text>
-                                      <solid-brush color="#FF000000" />
-                                    </text>
-                                  </style>
-                                </p>
-                              </content>
+                              <content />
                             </text>
                           </footer>
                           <default-page>
@@ -332,14 +270,14 @@
               </source-codes>
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_789759985862141429" cid="GNR002" type="generalization" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:00">
+          <item id="ddip145228911438255645_789759985862141429" cid="GNR002" type="generalization" name="" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:00">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
             <owned-items />
             <style class="default" />
           </item>
-          <item id="ddip145228911438255645_399572778523732580" cid="PKG002" type="package" name="Rhoban &gt; Communication" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 14:56:34">
+          <item id="ddip145228911438255645_399572778523732580" cid="PKG002" type="package" name="Rhoban &gt; Communication" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 14:56:34">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -347,7 +285,550 @@
             <style class="default" />
             <nestedItems />
           </item>
-          <item id="ddip145228911438255645_370649432267574528" cid="C025" type="class" name="CommandsStore" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:43:11">
+          <item id="ddip145228911438255645_370649432267574528" cid="C025" type="class" name="CommandsStore" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:43:11">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <content>
+                  <p index="0">
+                    <t />
+                    <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                      <text>
+                        <solid-brush color="#FF000000" />
+                      </text>
+                    </style>
+                  </p>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes>
+              <attribute id="a7aa56f57921d4777b1c48e27ac632100171" name="builder" type="MessageBuilder *" type-id="MessageBuilder *" visibility="protected" abstract="false" virtual="false">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="od888a7d94b3344428d375985dfbc80b8283" name="CommandsStore" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="obf6ae97164d345ca953498636c5495c3931" name="~CommandsStore" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="odd19ce5ffb2942169d1cf49c6b85ecc8923" name="getBuilder" type="MessageBuilder *" type-id="MessageBuilder *" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <template-parameters>
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_469219995646016572" cid="C026" type="class" name="Connection" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:14">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <content>
+                  <p index="0">
+                    <t />
+                    <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                      <text>
+                        <solid-brush color="#FF000000" />
+                      </text>
+                    </style>
+                  </p>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes>
+              <attribute id="ac1d7df9628d24827bb8fbbcecdf32b93893" name="mailbox" type="Mailbox" type-id="Mailbox" visibility="public" abstract="false" virtual="false">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="o97ea82e2e24c46b1bddf75e5753279e7701" name="Connection" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oaa80a786f15a45ce88683a3f37bf3655957" name="sendMessage" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="message" type="Message *" type-id="Message *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o2eb859b698f14d319b716ed3bea20995189" name="sendMessageReceive" type="Message *" type-id="Message *" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="message " type="Message *" type-id="Message *" default-value="" />
+                  <parameter id="" name=" timeout " type="Integer" type-id="Uml.Integer" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="ocf87375da10e4c41931bd9c1bff462be621" name="sendMessageCallback" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="message" type="Message *" type-id="Message *" default-value="" />
+                  <parameter id="" name="callback" type="sendcallback *" type-id="sendcallback *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o13de61f7c1e14d3d9393887416addb14893" name="startMailbox" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o7572bf1b0f594559b58421f10128138a829" name="getMessage" type="Message *" type-id="Message *" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oe52048b2178740afbef1c1c1f6749e66717" name="getMessage" type="Message *" type-id="Message *" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="message" type="Message *" type-id="Message *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <template-parameters>
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_504753587735251360" cid="C027" type="class" name="Encodings" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:27">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <content>
+                  <p index="0">
+                    <t />
+                    <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                      <text>
+                        <solid-brush color="#FF000000" />
+                      </text>
+                    </style>
+                  </p>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations>
+              <operation id="o119f1df917b248aea59cbf33e0e71a13613" name="encode_int" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="value " type="Integer" type-id="Uml.Integer" default-value="" />
+                  <parameter id="" name=" buf " type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="ob9ba25befcc14286aa57e99c1d35fda661" name="encode_uint" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="value" type="ui32" type-id="ui32" default-value="" />
+                  <parameter id="" name="buf" type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="od9a65f23ca02477297ed1cbba978c86a885" name="encode_float" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="value" type="float" type-id="float" default-value="" />
+                  <parameter id="" name="buf" type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o87fb73942c814eb1853cd63a59e6a738301" name="encode_double" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="value" type="double" type-id="double" default-value="" />
+                  <parameter id="" name="buf" type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o6ef4396da9994d3cbe81619b3882e99893" name="decode_int" type="int" type-id="int" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="buf" type="const char *" type-id="const char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o315008bcdedd451590a3de7b60e4920c29" name="decode_uint" type="ui32" type-id="ui32" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="buf" type="const char *" type-id="const char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oeb06fd788a3a41ccb7e08f8edefa3bc1453" name="decode_float" type="float" type-id="float" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="buf" type="const char *" type-id="const char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o10e607cb9e884672b315c9414c7382bd781" name="decode_double" type="double" type-id="double" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="buf" type="const char *" type-id="const char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <template-parameters>
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_944890666765950508" cid="C029" type="class" name="MailboxEntry" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:39">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -359,7 +840,7 @@
               <source-codes />
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_469219995646016572" cid="C026" type="class" name="Connection" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:14">
+          <item id="ddip145228911438255645_357864772241957392" cid="C030" type="class" name="Mailbox" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:44">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -371,7 +852,7 @@
               <source-codes />
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_504753587735251360" cid="C027" type="class" name="Encodings" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:27">
+          <item id="ddip145228911438255645_764026050253057788" cid="C031" type="class" name="MessageBuilder" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:52">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -383,7 +864,7 @@
               <source-codes />
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_944890666765950508" cid="C029" type="class" name="MailboxEntry" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:39">
+          <item id="ddip145228911438255645_744520614823177400" cid="C032" type="class" name="Message" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:58">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -395,7 +876,7 @@
               <source-codes />
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_357864772241957392" cid="C030" type="class" name="Mailbox" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:44">
+          <item id="ddip145228911438255645_227469326479598693" cid="C033" type="class" name="Buffer" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:28">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -407,62 +888,406 @@
               <source-codes />
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_764026050253057788" cid="C031" type="class" name="MessageBuilder" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:52">
+          <item id="ddip145228911438255645_665079511175758980" cid="GNR003" type="generalization" name="" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:28">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
             <owned-items />
             <style class="default" />
-            <attributes />
-            <operations />
+          </item>
+          <item id="ddip145228911438255645_281003304319870308" cid="C034" type="class" name="Header" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:30">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <content>
+                  <p index="0">
+                    <t />
+                    <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                      <text>
+                        <solid-brush color="#FF000000" />
+                      </text>
+                    </style>
+                  </p>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes>
+              <attribute id="ab83fd082676146deb1873c58e97154cf822" name="uid" type="ui32" type-id="ui32" visibility="protected" abstract="false" virtual="false">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+              <attribute id="af2fc242c799d4cc5a58976febc3373a7165" name="destination" type="ui32" type-id="ui32" visibility="protected" abstract="false" virtual="false">
+                <stereotypes />
+              </attribute>
+              <attribute id="a0ca03b0ae3be437b9f63fe42f977c690206" name="command" type="ui32" type-id="ui32" visibility="protected" abstract="false" virtual="false">
+                <stereotypes />
+              </attribute>
+              <attribute id="a777a1d63d9ba45c899f2d4f5a0780b03874" name="length" type="ui32" type-id="ui32" visibility="protected" abstract="false" virtual="false">
+                <stereotypes />
+              </attribute>
+              <attribute id="a484dc533494a48b98de55d529d7e6582586" name="_uid" type="ui32" type-id="ui32" visibility="protected" abstract="false" virtual="false">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+              <attribute id="acfde017ca8a5418495d132c9e7081b22230" name="uid_offset" type="const ui32" type-id="const ui32" visibility="protected" abstract="false" virtual="false" default-value="0">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+              <attribute id="a91e573a2932a456bad6e79b2aaa080ca758" name="destination_offset" type="const ui32" type-id="const ui32" visibility="protected" abstract="false" virtual="false" default-value="4">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+              <attribute id="ad8e78d43b281493c937eb55faeca2a43830" name="command_offset" type="const ui32" type-id="const ui32" visibility="protected" abstract="false" virtual="false" default-value="8">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="od5240b92795247208e2cc9f842a6fe9e606" name="Header" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o953853f165d841c986025d49645556a9174" name="clear" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="of8051a713eab434584c7ffc34c72f8b8526" name="read_header" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="rad_header" type="const char *" type-id="const char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o65f5f7a9077840b0a94e2e9fda4bf3a2422" name="write_header" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="raw_header" type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oefb7b83844cf45a78647df8b7e30d07b254" name="getUid" type="ui32" type-id="ui32" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oe26f07b73a2c4ba994996e29fc75e236638" name="getDestination" type="ui32" type-id="ui32" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="of6b561b338ea49abb3859529ebacaf61462" name="getCommand" type="ui32" type-id="ui32" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o002fbe75fd174efebd1d689a46eff09e454" name="getLength" type="ui32" type-id="ui32" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o009ba3da55664d88a51438f4a04d1bec990" name="setUid" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="uid" type="ui32" type-id="ui32" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o756c1b02f5c848cd991b4ed69e6cd35d878" name="setDestination" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="destination" type="ui32" type-id="ui32" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oda9c113d60c9415faa9aac1132d25c38286" name="setCommand" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="command" type="ui32" type-id="ui32" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o2fbcb99baf684227a9bc6ba3a1cc11eb598" name="setLength" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="length" type="ui32" type-id="ui32" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
             <template-parameters>
-              <source-codes />
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
             </template-parameters>
           </item>
-          <item id="ddip145228911438255645_744520614823177400" cid="C032" type="class" name="Message" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:58">
-            <stereotypes />
-            <tagged-values />
-            <associated-diagrams />
-            <owned-items />
-            <style class="default" />
-            <attributes />
-            <operations />
-            <template-parameters>
-              <source-codes />
-            </template-parameters>
-          </item>
-          <item id="ddip145228911438255645_227469326479598693" cid="C033" type="class" name="Buffer" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:28">
-            <stereotypes />
-            <tagged-values />
-            <associated-diagrams />
-            <owned-items />
-            <style class="default" />
-            <attributes />
-            <operations />
-            <template-parameters>
-              <source-codes />
-            </template-parameters>
-          </item>
-          <item id="ddip145228911438255645_665079511175758980" cid="GNR003" type="generalization" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:28">
-            <stereotypes />
-            <tagged-values />
-            <associated-diagrams />
-            <owned-items />
-            <style class="default" />
-          </item>
-          <item id="ddip145228911438255645_281003304319870308" cid="C034" type="class" name="Header" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:30">
-            <stereotypes />
-            <tagged-values />
-            <associated-diagrams />
-            <owned-items />
-            <style class="default" />
-            <attributes />
-            <operations />
-            <template-parameters>
-              <source-codes />
-            </template-parameters>
-          </item>
-          <item id="ddip145228911438255645_741589669749952692" cid="GNR004" type="generalization" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:30">
+          <item id="ddip145228911438255645_741589669749952692" cid="GNR004" type="generalization" name="" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:30">
             <stereotypes />
             <tagged-values />
             <associated-diagrams />
@@ -476,58 +1301,58 @@
             <class />
           </item>
           <item id="ddip145228911438255645_399572778523732580" iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 14:56:34" order-index="1" type="entity">
-            <layout ax="107" ay="62" awidth="1252" aheight="700.5" x="107" y="62" width="1252" height="680" />
+            <layout ax="107" ay="-12" awidth="1252" aheight="700.5" x="107" y="-12" width="1252" height="680" />
           </item>
           <item id="ddip145228911438255645_370649432267574528" iid="005100293a05477dae99e28043401abd" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:43:11" order-index="3" type="entity">
-            <layout ax="473" ay="471" awidth="153" aheight="103" x="471" y="471" width="156" height="103" />
+            <layout ax="210" ay="576" awidth="215" aheight="100" x="213" y="650" width="215" height="100" />
             <class />
           </item>
           <item id="ddip145228911438255645_469219995646016572" iid="9a5fada04b344a20916b7f8d6c8ad302" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:14" order-index="4" type="entity">
-            <layout ax="1052" ay="187" awidth="258" aheight="149" x="1050" y="187" width="258" height="149" />
+            <layout ax="1024" ay="38" awidth="318" aheight="197" x="1026" y="112" width="318" height="197" />
             <class />
           </item>
           <item id="ddip145228911438255645_504753587735251360" iid="4bb620dbd0e74e8b9693992706021ce4" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:27" order-index="5" type="entity">
-            <layout ax="698" ay="415" awidth="169" aheight="139" x="696" y="415" width="169" height="139" />
+            <layout ax="616" ay="254" awidth="311" aheight="170" x="621" y="328" width="311" height="170" />
             <class />
           </item>
           <item id="ddip145228911438255645_944890666765950508" iid="138b87b00aea48abac7c2b704c4c6457" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:39" order-index="7" type="entity">
-            <layout ax="1080" ay="585" awidth="232" aheight="143" x="1078" y="585" width="232" height="143" />
+            <layout ax="1080" ay="511" awidth="232" aheight="143" x="1078" y="585" width="232" height="143" />
             <class />
           </item>
           <item id="ddip145228911438255645_357864772241957392" iid="16c7169bbfee46588447f6b505e0b59a" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:44" order-index="8" type="entity">
-            <layout ax="1057" ay="396" awidth="161" aheight="131" x="1055" y="396" width="161" height="131" />
+            <layout ax="1057" ay="322" awidth="161" aheight="131" x="1055" y="396" width="161" height="131" />
             <class />
           </item>
           <item id="ddip145228911438255645_764026050253057788" iid="be064a514adc43179613e8faa59a0e38" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:52" order-index="9" type="entity">
-            <layout ax="657" ay="608" awidth="194" aheight="98" x="655" y="608" width="194" height="98" />
+            <layout ax="657" ay="534" awidth="194" aheight="98" x="655" y="608" width="194" height="98" />
             <class />
           </item>
           <item id="ddip145228911438255645_744520614823177400" iid="cec392a6cb6a4e7c8470d90141b6738c" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:58" order-index="10" type="entity">
-            <layout ax="225" ay="316" awidth="234" aheight="111" x="223" y="316" width="234" height="111" />
+            <layout ax="212" ay="436" awidth="234" aheight="111" x="213" y="436" width="234" height="111" />
             <class />
           </item>
           <item id="ddip145228911438255645_227469326479598693" iid="c1761b37c7844c6b80a781fb2e324454" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:28" order-index="11" type="entity">
-            <layout ax="383" ay="115" awidth="203" aheight="119" x="381" y="115" width="203" height="119" />
+            <layout ax="434" ay="34" awidth="203" aheight="119" x="439" y="108" width="203" height="119" />
             <class />
           </item>
           <item id="ddip145228911438255645_665079511175758980" iid="283e6e9fee3a4859a1ac15889a6e0321" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:28" order-index="12" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="382" y1="316" x2="441" y2="234" start-border-pos="0.16790771484375" end-border-pos="0.57139125128685">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="358" y1="436" x2="504" y2="153" start-border-pos="0.156117137680706" end-border-pos="0.587825192606508">
               <points>
-                <point x="382" y="316" />
-                <point x="441" y="234" />
+                <point x="358" y="436" />
+                <point x="504" y="153" />
               </points>
             </layout>
             <relation from="ddip145228911438255645_744520614823177400" from-iid="cec392a6cb6a4e7c8470d90141b6738c" to="ddip145228911438255645_227469326479598693" to-iid="c1761b37c7844c6b80a781fb2e324454" />
           </item>
           <item id="ddip145228911438255645_281003304319870308" iid="7cb061d30d4249a9a5e092947e8a7351" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:30" order-index="13" type="entity">
-            <layout ax="148" ay="112" awidth="189" aheight="119" x="146" y="112" width="189" height="119" />
+            <layout ax="116" ay="27" awidth="299" aheight="370" x="118" y="101" width="299" height="370" />
             <class />
           </item>
           <item id="ddip145228911438255645_741589669749952692" iid="8491553e5ae340079c571332830315f9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:30" order-index="14" type="relation">
-            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="314" y1="316" x2="272" y2="231" start-border-pos="0.0950854700854701" end-border-pos="0.663359788359788">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="316" y1="436" x2="307" y2="397" start-border-pos="0.111538455017612" end-border-pos="0.660221571906355">
               <points>
-                <point x="314" y="316" />
-                <point x="272" y="231" />
+                <point x="316" y="436" />
+                <point x="307" y="397" />
               </points>
             </layout>
             <relation from="ddip145228911438255645_744520614823177400" from-iid="cec392a6cb6a4e7c8470d90141b6738c" to="ddip145228911438255645_281003304319870308" to-iid="7cb061d30d4249a9a5e092947e8a7351" />
