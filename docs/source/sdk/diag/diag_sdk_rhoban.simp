@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sim-project version="5.92" multi-file="no">
+  <meta>
+    <name>RhobanProject</name>
+    <authors>Me</authors>
+    <description>SDK CPP</description>
+  </meta>
+  <management>
+    <persons>
+      <person id="P47f87a407d9d44d9b74f9ba8dc87ef79">
+        <first-name />
+        <last-name />
+        <role />
+        <e-mail />
+        <phone-number />
+        <description />
+        <color>#00000000</color>
+      </person>
+    </persons>
+    <tasks />
+    <requirements />
+    <issues />
+    <to-dos />
+  </management>
+  <glossary />
+  <types>
+    <type-sets>
+      <type-set file="UmlTypes.xml" />
+    </type-sets>
+    <custom-types>
+      <type id="commandFunction *" name="commandFunction *" description="" />
+      <type id="void" name="void" description="" />
+      <type id="char *" name="char *" description="" />
+      <type id="Iner" name="Iner" description="" />
+      <type id="vector&lt;Command*&gt;" name="vector&lt;Command*&gt;" description="" />
+      <type id="Command *" name="Command *" description="" />
+    </custom-types>
+  </types>
+  <filters />
+  <items>
+    <item id="ddip145228911438255645_629969706234094467" cid="C023" type="class" name="Class23" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:00">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <attributes />
+      <operations />
+      <template-parameters>
+        <source-codes />
+      </template-parameters>
+    </item>
+    <item id="di827452061150610233" cid="CMT001" type="comment" name="Comment" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:14">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+      <comment />
+    </item>
+    <item id="di266580860972353587" cid="CN001" type="comment-connector" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:14">
+      <stereotypes />
+      <tagged-values />
+      <associated-diagrams />
+      <owned-items />
+      <style class="default" />
+    </item>
+  </items>
+  <models>
+    <model id="p920125992727323561" name="Model 1" type="model" namespace="" order-index="1">
+      <meta>
+        <authors>
+          <author />
+        </authors>
+        <description />
+        <creation-date>07/18/2012 11:00:19</creation-date>
+        <change-date>01/01/0001 00:00:00</change-date>
+        <revision-count>0</revision-count>
+        <version />
+      </meta>
+      <abstract-items />
+      <sub-models />
+      <diagram type="uml-class" id="p145228911438255645" name="ClassDiagram1" order-index="1" show-nullability="false">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author />
+          </authors>
+          <description />
+          <creation-date>07/18/2012 11:00:19</creation-date>
+          <change-date>07/18/2012 16:48:54</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="ddip145228911438255645_209946536768647177" cid="C021" type="class" name="Command" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:18:44">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <content>
+                  <paragraph line-spacing="1">
+                    <p index="0">
+                      <t />
+                      <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                        <text>
+                          <solid-brush color="#FF000000" />
+                        </text>
+                      </style>
+                    </p>
+                  </paragraph>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes>
+              <attribute id="a3b3a5231a19c47879020cc651f2394ff451" name="name" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false">
+                <stereotypes />
+              </attribute>
+              <attribute id="acd34e1ca6274476ebcf3238f3d553de2877" name="description" type="String" type-id="Uml.String" visibility="public" abstract="false" virtual="false">
+                <stereotypes />
+              </attribute>
+              <attribute id="adac961b639614a8b8032fe1d90510f0e52" name="commands" type="vector&lt;Command*&gt;" type-id="vector&lt;Command*&gt;" visibility="public" abstract="false" virtual="false">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+              <attribute id="a4a5df75cd52a4d0081af14e965e10d25724" name="function" type="commandFunction *" type-id="commandFunction *" visibility="private" abstract="false" virtual="false">
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="o5aa9a105bd464a04ad5e3f87e138603f619" name="Command" type="" type-id="" visibility="public" abstract="false" virtual="false" static="false">
+                <parameters>
+                  <parameter id="" name="name" type="String" type-id="Uml.String" default-value="" />
+                  <parameter id="" name="description" type="String" type-id="Uml.String" default-value="" />
+                  <parameter id="" name="_function" type="commandFunction *" type-id="commandFunction *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oc1eae30bda934105bbcaa536350a1386916" name="execute" type="void" type-id="void" visibility="public" abstract="false" virtual="true" static="false">
+                <parameters>
+                  <parameter id="" name="argc" type="Integer" type-id="Uml.Integer" default-value="" />
+                  <parameter id="" name="agrv[]" type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="offd19fcd89b644e39d1ff07f7118c641196" name="registerCommand" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="command" type="Command *" type-id="Command *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o17f5817566a24251969fbd1cb7f64001708" name="help" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters />
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <content>
+                      <p index="0">
+                        <t />
+                        <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                          <text>
+                            <solid-brush color="#FF000000" />
+                          </text>
+                        </style>
+                      </p>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o0136b336a8f34a748be1eb94fdc1aaeb428" name="resolve" type="void" type-id="void" visibility="public" abstract="false" virtual="false" static="true">
+                <parameters>
+                  <parameter id="" name="argc" type="Integer" type-id="Uml.Integer" default-value="" />
+                  <parameter id="" name="argv[]" type="char *" type-id="char *" default-value="" />
+                </parameters>
+                <stereotypes />
+                <documentation>
+                  <text>
+                    <definition>
+                      <sections>
+                        <section name="">
+                          <header>
+                            <text>
+                              <content>
+                                <p index="0">
+                                  <t />
+                                  <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                                    <text>
+                                      <solid-brush color="#FF000000" />
+                                    </text>
+                                  </style>
+                                </p>
+                              </content>
+                            </text>
+                          </header>
+                          <footer>
+                            <text>
+                              <content>
+                                <p index="0">
+                                  <t />
+                                  <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                                    <text>
+                                      <solid-brush color="#FF000000" />
+                                    </text>
+                                  </style>
+                                </p>
+                              </content>
+                            </text>
+                          </footer>
+                          <default-page>
+                            <page size="21,29.7" header-offset="15" footer-offset="15" unit="mm">
+                              <margins left="20" right="20" top="20" bottom="20" />
+                            </page>
+                          </default-page>
+                        </section>
+                      </sections>
+                      <pages />
+                    </definition>
+                    <content>
+                      <paragraph line-spacing="1">
+                        <p index="0">
+                          <t />
+                          <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                            <text>
+                              <solid-brush color="#FF000000" />
+                            </text>
+                          </style>
+                        </p>
+                      </paragraph>
+                    </content>
+                  </text>
+                </documentation>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <template-parameters>
+              <source-codes>
+                <source-code language="ActionScript" />
+              </source-codes>
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_789759985862141429" cid="GNR002" type="generalization" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 11:20:00">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+          </item>
+          <item id="ddip145228911438255645_399572778523732580" cid="PKG002" type="package" name="Rhoban &gt; Communication" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 14:56:34">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <nestedItems />
+          </item>
+          <item id="ddip145228911438255645_370649432267574528" cid="C025" type="class" name="CommandsStore" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:43:11">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_469219995646016572" cid="C026" type="class" name="Connection" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:14">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_504753587735251360" cid="C027" type="class" name="Encodings" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:27">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_944890666765950508" cid="C029" type="class" name="MailboxEntry" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:39">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_357864772241957392" cid="C030" type="class" name="Mailbox" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:44">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_764026050253057788" cid="C031" type="class" name="MessageBuilder" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:52">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_744520614823177400" cid="C032" type="class" name="Message" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:46:58">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_227469326479598693" cid="C033" type="class" name="Buffer" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:28">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_665079511175758980" cid="GNR003" type="generalization" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:28">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+          </item>
+          <item id="ddip145228911438255645_281003304319870308" cid="C034" type="class" name="Header" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:30">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <attributes />
+            <operations />
+            <template-parameters>
+              <source-codes />
+            </template-parameters>
+          </item>
+          <item id="ddip145228911438255645_741589669749952692" cid="GNR004" type="generalization" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="07/18/2012 16:48:30">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+          </item>
+        </abstract-items>
+        <layer name="Default" visible="true" enabled="true" locked="false">
+          <item id="ddip145228911438255645_209946536768647177" iid="97474e0f47a043a1bafbdd0383e527da" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 11:18:44" order-index="0" type="entity">
+            <layout ax="1698" ay="735" awidth="317" aheight="195" x="1698" y="735" width="317" height="195" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_399572778523732580" iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 14:56:34" order-index="1" type="entity">
+            <layout ax="107" ay="62" awidth="1252" aheight="700.5" x="107" y="62" width="1252" height="680" />
+          </item>
+          <item id="ddip145228911438255645_370649432267574528" iid="005100293a05477dae99e28043401abd" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:43:11" order-index="3" type="entity">
+            <layout ax="473" ay="471" awidth="153" aheight="103" x="471" y="471" width="156" height="103" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_469219995646016572" iid="9a5fada04b344a20916b7f8d6c8ad302" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:14" order-index="4" type="entity">
+            <layout ax="1052" ay="187" awidth="258" aheight="149" x="1050" y="187" width="258" height="149" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_504753587735251360" iid="4bb620dbd0e74e8b9693992706021ce4" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:27" order-index="5" type="entity">
+            <layout ax="698" ay="415" awidth="169" aheight="139" x="696" y="415" width="169" height="139" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_944890666765950508" iid="138b87b00aea48abac7c2b704c4c6457" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:39" order-index="7" type="entity">
+            <layout ax="1080" ay="585" awidth="232" aheight="143" x="1078" y="585" width="232" height="143" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_357864772241957392" iid="16c7169bbfee46588447f6b505e0b59a" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:44" order-index="8" type="entity">
+            <layout ax="1057" ay="396" awidth="161" aheight="131" x="1055" y="396" width="161" height="131" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_764026050253057788" iid="be064a514adc43179613e8faa59a0e38" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:52" order-index="9" type="entity">
+            <layout ax="657" ay="608" awidth="194" aheight="98" x="655" y="608" width="194" height="98" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_744520614823177400" iid="cec392a6cb6a4e7c8470d90141b6738c" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:46:58" order-index="10" type="entity">
+            <layout ax="225" ay="316" awidth="234" aheight="111" x="223" y="316" width="234" height="111" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_227469326479598693" iid="c1761b37c7844c6b80a781fb2e324454" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:28" order-index="11" type="entity">
+            <layout ax="383" ay="115" awidth="203" aheight="119" x="381" y="115" width="203" height="119" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_665079511175758980" iid="283e6e9fee3a4859a1ac15889a6e0321" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:28" order-index="12" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="382" y1="316" x2="441" y2="234" start-border-pos="0.16790771484375" end-border-pos="0.57139125128685">
+              <points>
+                <point x="382" y="316" />
+                <point x="441" y="234" />
+              </points>
+            </layout>
+            <relation from="ddip145228911438255645_744520614823177400" from-iid="cec392a6cb6a4e7c8470d90141b6738c" to="ddip145228911438255645_227469326479598693" to-iid="c1761b37c7844c6b80a781fb2e324454" />
+          </item>
+          <item id="ddip145228911438255645_281003304319870308" iid="7cb061d30d4249a9a5e092947e8a7351" container="ddip145228911438255645_399572778523732580" container-iid="0d346e4483db40098883a417ae8096e9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:30" order-index="13" type="entity">
+            <layout ax="148" ay="112" awidth="189" aheight="119" x="146" y="112" width="189" height="119" />
+            <class />
+          </item>
+          <item id="ddip145228911438255645_741589669749952692" iid="8491553e5ae340079c571332830315f9" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="07/18/2012 16:48:30" order-index="14" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="314" y1="316" x2="272" y2="231" start-border-pos="0.0950854700854701" end-border-pos="0.663359788359788">
+              <points>
+                <point x="314" y="316" />
+                <point x="272" y="231" />
+              </points>
+            </layout>
+            <relation from="ddip145228911438255645_744520614823177400" from-iid="cec392a6cb6a4e7c8470d90141b6738c" to="ddip145228911438255645_281003304319870308" to-iid="7cb061d30d4249a9a5e092947e8a7351" />
+          </item>
+        </layer>
+      </diagram>
+    </model>
+  </models>
+  <documents />
+  <document-templates />
+</sim-project>
