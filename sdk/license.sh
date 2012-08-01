@@ -18,7 +18,8 @@ function process
 }
 
 # Process all the .cpp and .h
-for file in `find . -name "*.cpp" -or -name "*.h" -exec echo {} \;`; do
+for file in `find . \( -name "*.cpp" -o -name "*.h" \) -exec echo {} \;`; do
+    echo "Processing $file"
     process $file
 done
 
