@@ -1,3 +1,12 @@
+/*************************************************
+ * Publicly released by Rhoban System, August 2012
+ *             www.rhoban-system.fr
+ *
+ * Freely usable for non-commercial purposes
+ *
+ * Licence Creative Commons *CC BY-NC-SA
+ * http://creativecommons.org/licenses/by-nc-sa/3.0
+ *************************************************/
 /*
  * encodings.h
  *
@@ -32,6 +41,7 @@ namespace Rhoban{
     static ui32 decode_uint(const char * buf);
     static int decode_int(const char * buf);
     static float decode_float(const char * buf);
+    static double decode_double(const char * buf);
   };
 }
 

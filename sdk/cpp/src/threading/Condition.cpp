@@ -38,15 +38,11 @@ int Condition::wait(Mutex *mutex, unsigned int timeout = 0)
     time.tv_nsec -= 1000000000L;
   }
 
-  mutex->lock();
-
   if (timeout > 0) {
     ret = pthread_cond_timedwait(&condition, &mutex->_mutex, &time);
   } else {
     ret = pthread_cond_wait(&condition, &mutex->_mutex);
   }
-
-  mutex->unlock();
 
   if (ret == ETIMEDOUT) {
     return 0;

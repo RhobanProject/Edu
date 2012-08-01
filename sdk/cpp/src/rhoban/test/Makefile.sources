@@ -1,1 +1,2 @@
-SOURCES := TestCommunication.cpp
+SOURCES := TestCommunication.cpp TestMailbox.cpp
+

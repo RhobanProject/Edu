@@ -1,3 +1,12 @@
+/*************************************************
+ * Publicly released by Rhoban System, August 2012
+ *             www.rhoban-system.fr
+ *
+ * Freely usable for non-commercial purposes
+ *
+ * Licence Creative Commons *CC BY-NC-SA
+ * http://creativecommons.org/licenses/by-nc-sa/3.0
+ *************************************************/
 #include <cstdio>
 #include <main/Command.h>
 #include <tests/TestCase.h>
@@ -19,7 +28,7 @@ class TestMessage : public TestCase
             Message msg;
             msg.clear();
 
-            assertEquals((int)msg.size, (int)MSG_HEADER_SIZE);
+            assertEquals((int)msg.getSize(), (int)MSG_HEADER_SIZE);
         }
 
         /**
@@ -34,10 +43,10 @@ class TestMessage : public TestCase
                 0x00, 0x00, 0x03, 0xf3};
 
             msg.clear();
-            msg.uid = 123;
-            msg.destination = 456;
-            msg.command = 789;
-            msg.size = 1011 + MSG_HEADER_SIZE;
+            msg.setUid(123);
+            msg.setDestination(456);
+            msg.setCommand(789);
+            msg.setSize(1011 + MSG_HEADER_SIZE);
 
             assertEqualsSize(msg.getRaw(), header, 13);//sizeof(header));
         }
@@ -60,7 +69,7 @@ class TestMessage : public TestCase
             msg.append("Hello");
             raw = msg.getRaw();
 
-            assertEquals(msg.length, 13);
+            assertEquals(msg.getLength(), 13);
             assertEqualsSize(raw+MSG_HEADER_SIZE, contents, sizeof(contents));
         }
 
@@ -80,12 +89,12 @@ class TestMessage : public TestCase
             };
 
             Message msg(sizeof(contents), contents);
-            msg.read_header(msg.buffer);
+            msg.read_header(msg.getBuffer());
             
-            assertEquals(msg.uid, 123);
-            assertEquals(msg.destination, 3);
-            assertEquals(msg.command, 2);
-            assertEquals(msg.length, 9);
+            assertEquals(msg.getUid(), 123);
+            assertEquals(msg.getDestination(), 3);
+            assertEquals(msg.getCommand(), 2);
+            assertEquals(msg.getLength(), 9);
             assertEquals(msg.read_int(), 1);
             assertEquals(msg.read_string(), "Hello");
         }
@@ -118,9 +127,9 @@ class TestMessage : public TestCase
         {
             Message msg1, msg2, msg3;
 
-            assertNotEquals((int)msg1.uid, (int)msg2.uid);
-            assertNotEquals((int)msg1.uid, (int)msg3.uid);
-            assertNotEquals((int)msg2.uid, (int)msg3.uid);
+            assertNotEquals((int)msg1.getUid(), (int)msg2.getUid());
+            assertNotEquals((int)msg1.getUid(), (int)msg3.getUid());
+            assertNotEquals((int)msg2.getUid(), (int)msg3.getUid());
         }
 
     protected:

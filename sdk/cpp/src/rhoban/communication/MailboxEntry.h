@@ -1,3 +1,12 @@
+/*************************************************
+ * Publicly released by Rhoban System, August 2012
+ *             www.rhoban-system.fr
+ *
+ * Freely usable for non-commercial purposes
+ *
+ * Licence Creative Commons *CC BY-NC-SA
+ * http://creativecommons.org/licenses/by-nc-sa/3.0
+ *************************************************/
 #ifndef MAILBOX_ENTRY_H
 #define MAILBOX_ENTRY_H
 
@@ -21,7 +30,7 @@ namespace Rhoban
     MailboxEntry(ui32 uid, Condition *condition);
     MailboxEntry(ui32 uid, sendCallback *callback);
     ~MailboxEntry();
-    void wait(int timeout);
+    void wait(int timeout, Mutex *mutex);
     int isWaiting();
     int isCallback();
     void executeCallback(Message *message);

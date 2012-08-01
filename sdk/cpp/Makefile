@@ -1,6 +1,6 @@
 # Modules to be included
 MODULES := main sockets rhoban/communication sockets/demo rhoban/test tests \
-    rhoban/communication/tests threading
+    rhoban/communication/tests threading threading/demo tests/tests
 
 # Program output
 PROG := prog

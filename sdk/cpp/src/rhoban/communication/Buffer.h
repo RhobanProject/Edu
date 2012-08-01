@@ -1,3 +1,12 @@
+/*************************************************
+ * Publicly released by Rhoban System, August 2012
+ *             www.rhoban-system.fr
+ *
+ * Freely usable for non-commercial purposes
+ *
+ * Licence Creative Commons *CC BY-NC-SA
+ * http://creativecommons.org/licenses/by-nc-sa/3.0
+ *************************************************/
 /*
  * Buffer.h
  *
@@ -28,22 +37,6 @@ namespace Rhoban{
     Buffer();
 
     Buffer(char * buf, ui32 siz);
-
-    //place where the data is stored
-    //we do not use a string because
-    //strings are not compatible with system calls like writing from a socket
-    char *buffer;
-
-    //size of the data stored in the buffer
-    ui32 size;
-
-    //total length of the buffer, in bytes
-    ui32 buffer_size;
-
-    //remembers whether the char * was created by the buffer itself
-    //or came from elsewhere.
-    //in the first case on destroy the buffer will clean after itself
-    bool owned;
 
     void alloc(ui32 new_size);
 
@@ -103,13 +96,32 @@ namespace Rhoban{
     */
     vector<ui8> read_array(ui32 siz, ui32 offset);
 
+    ui32 getSize();
+    void setSize(ui32 size);
+    char *getBuffer();
+
   protected:
+    //place where the data is stored
+    //we do not use a string because
+    //strings are not compatible with system calls like writing from a socket
+    char *buffer;
+
+    //size of the data stored in the buffer
+    ui32 size;
+
+    //total length of the buffer, in bytes
+    ui32 buffer_size;
+
+    //remembers whether the char * was created by the buffer itself
+    //or came from elsewhere.
+    //in the first case on destroy the buffer will clean after itself
+    bool owned;
+
     /*!
      * append data to the buffer
      * a copy is performed
      */
     void append_to_buffer(const char * data, ui32 siz);
-
   };
 }
 #endif /* BUFFER_H_ */

@@ -19,4 +19,9 @@ namespace Rhoban
   {
     delete(builder);
   }
+
+  MessageBuilder *CommandsStore::getBuilder()
+  {
+    return builder;
+  }
 }

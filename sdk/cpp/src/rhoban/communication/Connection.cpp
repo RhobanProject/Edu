@@ -13,20 +13,21 @@ namespace Rhoban
 
   void Connection::sendMessage(Message *message)
   {
-    transmit(message->getRaw(), message->size);
+    transmit(message->getRaw(), message->getSize());
+    delete(message);
   }
   
   Message* Connection::getMessage() 
   {
     Message* message = new Message;
-
+    
     try {
       getMessage(message);
     } catch (string e) {
-        delete message;
-        throw e;
+      delete message;
+      throw e;
     }
-
+    
     return message;
   }  
 
@@ -34,29 +35,42 @@ namespace Rhoban
   {
     message->clear();
 
-    receiveAll(message->buffer, MSG_HEADER_SIZE);
-    message->read_header(message->buffer);
+    receiveAll(message->getBuffer(), MSG_HEADER_SIZE);
+    message->read_header(message->getBuffer());
 
-    message->alloc(message->length + MSG_HEADER_SIZE);
-    message->size = message->length + MSG_HEADER_SIZE;
-    receiveAll(message->buffer + MSG_HEADER_SIZE, message->length);
+    message->alloc(message->getLength() + MSG_HEADER_SIZE);
+    message->setSize(message->getLength() + MSG_HEADER_SIZE);
+    receiveAll(message->getBuffer() + MSG_HEADER_SIZE, message->getLength());
 
     return message;
   }
   
-  Message *Connection::sendMessangeRecieve(Message *message, int timeout)
+  Message * Connection::sendMessageRecieve(Message *message, int timeout)
   {
     Message * retval;
-    mailbox.addEntry(new MailboxEntry(message->uid, new Condition));
+    ui32 uid = message->getUid();
+    
+    Condition condition;
+    
+    mailbox.addEntry(new MailboxEntry(uid, &condition));
+
+    mailbox.lock();
     sendMessage(message);
-    mailbox.wait(message->uid, timeout);
-    retval = mailbox.getResponse(message->uid);
+    mailbox.wait(uid, timeout);
+    retval = mailbox.getResponse(uid);
     return retval;
   }
   
   void Connection::sendMessageCallback(Message *message, sendCallback *callback)
   {
-    mailbox.addEntry(new MailboxEntry(message->uid, callback));
+    MailboxEntry *entry = new MailboxEntry(message->getUid(), callback);
+    mailbox.addEntry(entry);
     sendMessage(message);
+    delete(entry);
+  }
+
+  void Connection::startMailbox()
+  {
+    mailbox.start(NULL);
   }
 }
