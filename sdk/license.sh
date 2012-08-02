@@ -1,7 +1,7 @@
 #!/bin/bash
 
 tmpfile=`tempfile`
-license=license.txt
+license=`echo $0|sed -s 's/\.sh/\.txt/g'`
 test_presence="creativecommons"
 
 # Process a file
