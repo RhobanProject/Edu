@@ -3,6 +3,7 @@
 tmpfile=`tempfile`
 license=`echo $0|sed -s 's/\.sh/\.txt/g'`
 test_presence="creativecommons"
+test_other="sourceforge"
 
 # Process a file
 function process
@@ -10,10 +11,14 @@ function process
     grep -q $test_presence $1
 
     if [ ! $? -eq 0 ]; then
-        cat $license > $tmpfile
-        cat $1 >> $tmpfile
-        echo "* Adding license to $1..."
-        mv $tmpfile $1
+        grep -q $test_other $1
+    
+        if [ ! $? -eq 0 ]; then
+            cat $license > $tmpfile
+            cat $1 >> $tmpfile
+            echo "* Adding license to $1..."
+            mv $tmpfile $1
+        fi
     fi
 }
 
