@@ -4,5 +4,3 @@ docs/build/
 sdk/python/rhoban/*.pyc
 sdk/python/rhoban/*/*.pyc
 sdk/python/sockets/*.pyc
-sdk/cpp/src/rhoban/communication/MessageBuilder.h
-sdk/cpp/src/rhoban/communication/MessageBuilder.cpp

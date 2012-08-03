@@ -19,9 +19,10 @@
 
 #include <string>
 #include <vector>
-#include <rhoban/types.h>
-#include "Message.h"
 
+#include <communication/types.h>
+
+#include "Message.h"
 
 namespace Rhoban
 {

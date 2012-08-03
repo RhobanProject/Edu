@@ -1,5 +1,5 @@
 /*************************************************
- * Publicly released by Rhoban System, August 2012
+* Publicly released by Rhoban System, August 2012
  *             www.rhoban-system.fr
  *
  * Freely usable for non-commercial purposes
@@ -14,7 +14,6 @@
  *
  * Toute modification pourra être perdue
  */
-#include <rhoban/types.h>
 #include "MessageBuilder.h"
 #include "Message.h"
 

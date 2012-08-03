@@ -1,6 +1,10 @@
 # Modules to be included
-MODULES := main sockets rhoban/communication sockets/demo rhoban/test tests \
-    rhoban/communication/tests threading threading/demo tests/tests
+MODULES := main \
+    utils/sockets utils/tests utils/threading utils utils/timing \
+    utils/xml utils/xml/TinyXml \
+    common/communication common/communication/tests
+
+INCLUDE_DIRS := utils common
 
 # Program output
 PROG := prog
@@ -15,7 +19,7 @@ SRC_DIR   := $(addprefix $(IN_DIR)/,$(MODULES))
 BUILD_DIR := $(addprefix $(OUT_DIR)/,$(MODULES))
 COMMON_DIR := ../common
 
-DEFS	  :=
+DEFS	  := -DNO_ALGEBRA
 LIBS	  := -lpthread -lm -lrt
 LIBS	  := -lpthread -lm -lrt
 OS	  := linux
@@ -26,7 +30,7 @@ endif
 
 SRC	  :=
 OBJ	  :=
-INCLUDES  := -I$(IN_DIR)/
+INCLUDES  := -I$(IN_DIR)/ $(addprefix -I$(IN_DIR)/,$(INCLUDE_DIRS))
 CFLAGS 	  := -O2 -Wall
 CLEANS	  :=
 PREPARE	  :=
@@ -38,7 +42,7 @@ fetch-sources = $(eval include $(IN_DIR)/$1/Makefile.sources); \
 
 $(foreach module,$(MODULES),$(call fetch-sources,$(module)))
 
-SUB_MAKEFILES := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/Makefile))
+SUB_MAKEFILES := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/Makefile.sdk))
 
 override CFLAGS += $(OPTIMIZE) $(DEFS)
 
