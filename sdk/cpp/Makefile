@@ -2,7 +2,7 @@
 MODULES := main \
     utils/sockets utils/tests utils/threading utils utils/timing \
     utils/xml utils/xml/TinyXml \
-    common/communication common/communication/tests
+    common/communication common/communication/tests common/config
 
 INCLUDE_DIRS := utils common
 
