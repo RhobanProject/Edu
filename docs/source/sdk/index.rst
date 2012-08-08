@@ -10,7 +10,7 @@ Documentation: SDK
     prise_en_main
     communication
 
-=======
+
 Les codes sources des SDK (Software Development Kit) Python et C++ sont récupérables dans la rubrique :ref:`telechargements`.
 
 Utilisation du SDK
@@ -55,7 +55,13 @@ Architecture du SDK
 Diagramme de classes
 --------------------
 
-Bla
+
+.. image:: diag/ClassDiagram1.png
+    :alt: Diagramme de Classe Communication
+    :scale: 65 %
+
+Réalisé avec `SoftwareIdeasModeler`.
+
 
 Description des modules
 -----------------------
@@ -63,14 +69,14 @@ Description des modules
 Bla
 
 La gestion du motion tracking
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Le logiciel Tracking Tools embarque un système de streaming des
 données via VRPN. La classe Tracker_Client a pour but de récupérer
 et traiter les données streamée.
 
 L'initialisation
-------------
+----------------
 
 *Tracker_Client(string name,string ip, int port, int cap)*
 
