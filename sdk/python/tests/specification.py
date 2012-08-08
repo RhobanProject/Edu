@@ -36,7 +36,7 @@ class TestSpecification(unittest.TestCase):
     def test_simple_pattern(self):
         pattern = self.paramsClass('ui32 float byte string')
 
-        argument = [1,1.0,'c','hello']
+        argument = [1, 1.0, 99, 'hello']
         data = '\x00\x00\x00\x01?\x80\x00\x00c\x00\x00\x00\x05hello'
 
         self.assertEquals(pattern.getData(*argument), data)
@@ -47,6 +47,15 @@ class TestSpecification(unittest.TestCase):
 
         argument = [[[1,2],[3,4]]]
         data = '\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00\x04'
+        
+        self.assertEquals(pattern.getData(*argument), data)
+        self.assertEquals(pattern.readData(data), argument)
+    
+    def test_bytes_pattern(self):
+        pattern = self.paramsClass('byte[]')
+
+        argument = [[1,2,3]]
+        data = '\x00\x00\x00\x03\x01\x02\x03'
         
         self.assertEquals(pattern.getData(*argument), data)
         self.assertEquals(pattern.readData(data), argument)

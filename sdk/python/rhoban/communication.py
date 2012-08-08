@@ -21,15 +21,16 @@ class CommandSpecification:
     Une connexion avec le serveur
 """
 class Connection(tcp.TCPClient):
-    def __init__(self, hostname, port):
+    def __init__(self):
         super(Connection, self).__init__()
+
+    def connectTo(self, hostname, port):
         self.waitHeader = True
         self.buffer = ''
         self.message = None
         self.length = 0
-        self.connectTo(hostname, port)
+        self.counter = 0
 
-    def connectTo(self, hostname, port):
         super(Connection, self).connectTo(hostname, port)
 
         if self.connected:
@@ -65,6 +66,10 @@ class Connection(tcp.TCPClient):
         entry = MailboxEntry(self.store.getSpecification(message))
         entry.callback = callback
         self.mailbox.entries[message.uid] = entry
+        self.counter = self.counter + 1
+
+        if self.counter % 300 == 0:
+            self.mailbox.garbageCollect()
 
         self.sendMessage(message)
 
@@ -123,7 +128,6 @@ class Connection(tcp.TCPClient):
                 message = self.store.builder.build(name, *args)
 
                 return self.sendMessageReceive(message)
-
         else:
             if name.endswith(callbackSuffix):
                 name = name[:-len(callbackSuffix)]
@@ -182,9 +186,10 @@ class Mailbox(threading.Thread):
                     entry.callback(entry.response)
                     del self.entries[uid]
 
-            for uid in self.entries:
-                if self.entries[uid].expires():
-                    del self.entries[uid]
+    def garbageCollect(self):
+        for uid in self.entries:
+            if self.entries[uid].expires():
+                del self.entries[uid]
 
 """
     Message à envoyer au serveur
@@ -315,14 +320,14 @@ class ParametersPattern:
 
     def getData(self, *args):
         if len(args) != len(self.patterns):
-            raise Exception('Arguments error')
+            raise Exception('Arguments error, found %s arguments where %s expected' % (len(args), len(self.patterns)))
 
         data = ''
 
         try:
             for (argument, pattern) in zip(args, self.patterns):
                 data += pattern.getData(argument)
-        except ValueError, TypeError:
+        except (ValueError, TypeError):
             raise TypeError('Bad arguments')
 
         return data
@@ -351,15 +356,19 @@ class ParameterPattern:
         'float': [float, 'f', 4],
         'ui32': [int, 'I', 4],
         'int': [int, 'i', 4],
-        'byte': [str, 's', 1],
+        'byte': [int, 'b', 1],
         'string': [str, 's', 1],
     }
 
-    def __init__(self, specification):
+    def __init__(self, specification, baseType = None):
         self.specification = specification.replace('string', 'byte[]')
         self.subPattern = None
-        self.baseType = specification.strip('[]')
         self.depth = 0
+        
+        if baseType == None:
+            self.baseType = specification.strip('[]')
+        else:
+            self.baseType = baseType
         
         if self.specification.endswith('[]'):
             tmp = self.specification
@@ -368,7 +377,7 @@ class ParameterPattern:
                 self.depth += 1
                 tmp = tmp[:-2]
 
-            self.subPattern = ParameterPattern(self.specification[:-2])
+            self.subPattern = ParameterPattern(self.specification[:-2], self.baseType)
 
     def cpp(self):
         depth = self.depth
@@ -400,6 +409,9 @@ class ParameterPattern:
                 return True
             except ValueError:
                  return False
+                    
+    def castType(self, argument):         
+        return self.typesMapping[self.baseType][0](argument)
 
     def getData(self, argument):
         data = ''
@@ -417,10 +429,10 @@ class ParameterPattern:
                 if type(argument) == list:
                     data += struct.pack(packFormat, *argument)
                 else:
-                    argument = self.typesMapping[self.baseType][0](argument)
+                    argument = self.castType(argument)
                     data += struct.pack(packFormat, argument)
             else:
-                argument = self.typesMapping[self.baseType][0](argument)
+                argument = self.castType(argument)
                 data += struct.pack('>' + self.typesMapping[self.baseType][1], argument)
 
         return data
@@ -435,7 +447,7 @@ class ParameterPattern:
                 size = length * self.typesMapping[self.baseType][2]
                 argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[:size]))
 
-                if self.specification == 'byte[]':
+                if self.specification == 'byte[]' and self.baseType == 'string':
                     argument = argument[0]
 
                 return (data[size:], argument)

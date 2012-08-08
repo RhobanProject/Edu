@@ -32,7 +32,7 @@ class TestPatterns(unittest.TestCase):
     def test_byte(self):
         spec = self.className('byte')
 
-        self.assertTrue(spec.check('x'))
+        self.assertTrue(spec.check(23))
         self.assertFalse(spec.check([]))
 
     def test_arrays(self):

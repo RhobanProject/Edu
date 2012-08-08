@@ -2,26 +2,27 @@
 # -*- coding: utf-8 -*-
 
 import sys, os, time
-import rhoban.communication as com
+import rhoban.robot as robot
 import sockets.tcp as tcp
 
 try:
-    filename = '../common/commands.xml'
-    store = com.CommandsStore()
-    store.parseXml(filename)
+    directory = os.getenv('HOME') + '/Rhoban/Environments/RobotBoard/Spider/'
+    lowLevelConfig = directory + 'ConfigFiles/LowLevelConfig.xml'
+    moveSchedulerConfig = directory + 'ConfigFiles/MoveSchedulerConfig.xml'
 
-    connection = com.Connection('localhost', 12345)
-    connection.setStore(store)
+    spider = robot.Robot()
+    spider.connect()
 
-    def func(x):
-        print '~~> '+x[0]
+    if spider.notLoaded():
+        spider.configs.loadLowLevelConfig(lowLevelConfig)
+        spider.configs.loadMoveSchedulerConfig(moveSchedulerConfig)
+        spider.scan()
 
-    response = connection.ServerEcho_callback('Hello world', func)
+    spider.allCompliant()
 
     time.sleep(10)
-    connection.stop()
+    spider.stop()
 
 except (Exception, KeyboardInterrupt, SystemExit):
-    connection.stop()
+    spider.stop()
     raise
-
