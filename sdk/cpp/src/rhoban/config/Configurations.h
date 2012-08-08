@@ -12,14 +12,24 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <string>
+#include <communication/Connection.h>
 
 using namespace std;
 
 namespace Rhoban
 {
-
-
-
+  class Configurations
+  {
+  public:
+    Configurations();
+    ~Configurations();
+    void load(string fileName);
+    Connection *getConnection();
+    void setConnection(Connection *connection);
+  protected:
+    Connection *connection;
+  };
 }
 
 #endif // CONFIGURATIONS_H_

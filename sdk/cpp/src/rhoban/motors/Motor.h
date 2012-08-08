@@ -17,9 +17,19 @@ using namespace std;
 
 namespace Rhoban
 {
-
-
-
+  class Motor
+  {
+  public:
+    Motor(int defaultAngle);
+    ~Motor();
+    void setDefaultAngle(int angle);
+    int getDefaultAngle();
+    void setGoalAngle(int angle);
+    int getGoalAngle();
+  protected:
+    int defaultAngle;
+    int goalAngle;
+  };
 }
 
 #endif // MOTOR_H_

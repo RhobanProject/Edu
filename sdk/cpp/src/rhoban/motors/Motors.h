@@ -12,14 +12,32 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <map>
+#include <string>
+#include <threading/Thread.h>
+#include <communication/Connection.h>
+#include <rhoban/robot/Robot.h>
+#include "Motor.h"
 
 using namespace std;
 
 namespace Rhoban
 {
-
-
-
+  class Motors : public Thread
+  {
+  public:
+    Motors(Connection *connection);
+    ~Motors();
+    void startDispatcher(int frequency);
+    void setConnection(Connection *connection);
+    Connection * getConnection();
+    void addMotor(string name, Motor *motor);
+    Motor * getMotor(string name);
+    void removeMotor(string name);
+  protected:
+    map<string, Motor *> motorlist;
+    Connection *connection;
+  };
 }
 
 #endif // MOTORS_H_
