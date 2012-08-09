@@ -43,7 +43,7 @@ foreach(DIRECTORY common utils)
 endforeach(DIRECTORY)
 
 set(ALL_SOURCES ${RHOBAN_SOURCES})
-set(EXE_SOURCES ${SOURCES} ${ALL_SOURCES} ${MAIN_SOURCES})
+set(EXE_SOURCES ${ALL_SOURCES} ${MAIN_SOURCES})
 
 if(TESTS)
     set(EXE_SOURCES ${EXE_SOURCES} ${TESTS_SOURCES} ${COMMANDS_SOURCES})
@@ -51,4 +51,7 @@ endif(TESTS)
 
 set(EXTRA_LIBS RhobanCommon RhobanUtils)
 add_executable(sdk ${EXE_SOURCES})
+add_library(RhobanSDK ${ALL_SOURCES})
 target_link_libraries(sdk ${EXTRA_LIBS})
+target_link_libraries(RhobanSDK ${EXTRA_LIBS})
+
