@@ -4,6 +4,7 @@
 import sys, os, re, threading, time
 import configurations as config
 import communication as com
+import motors as motors
 
 class Robot(object):
     def __init__(self):
@@ -13,7 +14,8 @@ class Robot(object):
         self.connection = com.Connection()
         self.connection.setStore(self.store)
 
-        self.configs = config.Configurations(self.connection)
+        self.motors = motors.Motors(self.connection)
+        self.configs = config.Configurations(self.connection, self.motors)
 
     def connect(self, hostname = 'localhost', port = 12345):
         self.connection.connectTo(hostname, port)
@@ -32,6 +34,7 @@ class Robot(object):
 
     def stop(self):
         self.connection.stop()
+        self.motors.stop()
 
     def initialize(self):
         self.connection.ServosInit()

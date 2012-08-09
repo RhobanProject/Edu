@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys, os, time
+import sys, os, time, math
 import rhoban.robot as robot
 import sockets.tcp as tcp
+
+spider = None
 
 try:
     directory = os.getenv('HOME') + '/Rhoban/Environments/RobotBoard/Spider/'
@@ -13,16 +15,25 @@ try:
     spider = robot.Robot()
     spider.connect()
 
-    if spider.notLoaded():
-        spider.configs.loadLowLevelConfig(lowLevelConfig)
-        spider.configs.loadMoveSchedulerConfig(moveSchedulerConfig)
-        spider.scan()
+    spider.configs.loadLowLevelConfig(lowLevelConfig)
+    spider.configs.loadMoveSchedulerConfig(moveSchedulerConfig)
 
+    spider.motors.start(50)
     spider.allCompliant()
 
-    time.sleep(10)
+    spider.motors.allHard()
+
+    t = 0
+    while True:
+        for name in spider.motors:
+            spider.motors[name].goalAngle = math.sin(t)*50
+        t = t+0.005
+        time.sleep(0.01)
+
     spider.stop()
 
 except (Exception, KeyboardInterrupt, SystemExit):
-    spider.stop()
+    if spider:
+        spider.allCompliant()
+        spider.stop()
     raise
