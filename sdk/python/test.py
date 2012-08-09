@@ -21,14 +21,15 @@ try:
     spider.motors.start(50)
     spider.allCompliant()
 
-    spider.motors.allHard()
+    spider.motors['ML1'].goalLoad = 1023
+    spider.motors['ML2'].goalLoad = 1023
+    spider.motors['ML3'].goalLoad = 1023
 
-    t = 0
     while True:
-        for name in spider.motors:
-            spider.motors[name].goalAngle = math.sin(t)*50
-        t = t+0.005
-        time.sleep(0.01)
+        if spider.motors['MR1'].currentAngle != None:
+            spider.motors['ML1'].goalAngle = -1*spider.motors['MR1'].currentAngle
+            spider.motors['ML2'].goalAngle = -1*spider.motors['MR2'].currentAngle
+            spider.motors['ML3'].goalAngle = -1*spider.motors['MR3'].currentAngle
 
     spider.stop()
 

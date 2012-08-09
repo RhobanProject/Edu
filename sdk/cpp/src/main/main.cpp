@@ -10,7 +10,6 @@
 #include <signal.h>
 #include <iostream>
 
-#include <config.h>
 //#include <motor/motor.h>
 #include <main/Command.h>
 

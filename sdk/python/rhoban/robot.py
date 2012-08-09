@@ -46,4 +46,4 @@ class Robot(object):
         print self.connection.ServosSetValues_response(1, [motorId], [0], [0], [0])
 
     def allCompliant(self):
-        self.connection.ServosAllCompliant()
+        self.motors.allCompliant()

@@ -8,5 +8,5 @@ if len(sys.argv) != 3:
     print 'Usage: generate.py <MessageBuilder.h> <MessageBuilder.cpp>'
     exit()
 
-filename = '../common/commands.xml'
+filename = os.path.dirname(__file__) + '/../common/commands.xml'
 generate_message_builder(filename, sys.argv[1], sys.argv[2])

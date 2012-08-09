@@ -45,6 +45,13 @@ class Motors(threading.Thread):
     def compilant(self, name):
         self.motors[name].goalLoad = 0
 
+    def allCompliant(self):
+        self.connection.ServosAllCompliant()
+
+        for name, motor in self.motors.items():
+            motor.goalLoad = 0
+
+
     def hard(self, name):
         self.motors[name].goalLoad = 1023
 

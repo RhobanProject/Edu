@@ -21,8 +21,7 @@
 #include <vector>
 
 #include <communication/types.h>
-
-#include "Message.h"
+#include <communication/Message.h>
 
 namespace Rhoban
 {
