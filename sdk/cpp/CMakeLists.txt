@@ -11,8 +11,8 @@ option(TESTS
 # Useful for getting common compiling
 set(UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
 
-set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../../python/generate.py")
-set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../../common/commands.xml")
+set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
+set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
 
 # Sources
 set(MAIN_SOURCES 
