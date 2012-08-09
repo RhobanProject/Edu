@@ -52,6 +52,8 @@ endif(TESTS)
 set(EXTRA_LIBS RhobanCommon RhobanUtils)
 add_executable(sdk ${EXE_SOURCES})
 add_library(RhobanSDK ${ALL_SOURCES})
+add_library(RhobanSDKMain ${EXE_SOURCES})
 target_link_libraries(sdk ${EXTRA_LIBS})
 target_link_libraries(RhobanSDK ${EXTRA_LIBS})
+target_link_libraries(RhobanSDKMain ${EXTRA_LIBS})
 

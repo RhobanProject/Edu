@@ -16,4 +16,4 @@ set(SOURCES
     )
 
 add_executable(Program ${SOURCES})
-target_link_libraries(Program RhobanSDK)
+target_link_libraries(Program RhobanSDKMain)
