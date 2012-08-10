@@ -35,6 +35,7 @@ try:
 
 except (Exception, KeyboardInterrupt, SystemExit):
     if spider:
-        spider.allCompliant()
+        if spider.isConnected():
+            spider.allCompliant()
         spider.stop()
     raise

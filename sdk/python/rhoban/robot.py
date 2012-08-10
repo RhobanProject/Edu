@@ -15,10 +15,13 @@ class Robot(object):
         self.connection.setStore(self.store)
 
         self.motors = motors.Motors(self.connection)
-        self.configs = config.Configurations(self.connection, self.motors)
+        self.configs = config.Configurations(self.connection)
 
     def connect(self, hostname = 'localhost', port = 12345):
         self.connection.connectTo(hostname, port)
+
+    def isConnected(self):
+        return self.connection.connected
 
     def testConnection(self):
         print 'Testing server version...'
@@ -31,6 +34,13 @@ class Robot(object):
 
         if response[0] == 'Hello world':
             print "\n"+'Connection test passed'
+
+    def loadLowLevelConfig(self, config):
+        self.configs.loadLowLevelConfig(config)
+
+    def loadMoveSchedulerConfig(self, config):
+        self.configs.loadMoveSchedulerConfig(config)
+        self.motors.setConfig(self.configs.moveSchedulerConfig)
 
     def stop(self):
         self.connection.stop()

@@ -39,17 +39,15 @@ class LowLevelConfig(Config):
     pass
 
 class Configurations(object):
-    def __init__(self, connection, motors):
+    def __init__(self, connection):
         self.connection = connection
         self.moveSchedulerConfig = None
         self.lowLevelConfig = None
-        self.motors = motors
 
     def loadMoveSchedulerConfig(self, config):
         self.moveSchedulerConfig = MoveSchedulerConfig(config)
         self.connection.SchedulerLoadConfig(self.moveSchedulerConfig.config)
         self.connection.ServosScan(240, 'Normal')
-        self.motors.setConfig(self.moveSchedulerConfig)
 
     def loadLowLevelConfig(self, config):
         self.lowLevelConfig = LowLevelConfig(config)
