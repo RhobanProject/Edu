@@ -8,11 +8,19 @@ option(SDK
 option(TESTS
     "Enable tests" OFF)
 
+option(ROBOARD
+    "Compile for ROBOARD" OFF)
+
 # Useful for getting common compiling
 set(UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
 
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
+
+if(ROBOARD)
+    set(CMAKE_CXX_FLAGS "-mtune=i586 -march=i586 -m32")
+    set(CMAKE_C_FLAGS "-mtune=i586 -march=i586 -m32")
+endif(ROBOARD)
 
 # Sources
 set(MAIN_SOURCES 
