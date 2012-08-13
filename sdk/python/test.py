@@ -15,21 +15,21 @@ try:
     spider = robot.Robot()
     spider.connect()
 
-    spider.configs.loadLowLevelConfig(lowLevelConfig)
-    spider.configs.loadMoveSchedulerConfig(moveSchedulerConfig)
+    spider.loadLowLevelConfig(lowLevelConfig)
+    spider.loadMoveSchedulerConfig(moveSchedulerConfig)
 
-    spider.motors.start(50)
+    spider.motors.start(30)
     spider.allCompliant()
 
-    spider.motors['ML1'].goalLoad = 1023
-    spider.motors['ML2'].goalLoad = 1023
-    spider.motors['ML3'].goalLoad = 1023
+    spider.motors['ML1'].setLoad(1023)
+    spider.motors['ML2'].setLoad(1023)
+    spider.motors['ML3'].setLoad(1023)
 
     while True:
         if spider.motors['MR1'].currentAngle != None:
-            spider.motors['ML1'].goalAngle = -1*spider.motors['MR1'].currentAngle
-            spider.motors['ML2'].goalAngle = -1*spider.motors['MR2'].currentAngle
-            spider.motors['ML3'].goalAngle = -1*spider.motors['MR3'].currentAngle
+            spider.motors['ML1'].setAngle(-1*spider.motors['MR1'].currentAngle)
+            spider.motors['ML2'].setAngle(-1*spider.motors['MR2'].currentAngle)
+            spider.motors['ML3'].setAngle(-1*spider.motors['MR3'].currentAngle)
 
     spider.stop()
 
