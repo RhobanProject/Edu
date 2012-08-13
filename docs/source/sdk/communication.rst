@@ -71,6 +71,8 @@ est arrivée, utilisez le nom de la commande concaténé à ``_response`` :
     response = robot.connection.ServerGetVersion_response()
 
     cout << "La version du serveur est : " << response.read_uint() << endl;
+    
+    delete response;
 
 .. code-block:: python
 

@@ -4,7 +4,7 @@
 Moteurs
 =======
 
-Le SDK met à votre disposition une API facile pour manipuler l'ensemble des moteurs
+Le SDK met à votre disposition une API simple pour manipuler l'ensemble des moteurs
 de votre robot.
 
 Avant de faire cela, vous devrez être :ref:`connecté <communication>` et avoir 
