@@ -124,3 +124,12 @@ class Motor:
     def setSpeed(self, speed):
         self.dirty = True
         self.goalSpeed = speed
+
+    def getAngle(self):
+        return self.currentAngle
+
+    def getSpeed(self):
+        return self.currentSpeed
+
+    def getLoad(self):
+        return self.currentLoad
