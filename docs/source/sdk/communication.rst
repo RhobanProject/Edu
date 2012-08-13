@@ -1,4 +1,5 @@
 
+.. _communication:
 
 Communication
 =============
@@ -35,6 +36,10 @@ utilisez la méthode ``connect`` :
 
 Envoyer un message
 ------------------
+
+.. note::
+    Dans la plupart des cas, vous n'aurez sans doute pas besoin d'utiliser l'envoi de message,
+    mais utiliserez des modules de plus haut niveau (cf :ref:`motors`, :ref:`moves` ...)
 
 Les messages qui peuvent être envoyés sont tous présents dans le magasin de commandes (``commands.xml``). Pour
 plus d'informations, réferez vous à la documentation du :ref:`protocol`.

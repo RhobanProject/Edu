@@ -10,6 +10,7 @@ Documentation: SDK
     prise_en_main
     commandes
     communication
+    configurations
     moteurs
     mouvements
 
