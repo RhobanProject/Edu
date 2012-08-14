@@ -43,6 +43,7 @@ set(COMMANDS_SOURCES
     )
 
 include_directories("${PROJECT_SOURCE_DIR}")
+include_directories("${PROJECT_SOURCE_DIR}/rhoban")
 
 # Adding common & utils
 foreach(DIRECTORY common utils)
