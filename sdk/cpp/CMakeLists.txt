@@ -48,6 +48,7 @@ include_directories("${PROJECT_SOURCE_DIR}")
 foreach(DIRECTORY common utils)
     add_subdirectory("${PROJECT_SOURCE_DIR}/${DIRECTORY}")
     include_directories("${PROJECT_SOURCE_DIR}/${DIRECTORY}")
+    include_directories("${PROJECT_BINARY_DIR}/${DIRECTORY}")
 endforeach(DIRECTORY)
 
 set(ALL_SOURCES ${RHOBAN_SOURCES})

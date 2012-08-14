@@ -4,11 +4,15 @@
 import sys, os, codecs
 import rhoban.communication as com
 
-def template_tag(filename, tag, contents):
+def template_tag(filename, tag, contents, out_dir):
     template = os.path.join(os.path.dirname(__file__), 'templates/', filename)
     template_contents = unicode(open(template, 'r').read(), 'utf8')
 
-    return template_contents.replace(tag, contents)
+    contents = template_contents.replace(tag, contents)
+    
+    outFile = codecs.open(os.path.join(out_dir, filename), 'w', 'utf-8')
+    outFile.write(contents)
+    outFile.close()
 
 def generate_method(specification):
     method = u''
@@ -29,9 +33,10 @@ def generate_method(specification):
 
     return method
 
-def generate_message_builder(filename, out_h, out_cpp):
-    store = com.CommandsStore()
-    store.parseXml(filename)
+"""
+    Generates the MessageBuilder class
+"""
+def generate_message_builder(store, out_dir):
     prototypes = u''
     methods = u''
 
@@ -57,14 +62,58 @@ def generate_message_builder(filename, out_h, out_cpp):
         methods += generate_method(specification)
         methods += "\n    }\n\n"
 
-    message_builder_h = template_tag('MessageBuilder.h', '<METHODS_PROTOTYPES>', prototypes)
-    message_builder_cpp = template_tag('MessageBuilder.cpp', '<METHODS>', methods)
+    template_tag('MessageBuilder.h', '<METHODS_PROTOTYPES>', prototypes, out_dir)
+    template_tag('MessageBuilder.cpp', '<METHODS>', methods, out_dir)
 
-    h = codecs.open(out_h, 'w', 'utf-8')
-    h .write(message_builder_h)
-    h.close()
+"""
+    Generates the connection class
+"""
+def generate_connection(store, out_dir):
+    prototypes = u''
+    methods = u''
 
-    cpp = codecs.open(out_cpp, 'w', 'utf-8')
-    cpp.write(message_builder_cpp)
-    cpp.close()
+    for name in store:
+        if not name:
+            continue
+
+        specification = store.get(name)
+        argumentNumber = 1
+        arguments = []
+        names = []
+
+        for argument in specification.parametersPattern:
+            arguments += [unicode(argument.cpp() + 'arg' + unicode(argumentNumber))]
+            names += ['arg' + unicode(argumentNumber)]
+            argumentNumber += 1
+
+        allArgumentNames = u', '.join(names)
+        allArguments = u', '.join(arguments)
+        allArgumentsCallback = u', '.join(arguments + ['sendCallback callback'])
+
+        # No answer
+        prototypes += u"                void {0}({1});\n".format(name, allArguments)
+        methods += u"           void Connection::{0}({1})\n".format(name, allArguments);
+        methods += u"           {\n"
+        methods += u"                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
+        methods += u"                   sendMessage(message);\n"
+        methods += u"           }\n\n"
+
+        # Direct answer
+        prototypes += u"                Message *{0}_response({1});\n".format(name, allArguments)
+        methods += u"           Message *Connection::{0}_response({1})\n".format(name, allArguments);
+        methods += u"           {\n"
+        methods += u"                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
+        methods += u"                   return sendMessageRecieve(message);\n"
+        methods += u"           }\n\n"
+
+        # Callback answer
+        prototypes += u"                void {0}_callback({1});\n".format(name, allArgumentsCallback)
+        methods += u"           void Connection::{0}_callback({1})\n".format(name, allArgumentsCallback);
+        methods += u"           {\n"
+        methods += u"                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
+        methods += u"                   sendMessageCallback(message, callback);\n"
+        methods += u"           }\n\n"
+
+    template_tag('Connection.h', '<METHODS_PROTOTYPES>', prototypes, out_dir)
+    template_tag('Connection.cpp', '<METHODS>', methods, out_dir)
 

@@ -16,17 +16,6 @@ Documentation: SDK
 
 Les codes sources des SDK (Software Development Kit) Python et C++ sont récupérables dans la rubrique :ref:`telechargements`.
 
-Utilisation du SDK
-~~~~~~~~~~~~~~~~~~
-
-Exécution du programme
-----------------------
-
-Bla
-
-Architecture du SDK
-~~~~~~~~~~~~~~~~~~~
-
 Diagramme de classes
 --------------------
 

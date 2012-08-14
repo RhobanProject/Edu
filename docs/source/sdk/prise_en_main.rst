@@ -21,6 +21,17 @@ Si vous êtes sous Ubuntu/Debian, vous pouvez obtenir les paquets nécéssaire �
 
 Si vous êtes sous Windows, vous devrez installer MinGW et MSYS, et éxécuter les commandes dans le "Shell MinGW"
 
+Obtenir les sources
+-------------------
+
+Il y a deux façons d'obtenir les sources, vous pouvez cloner le dépôt Git :
+
+.. code-block:: bash
+    
+    git clone https://github.com/RhobanProject/Edu.git
+
+Ou vous pouvez également vous rendre dans la rubrique :ref:`telechargements` pour obtenir une archive du SDK.
+
 Compilation des sources C++
 ---------------------------
 
@@ -43,6 +54,7 @@ Si vous êtes sous Windows, vous devrez forcer ``cmake`` à créer des `Makefile
 
 .. code-block:: bash
 
+    # Si vous êtes sous Windows
     cmake -G "MSYS Makefiles" chemin/vers/sdk/cpp
 
 Lancez alors la compilation à l'aide de la commande ``make``. La compilation produira trois fichiers :
