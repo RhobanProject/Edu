@@ -18,9 +18,9 @@ Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 Lancement du dispatcher
 -----------------------
 
-.. cpp:function: void Motors.start(int frequency)
+.. cpp:function:: void Motors.start(int frequency)
 
-.. py:function: Motors.start(frequency)
+.. py:function:: Motors.start(frequency)
 
 La fonction ``start`` lance un processus léger (thread) qui synchronisera à la fréquence
 ``frequency`` Hz la valeur des moteurs (lecture+écriture).
@@ -32,9 +32,9 @@ le nom des moteurs et leurs identifiants.
 Accéder à un moteur
 -------------------
 
-.. cpp:function: void Motors.operator[](string name)
+.. cpp:function:: void Motors.operator[](string name)
 
-.. py:function: Motors.__getitem__(name)
+.. py:function:: Motors.__getitem__(name)
 
 L'opérateur ``[]`` sur l'objet motors permet d'obtenir l'instance d'un moteur et d'intéragir
 avec ses valeurs (angle, charge, vitesse).
@@ -42,13 +42,13 @@ avec ses valeurs (angle, charge, vitesse).
 Lire les valeurs
 ~~~~~~~~~~~~~~~~
 
-.. cpp:function: double Motor.getAngle()
-.. cpp:function: double Motor.getLoad()
-.. cpp:function: double Motor.getSpeed()
+.. cpp:function:: double Motor.getAngle()
+.. cpp:function:: double Motor.getLoad()
+.. cpp:function:: double Motor.getSpeed()
 
-.. py:function: Motor.getAngle()
-.. py:function: Motor.getLoad()
-.. py:function: Motor.getSpeed()
+.. py:function:: Motor.getAngle()
+.. py:function:: Motor.getLoad()
+.. py:function:: Motor.getSpeed()
 
 Les accesseurs ``getAngle()``, ``getLoad()`` et ``getSpeed()`` permettent d'obtenir respectivement
 l'angle, la charge et la vitesse d'un moteur.
@@ -60,16 +60,18 @@ Ces valeurs sont lues depuis le moteur à la fréquence indiquée lors de l'appe
 Ecrire les valeurs
 ~~~~~~~~~~~~~~~~~~
 
-.. cpp:function: void Motor.setAngle(double angle)
-.. cpp:function: void Motor.setLoad(double load)
-.. cpp:function: void Motor.setSpeed(double speed)
+.. cpp:function:: void Motor.setAngle(double angle)
+.. cpp:function:: void Motor.setLoad(double load)
+.. cpp:function:: void Motor.setSpeed(double speed)
 
-.. py:function: Motor.setAngle(angle)
-.. py:function: Motor.setLoad(load)
-.. py:function: Motor.setSpeed(speed)
+.. py:function:: Motor.setAngle(angle)
+.. py:function:: Motor.setLoad(load)
+.. py:function:: Motor.setSpeed(speed)
 
 De même, les accesseurs ``setAngle()``, ``setLoad()`` et ``setSpeed()`` permettent de définir
 la valeur pour l'angle, la charge et la vitesse du moteur.
+
+Ces valeurs sont écrites sur les moteurs à la fréquence indiquée lors de l'appel à ``start()``.
 
 Exemples
 --------
