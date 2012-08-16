@@ -30,6 +30,7 @@ namespace Rhoban
     ~Motors();
     void startDispatcher(int frequency);
     void setConnection(Connection *connection);
+    void execute();
     Connection * getConnection();
     void addMotor(string name, Motor *motor);
     Motor * getMotor(string name);

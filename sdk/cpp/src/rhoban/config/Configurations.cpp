@@ -9,4 +9,37 @@
  *************************************************/
 #include <cstdlib>
 #include <cstdio>
+#include <string>
+#include <communication/Connection.h>
 #include "Configurations.h"
+
+using namespace std;
+
+namespace Rhoban
+{
+
+  Configurations::Configurations()
+  {
+
+  }
+
+  Configurations::~Configurations()
+  {
+
+  }
+
+  void Configurations::load(string fileName)
+  {
+
+  }
+
+  Connection *Configurations::getConnection()
+  {
+    return(new Connection);
+  }
+
+  void Configurations::setConnection(Connection *connection)
+  {
+
+  }
+}
