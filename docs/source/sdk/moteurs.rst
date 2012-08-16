@@ -8,10 +8,12 @@ Le SDK met à votre disposition une API simple pour manipuler l'ensemble des mot
 de votre robot.
 
 Avant de faire cela, vous devrez être :ref:`connecté <communication>` et avoir 
-chargé la :ref:`configuration <configurations>` de vos servos.
+chargé la :ref:`configuration <configurations>` de vos servomoteurs.
 
 Voici un exemple de code utilisant la couche moteur recopiant la valeur d'un servomoteur
-("Left") dans un autre ("Right")
+("Left") dans un autre ("Right").
+
+Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 
 C++
 ---

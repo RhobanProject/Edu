@@ -105,4 +105,13 @@ commande concaténé à ``_callback`` :
     robot.connection.ServerGetVersion_callback(processAnswer)
 
 
+Diagramme de classes
+--------------------
+
+
+.. image:: diag/ClassDiagram1.png
+    :alt: Diagramme de Classe Communication
+    :scale: 65 %
+
+Réalisé avec `SoftwareIdeasModeler`.
 
