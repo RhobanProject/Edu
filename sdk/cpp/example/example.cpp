@@ -7,29 +7,15 @@
  * Licence Creative Commons *CC BY-NC-SA
  * http://creativecommons.org/licenses/by-nc-sa/3.0
  *************************************************/
-#ifndef MOTOR_H_
-#define MOTOR_H_
-
-#include <cstdlib>
+#include <iostream>
 #include <cstdio>
+#include <cstdlib>
+#include <main/Command.h>
 
 using namespace std;
+using namespace Rhoban;
 
-namespace Rhoban
+COMMAND_DEFINE(example, "Example command")
 {
-  class Motor
-  {
-  public:
-    Motor(int defaultAngle);
-    ~Motor();
-    void setDefaultAngle(int angle);
-    int getDefaultAngle();
-    void setGoalAngle(int angle);
-    int getGoalAngle();
-  protected:
-    int defaultAngle;
-    int goalAngle;
-  };
+    cout << "Hello there!" << endl;
 }
-
-#endif // MOTOR_H_

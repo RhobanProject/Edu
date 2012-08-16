@@ -14,29 +14,25 @@
  *
  * Toute modification pourra être perdue
  */
-#ifndef _MESSAGE_BUILDER_H
-#define _MESSAGE_BUILDER_H
+#ifndef _CONNECTION_H
+#define _CONNECTION_H
 
 #include <string>
 #include <vector>
 
-#include <communication/types.h>
-#include <communication/Message.h>
+#include <communication/BaseConnection.h>
+
+using namespace Rhoban;
 
 namespace Rhoban
 {
-  class MessageBuilder
-  {
-  public:
-    MessageBuilder();
+    class Connection : public BaseConnection
+    {
+        public:
+            Connection();
 
-<METHODS_PROTOTYPES>
-
-    protected:
-    ui32 uid;
-
-    ui32 getUid();
-  };
+            <METHODS_PROTOTYPES>
+    };
 }
 
-#endif // _MESSAGE_BUILDER_H
+#endif // _CONNECTION_H

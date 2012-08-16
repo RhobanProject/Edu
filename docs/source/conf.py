@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+sys.path.append(os.path.dirname(__file__))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -81,7 +82,7 @@ exclude_patterns = []
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'trac'
+pygments_style = 'rhoban.style.RhobanStyle'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []

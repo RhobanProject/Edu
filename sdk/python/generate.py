@@ -1,12 +1,18 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import sys, os
-from rhoban.generate import generate_message_builder
+import rhoban.communication as com
+from rhoban.generate import generate_message_builder, generate_connection
 
-if len(sys.argv) != 3:
-    print 'Usage: generate.py <MessageBuilder.h> <MessageBuilder.cpp>'
+if len(sys.argv) != 2:
+    print 'Usage: generate.py <Output directory>'
     exit()
+    
 
-filename = '../common/commands.xml'
-generate_message_builder(filename, sys.argv[1], sys.argv[2])
+filename = os.path.dirname(__file__) + '/../common/commands.xml'
+store = com.CommandsStore()
+store.parseXml(filename)
+
+generate_message_builder(store, sys.argv[1])
+generate_connection(store, sys.argv[1])

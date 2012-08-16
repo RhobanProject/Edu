@@ -1,6 +1,6 @@
-[submodule "sdk/cpp/src/utils"]
-	path = sdk/cpp/src/utils
-	url = http://github.com/RhobanProject/Utils.git
-[submodule "sdk/cpp/src/common"]
-	path = sdk/cpp/src/common
+[submodule "sdk/cpp/common"]
+	path = sdk/cpp/common
 	url = http://github.com/RhobanProject/Common.git
+[submodule "sdk/cpp/utils"]
+	path = sdk/cpp/utils
+	url = http://github.com/RhobanProject/Utils.git

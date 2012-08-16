@@ -36,9 +36,13 @@ class Connection(tcp.TCPClient):
         if self.connected:
             self.mailbox = Mailbox(self)
             self.mailbox.start()
+        else:
+            raise Exception('Unable to connect to %s:%d' % (hostname, port))
 
     def stop(self):
-        self.close()
+        if self.connected:
+            self.close()
+        self.connected = False
 
     def close(self):
         super(Connection, self).close()

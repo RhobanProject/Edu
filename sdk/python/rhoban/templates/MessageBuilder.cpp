@@ -15,7 +15,6 @@
  * Toute modification pourra être perdue
  */
 #include "MessageBuilder.h"
-#include "Message.h"
 
 namespace Rhoban
 {
