@@ -15,8 +15,10 @@ Voici un exemple de code utilisant la couche moteur recopiant la valeur d'un ser
 
 Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 
-C++
----
+Exemples
+--------
+
+C++ :
 
 .. code-block:: cpp
 
@@ -35,8 +37,7 @@ C++
         usleep(50000);
     }
 
-Python
-------
+Python :
 
 .. code-block:: python
 

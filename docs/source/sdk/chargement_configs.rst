@@ -1,8 +1,8 @@
 
 .. _configurations:
 
-Configurations
-==============
+Chargement des configurations
+=============================
 
 Les configurations sont des fichiers au format *XML* permettant de décrire le système
 qui compose le robot utilisé.
