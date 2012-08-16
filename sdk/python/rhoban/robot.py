@@ -46,9 +46,6 @@ class Robot(object):
         self.connection.stop()
         self.motors.stop()
 
-    def initialize(self):
-        self.connection.ServosInit()
-
     def moveMotor(self, motorId, angle):
         print self.connection.ServosSetValues_response(1, [motorId], [angle], [1023], [1023])
     
