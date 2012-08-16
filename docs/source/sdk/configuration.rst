@@ -31,13 +31,16 @@ Voici un exemple de fichier Yaml :
 
     robots:
         spider:
-            host: 192.168.0.5
-            lowLevelConfig: /configs/spider/LowLevelConfig.xml
-            moveSchedulerConfig: /configs/spider/MoveSchedulerConfig.xml
+            host: 192.168.0.5 # Adresse de connexion
+            port: 89898 # Port (Si différent de 12345)
+            lowLevelConfig: /configs/spider/LowLevelConfig.xml # Configuration bas niveau
+            moveSchedulerConfig: /configs/spider/MoveSchedulerConfig.xml # Configuration mouvements
         
         humanoid:
             host: 192.168.0.12
-            port: 89898
+            moves:
+                directory: humanoidMoves # Dossier contenant les mouvements
+                load: ['Walk.xml', 'Standup.xml'] # Mouvements à charger
             lowLevelConfig: /configs/humanoid/LowLevelConfig.xml
             moveSchedulerConfig: /configs/humanoid/MoveSchedulerConfig.xml
 
@@ -53,6 +56,8 @@ Voici comment ce fichier pourrait être utilisé dans le code, en C++ :
     robots.loadYaml("config.yml");
     // Relâche les moteurs de l'arraignée
     robots["spider"].allCompliant();
+    // Lance le mouvement de marche
+    robots["humanoid"].startMove("Walk", 0, 1000)
     // Ferme toutes les connexions
     robots.stop();
 
@@ -65,5 +70,7 @@ Puis en Python :
     robots.loadYaml('config.yml')
     # Relâche les moteurs de l'arraignée
     robots['spider'].allCompliant()
+    # Lance le mouvement de marche
+    robots['humanoid'].startMove("'alk', 0, 1000)
     # Ferme toutes les connexions
     robots.stop()
