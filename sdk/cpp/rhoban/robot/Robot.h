@@ -30,7 +30,8 @@ namespace Rhoban
   public:
     Robot();
     ~Robot();
-    void connect(string adress);
+    void connect(string adress, int port);
+    int isConnected();
 
     void setMotors(Motors *motors);
     Motors* getMotors();

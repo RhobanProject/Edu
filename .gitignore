@@ -1,4 +1,5 @@
 docs/build/
+docs/source/rhoban/*.pyc
 
 sdk/cpp/build
 sdk/cpp/example/build

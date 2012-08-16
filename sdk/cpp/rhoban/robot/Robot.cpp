@@ -33,6 +33,11 @@ namespace Rhoban
 
   }
 
+  int Robot::isConnected()
+  {
+    return connection->isConnected();
+  }
+
   void Robot::setMotors(Motors *motors)
   {
 
@@ -40,7 +45,7 @@ namespace Rhoban
 
   Motors* Robot::getMotors()
   {
-    return new Motors(NULL);
+    return NULL;
   }
 
   void Robot::setConfigs(Configurations *configs)
@@ -50,7 +55,7 @@ namespace Rhoban
 
   Configurations *Robot::getConfigs()
   {
-    return new Configurations;
+    return NULL;
   }
 
   void Robot::setConnection(Connection *connection)
