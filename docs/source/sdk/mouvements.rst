@@ -16,18 +16,18 @@ Envoyer un mouvement
 Avant de pouvoir utiliser un mouvement, il faudra l'envoyer sur le serveur à l'aide de la
 méthode ``loadMove()``.
 
-.. cpp:function: void Robot::loadMove(string filename)
+.. cpp:function:: void Robot::loadMove(string filename)
 
-.. py:function: Robot.loadMove(filename)
+.. py:function:: Robot.loadMove(filename)
 
 Le contenu du fichier mouvement est alors envoyé sur le serveur qui le lit et le charge.
 
 Lancer un mouvement
 -------------------
 
-.. cpp:function: void Robot::startMove(string name, int duration = 0, int smooth = 500)
+.. cpp:function:: void Robot::startMove(string name, int duration = 0, int smooth = 500)
 
-.. py:function: Robot.startMove(name, duration = 0, smooth = 500)
+.. py:function:: Robot.startMove(name, duration = 0, smooth = 500)
 
 La méthode ``startMove`` permet de lancer un mouvement sur le serveur. Le mouvement sera
 automatiquement arrêté après ``duration`` millisecondes. La valeur de ``smooth`` permet
@@ -46,16 +46,16 @@ paramètrer le comportement du mouvement.
 
 Il est possible de les mettre à jour à l'aide des méthodes suivantes :
 
-.. cpp:function: void Robot::updateConstant(string moveName, string constantName, double value)
+.. cpp:function:: void Robot::updateConstant(string moveName, string constantName, double value)
 
-.. py:function: Robot.updateConstant(moveName, constantName, double value)
+.. py:function:: Robot.updateConstant(moveName, constantName, double value)
 
 Stopper un mouvement
 --------------------
 
-.. cpp:function: void Robot::stopMove(string name, int smooth = 500)
+.. cpp:function:: void Robot::stopMove(string name, int smooth = 500)
 
-.. py:function: Robot.stopMove(name, smooth = 500)
+.. py:function:: Robot.stopMove(name, smooth = 500)
 
 La méthode ``stopMove`` permet d'arrêter un mouvement. Le mouvement sera stoppé progressivement
 au cours de ``smooth`` millisecondes.
