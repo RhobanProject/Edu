@@ -5,11 +5,55 @@ import sys, os, re, threading, time
 import configurations as config
 import communication as com
 import motors as motors
+import yaml
 
-class Robot(object):
+"""
+    Représente un groupe de robots
+"""
+class Robots(object):
     def __init__(self):
+        self.robots = {}
+
+    def loadYaml(self, filename):
+        config = yaml.load(file(filename, 'r').read())
+        storeFileName = '../common/commands.xml'
+
+        if 'commands' in config:
+            storeFileName = config['commands']
+
+        for robotName, robotConfig in config['robots'].items():
+            robot = Robot(storeFileName)
+            self.robots[robotName] = robot
+            
+            if 'host' in robotConfig:
+                robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
+
+            if 'lowLevelConfig' in robotConfig:
+                robot.loadLowLevelConfig(robotConfig['lowLevelConfig'])
+
+            if 'moveSchedulerConfig' in robotConfig:
+                robot.loadMoveSchedulerConfig(robotConfig['moveSchedulerConfig'])
+
+    def stop(self):
+        for name, robot in self.robots.items():
+            robot.stop()
+
+    def __len__(self):
+        return len(self.robots)
+
+    def __iter__(self):
+        return iter(self.robots)
+
+    def __getitem__(self, name):
+        return self.robots[name]
+
+"""
+    Ensemble de fonctions et raccourcis pour communiquer avec un robot
+"""
+class Robot(object):
+    def __init__(self, storeFileName = '../common/commands.xml'):
         self.store = com.CommandsStore()
-        self.store.parseXml('../common/commands.xml')
+        self.store.parseXml(storeFileName)
 
         self.connection = com.Connection()
         self.connection.setStore(self.store)
@@ -45,9 +89,6 @@ class Robot(object):
     def stop(self):
         self.connection.stop()
         self.motors.stop()
-
-    def initialize(self):
-        self.connection.ServosInit()
 
     def moveMotor(self, motorId, angle):
         print self.connection.ServosSetValues_response(1, [motorId], [angle], [1023], [1023])

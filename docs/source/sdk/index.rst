@@ -10,7 +10,8 @@ Documentation: SDK
     prise_en_main
     commandes
     communication
-    configurations
+    chargement_configs
+    configuration
     moteurs
     mouvements
     motion_tracking

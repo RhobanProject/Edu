@@ -7,6 +7,26 @@ Commandes
 Les commandes sont présentes nativement dans le SDK vous permettent d'effectuer
 des actions et intéragir avec le serveur sans écrire de code.
 
+.. note::
+
+    Les commandes lieront le :ref:`fichier de configuration <configuration>` ``config.yml`` pour charger les robots.
+
+L'appel à une commande peut se faire de la manière suivante :
+
+.. code-block:: bash
+
+    ./sdk <commande> [robot robot2 ...]
+
+Par exemple:
+
+.. code-block:: bash
+
+    ./sdk compliant spider
+
+Pour relâcher les moteurs du robot définit par l'entée ``spider`` du :ref:`fichier de configuration <configuration>`.
+
+Si aucun robot n'est spécifié, tous les robots seront touchés par la commande.
+
 ``compliant``: Relâcher les servomoteurs
 ----------------------------------------
 
