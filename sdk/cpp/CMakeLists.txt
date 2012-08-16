@@ -12,7 +12,7 @@ option(ROBOARD
     "Compile for ROBOARD" OFF)
 
 # Useful for getting common compiling
-set(UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
+set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
 
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
@@ -25,6 +25,8 @@ set(MAIN_SOURCES
 
 set(RHOBAN_SOURCES
     rhoban/config/Configurations.cpp
+	rhoban/config/LowLevelConfig.cpp
+	rhoban/config/MoveSchedulerConfig.cpp
     rhoban/robot/Robot.cpp
     rhoban/motors/Motors.cpp
     rhoban/motors/Motor.cpp

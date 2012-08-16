@@ -7,8 +7,8 @@
  * Licence Creative Commons *CC BY-NC-SA
  * http://creativecommons.org/licenses/by-nc-sa/3.0
  *************************************************/
-#ifndef MOTOR_H_
-#define MOTOR_H_
+#ifndef LOWLEVELCONFIG_H
+#define LOWLEVELCONFIG_H
 
 #include <cstdlib>
 #include <cstdio>
@@ -17,21 +17,10 @@ using namespace std;
 
 namespace Rhoban
 {
-  class Motor
+  class LowLevelConfig
   {
-  public:
-    Motor(int defaultAngle);
-    ~Motor();
 
-    void setDefaultAngle(int angle);
-    int getDefaultAngle();
-    void setGoalAngle(int angle);
-    int getGoalAngle();
-
-  protected:
-    int defaultAngle;
-    int goalAngle;
   };
 }
 
-#endif // MOTOR_H_
+#endif // LOWLEVELCONFIG_H

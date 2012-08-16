@@ -16,7 +16,7 @@
 #include <string>
 #include <threading/Thread.h>
 #include <communication/Connection.h>
-
+#include <config/MoveSchedulerConfig.h>
 #include <robot/Robot.h>
 #include "Motor.h"
 
@@ -29,16 +29,21 @@ namespace Rhoban
   public:
     Motors(Connection *connection);
     ~Motors();
-    void startDispatcher(int frequency);
+    void start(int frequency);
     void execute();
+
     void setConnection(Connection *connection);
     Connection * getConnection();
     void addMotor(string name, Motor *motor);
-    Motor * getMotor(string name);
+    Motor *getMotor(string name);
     void removeMotor(string name);
+    void setConfig(MoveSchedulerConfig *config);
+    MoveSchedulerConfig *getConfig();
+
   protected:
     map<string, Motor *> motorlist;
     Connection *connection;
+    MoveSchedulerConfig *config;
   };
 }
 

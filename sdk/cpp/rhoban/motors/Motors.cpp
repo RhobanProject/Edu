@@ -13,7 +13,7 @@
 #include <string>
 #include <threading/Thread.h>
 #include <communication/Connection.h>
-#include <rhoban/robot/Robot.h>
+#include <robot/Robot.h>
 #include "Motor.h"
 #include "Motors.h"
 
@@ -31,7 +31,7 @@ namespace Rhoban
 
   }
 
-  void Motors::startDispatcher(int frequency)
+  void Motors::start(int frequency)
   {
 
   }
@@ -66,4 +66,13 @@ namespace Rhoban
 
   }
 
+  void Motors::setConfig(MoveSchedulerConfig *config)
+  {
+
+  }
+  
+  MoveSchedulerConfig *Motors::getConfig()
+  {
+    return NULL;
+  }
 }
