@@ -25,16 +25,21 @@ Voici un exemple de fichier Yaml :
 .. code-block:: yaml
 
     # config.yml
-    spider:
-        ip: 192.168.0.5
-        lowLevelConfig: /configs/spider/LowLevelConfig.xml
-        moveSchedulerConfig: /configs/spider/MoveSchedulerConfig.xml
-    
-    humanoid:
-        ip: 192.168.0.12
-        port: 89898
-        lowLevelConfig: /configs/humanoid/LowLevelConfig.xml
-        moveSchedulerConfig: /configs/humanoid/MoveSchedulerConfig.xml
+
+    # Seulement utile pour python
+    commands: /configs/commands.xml
+
+    robots:
+        spider:
+            host: 192.168.0.5
+            lowLevelConfig: /configs/spider/LowLevelConfig.xml
+            moveSchedulerConfig: /configs/spider/MoveSchedulerConfig.xml
+        
+        humanoid:
+            host: 192.168.0.12
+            port: 89898
+            lowLevelConfig: /configs/humanoid/LowLevelConfig.xml
+            moveSchedulerConfig: /configs/humanoid/MoveSchedulerConfig.xml
 
 Exemple d'utilisation
 ---------------------
