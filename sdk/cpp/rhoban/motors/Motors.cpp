@@ -48,7 +48,7 @@ namespace Rhoban
 
   Connection * Motors::getConnection()
   {
-    return new Connection;
+    return NULL;
   }
 
   void Motors::addMotor(string name, Motor *motor)

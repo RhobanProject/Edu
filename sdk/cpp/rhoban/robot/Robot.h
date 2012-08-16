@@ -25,26 +25,26 @@ using namespace std;
 
 namespace Rhoban
 {
-    class Robot
-    {
-        public:
-            Robot();
-            ~Robot();
-            void connect(string adress);
+  class Robot
+  {
+  public:
+    Robot();
+    ~Robot();
+    void connect(string adress);
 
-            void setMotors(Motors *motors);
-            Motors* getMotors();
+    void setMotors(Motors *motors);
+    Motors* getMotors();
 
-            void setConfigs(Configurations *configs);
-            Configurations *getConfigs();
+    void setConfigs(Configurations *configs);
+    Configurations *getConfigs();
 
-            void setConnection(Connection *connection);
-            Connection *getConnection();
-        protected:
-            Motors *motors;
-            Configurations *configs;
-            Connection *connection;
-    };
+    void setConnection(Connection *connection);
+    Connection *getConnection();
+  protected:
+    Motors *motors;
+    Configurations *configs;
+    Connection *connection;
+  };
 }
 
 #endif // ROBOT_H_

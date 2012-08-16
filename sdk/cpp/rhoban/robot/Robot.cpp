@@ -28,7 +28,7 @@ namespace Rhoban
 
   }
 
-  void Robot::connectTo(string adress)
+  void Robot::connect(string adress)
   {
 
   }
@@ -40,7 +40,7 @@ namespace Rhoban
 
   Motors* Robot::getMotors()
   {
-    return new Motors(new Connection);
+    return new Motors(NULL);
   }
 
   void Robot::setConfigs(Configurations *configs)
@@ -60,7 +60,7 @@ namespace Rhoban
 
   Connection *Robot::getConnection()
   {
-    return new Connection;
+    return NULL;
   }
 
 }

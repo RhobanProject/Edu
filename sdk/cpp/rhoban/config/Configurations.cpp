@@ -35,7 +35,7 @@ namespace Rhoban
 
   Connection *Configurations::getConnection()
   {
-    return(new Connection);
+	return NULL;
   }
 
   void Configurations::setConnection(Connection *connection)

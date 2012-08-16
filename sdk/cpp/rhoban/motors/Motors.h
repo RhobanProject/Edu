@@ -24,15 +24,14 @@ using namespace std;
 
 namespace Rhoban
 {
-<<<<<<< HEAD:sdk/cpp/src/rhoban/motors/Motors.h
   class Motors : public Thread
   {
   public:
     Motors(Connection *connection);
     ~Motors();
     void startDispatcher(int frequency);
-    void setConnection(Connection *connection);
     void execute();
+    void setConnection(Connection *connection);
     Connection * getConnection();
     void addMotor(string name, Motor *motor);
     Motor * getMotor(string name);
@@ -41,23 +40,6 @@ namespace Rhoban
     map<string, Motor *> motorlist;
     Connection *connection;
   };
-=======
-    class Motors : public Thread
-    {
-        public:
-            Motors(Connection *connection);
-            ~Motors();
-            void startDispatcher(int frequency);
-            void setConnection(Connection *connection);
-            Connection * getConnection();
-            void addMotor(string name, Motor *motor);
-            Motor * getMotor(string name);
-            void removeMotor(string name);
-        protected:
-            map<string, Motor *> motorlist;
-            Connection *connection;
-    };
->>>>>>> d4aa52efa7a056d67840dc1df474504d7584fa65:sdk/cpp/rhoban/motors/Motors.h
 }
 
 #endif // MOTORS_H_

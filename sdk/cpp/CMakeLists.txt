@@ -17,11 +17,6 @@ set(UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils dire
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
 
-if(ROBOARD)
-    set(CMAKE_CXX_FLAGS "-mtune=i586 -march=i586 -m32")
-    set(CMAKE_C_FLAGS "-mtune=i586 -march=i586 -m32")
-endif(ROBOARD)
-
 # Sources
 set(MAIN_SOURCES 
     main/Command.cpp
@@ -53,10 +48,10 @@ foreach(DIRECTORY common utils)
 endforeach(DIRECTORY)
 
 set(ALL_SOURCES ${RHOBAN_SOURCES})
-set(EXE_SOURCES ${ALL_SOURCES} ${MAIN_SOURCES})
+set(EXE_SOURCES ${ALL_SOURCES} ${MAIN_SOURCES} ${COMMANDS_SOURCES})
 
 if(TESTS)
-    set(EXE_SOURCES ${EXE_SOURCES} ${TESTS_SOURCES} ${COMMANDS_SOURCES})
+    set(EXE_SOURCES ${EXE_SOURCES} ${TESTS_SOURCES})
 endif(TESTS)
 
 set(EXTRA_LIBS RhobanCommon RhobanUtils)
