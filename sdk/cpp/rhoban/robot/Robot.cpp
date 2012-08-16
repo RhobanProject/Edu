@@ -11,9 +11,11 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <vector>
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
 #include <communication/Message.h>
+#include <communication/types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Robot.h"
@@ -24,9 +26,9 @@ namespace Rhoban
 {
   Robot::Robot(CommandsStore *commandsStore)
   {
-    configs = new Configurations;
     connection = new Connection(commandsStore);
     motors = new Motors(connection);
+    configs = new Configurations(connection);
   }
 
   Robot::~Robot()
@@ -50,10 +52,12 @@ namespace Rhoban
   {
     Message *response = new Message;
     cout << "Testing server version..." << endl;
+
     response = connection->ServerGetVersion_response();
     cout << "Version : " << response->read_uint() << endl;
     
     cout << "Testing echo\"Hello world\"..." << endl;
+   
     response = connection->ServerEcho_response("Hello world");
     cout << " Echo : " << response->read_string() << endl;
 
@@ -78,27 +82,40 @@ namespace Rhoban
 
   void Robot::stop()
   {
-
+    connection->stop();
+    motors->stop();
   }
 
-  void Robot::initialize()
+  void Robot::moveMotor(byte motorId, int angle)
   {
+    Message *response = new Message;
+    response = connection->ServosSetValues_response(1, vector<byte> (1, motorId), 
+						    vector<int> (1, angle), 
+						    vector<ui32> (1, 1023), 
+						    vector<ui32> (1, 1023));
 
+    cout << "moveMotor(" << motorId << ", " << angle << ") : "
+	 << response->read_string() << endl;
+
+    delete response;
   }
 
-  void Robot::moveMotor(string motorId, int angle)
+  void Robot::compliant(byte motorId)
   {
+    Message *response = new Message;
+    response = connection->ServosSetValues_response(1, vector<byte> (1, motorId), 
+						    vector<int> (1, 0), 
+						    vector<ui32> (1, 0), 
+						    vector<ui32> (1, 0));
 
-  }
+    cout << "compliant(" << motorId << ") : " << response->read_string() << endl;
 
-  void Robot::compliant(string motorId)
-  {
-
+    delete response;
   }
 
   void Robot::allCompliant()
   {
-
+    motors->allCompliant();
   }
 
   void Robot::setMotors(Motors *motors)

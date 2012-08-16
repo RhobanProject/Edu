@@ -30,7 +30,7 @@ namespace Rhoban
 
   protected:
     int defaultAngle;
-    int goalAngle;
+    int goalAngle;x
   };
 }
 

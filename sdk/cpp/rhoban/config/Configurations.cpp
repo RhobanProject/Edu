@@ -20,9 +20,9 @@ using namespace std;
 namespace Rhoban
 {
 
-  Configurations::Configurations()
+  Configurations::Configurations(Connection *connection)
   {
-
+    
   }
 
   Configurations::~Configurations()

@@ -24,7 +24,7 @@ namespace Rhoban
   class Configurations
   {
   public:
-    Configurations();
+    Configurations(Connection *connection);
     ~Configurations();
     void loadLowLevelConfig(string filename);
     void loadMoveSchedulerConfig(string filename);

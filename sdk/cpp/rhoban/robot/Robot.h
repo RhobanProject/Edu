@@ -37,9 +37,8 @@ namespace Rhoban
     void loadLowLevelConfig(string filename);
     void loadMoveSchedulerConfig(string filename);
     void stop();
-    void initialize();
-    void moveMotor(string motorId, int angle);
-    void compliant(string motorId);
+    void moveMotor(byte motorId, int angle);
+    void compliant(byte motorId);
     void allCompliant();
 
     void setMotors(Motors *motors);

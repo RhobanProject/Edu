@@ -31,6 +31,8 @@ namespace Rhoban
     ~Motors();
     void start(int frequency);
     void execute();
+    void stop();
+    void allCompliant();
 
     void setConnection(Connection *connection);
     Connection * getConnection();

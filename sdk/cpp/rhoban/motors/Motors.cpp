@@ -41,6 +41,16 @@ namespace Rhoban
 
   }
 
+  void Motors::stop()
+  {
+
+  }
+
+  void Motors::allCompliant()
+  {
+
+  }
+
   void Motors::setConnection(Connection *connection)
   {
 
