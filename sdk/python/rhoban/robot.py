@@ -15,6 +15,7 @@ class Robots(object):
         self.robots = {}
 
     def loadYaml(self, filename):
+        environment = '.'
         config = yaml.load(file(filename, 'r').read())
         storeFileName = '../common/commands.xml'
 
@@ -28,11 +29,15 @@ class Robots(object):
             if 'host' in robotConfig:
                 robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
 
-            if 'lowLevelConfig' in robotConfig:
-                robot.loadLowLevelConfig(robotConfig['lowLevelConfig'])
+            if 'environment' in robotConfig:
+                environment = robotConfig['environment']
 
-            if 'moveSchedulerConfig' in robotConfig:
-                robot.loadMoveSchedulerConfig(robotConfig['moveSchedulerConfig'])
+                robot.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'LowLevelConfig.xml'))
+                robot.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'MoveSchedulerConfig.xml'))
+
+            if 'loadMoves' in robotConfig:
+                for move in robotConfig['loadMoves']:
+                    robot.loadMove(os.path.join(environment, 'Moves', move + '.xml'))
 
     def stop(self):
         for name, robot in self.robots.items():

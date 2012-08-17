@@ -1,0 +1,8 @@
+
+commands: ../common/commands.xml
+
+robots:
+    default:
+        host: localhost
+        environment: /path/to/environment
+
