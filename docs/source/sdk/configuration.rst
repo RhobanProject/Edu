@@ -33,16 +33,12 @@ Voici un exemple de fichier Yaml :
         spider:
             host: 192.168.0.5 # Adresse de connexion
             port: 89898 # Port (Si différent de 12345)
-            lowLevelConfig: /configs/spider/LowLevelConfig.xml # Configuration bas niveau
-            moveSchedulerConfig: /configs/spider/MoveSchedulerConfig.xml # Configuration mouvements
+            environment: /configs/spider/ # Emplacement de LowLevelConfig.xml & MoveSchedulerConfig.xml
         
         humanoid:
             host: 192.168.0.12
-            moves:
-                directory: humanoidMoves # Dossier contenant les mouvements
-                load: ['Walk.xml', 'Standup.xml'] # Mouvements à charger
-            lowLevelConfig: /configs/humanoid/LowLevelConfig.xml
-            moveSchedulerConfig: /configs/humanoid/MoveSchedulerConfig.xml
+            loadMoves: ['Walk', 'Standup'] # Mouvements à charger
+            environment: /configs/humanoid/
 
 Exemple d'utilisation
 ---------------------
