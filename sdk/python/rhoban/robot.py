@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import sys, os, re, threading, time
+import yaml
 import configurations as config
 import communication as com
-import motors as motors
-import yaml
+import motors, motion
 
 """
     Représente un groupe de robots
@@ -58,8 +58,12 @@ class Robot(object):
         self.connection = com.Connection()
         self.connection.setStore(self.store)
 
+        self.moves = motion.Moves(self.connection)
+
         self.motors = motors.Motors(self.connection)
         self.configs = config.Configurations(self.connection)
+
+    # Connection
 
     def connect(self, hostname = 'localhost', port = 12345):
         self.connection.connectTo(hostname, port)
@@ -68,16 +72,18 @@ class Robot(object):
         return self.connection.connected
 
     def testConnection(self):
-        print 'Testing server version...'
+        print('Testing server version...')
         response = self.connection.ServerGetVersion_response()
         print('~> %s' % response[0])
 
-        print 'Testing echo "Hello world"...'
+        print('Testing echo "Hello world"...')
         response = self.connection.ServerEcho_response('Hello world')
         print('~> %s' % response[0])
 
         if response[0] == 'Hello world':
-            print "\n"+'Connection test passed'
+            print("\n"+'Connection test passed')
+
+    # Configuration
 
     def loadLowLevelConfig(self, config):
         self.configs.loadLowLevelConfig(config)
@@ -86,15 +92,19 @@ class Robot(object):
         self.configs.loadMoveSchedulerConfig(config)
         self.motors.setConfig(self.configs.moveSchedulerConfig)
 
-    def stop(self):
-        self.connection.stop()
-        self.motors.stop()
-
-    def moveMotor(self, motorId, angle):
-        print self.connection.ServosSetValues_response(1, [motorId], [angle], [1023], [1023])
-    
-    def compliant(self, motorId):
-        print self.connection.ServosSetValues_response(1, [motorId], [0], [0], [0])
+    # Motors
 
     def allCompliant(self):
         self.motors.allCompliant()
+
+    # Moves
+
+    def loadMove(self, filename):
+        self.moves.loadMove(filename)
+
+    def startMove(self, name, duration = 0, smooth = 500):
+        self.moves.startMove(name, duration, smooth)
+
+    def stop(self):
+        self.connection.stop()
+        self.motors.stop()

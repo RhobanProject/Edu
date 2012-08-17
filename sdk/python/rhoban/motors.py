@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys, os, re, threading, time
+from datetime import datetime
 import configurations as config
 import communication as com
 
@@ -65,6 +66,7 @@ class Motors(threading.Thread):
     def run(self):
         def motorsValues(values):
             for id, angle, speed, load in zip(values[0], values[1], values[2], values[3]):
+                motor.lastUpdate = datetime.now()
                 motor = self.idMotors[int(id)]
 
                 motor.setAngle(angle)
@@ -105,6 +107,7 @@ class Motors(threading.Thread):
 """
 class Motor:
     def __init__(self, id, name):
+        self.lastUpdate = None
         self.id = int(id)
         self.name = name
 

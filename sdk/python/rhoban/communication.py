@@ -207,11 +207,11 @@ class Message:
 
     def getRaw(self):
         raw = ''
-        raw += struct.pack('>I', int(self.uid))
-        raw += struct.pack('>I', int(self.destination))
-        raw += struct.pack('>I', int(self.command))
-        raw += struct.pack('>I', len(self.data))
-        raw += self.data
+        raw += str(struct.pack('>I', int(self.uid)))
+        raw += str(struct.pack('>I', int(self.destination)))
+        raw += str(struct.pack('>I', int(self.command)))
+        raw += str(struct.pack('>I', len(self.data)))
+        raw += str(self.data)
 
         return raw
 
@@ -421,23 +421,23 @@ class ParameterPattern:
         data = ''
 
         if self.depth > 1:
-            data += struct.pack('>I', len(argument))
+            data += str(struct.pack('>I', len(argument)))
 
             for subArgument in argument:
-                data += self.subPattern.getData(subArgument)
+                data += str(self.subPattern.getData(subArgument))
         else:
             if self.depth == 1:
                 packFormat = '>' + str(len(argument)) + self.typesMapping[self.baseType][1]
-                data += struct.pack('>I', len(argument))
+                data += str(struct.pack('>I', len(argument)))
 
                 if type(argument) == list:
-                    data += struct.pack(packFormat, *argument)
+                    data += str(struct.pack(packFormat, *argument))
                 else:
                     argument = self.castType(argument)
-                    data += struct.pack(packFormat, argument)
+                    data += str(struct.pack(packFormat, argument))
             else:
                 argument = self.castType(argument)
-                data += struct.pack('>' + self.typesMapping[self.baseType][1], argument)
+                data += str(struct.pack('>' + self.typesMapping[self.baseType][1], argument))
 
         return data
 

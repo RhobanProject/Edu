@@ -12,8 +12,10 @@ try:
     robots.loadYaml('config.yml')
 
     robot = robots['default']
-    robot.motors.start(30)
-    robot.allCompliant()
+    time.sleep(5)
+
+    robot.loadMove('/configs/SpiderSinus.xml')
+#    robot.startMove('SpiderSinus', 0, 1000)
 
     robots.stop()
 
