@@ -19,6 +19,7 @@
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Robot.h"
+#include "Moves.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ namespace Rhoban
     connection = new Connection(commandsStore);
     motors = new Motors(connection);
     configs = new Configurations(connection);
+    moves = new Moves(connection);
   }
 
   Robot::~Robot()
@@ -36,8 +38,26 @@ namespace Rhoban
     delete configs;
     delete connection;
     delete motors;
+    delete moves;
   }
 
+  void Robot::loadEnvironment(string environment)
+  {
+    string::iterator it;
+    it = environment.end();
+    it--;
+    if(*it != '/')
+      environment.push_back('/');
+    this->setEnvironment(environment);
+   
+    string env1 = environment;
+    string env2 = environment;
+    env1.append("ConfigFiles/LowLevelConfig.xml");
+    env2.append("ConfigFiles/MoveSchedulerConfig.xml");
+    this->loadLowLevelConfig(env1);
+    this->loadMoveSchedulerConfig(env2);  
+  }
+  
   void Robot::connect(const char *adress, int port)
   {
     connection->connectTo(adress, port);
@@ -80,42 +100,53 @@ namespace Rhoban
     motors->setConfig(configs->getMoveSchedulerConfig());
   }
 
+  void Robot::allCompliant()
+  {
+    motors->allCompliant();
+  }
+
+  void Robot::loadMove(string filename)
+  {
+    string filepath = environment;
+    filepath.append("Moves/");
+    filepath.append(filename);
+    moves->loadMove(filepath);
+  }
+
+  void Robot::startMove(string name, int duration, int smooth)
+  {
+    moves->startMove(name, duration, smooth);
+  }
+
+  void Robot::pauseMove(string name)
+  {
+    moves->pauseMove(name);
+  }
+
+  void Robot::stopMove(string name, int smooth)
+  {
+    moves->stopMove(name, smooth);
+  }
+
+  void Robot::killMove(string name)
+  {
+    moves->killMove(name);
+  }
+
+  vector<string> Robot::getLoadedMoves()
+  {
+    return moves->getLoadedMoves();
+  }
+
+  void Robot::updateConstant(string moveName, string constantName, double value)
+  {
+    moves->updateConstant(moveName, constantName, value);
+  }
+
   void Robot::stop()
   {
     connection->stop();
     motors->stop();
-  }
-
-  void Robot::moveMotor(byte motorId, int angle)
-  {
-    Message *response = new Message;
-    response = connection->ServosSetValues_response(1, vector<byte> (1, motorId), 
-						    vector<int> (1, angle), 
-						    vector<ui32> (1, 1023), 
-						    vector<ui32> (1, 1023));
-
-    cout << "moveMotor(" << motorId << ", " << angle << ") : "
-	 << response->read_string() << endl;
-
-    delete response;
-  }
-
-  void Robot::compliant(byte motorId)
-  {
-    Message *response = new Message;
-    response = connection->ServosSetValues_response(1, vector<byte> (1, motorId), 
-						    vector<int> (1, 0), 
-						    vector<ui32> (1, 0), 
-						    vector<ui32> (1, 0));
-
-    cout << "compliant(" << motorId << ") : " << response->read_string() << endl;
-
-    delete response;
-  }
-
-  void Robot::allCompliant()
-  {
-    motors->allCompliant();
   }
 
   void Robot::setMotors(Motors *motors)
@@ -148,4 +179,27 @@ namespace Rhoban
     return connection;
   }
 
+  void Robot::setEnvironment(string path)
+  {
+    string::iterator it;
+    it = path.end();
+    it--;
+    if(*it != '/')
+      path.push_back('/');
+    environment = path;
+  }
+  
+  string Robot::getEnvironment()
+  {
+    return environment;
+  }
+  void Robot::setMoves(Moves *moves)
+  {
+    this->moves = moves;
+  }
+  
+  Moves *Robot::getMoves()
+  {
+    return moves;
+  }
 }

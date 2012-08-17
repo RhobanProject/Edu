@@ -17,10 +17,12 @@ namespace Rhoban
 
 #include <cstdlib>
 #include <cstdio>
+#include <string>
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
+#include "Moves.h"
 
 using namespace std;
 
@@ -31,27 +33,50 @@ namespace Rhoban
   public:
     Robot(CommandsStore *commandsStore);
     ~Robot();
+    
+    // Environment
+    void loadEnvironment(string environment);
+    
+    // Connection
     void connect(const char *adress, int port);
     int isConnected();
     int testConnection();
+    
+    // Configuration
     void loadLowLevelConfig(string filename);
     void loadMoveSchedulerConfig(string filename);
-    void stop();
-    void moveMotor(byte motorId, int angle);
-    void compliant(byte motorId);
+    
+    // Motors
     void allCompliant();
+    
+    // Moves
+    void loadMove(string filename);
+    void startMove(string name, int duration = 0, int smooth = 500);
+    void pauseMove(string name);
+    void stopMove(string name, int smooth = 500);
+    void killMove(string name);
+    vector<string> getLoadedMoves();
+    void updateConstant(string moveName, string constantName, double value);
+    void stop();
 
+  
     void setMotors(Motors *motors);
     Motors* getMotors();
     void setConfigs(Configurations *configs);
     Configurations *getConfigs();
     void setConnection(Connection *connection);
     Connection *getConnection();
+    void setEnvironment(string path);
+    string getEnvironment();
+    void setMoves(Moves *moves);
+    Moves *getMoves();
 
   protected:
     Motors *motors;
     Configurations *configs;
     Connection *connection;
+    string environment;
+    Moves *moves;
   };
 }
 
