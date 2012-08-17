@@ -12,6 +12,8 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <ctime>
+#include <string>
 #include <utils/types.h>
 
 using namespace std;
@@ -21,8 +23,7 @@ namespace Rhoban
   class Motor
   {
   public:
-    Motor();
-    ~Motor();
+    Motor(int id, string name);
     bool isDirty();
     void setAngle(int angle);
     void setLoad(double load);
@@ -33,8 +34,10 @@ namespace Rhoban
 
     void setId(int id);
     int getId();
-    void setName(byte name);
-    byte getName();
+    void setName(string name);
+    string getName();
+    void setLastUpdate(time_t time);
+    time_t getLastUpdate();
     void setGoalAngle(int angle);
     int getGoalAngle();
     void setCurrentAngle(int angle);
@@ -52,7 +55,8 @@ namespace Rhoban
 
   protected:
     int id;
-    byte name;
+    string name;
+    time_t lastUpdate;
 
     int goalAngle;
     int currentAngle;

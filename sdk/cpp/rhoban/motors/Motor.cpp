@@ -15,14 +15,11 @@ using namespace std;
 
 namespace Rhoban
 {
-  Motor::Motor()
+  Motor::Motor(int id, string name)
   {
-    
-  }
-
-  Motor::~Motor()
-  {
-
+    this->id = id;
+    this->name = name;
+    lastUpdate = 0;
   }
 
   bool Motor::isDirty()
@@ -73,16 +70,26 @@ namespace Rhoban
     return id;
   }
 
-  void Motor::setName(byte name)
+  void Motor::setName(string name)
   {
     this->name=name;
   }
 
-  byte Motor::getName()
+  string Motor::getName()
   {
     return name;
   }
 
+  void Motor::setLastUpdate(time_t time)
+  {
+    lastUpdate=time;
+  }
+
+  time_t Motor::getLastUpdate()
+  {
+    return lastUpdate;
+  }
+  
   void Motor::setGoalAngle(int angle)
   {
     goalAngle=angle;

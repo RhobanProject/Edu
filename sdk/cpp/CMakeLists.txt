@@ -25,8 +25,6 @@ set(MAIN_SOURCES
 
 set(RHOBAN_SOURCES
     rhoban/config/Configurations.cpp
-	rhoban/config/LowLevelConfig.cpp
-	rhoban/config/MoveSchedulerConfig.cpp
     rhoban/robot/Robot.cpp
     rhoban/motors/Motors.cpp
     rhoban/motors/Motor.cpp

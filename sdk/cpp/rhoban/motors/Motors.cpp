@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <threading/Thread.h>
+#include <config/MoveSchedulerConfig.h>
 #include <communication/Connection.h>
 #include <robot/Robot.h>
 #include "Motor.h"

@@ -11,9 +11,9 @@
 #include <cstdio>
 #include <string>
 #include <communication/Connection.h>
+#include <config/LowLevelConfig.h>
+#include <config/MoveSchedulerConfig.h>
 #include "Configurations.h"
-#include "LowLevelConfig.h"
-#include "MoveSchedulerConfig.h"
 
 using namespace std;
 
