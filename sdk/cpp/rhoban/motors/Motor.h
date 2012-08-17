@@ -12,6 +12,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <utils/types.h>
 
 using namespace std;
 
@@ -20,17 +21,49 @@ namespace Rhoban
   class Motor
   {
   public:
-    Motor(int defaultAngle);
+    Motor();
     ~Motor();
+    bool isDirty();
+    void setAngle(int angle);
+    void setLoad(double load);
+    void setSpeed(double speed);
+    int getAngle();
+    double getLoad();
+    double getSpeed();
 
-    void setDefaultAngle(int angle);
-    int getDefaultAngle();
+    void setId(int id);
+    int getId();
+    void setName(byte name);
+    byte getName();
     void setGoalAngle(int angle);
     int getGoalAngle();
+    void setCurrentAngle(int angle);
+    int getCurrentAngle();
+    void setGoalSpeed(double speed);
+    double getGoalSpeed();
+    void setCurrentSpeed(double speed);
+    double getCurrentSpeed();
+    void setGoalLoad(double load);
+    double getGoalLoad();
+    void setCurrentLoad(double load);
+    double getCurrentLoad();
+    void setDirty(bool val);
+    bool getDirty();
 
   protected:
-    int defaultAngle;
-    int goalAngle;x
+    int id;
+    byte name;
+
+    int goalAngle;
+    int currentAngle;
+
+    double goalSpeed;
+    double currentSpeed;
+
+    double goalLoad;
+    double currentLoad;
+
+    bool dirty;
   };
 }
 

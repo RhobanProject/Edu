@@ -15,7 +15,7 @@ using namespace std;
 
 namespace Rhoban
 {
-  Motor::Motor(int defaultAngle)
+  Motor::Motor()
   {
     
   }
@@ -25,24 +25,131 @@ namespace Rhoban
 
   }
 
-  void Motor::setDefaultAngle(int angle)
+  bool Motor::isDirty()
   {
-
+    return getDirty();
+  }
+  
+  void Motor::setAngle(int angle)
+  {
+    setGoalAngle(angle);
+    setDirty(1);
   }
 
-  int Motor::getDefaultAngle()
+  void Motor::setLoad(double load)
   {
-    return 0;
+    setGoalLoad(load);
+    setDirty(1);
+  }
+
+  void Motor::setSpeed(double speed)
+  {
+    setGoalSpeed(speed);
+    setDirty(1);
+  }
+
+  int Motor::getAngle()
+  {
+    return getCurrentAngle();
+  }
+
+  double Motor::getSpeed()
+  {
+    return getCurrentSpeed();
+  }
+
+  double Motor::getLoad()
+  {
+    return getCurrentLoad();
+  }
+
+  void Motor::setId(int id)
+  {
+    this->id=id;
+  }
+
+  int Motor::getId()
+  {
+    return id;
+  }
+
+  void Motor::setName(byte name)
+  {
+    this->name=name;
+  }
+
+  byte Motor::getName()
+  {
+    return name;
   }
 
   void Motor::setGoalAngle(int angle)
   {
-
+    goalAngle=angle;
   }
 
   int Motor::getGoalAngle()
   {
-    return 0;
+    return goalAngle;
   }
-  
+
+  void Motor::setCurrentAngle(int angle)
+  {
+    currentAngle=angle;
+  }
+
+  int Motor::getCurrentAngle()
+  {
+    return currentAngle;
+  }
+
+  void Motor::setGoalSpeed(double speed)
+  {
+    goalSpeed=speed;
+  }
+
+  double Motor::getGoalSpeed()
+  {
+    return goalSpeed;
+  }
+
+  void Motor::setCurrentSpeed(double speed)
+  {
+    currentSpeed=speed;
+  }
+
+  double Motor::getCurrentSpeed()
+  {
+    return currentSpeed;
+  }
+
+  void Motor::setGoalLoad(double load)
+  {
+    goalLoad=load;
+  }
+
+  double Motor::getGoalLoad()
+  {
+    return goalLoad;
+  }
+
+  void Motor::setCurrentLoad(double load)
+  {
+    currentLoad=load;
+  }
+
+  double Motor::getCurrentLoad()
+  {
+    return currentLoad;
+  }
+
+  void Motor::setDirty(bool val)
+  {
+    dirty=val;
+  }
+
+  bool Motor::getDirty()
+  {
+    return dirty;
+  } 
 }

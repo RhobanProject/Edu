@@ -12,7 +12,7 @@
 
 namespace Rhoban
 {
-    class Motors;
+  class Motors;
 }
 
 #include <cstdlib>
