@@ -15,7 +15,6 @@ class Robots(object):
         self.robots = {}
 
     def loadYaml(self, filename):
-        environment = '.'
         config = yaml.load(file(filename, 'r').read())
         storeFileName = '../common/commands.xml'
 
@@ -30,14 +29,11 @@ class Robots(object):
                 robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
 
             if 'environment' in robotConfig:
-                environment = robotConfig['environment']
-
-                robot.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'LowLevelConfig.xml'))
-                robot.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'MoveSchedulerConfig.xml'))
+                robot.loadEnvironment(robotConfig['environment'])
 
             if 'loadMoves' in robotConfig:
                 for move in robotConfig['loadMoves']:
-                    robot.loadMove(os.path.join(environment, 'Moves', move + '.xml'))
+                    robot.loadMove(move + '.xml')
 
     def stop(self):
         for name, robot in self.robots.items():
@@ -67,6 +63,18 @@ class Robot(object):
 
         self.motors = motors.Motors(self.connection)
         self.configs = config.Configurations(self.connection)
+
+        self.environment = ''
+
+    # Environment
+
+    def loadEnvironment(self, environment):
+        self.setEnvironment(environment)
+        self.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'LowLevelConfig.xml'))
+        self.loadMoveSchedulerConfig(os.path.join(environment, 'ConfigFiles', 'MoveSchedulerConfig.xml'))
+
+    def setEnvironment(self, environment):
+        self.environment = environment
 
     # Connection
 
@@ -105,7 +113,7 @@ class Robot(object):
     # Moves
 
     def loadMove(self, filename):
-        self.moves.loadMove(filename)
+        self.moves.loadMove(os.path.join(self.environment, 'Moves', filename))
 
     def startMove(self, name, duration = 0, smooth = 500):
         self.moves.startMove(name, duration, smooth)
