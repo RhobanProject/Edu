@@ -33,12 +33,12 @@ Voici un exemple de fichier Yaml :
         spider:
             host: 192.168.0.5 # Adresse de connexion
             port: 89898 # Port (Si différent de 12345)
-            environment: /configs/spider/ # Emplacement de LowLevelConfig.xml & MoveSchedulerConfig.xml
+            environment: /configs/spider/ # Emplacement de l'environement Spider
         
         humanoid:
             host: 192.168.0.12
-            loadMoves: ['Walk', 'Standup'] # Mouvements à charger
             environment: /configs/humanoid/
+            loadMoves: ['Walk', 'Standup'] # Mouvements à charger automatiquement
 
 Exemple d'utilisation
 ---------------------
