@@ -50,6 +50,15 @@ Il est possible de les mettre à jour à l'aide des méthodes suivantes :
 
 .. py:function:: Robot.updateConstant(moveName, constantName, double value)
 
+Mettre un mouvement en pause
+----------------------------
+
+Un mouvement lancé peut être mis en pause à l'aide de la méthode ``pauseMove()``
+
+.. cpp:function:: void Robot::pauseMove(string moveName)
+
+.. py:function:: Robot.pauseMove(moveName)
+
 Stopper un mouvement
 --------------------
 
@@ -57,13 +66,36 @@ Stopper un mouvement
 
 .. py:function:: Robot.stopMove(name, smooth = 500)
 
-La méthode ``stopMove`` permet d'arrêter un mouvement. Le mouvement sera stoppé progressivement
+La méthode ``stopMove()`` permet d'arrêter un mouvement. Le mouvement sera stoppé progressivement
 au cours de ``smooth`` millisecondes.
 
 .. note::
     Lors de l'arrêt d'un mouvement, le robot reviendra dans sa position initiale.
     Dans tous les cas, il est fortement conseillé d'utiliser une forte valeur pour le 
     ``smooth``, pour éviter les chocs des moteurs.
+
+Obtenir la liste des mouvements chargés
+---------------------------------------
+
+La liste des mouvements chargés peut être obtenue via la méthode ``getLoadedMoves()``
+
+.. cpp:function:: vector<string> Robot::getLoadedMoves()
+
+.. py:function:: Robot.getLoadedMoves
+
+Tuer/Décharger un mouvement
+---------------------------
+
+Vous pouvez décharger un mouvement à l'aide de ``killMove()`` :
+
+.. cpp:function:: void Robot::killMove(string name)
+
+.. py:function:: Robot.killMove(name)
+
+.. note::
+
+    Si le mouvement est en train d'être exécuté, il sera alors arrêté. Tâchez de plutôt stopper
+    vos mouvements avant de les tuer
 
 Exemples
 --------
