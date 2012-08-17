@@ -18,5 +18,9 @@
 
 namespace Rhoban
 {
+	Connection::Connection(CommandsStore *commandsStore_) : BaseConnection(commandsStore_)
+	{
+	}
+
     <METHODS>
 }

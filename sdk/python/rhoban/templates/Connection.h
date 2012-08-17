@@ -29,7 +29,7 @@ namespace Rhoban
     class Connection : public BaseConnection
     {
         public:
-            Connection();
+            Connection(CommandsStore *commandsStore_);
 
             <METHODS_PROTOTYPES>
     };

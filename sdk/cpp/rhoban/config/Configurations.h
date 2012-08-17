@@ -14,6 +14,8 @@
 #include <cstdio>
 #include <string>
 #include <communication/Connection.h>
+#include "LowLevelConfig.h"
+#include "MoveSchedulerConfig.h"
 
 using namespace std;
 
@@ -22,13 +24,22 @@ namespace Rhoban
   class Configurations
   {
   public:
-    Configurations();
+    Configurations(Connection *connection);
     ~Configurations();
-    void load(string fileName);
+    void loadLowLevelConfig(string filename);
+    void loadMoveSchedulerConfig(string filename);
+    
     Connection *getConnection();
     void setConnection(Connection *connection);
+    LowLevelConfig *getLowLevelConfig();
+    void setLowLevelConfig(LowLevelConfig *lowLevelConfig);
+    MoveSchedulerConfig *getMoveSchedulerConfig();
+    void setMoveSchedulerConfig(MoveSchedulerConfig *moveSchedulerConfig);
+   
   protected:
     Connection *connection;
+    LowLevelConfig *lowLevelconfig;
+    MoveSchedulerConfig *moveSchedulerConfig;
   };
 }
 
