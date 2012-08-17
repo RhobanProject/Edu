@@ -12,6 +12,7 @@ class Moves:
 
     def loadMove(self, filename):
         contents = file(filename, 'r').read()
+        self.connection.SchedulerLoadXMLMove_response(contents)
 
     def startMove(self, name, duration, smooth = 500):
         self.connection.SchedulerStartMove(name, duration, smooth)
@@ -24,3 +25,6 @@ class Moves:
 
     def killMove(self, name):
         self.connection.SchedulerKillMove(name)
+
+    def getLoadedMoves(self):
+        return self.connection.SchedulerGetLoadedMoves_response()[0]

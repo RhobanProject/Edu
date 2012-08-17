@@ -105,6 +105,18 @@ class Robot(object):
     def startMove(self, name, duration = 0, smooth = 500):
         self.moves.startMove(name, duration, smooth)
 
+    def pauseMove(self, name):
+        self.moves.pauseMove(name)
+
+    def stopMove(self, name, smooth = 500):
+        self.moves.stopMove(name, smooth)
+
+    def killMove(self, name):
+        self.moves.killMove(name)
+
+    def getLoadedMoves(self):
+        return self.moves.getLoadedMoves()
+
     def stop(self):
         self.connection.stop()
         self.motors.stop()

@@ -14,9 +14,26 @@ try:
     robot = robots['default']
     time.sleep(5)
 
+    print('Loading move...')
     robot.loadMove('/configs/SpiderSinus.xml')
-#    robot.startMove('SpiderSinus', 0, 1000)
 
+    print('Starting move...')
+    robot.startMove('SpiderSinus', 0, 1000)
+
+    print('Sleeping...')
+    time.sleep(5)
+
+    print('Stopping move...')
+    robot.stopMove('SpiderSinus', 1000)
+    
+    print('Loaded moves: ' + repr(robot.getLoadedMoves()))
+
+    print('Killing move...')
+    robot.killMove('SpiderSinus')
+    
+    print('Loaded moves: ' + repr(robot.getLoadedMoves()))
+
+    robot.allCompliant()
     robots.stop()
 
 except (Exception, KeyboardInterrupt, SystemExit):
