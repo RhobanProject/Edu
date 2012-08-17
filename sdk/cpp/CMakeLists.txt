@@ -11,6 +11,13 @@ option(TESTS
 option(ROBOARD
     "Compile for ROBOARD" OFF)
 
+if (NOT RHOBANMATH)
+    add_definitions(-DNO_RHOBANMATH)
+endif (NOT RHOBANMATH)
+
+option(RHOBANMATH
+    "Enables RhobanMath support" OFF)
+
 # Useful for getting common compiling
 set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
 
