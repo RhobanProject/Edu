@@ -10,6 +10,11 @@ la documentation du :ref:`protocol`
 Etablir une connexion
 ---------------------
 
+.. note::
+
+    Il est préférable de réaliser la connexion automatiquement en chargeant un :ref:`fichier de configuration
+    Yaml <configuration>`.
+
 Afin d'établir une connexion avec un robot, instanciez tout d'abord la classe ``Robot`` puis
 utilisez la méthode ``connect`` :
 

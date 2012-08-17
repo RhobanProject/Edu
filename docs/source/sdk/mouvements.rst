@@ -8,10 +8,15 @@ La couche de mouvements vous permet d'intéragir avec l'ordonnanceur de mouvemen
 du :ref:`Serveur <server>`.
 
 Avant de pouvoir utiliser les mouvements, il vous faudra être :ref:`connecté <communication>`
-et avoir chargé les fichiers de :ref:`configuration <configurations>` sur le robot.
+et avoir :ref:`chargé un environement <load_env>` sur le robot.
 
 Envoyer un mouvement
 --------------------
+
+.. note::
+
+    Il est préférable de charger les mouvements à l'aide du :ref:`fichier de configuration
+    Yaml <configuration>`.
 
 Avant de pouvoir utiliser un mouvement, il faudra l'envoyer sur le serveur à l'aide de la
 méthode ``loadMove()``.
