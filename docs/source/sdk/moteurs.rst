@@ -86,7 +86,7 @@ C++ :
     robot.motors.start(30); // Lance le dispatcher moteur à 30Hz
     robot.allCompliant(); // Relache les servos
 
-    robot.motors["Right"].setLoad(1023); // Met la charge de "Right" au maximum
+    robot.motors["Right"].setLoad(1.0); // Met la charge de "Right" au maximum
 
     while (1) {
         // Recopie l'angle du servo "Left" dans "Right"
@@ -107,7 +107,7 @@ Python :
     robot.motors.start(30) # Lance le dispatcheuir moteurs à 30Hz
     robot.allCompliant() # Relâche les servos
 
-    robot.motors['Right'].setLoad(1023) # Met la charge de "Right" au maximum
+    robot.motors['Right'].setLoad(1.0) # Met la charge de "Right" au maximum
 
     while True:
         # Recopie l'angle du servo "Left" dans "Right"
