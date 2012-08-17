@@ -22,7 +22,7 @@ Entrées
 
 Voici les entrées du fichier de configuration:
 
-* ``commands``: emplacement :ref:`magasin de commandes <commandsstore>`
+* ``commands``: emplacement du :ref:`magasin de commandes <commandsstore>`
 * ``robots``: robots à instancier
     * ``host``: adresse à laquelle établir la connexion (ou se trouve le serveur)
     * ``port``: numéro de port à utiliser
