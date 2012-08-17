@@ -27,10 +27,10 @@ Le **SDK** (Software Development Kit), est un kit de développement logiciel qui
 vous permettra de dialoguer avec les robots.  Pour la documentation, rendez-vous
 dans la rubrique :ref:`sdk`.
 
-Version actuelle: 0.1-1-g751f0e9
+Version actuelle: ``0.1-4-gd21b7d6``
 
-* `Télécharger (.zip) <files/RhobanSDK-0.1-1-g751f0e9.zip>`_
-* `Télécharger (.tar.gz) <files/RhobanSDK-0.1-1-g751f0e9.tar.gz>`_
+* `Télécharger (.zip) <files/RhobanSDK-0.1-4-gd21b7d6.zip>`_
+* `Télécharger (.tar.gz) <files/RhobanSDK-0.1-4-gd21b7d6.tar.gz>`_
 
 Serveur
 ~~~~~~~~~~~~~

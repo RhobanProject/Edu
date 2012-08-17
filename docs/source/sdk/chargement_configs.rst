@@ -14,6 +14,32 @@ qui compose le robot utilisé.
     configuration des moteurs (`MoveSchedulerConfig`), il sera impossible de déplacer
     les moteurs ou de piloter des mouvements.
 
+Charger un environement
+-----------------------
+
+Charger un environement est sans doute le moyen le plus rapide de procéder au chargement
+de l'ensemble des configurations. Un environement est un dossier utilisé par l':ref:`IHM <ihm>`
+pour stocker ses fichiers de configurations dans une arborescence donnée.
+
+.. cpp:function:: void Robot::loadEnvironment(string directory)
+
+.. py:function:: Robot.loadEnvironment(directory)
+
+Lors du chargement d'un environement, les fichiers de configurations de bas niveau et de
+mouvement seront tous les deux chargés automatiquement.
+
+Exemples :
+
+.. code-block:: cpp
+
+    // Charge un environement
+    robot.loadEnvironment("/home/rhoban/RobotBoard/Spider/");
+
+.. code-block:: python
+
+    # Charge un environment
+    robot.loadEnvironment('/home/rhoban/RobotBoard/Spider')
+
 Configuration bas niveau
 ------------------------
 
