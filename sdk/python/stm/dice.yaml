@@ -1,0 +1,37 @@
+machine:
+  name: TheDiceMachine
+
+  global: |
+    tries
+    dice
+    void throw_dice() { dice = 7 * rand() / RAND_MAX; }
+
+  frequency: 50
+
+  states:
+    - name: Initial
+      start : i = 0
+      loop: |
+        i += 1
+        throw_dice()
+      transitions:
+        - condition : i > 5
+          do: i = 0
+          next: Lost
+
+        - condition : dice == 6
+          next : Won
+
+    - name : Lost
+      loop: print("You've lost");
+      exit : print("Game Over")
+      transitions:
+        - next: Final
+
+    - name : Won
+      loop: print("You've won");
+      exit : print("Game Over")
+      transitions:
+        - next: Final
+
+    - name : Final
