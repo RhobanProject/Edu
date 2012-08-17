@@ -17,6 +17,18 @@ Pour cela, vous pouvez utiliser un fichier de configuration au format Yaml.
 La fonction ``loadYaml()`` de la classe ``Robots`` vous permet de charger les robots présents
 dans un fichier Yaml et de pouvoir intéragir avec eux.
 
+Entrées
+-------
+
+Voici les entrées du fichier de configuration:
+
+* ``commands``: emplacement :ref:`magasin de commandes <commandsstore>`
+* ``robots``: robots à instancier
+    * ``host``: adresse à laquelle établir la connexion (ou se trouve le serveur)
+    * ``port``: numéro de port à utiliser
+    * ``environment``: :ref:`environement à charger <load_env>` automatiquement
+    * ``loadMoves``: :ref:`mouvements <moves>` à charger automatiquement
+
 Exemple de fichier Yaml
 -----------------------
 

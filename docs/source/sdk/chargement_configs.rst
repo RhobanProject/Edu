@@ -14,8 +14,15 @@ qui compose le robot utilisé.
     configuration des moteurs (`MoveSchedulerConfig`), il sera impossible de déplacer
     les moteurs ou de piloter des mouvements.
 
+.. _load_env:
+
 Charger un environement
 -----------------------
+
+.. note::
+
+    Il est préférable de charger les environements à l'aide du :ref:`fichier de configuration
+    Yaml <configuration>`.
 
 Charger un environement est sans doute le moyen le plus rapide de procéder au chargement
 de l'ensemble des configurations. Un environement est un dossier utilisé par l':ref:`IHM <ihm>`
