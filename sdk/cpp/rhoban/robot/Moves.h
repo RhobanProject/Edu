@@ -31,6 +31,8 @@ namespace Rhoban
     void killMove(string name);
     vector<string> getLoadedMoves();
     void updateConstant(string moveName, string constantName, double value);
+  protected:
+    Connection *connection;
   };
 }
 #endif // MOVES_H_
