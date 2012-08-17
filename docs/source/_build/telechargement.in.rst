@@ -27,7 +27,7 @@ Le **SDK** (Software Development Kit), est un kit de développement logiciel qui
 vous permettra de dialoguer avec les robots.  Pour la documentation, rendez-vous
 dans la rubrique :ref:`sdk`.
 
-Version actuelle: %SDK_VERSION%
+Version actuelle: ``%SDK_VERSION%``
 
 * `Télécharger (.zip) <%SDK_ZIP%>`_
 * `Télécharger (.tar.gz) <%SDK_TGZ%>`_
