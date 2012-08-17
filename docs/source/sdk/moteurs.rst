@@ -18,7 +18,7 @@ Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 Lancement du dispatcher
 -----------------------
 
-.. cpp:function:: void Motors.start(int frequency)
+.. cpp:function:: void Motors::start(int frequency)
 
 .. py:function:: Motors.start(frequency)
 
@@ -32,7 +32,7 @@ le nom des moteurs et leurs identifiants.
 Accéder à un moteur
 -------------------
 
-.. cpp:function:: void Motors.operator[](string name)
+.. cpp:function:: void Motors::operator[](string name)
 
 .. py:function:: Motors.__getitem__(name)
 
@@ -42,9 +42,9 @@ avec ses valeurs (angle, charge, vitesse).
 Lire les valeurs
 ~~~~~~~~~~~~~~~~
 
-.. cpp:function:: double Motor.getAngle()
-.. cpp:function:: double Motor.getLoad()
-.. cpp:function:: double Motor.getSpeed()
+.. cpp:function:: double Motor::getAngle()
+.. cpp:function:: double Motor::getLoad()
+.. cpp:function:: double Motor::getSpeed()
 
 .. py:function:: Motor.getAngle()
 .. py:function:: Motor.getLoad()
@@ -60,9 +60,9 @@ Ces valeurs sont lues depuis le moteur à la fréquence indiquée lors de l'appe
 Ecrire les valeurs
 ~~~~~~~~~~~~~~~~~~
 
-.. cpp:function:: void Motor.setAngle(double angle)
-.. cpp:function:: void Motor.setLoad(double load)
-.. cpp:function:: void Motor.setSpeed(double speed)
+.. cpp:function:: void Motor::setAngle(double angle)
+.. cpp:function:: void Motor::setLoad(double load)
+.. cpp:function:: void Motor::setSpeed(double speed)
 
 .. py:function:: Motor.setAngle(angle)
 .. py:function:: Motor.setLoad(load)
