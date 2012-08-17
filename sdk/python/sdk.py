@@ -21,7 +21,13 @@ try:
     robot.startMove('SpiderSinus', 0, 1000)
 
     print('Sleeping...')
-    time.sleep(5)
+    time.sleep(3)
+
+    print('Setting amplitude to 0.5...')
+    robot.updateConstant('SpiderSinus', 'Amplitude', 0.5)
+
+    print('Sleeping...')
+    time.sleep(3)
 
     print('Stopping move...')
     robot.stopMove('SpiderSinus', 1000)

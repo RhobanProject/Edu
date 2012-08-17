@@ -28,3 +28,6 @@ class Moves:
 
     def getLoadedMoves(self):
         return self.connection.SchedulerGetLoadedMoves_response()[0]
+
+    def updateConstant(self, moveName, constantName, value):
+        self.connection.SchedulerUpdateConstant(moveName, constantName, [value])

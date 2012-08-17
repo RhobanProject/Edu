@@ -117,6 +117,9 @@ class Robot(object):
     def getLoadedMoves(self):
         return self.moves.getLoadedMoves()
 
+    def updateConstant(self, moveName, constantName, value):
+        self.moves.updateConstant(moveName, constantName, value)
+
     def stop(self):
         self.connection.stop()
         self.motors.stop()
