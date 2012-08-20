@@ -36,16 +36,19 @@ namespace Rhoban
 
     void setConnection(Connection *connection);
     Connection * getConnection();
+    void setConfig(MoveSchedulerConfig *config);
+    MoveSchedulerConfig *getConfig();
     void addMotor(string name, Motor *motor);
     Motor *getMotor(string name);
     void removeMotor(string name);
-    void setConfig(MoveSchedulerConfig *config);
-    MoveSchedulerConfig *getConfig();
+
 
   protected:
-    map<string, Motor *> motorlist;
     Connection *connection;
-    MoveSchedulerConfig *config;
+    MoveSchedulerConfig *configuration;
+    map<string, Motor *> motors;
+
+    bool running;
   };
 }
 

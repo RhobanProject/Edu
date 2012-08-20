@@ -22,7 +22,7 @@ using namespace std;
 
 namespace Rhoban
 {
-  Motors::Motors(Connection *connection)
+  Motors::Motors(Connection *connection) : Thread()
   {
 
   }

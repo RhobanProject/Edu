@@ -36,6 +36,7 @@ namespace Rhoban
     
     // Environment
     void loadEnvironment(string environment);
+    void checkFixEnvironmentPath();
     
     // Connection
     void connect(const char *adress, int port);
@@ -50,7 +51,8 @@ namespace Rhoban
     void allCompliant();
     
     // Moves
-    void loadMove(string filename);
+    string moveFileName(string name);
+    void loadMove(string name);
     void startMove(string name, int duration = 0, int smooth = 500);
     void pauseMove(string name);
     void stopMove(string name, int smooth = 500);
