@@ -33,7 +33,7 @@ class Robots(object):
 
             if 'loadMoves' in robotConfig:
                 for move in robotConfig['loadMoves']:
-                    robot.loadMove(move + '.xml')
+                    robot.loadMove(move)
 
     def stop(self):
         for name, robot in self.robots.items():
@@ -112,8 +112,16 @@ class Robot(object):
 
     # Moves
 
-    def loadMove(self, filename):
-        self.moves.loadMove(os.path.join(self.environment, 'Moves', filename))
+    def moveFileName(self, name):
+        return os.path.join(self.environment, 'Moves', filename + '.xml')
+
+    def loadMove(self, name):
+        filename = self.moveFileName(name + '.graphics')
+
+        if os.path.exists(filename):
+            self.moves.loadMove(filename)
+        else:
+            self.moves.loadMove(self.moveFileName(name))
 
     def startMove(self, name, duration = 0, smooth = 500):
         self.moves.startMove(name, duration, smooth)
