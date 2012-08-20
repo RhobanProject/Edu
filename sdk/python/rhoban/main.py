@@ -17,7 +17,7 @@ class RhobanMain(object):
                 'moves': [LoadMoveCommand(), KillMoveCommand(),
                     StartMoveCommand(), StopMoveCommand()],
                 'motors': [CompliantCommand(), HardCommand(),
-                    SetCommand(), ScanCommand(),
+                    SetCommand(), ScanCommand(), SnapshotCommand(),
                     InitCommand(), ZeroCommand()]
                 }
 
@@ -253,8 +253,9 @@ class HardCommand(RobotsCommand):
 class SetCommand(RobotCommand):
     def define(self):
         self.name = 'set'
-        self.description = 'Set a motor angle (in °)'
-        self.prototype = '<robot> <motorName> <angle> [torque = 1023 [speed = 1023]]'
+        self.options = 'r'
+        self.description = 'Set a motor angle (in °), -r for relative angle'
+        self.prototype = '[-r] <robot> <motorName> <angle> [torque = 1023 [speed = 1023]]'
         self.arguments = 3
 
     def execute(self, robot, options, arguments):
@@ -262,7 +263,10 @@ class SetCommand(RobotCommand):
         motor = robot.motors[arguments[0]]
         arguments = arguments[1:]
 
-        motor.setAngle(arguments[0])
+        if '-r' in options:
+            motor.setRelAngle(arguments[0])
+        else:
+            motor.setAngle(arguments[0])
         arguments = arguments[1:]
 
         if arguments:
@@ -329,3 +333,31 @@ class EmergencyCommand(RobotsCommand):
     def executeFor(self, robot, options):
         print('Emergency stopping all moves and turning compliant for %s' % robot.name)
         robot.emergency()
+
+"""
+    Capture de la valeur de moteurs
+"""
+class SnapshotCommand(RobotsCommand):
+    def define(self):
+        self.name = 'snapshot'
+        self.options = 'rp'
+        self.prototype = ' [-r]'
+        self.description = 'Snapshots the value of the angles (-r for relative, -p for python)'
+
+    def executeFor(self, robot, options):
+        print('Snapshoting motors for %s' % robot.name)
+        robot.motors.pullValues()
+        snapshot = {}
+
+        for name, motor in robot.motors.motors.items():
+            if motor.lastUpdate != None:
+                if '-r' in options:
+                    snapshot[motor.name] = motor.getRelAngle()
+                else:
+                    snapshot[motor.name] = motor.getAngle()
+
+        if '-p' in options:
+            print(repr(snapshot))
+        else:
+            for motor, angle in snapshot.items():
+                print('%s: %s' % (motor, angle))

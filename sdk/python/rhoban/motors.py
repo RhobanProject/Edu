@@ -164,6 +164,10 @@ class Motor:
         self.dirty = True
         self.goalAngle = float(angle)
 
+    def setAngle(self, angle):
+        self.dirty = True
+        self.goalAngle = float(self.iniAngle + self.zeroAngle + angle)
+
     def setLoad(self, load):
         self.dirty = True
         self.goalLoad = float(load)
@@ -174,6 +178,9 @@ class Motor:
 
     def getAngle(self):
         return float(self.currentAngle)
+
+    def getRelAngle(self):
+        return float(self.currentAngle - self.iniAngle - self.zeroAngle)
 
     def getSpeed(self):
         return float(self.currentSpeed)
