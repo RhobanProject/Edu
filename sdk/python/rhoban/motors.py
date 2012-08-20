@@ -21,6 +21,10 @@ class Motors(threading.Thread):
     def setConfig(self, configuration):
         self.configuration = configuration
 
+        for name, id in self.configuration.servos.items():
+            self.motors[name] = Motor(id, name)
+            self.idMotors[int(id)] = self.motors[name]
+
     def __len__(self):
         return len(self.motors)
 
@@ -36,70 +40,74 @@ class Motors(threading.Thread):
         if self.configuration == None:
             raise Exception('No suitable motors configuration')
 
-        for name, id in self.configuration.servos.items():
-            self.motors[name] = Motor(id, name)
-            self.idMotors[int(id)] = self.motors[name]
-
-        self.running = True
         super(Motors, self).start()
 
     def stop(self):
         self.running = False
 
     def compilant(self, name):
-        self.motors[name].goalLoad = 0
+        self.motors[name].setLoad(0)
 
     def allCompliant(self):
         self.connection.ServosAllCompliant()
 
         for name, motor in self.motors.items():
-            motor.goalLoad = 0
-
+            motor.setLoad(0)
 
     def hard(self, name):
-        self.motors[name].goalLoad = 1023
+        self.motors[name].setLoad(1)
 
     def allHard(self):
         for name, motor in self.motors.items():
-            motor.goalLoad = 1023
+            motor.setLoad(1)
 
+    def pullValues(self):
+        values = self.connection.ServosGetValues_response(1)
+        self.processValues(values)
+
+    def pushValues(self):
+        ids = []
+        angles = []
+        speeds = []
+        loads = []
+
+        for name in self.motors:
+            motor = self.motors[name]
+            if motor.goalAngle != None and motor.currentAngle != None and motor.currentSpeed != None and motor.dirty:
+                ids += [motor.id]
+                angles += [int(motor.goalAngle*1000)]
+                speeds += [int(motor.goalSpeed*1023)]
+                loads += [int(motor.goalLoad*1023)]
+
+        if len(ids):
+            self.connection.ServosSetValues(1, ids, angles, speeds, loads)
+            
+    def processValues(self, values):
+        for id, angle, speed, load in zip(values[0], values[1], values[2], values[3]):
+            motor = self.idMotors[int(id)]
+            motor.lastUpdate = datetime.now()
+
+            motor.currentAngle = angle
+            if motor.goalAngle == None:
+                motor.goalAngle = motor.currentAngle
+
+            motor.currentSpeed = speed/1023.0
+            if motor.goalSpeed == None:
+                motor.goalSpeed = max(0, motor.currentSpeed)
+
+            motor.currentLoad = load/1023.0
+            if motor.goalLoad == None:
+                motor.goalLoad = max(0, motor.currentLoad)
+            
     def run(self):
+        motors = self
+
         def motorsValues(values):
-            for id, angle, speed, load in zip(values[0], values[1], values[2], values[3]):
-                motor.lastUpdate = datetime.now()
-                motor = self.idMotors[int(id)]
-
-                motor.setAngle(angle)
-                if motor.goalAngle == None:
-                    motor.goalAngle = motor.currentAngle
-
-                motor.setSpeed(speed/1023.0)
-                if motor.goalSpeed == None:
-                    motor.goalSpeed = max(0, motor.currentSpeed)
-
-                motor.setLoad(load/1023.0)
-                if motor.goalLoad == None:
-                    motor.goalLoad = max(0, motor.currentLoad)
+            motors.processValues(values)
 
         while self.running:
             self.connection.ServosGetValues_callback(1, motorsValues)
-
-            ids = []
-            angles = []
-            speeds = []
-            loads = []
-
-            for name in self.motors:
-                motor = self.motors[name]
-                if motor.goalAngle != None and motor.currentAngle != None and motor.currentSpeed != None and motor.dirty:
-                    ids += [motor.id]
-                    angles += [int(motor.goalAngle*1000)]
-                    speeds += [int(motor.goalSpeed*1023)]
-                    loads += [int(motor.goalLoad*1023)]
-
-            if len(ids):
-                self.connection.ServosSetValues(1, ids, angles, speeds, loads)
-
+            self.pushValues()
             time.sleep(1.0/self.frequency)
 
 """
@@ -124,21 +132,21 @@ class Motor:
 
     def setAngle(self, angle):
         self.dirty = True
-        self.goalAngle = angle
+        self.goalAngle = float(angle)
 
     def setLoad(self, load):
         self.dirty = True
-        self.goalLoad = load
+        self.goalLoad = float(load)
 
     def setSpeed(self, speed):
         self.dirty = True
-        self.goalSpeed = speed
+        self.goalSpeed = float(speed)
 
     def getAngle(self):
-        return self.currentAngle
+        return float(self.currentAngle)
 
     def getSpeed(self):
-        return self.currentSpeed
+        return float(self.currentSpeed)
 
     def getLoad(self):
-        return self.currentLoad
+        return float(self.currentLoad)

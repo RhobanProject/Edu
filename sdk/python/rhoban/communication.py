@@ -25,6 +25,8 @@ class Connection(tcp.TCPClient):
         super(Connection, self).__init__()
 
     def connectTo(self, hostname, port):
+        self.hostname = hostname
+        self.port = port
         self.waitHeader = True
         self.buffer = ''
         self.message = None

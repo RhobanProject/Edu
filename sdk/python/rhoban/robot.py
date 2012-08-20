@@ -21,6 +21,9 @@ class Robots(object):
         if 'commands' in config:
             storeFileName = config['commands']
 
+        if 'robots' not in config or not config['robots']:
+            raise Exception('Config error: no "robots" entry')
+
         for robotName, robotConfig in config['robots'].items():
             robot = Robot(storeFileName)
             self.robots[robotName] = robot

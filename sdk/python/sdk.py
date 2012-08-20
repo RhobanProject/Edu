@@ -4,6 +4,12 @@
 import sys, os, time, math
 import rhoban.robot as robot
 import sockets.tcp as tcp
+from rhoban.main import RhobanMain
+
+main = RhobanMain()
+main.run()
+
+exit()
 
 spider = None
 
