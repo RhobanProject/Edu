@@ -16,7 +16,7 @@ Voici un exemple de code utilisant la couche moteur recopiant la valeur d'un ser
 Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 
 Lancement du dispatcher
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. cpp:function:: void Motors::start(int frequency)
 
@@ -30,7 +30,7 @@ l'appel à cette méthode, en effet, ce fichier de configuration permet de faire
 le nom des moteurs et leurs identifiants.
 
 Accéder à un moteur
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. cpp:function:: void Motors::operator[](string name)
 
@@ -74,7 +74,7 @@ la valeur pour l'angle, la charge et la vitesse du moteur.
 Ces valeurs sont écrites sur les moteurs à la fréquence indiquée lors de l'appel à ``start()``.
 
 Exemples
---------
+~~~~~~~~
 
 C++ :
 

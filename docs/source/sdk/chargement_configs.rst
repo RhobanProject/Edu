@@ -17,7 +17,7 @@ qui compose le robot utilisé.
 .. _load_env:
 
 Charger un environement
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
@@ -48,7 +48,7 @@ Exemples :
     robot.loadEnvironment('/home/rhoban/RobotBoard/Spider')
 
 Configuration bas niveau
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 La configuration bas niveau, ou `LowLevelConfig` permet de décrire comment est constitué
 le robot physiquement, c'est à dire quel sont ses capteurs, moteurs etc.
@@ -75,7 +75,7 @@ Exemples :
     robot.loadLowLevelConfig('LowLevelConfig.xml', True)
 
 Configuration des mouvements
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 La configuration des mouvements (`MoveSchedulerConfig`) fait correspondre les identifiants
 des moteurs utilisés à des paramètres (angle initial, angle max, type etc.) et surtout à un

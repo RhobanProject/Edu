@@ -4,12 +4,15 @@
 Commandes
 =========
 
+Fonctionnement
+~~~~~~~~~~~~~~
+
 Les commandes sont présentes nativement dans le SDK vous permettent d'effectuer
 des actions et intéragir avec le serveur sans écrire de code.
 
 .. note::
 
-    Les commandes lieront le :ref:`fichier de configuration <configuration>` ``config.yml`` pour charger les robots.
+    Les commandes liront le :ref:`fichier de configuration <configuration>` ``config.yml`` pour charger les robots.
 
 L'appel à une commande peut se faire de la manière suivante :
 
@@ -26,6 +29,9 @@ Par exemple:
 Pour relâcher les moteurs du robot définit par l'entée ``spider`` du :ref:`fichier de configuration <configuration>`.
 
 Si aucun robot n'est spécifié, tous les robots seront touchés par la commande.
+
+Liste des commandes
+~~~~~~~~~~~~~~~~~~~
 
 ``compliant``: Relâcher les servomoteurs
 ----------------------------------------

@@ -18,7 +18,7 @@ La fonction ``loadYaml()`` de la classe ``Robots`` vous permet de charger les ro
 dans un fichier Yaml et de pouvoir intéragir avec eux.
 
 Entrées
--------
+~~~~~~~
 
 Voici les entrées du fichier de configuration:
 
@@ -30,7 +30,7 @@ Voici les entrées du fichier de configuration:
     * ``loadMoves``: :ref:`mouvements <moves>` à charger automatiquement
 
 Exemple de fichier Yaml
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Voici un exemple de fichier Yaml :
 
@@ -53,7 +53,7 @@ Voici un exemple de fichier Yaml :
             loadMoves: ['Walk', 'Standup'] # Mouvements à charger automatiquement
 
 Exemple d'utilisation
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Voici comment ce fichier pourrait être utilisé dans le code, en C++ :
 
