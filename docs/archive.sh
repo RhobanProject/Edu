@@ -1,6 +1,7 @@
 #!/bin/bash
 # Genère les .zip et .tar.gz pour la rubrique téléchargement
 
+short=`git describe --abbrev=0`
 version=`git describe`
 directory=`pwd`/build/html/files
 
@@ -30,3 +31,5 @@ cat source/_build/telechargement.in.rst \
     |sed -s s/"%SDK_ZIP%"/"$sdk_url_zip"/g \
     |sed -s s/"%SDK_TGZ%"/"$sdk_url_tgz"/g \
     > source/telechargements.rst
+
+echo -e "release = '$short'\nversion = '$version'" > source/generated.py
