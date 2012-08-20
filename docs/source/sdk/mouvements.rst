@@ -11,7 +11,7 @@ Avant de pouvoir utiliser les mouvements, il vous faudra être :ref:`connecté <
 et avoir :ref:`chargé un environement <load_env>` sur le robot.
 
 Envoyer un mouvement
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
@@ -33,7 +33,7 @@ méthode ``loadMove()``.
 Le contenu du fichier mouvement est alors envoyé sur le serveur qui le lit et le charge.
 
 Lancer un mouvement
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. cpp:function:: void Robot::startMove(string name, int duration = 0, int smooth = 500)
 
@@ -49,7 +49,7 @@ progressivement pendant ``smooth`` millisecondes.
     il est fortement conseillé d'utiliser un ``smooth`` important.
 
 Mettre à jour une constante de mouvement
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Les constantes sont des valeurs contenues dans le mouvement qui permettent en général de
 paramètrer le comportement du mouvement.
@@ -61,7 +61,7 @@ Il est possible de les mettre à jour à l'aide des méthodes suivantes :
 .. py:function:: Robot.updateConstant(moveName, constantName, double value)
 
 Mettre un mouvement en pause
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Un mouvement lancé peut être mis en pause à l'aide de la méthode ``pauseMove()``
 
@@ -70,7 +70,7 @@ Un mouvement lancé peut être mis en pause à l'aide de la méthode ``pauseMove
 .. py:function:: Robot.pauseMove(moveName)
 
 Stopper un mouvement
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 .. cpp:function:: void Robot::stopMove(string name, int smooth = 500)
 
@@ -85,7 +85,7 @@ au cours de ``smooth`` millisecondes.
     ``smooth``, pour éviter les chocs des moteurs.
 
 Obtenir la liste des mouvements chargés
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 La liste des mouvements chargés peut être obtenue via la méthode ``getLoadedMoves()``
 
@@ -94,7 +94,7 @@ La liste des mouvements chargés peut être obtenue via la méthode ``getLoadedM
 .. py:function:: Robot.getLoadedMoves
 
 Tuer/Décharger un mouvement
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Vous pouvez décharger un mouvement à l'aide de ``killMove()`` :
 
@@ -108,7 +108,7 @@ Vous pouvez décharger un mouvement à l'aide de ``killMove()`` :
     vos mouvements avant de les tuer
 
 Exemples
---------
+~~~~~~~~
 
 C++ :
 
