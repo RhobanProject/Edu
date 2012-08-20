@@ -8,11 +8,10 @@ import sockets.tcp as tcp
 spider = None
 
 try:
+    print('Loading robots')
     robots = robot.Robots()
     robots.loadYaml('config.yml')
-
     robot = robots['default']
-    time.sleep(5)
 
     print('Starting move...')
     robot.startMove('SpiderSinus', 0, 1000)

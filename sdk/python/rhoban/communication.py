@@ -15,7 +15,7 @@ class CommandSpecification:
         self.destination = destination
         self.command = command
         self.parametersPattern = ParametersPattern(parametersPattern)
-        self.answerPattern = ParametersPattern(answerPattern)
+        self.answerPattern = ParametersPattern(answerPattern, name)
 
 """
     Une connexion avec le serveur
@@ -308,7 +308,8 @@ class CommandsStore:
     Représente le motif de plusieurs paramètres
 """
 class ParametersPattern:
-    def __init__(self, patternsString):
+    def __init__(self, patternsString, name = ''):
+        self.name = name
         self.patterns = []
         patternsString = patternsString.strip()
 
@@ -347,7 +348,7 @@ class ParametersPattern:
             raise IOError('Unable to read arguments from data')
 
         if data:
-            raise IOError('Remaning data')
+            raise IOError('Remaining %d bytes of data for command %s' % (len(data), self.name))
 
         return arguments
 
@@ -368,11 +369,14 @@ class ParameterPattern:
         self.specification = specification.replace('string', 'byte[]')
         self.subPattern = None
         self.depth = 0
-        
+ 
         if baseType == None:
             self.baseType = specification.strip('[]')
         else:
             self.baseType = baseType
+        
+        if not self.baseType in self.typesMapping:
+            raise Exception('Unknown type: ' + self.baseType)
         
         if self.specification.endswith('[]'):
             tmp = self.specification
