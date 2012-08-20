@@ -21,9 +21,14 @@ Envoyer un mouvement
 Avant de pouvoir utiliser un mouvement, il faudra l'envoyer sur le serveur à l'aide de la
 méthode ``loadMove()``.
 
-.. cpp:function:: void Robot::loadMove(string filename)
+.. cpp:function:: void Robot::loadMove(string name)
 
-.. py:function:: Robot.loadMove(filename)
+.. py:function:: Robot.loadMove(name)
+
+.. note::
+
+    Le fichier de mouvement se trouve sous le dossier de l'environement dans ``Moves/``.
+    Pensez à bien définir l'environement avant de charger un mouvement.
 
 Le contenu du fichier mouvement est alors envoyé sur le serveur qui le lit et le charge.
 
