@@ -14,30 +14,77 @@ et traiter les données streamée.
 L'initialisation
 ----------------
 
-*Tracker_Client(string name,string ip, int port, int cap)*
+.. cpp:function:: TrackerClient::Tracker_Client(string name,string ip, int port, int cap)
 
-Pour chaque "rigid body" tracké par le logiciel il faut instancier un
-objet. **name** représente le nom du rigid body défini dans le
-logiciel. Le constructeur prend l'adresse de la machine, **ip**, sur
-laquelle tourne Tracking Tools et un **port**, la connexion est
-initialisée à ce moment.  Le dernier argument **cap** définit le nombre
+Pour chaque ``rigid body`` tracké par le logiciel il faut instancier un
+objet. ``name`` représente le nom du rigid body défini dans le
+logiciel. Le constructeur prend l'adresse de la machine, ``ip``, sur
+laquelle tourne Tracking Tools et un ``port``, la connexion est
+initialisée à ce moment.  Le dernier argument ``cap`` définit le nombre
 maximum de données sauvegardées. Une fois initialisé l'instance stockera
 les données réçues.
 
 Obtenir les informations
 ------------------------
 
-Deux méthodes permettent d'extraire les informations :
-*void Log(string* **file_name** *)*
-qui écrit l'intégralité des données stockées dans le fichier dont le nom
-est passé en paramètre.
-*Tracking_Data* * *getInfo(enum mode* **mode** *)*
-deux modes sont possibles *LASTDATA* qui renvoie la dernière données
-reçue et *CURSDATA* qui renvoie la donnée la plus vieille n'ayant
-pas était lue.
+.. cpp:function:: Tracking_Data * TrackerClient::getInfo(enum mode)
+
+.. cpp:function:: void TrackerClient::Log(string file_name)
+
+Deux méthodes permettent d'extraire les informations, ``Log(string
+file_name)`` écrit l'intégralité des données stockées dans le fichier
+dont le nom est passé en paramètre. Pour ``getInfo(enum mode mode)`` deux
+modes sont possibles, ``LASTDATA`` renverra la dernière donnée reçue
+et ``CURSDATA`` la donnée la plus vieille n'ayant pas été
+lue.
 
 Changer la valeur du discount
 -----------------------------
 
-La méthode *void setDiscount(int* **discount** *)* permet de changer
-la valeur du discount utilisé pour lisser les données.
+.. cpp:function:: void TrackerClient::setDiscount(double discount)
+
+La méthode ``setDiscount(double discount)``
+permet de changer la valeur du discount utilisé pour lisser les données.
+
+Exemples
+~~~~~~~~
+
+C++ :
+
+.. code-block:: cpp
+
+    // l'objet est instancié
+    TrackerClient tc("tracker", "192.168.16.100", 3883, -1);
+
+    sleep(10);
+    int i;
+
+    //on affiche les données reçues pendant les 600 premier tour de boucle
+    for ( i = 0; i < 600; i++) {
+        Tracking_Data * temp = tc.getInfo(CURSDATA);
+
+        if (temp != NULL) {
+            cout << "Timestamp : " << temp->timestamp << endl;
+
+            cout << "Position : (" << temp->pos[0] << "," << temp->pos[1] << ",";
+            cout << temp->pos[2] << ")" << endl;
+
+            cout << "Rotation Matrix :" << endl;
+            cout << temp->rot_mat[0][0] << " " << temp->rot_mat[0][1] << " ";
+            cout << temp->rot_mat[0][0] << endl;
+            cout << temp->rot_mat[1][0] << " " << temp->rot_mat[1][1] << " ";
+            cout << temp->rot_mat[1][0] << endl;
+            cout << temp->rot_mat[2][0] << " " << temp->rot_mat[2][1] << " ";
+            cout << temp->rot_mat[2][0] << endl << endl;
+
+            usleep(10);
+        }
+
+        delete temp;
+    }
+
+    //on enregistre tout les données reçue dans tracking.log
+    tc.Log("tracking.log);
+
+    //on change la valeur du discount pour le lissage de la capture
+    tc.smooth(0.2);
