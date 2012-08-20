@@ -9,7 +9,7 @@ obtenir les dernières versions sur `le dépôt Github <https://github.com/Rhoba
 
 Vous pouvez également cloner le dépôt directement : ::
 
-    git clone https://github.com/RhobanProject/Edu.git
+    git clone --recursive https://github.com/RhobanProject/Edu.git
 
 IHM
 ~~~

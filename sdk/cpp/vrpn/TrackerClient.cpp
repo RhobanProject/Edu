@@ -186,7 +186,7 @@ TrackerClient::getInfo(enum mode mode) {
 
 
 void
-TrackerClient::smooth(double g){
+TrackerClient::setDiscount(double g){
     discount=g;
 }
 
