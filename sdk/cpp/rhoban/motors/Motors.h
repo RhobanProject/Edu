@@ -29,26 +29,39 @@ namespace Rhoban
   public:
     Motors(Connection *connection);
     ~Motors();
+    
+    size_t len();
+    Motor *operator[](string name);
     void start(int frequency);
-    void execute();
     void stop();
+    void compliant(string name);
     void allCompliant();
+    void hard(string name);
+    void allHard(string name);
+    void run();
+
+    void execute();
 
     void setConnection(Connection *connection);
     Connection * getConnection();
     void setConfig(MoveSchedulerConfig *config);
     MoveSchedulerConfig *getConfig();
-    void addMotor(string name, Motor *motor);
-    Motor *getMotor(string name);
-    void removeMotor(string name);
-
+    void setMotors(map<string, Motor *> motors);
+    map<string, Motor *> getMotors();
+    void setIdMotors(map<int, Motor *> idMotors);
+    map<int, Motor *> getIdMotors();
+    void setRunning(bool val);
+    bool getRunning();
+    void setFrequency(int frequency);
+    int getFrequency();
 
   protected:
     Connection *connection;
     MoveSchedulerConfig *configuration;
     map<string, Motor *> motors;
-
+    map<int, Motor *> idMotors;
     bool running;
+    int frequency;
   };
 }
 

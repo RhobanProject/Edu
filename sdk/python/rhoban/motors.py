@@ -46,7 +46,7 @@ class Motors(threading.Thread):
     def stop(self):
         self.running = False
 
-    def compilant(self, name):
+    def compliant(self, name):
         self.motors[name].goalLoad = 0
 
     def allCompliant(self):
