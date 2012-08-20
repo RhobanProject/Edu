@@ -24,11 +24,11 @@ Si vous êtes sous Windows, vous devrez installer MinGW et MSYS, et éxécuter l
 Obtenir les sources
 -------------------
 
-Il y a deux façons d'obtenir les sources, vous pouvez cloner le dépôt Git :
+Il y a deux façons d'obtenir les sources, vous pouvez cloner le :ref:`dépôt Github <https://github.com/RhobanProject/Edu>`_ :
 
 .. code-block:: bash
     
-    git clone https://github.com/RhobanProject/Edu.git
+    git clone --recursive http://github.com/RhobanProject/Edu.git
 
 Ou vous pouvez également vous rendre dans la rubrique :ref:`telechargements` pour obtenir une archive du SDK.
 
