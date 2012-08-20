@@ -114,10 +114,13 @@ class Motors(threading.Thread):
 
     def raiseLoad(self, cs = 500):
         for x in xrange(cs):
+            sys.stdout.write("\rLoad: %3d%%" % (round(100*(x+1)/float(cs))))
+            sys.stdout.flush()
             for name, motor in self.motors.items():
                 motor.setLoad((x +1) / float(cs))
             time.sleep(0.01)
             self.pushValues()
+        print('')
             
     def run(self):
         motors = self

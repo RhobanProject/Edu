@@ -35,8 +35,11 @@ class Robots(object):
                 robot.loadEnvironment(robotConfig['environment'])
 
             if 'loadMoves' in robotConfig:
+                loadedMoves = robot.getLoadedMoves()
+
                 for move in robotConfig['loadMoves']:
-                    robot.loadMove(move)
+                    if move not in loadedMoves:
+                        robot.loadMove(move)
 
     def stop(self):
         for name, robot in self.robots.items():
