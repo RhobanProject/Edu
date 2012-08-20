@@ -4,7 +4,7 @@
     <Name>ErrorMessage</Name>
     <Description>error msg</Description>
     <Destination>error</Destination>
-    <CommandIndex>0</CommandIndex>
+    <CommandIndex>1</CommandIndex>
     <ParametersPattern />
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
@@ -14,7 +14,7 @@
     <Destination>server</Destination>
     <CommandIndex>0</CommandIndex>
     <ParametersPattern />
-    <AnswerPattern>ui32</AnswerPattern>
+    <AnswerPattern>ui32 </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
     <Name>SendXml</Name>
@@ -34,7 +34,7 @@
   <CommandSpecification>
     <Name>ErrorFromScheduler</Name>
     <Destination>move_scheduler</Destination>
-    <CommandIndex>0</CommandIndex>
+    <CommandIndex>1</CommandIndex>
     <ParametersPattern />
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
@@ -225,7 +225,7 @@
   <CommandSpecification>
     <Name>ErrorFromLowLevel</Name>
     <Destination>low_level</Destination>
-    <CommandIndex>6</CommandIndex>
+    <CommandIndex>1</CommandIndex>
     <ParametersPattern />
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
@@ -248,7 +248,7 @@
   <CommandSpecification>
     <Name>ErrorForLowLevel</Name>
     <Destination>low_level</Destination>
-    <CommandIndex>0</CommandIndex>
+    <CommandIndex>1</CommandIndex>
     <ParametersPattern />
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
@@ -398,7 +398,7 @@
   </CommandSpecification>
   <CommandSpecification>
     <Name>VisionGetJpegFrames</Name>
-    <Description>ask jpeg frames.</Description>
+    <Description>ask jpeg frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
     <Destination>vision</Destination>
     <CommandIndex>17</CommandIndex>
     <ParametersPattern>string[] ui32[] ui32[] ui32[] </ParametersPattern>
@@ -407,7 +407,7 @@
   <CommandSpecification>
     <Name>ErrorFromVision</Name>
     <Destination>vision</Destination>
-    <CommandIndex>0</CommandIndex>
+    <CommandIndex>1</CommandIndex>
     <ParametersPattern />
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
@@ -469,7 +469,7 @@
   </CommandSpecification>
   <CommandSpecification>
     <Name>LocalisationAddSample</Name>
-    <Description>add sample</Description>
+    <Description>add sample. parameters are coordinates.</Description>
     <Destination>localisation</Destination>
     <CommandIndex>3</CommandIndex>
     <ParametersPattern>float float </ParametersPattern>
@@ -509,7 +509,7 @@
   </CommandSpecification>
   <CommandSpecification>
     <Name>LocalisationGetState</Name>
-    <Description>get x y and dir</Description>
+    <Description>get x y coordinates and direction of the goal</Description>
     <Destination>localisation</Destination>
     <CommandIndex>2</CommandIndex>
     <ParametersPattern />
@@ -588,12 +588,6 @@
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern />
-  </CommandSpecification>
-  <CommandSpecification>
     <Name>SchedulerUpdateConstant</Name>
     <Description>update constants of a constant block. Params are move name, block name and values.</Description>
     <Destination>move_scheduler</Destination>
@@ -623,6 +617,30 @@
     <Destination>low_level</Destination>
     <CommandIndex>57</CommandIndex>
     <ParametersPattern>float[] </ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionGetParameters</Name>
+    <Description>get parameters. Arg is parameters type.</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>18</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionSetParameters</Name>
+    <Description>set colors parameters. Arg is type and then serialized parameter object.</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>19</CommandIndex>
+    <ParametersPattern>string string </ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionSaveParameters</Name>
+    <Description>save the remote configuration file. Arg is parameter type.</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>20</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
     <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
 </ArrayOfCommandSpecification>
