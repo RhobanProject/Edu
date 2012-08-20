@@ -18,17 +18,17 @@ namespace Rhoban
 {
   Moves::Moves(Connection *connection)
   {
-    
+    this->connection = connection;
   }
   
   Moves::~Moves()
   {
-
+    delete connection;
   }
 
   void Moves::loadMove(string path)
   {
-
+    
   }
 
   void Moves::startMove(string name, int duration, int smooth)
