@@ -18,7 +18,7 @@ class RhobanMain(object):
                     StartMoveCommand(), StopMoveCommand()],
                 'motors': [CompliantCommand(), HardCommand(),
                     SetCommand(), ScanCommand(), SnapshotCommand(),
-                    InitCommand(), ZeroCommand()]
+                    InitCommand(), ZeroCommand(), MonitorCommand()]
                 }
 
         for family, familyCommands in myCommands.items():
@@ -60,7 +60,6 @@ class RobotsCommand(commands.Command):
 
         if not arguments:
             for name, robot in self.robots.robots.items():
-                robot.name = name
                 self.executeFor(robot, options)
         else:
             for name in arguments:
@@ -361,3 +360,45 @@ class SnapshotCommand(RobotsCommand):
         else:
             for motor, angle in snapshot.items():
                 print('%s: %s' % (motor, angle))
+
+"""
+    Monitorer les moteurs d'un robot
+"""
+class MonitorCommand(RobotCommand):
+    def define(self):
+        self.name = 'monitor'
+        self.prototype = '[-f frequency] [-i] <robotName>'
+        self.options = 'f:i'
+        self.arguments = 1
+        self.description = 'Monitors the servos (-i sorts by id)'
+
+    def execute(self, robot, options, arguments):
+        fmt = ' | %-10s | %-4s | %-7s | %-12s | %-8s | %-8s |'
+
+        frequency = float(options.get('-f', 1))
+        robot.motors.start(3 * frequency)
+
+        while True:
+            os.system('clear')
+            headline = (fmt % ('Name', 'Id', 'Present', 'Angle', 'Load', 'Speed'))
+            print(' Monitoring %s' % robot.name)
+            print(' ' + ('-' * (len(headline)-1)))
+            print(headline)
+            print(' ' + ('-' * (len(headline)-1)))
+
+            if '-i' in options:
+                items = sorted(robot.motors.idMotors.items())
+            else:
+                items = sorted(robot.motors.motors.items())
+
+            for name, motor in items:
+                if motor.lastUpdate != None:
+                    load = '%g%%' % round(100*motor.getLoad(), 1)
+                    speed = '%g%%' % round(100*motor.getSpeed(), 1)
+                    print(fmt % (motor.name, motor.id, 'Yes', motor.getAngle(), load, speed))
+                else:
+                    print(fmt % (motor.name, motor.id, 'No', '-', '-', '-'))
+
+            print(' ' + ('-' * (len(headline)-1)))
+            time.sleep(1.0/frequency)
+

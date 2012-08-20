@@ -40,6 +40,7 @@ class Motors(threading.Thread):
         if self.configuration == None:
             raise Exception('No suitable motors configuration')
 
+        self.running = True
         super(Motors, self).start()
 
     def stop(self):

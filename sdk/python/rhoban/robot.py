@@ -27,6 +27,7 @@ class Robots(object):
         for robotName, robotConfig in config['robots'].items():
             robot = Robot(storeFileName)
             self.robots[robotName] = robot
+            robot.name = robotName
             
             if 'host' in robotConfig:
                 robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
