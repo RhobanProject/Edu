@@ -55,6 +55,8 @@ foreach(DIRECTORY common utils)
     include_directories("${PROJECT_BINARY_DIR}/${DIRECTORY}")
 endforeach(DIRECTORY)
 
+include_directories("${YAML_HEADERS}")
+
 set(ALL_SOURCES ${RHOBAN_SOURCES})
 set(EXE_SOURCES ${ALL_SOURCES} ${MAIN_SOURCES} ${COMMANDS_SOURCES})
 
