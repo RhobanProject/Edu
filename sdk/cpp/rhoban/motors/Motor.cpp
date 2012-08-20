@@ -21,6 +21,10 @@ namespace Rhoban
     this->name = name;
     lastUpdate = 0;
     dirty = 0;
+
+    goalAngleInit = 0;
+    currentAngleInit = 0;
+    currentSpeedInit = 0;
   }
 
   bool Motor::isDirty()
@@ -32,6 +36,7 @@ namespace Rhoban
   {
     setGoalAngle(angle);
     setDirty(1);
+    goalAngleInit = 1;
   }
 
   void Motor::setLoad(double load)
@@ -94,6 +99,7 @@ namespace Rhoban
   void Motor::setGoalAngle(int angle)
   {
     goalAngle=angle;
+    goalAngleInit=1;
   }
 
   int Motor::getGoalAngle()
@@ -104,6 +110,7 @@ namespace Rhoban
   void Motor::setCurrentAngle(int angle)
   {
     currentAngle=angle;
+    currentAngleInit=1;
   }
 
   int Motor::getCurrentAngle()
@@ -124,6 +131,7 @@ namespace Rhoban
   void Motor::setCurrentSpeed(double speed)
   {
     currentSpeed=speed;
+    currentSpeedInit=1;
   }
 
   double Motor::getCurrentSpeed()
@@ -160,4 +168,19 @@ namespace Rhoban
   {
     return dirty;
   } 
+
+  bool Motor::getGoalAngleInit()
+  {
+    return goalAngleInit;
+  }
+
+  bool Motor::getCurrentAngleInit()
+  {
+    return currentAngleInit;
+  }
+
+  bool Motor::getCurrentSpeedInit()
+  {
+    return currentSpeedInit;
+  }
 }

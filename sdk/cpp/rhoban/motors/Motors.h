@@ -39,6 +39,7 @@ namespace Rhoban
     void hard(string name);
     void allHard(string name);
     void run();
+    void motorsValue(Message *values);
 
     void execute();
 

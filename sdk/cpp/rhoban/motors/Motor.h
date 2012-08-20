@@ -55,6 +55,9 @@ namespace Rhoban
     double getCurrentLoad();
     void setDirty(bool val);
     bool getDirty();
+    bool getGoalAngleInit();
+    bool getCurrentAngleInit();
+    bool getCurrentSpeedInit();
 
   protected:
     int id;
@@ -71,6 +74,10 @@ namespace Rhoban
     double currentLoad;
 
     bool dirty;
+
+    bool goalAngleInit;
+    bool currentAngleInit;
+    bool currentSpeedInit;
   };
 }
 
