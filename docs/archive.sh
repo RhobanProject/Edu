@@ -13,12 +13,16 @@ cd ../
 
 # Génère les zip et tgz du SDK
 sdk_zip=RhobanSDK-$version.zip
-rm $directory/$sdk_zip
-zip -r "$directory/$sdk_zip" sdk/ -x *.git*
+if [ ! -f $directory/$sdk_zip ]; then
+    rm $directory/$sdk_zip
+    zip -r "$directory/$sdk_zip" sdk/ -x *.git*
+fi
 
 sdk_tgz=RhobanSDK-$version.tar.gz
-rm $directory/$sdk_tgz
-tar zcvf "$directory/$sdk_tgz" --exclude "*/.git" sdk/
+if [ ! -f $directory/$sdk_tgz ]; then
+    rm $directory/$sdk_tgz
+    tar zcvf "$directory/$sdk_tgz" --exclude "*/.git" sdk/
+fi
 
 # Retour dans le dossier docs/
 cd docs/
