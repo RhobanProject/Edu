@@ -14,9 +14,6 @@ try:
     robot = robots['default']
     time.sleep(5)
 
-    print('Loading move...')
-    robot.loadMove('/configs/SpiderSinus.xml')
-
     print('Starting move...')
     robot.startMove('SpiderSinus', 0, 1000)
 

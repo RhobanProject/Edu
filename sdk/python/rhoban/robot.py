@@ -113,7 +113,7 @@ class Robot(object):
     # Moves
 
     def moveFileName(self, name):
-        return os.path.join(self.environment, 'Moves', filename + '.xml')
+        return os.path.join(self.environment, 'Moves', name + '.xml')
 
     def loadMove(self, name):
         filename = self.moveFileName(name + '.graphics')
