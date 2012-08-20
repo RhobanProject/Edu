@@ -347,7 +347,7 @@ class ParametersPattern:
                 (data, argument) = pattern.readData(data)
                 arguments += [argument]
         except Exception:
-            raise IOError('Unable to read arguments from data')
+            raise IOError('Unable to read arguments from data for command %s' % self.name)
 
         if data:
             raise IOError('Remaining %d bytes of data for command %s' % (len(data), self.name))

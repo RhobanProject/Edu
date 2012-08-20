@@ -23,6 +23,12 @@ class Config(object):
     def parse(self):
         pass
 
+class ServoConfig(object):
+    def __init__(self, id, iniAngle, zeroAngle):
+        self.id = id
+        self.iniAngle = iniAngle
+        self.zeroAngle = zeroAngle
+
 class MoveSchedulerConfig(Config):
     def parse(self):
         self.servos = {}
@@ -33,7 +39,8 @@ class MoveSchedulerConfig(Config):
 
     def processServos(self, servos):
         for servo in servos.getElementsByTagName('ServoConfig'):
-            self.servos[self.getText(servo, 'Name')] = self.getText(servo, 'Id')
+            newServo = ServoConfig(self.getText(servo, 'Id'), self.getText(servo, 'IniAngle'), self.getText(servo, 'ZeroAngle'))
+            self.servos[self.getText(servo, 'Name')] = newServo
 
 class LowLevelConfig(Config):
     pass

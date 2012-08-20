@@ -13,11 +13,12 @@ class RhobanMain(object):
     def __init__(self):
         self.manager = commands.CommandsManager()
         myCommands = {
-                'basic': [HelpCommand(), StatusCommand()],
+                'basic': [HelpCommand(), StatusCommand(), EmergencyCommand()],
                 'moves': [LoadMoveCommand(), KillMoveCommand(),
                     StartMoveCommand(), StopMoveCommand()],
                 'motors': [CompliantCommand(), HardCommand(),
-                    SetCommand()]
+                    SetCommand(), ScanCommand(),
+                    InitCommand(), ZeroCommand()]
                 }
 
         for family, familyCommands in myCommands.items():
@@ -133,12 +134,16 @@ class StatusCommand(RobotsCommand):
 
         # Motors
         robot.motors.pullValues()
-        print('|- %d motors (%s)' % (len(robot.motors.motors), ','.join(map(str, robot.motors.idMotors.keys()))))
+        availableMotors = filter(lambda motor: motor.lastUpdate != None, robot.motors.motors.values())
+        print('|- %d/%d motors (%s)' % (len(availableMotors), len(robot.motors.motors), ','.join(map(str, robot.motors.idMotors.keys()))))
     
         if '-v' in options:
             prefix = ' \-'
             for id, motor in robot.motors.motors.items():
-                print('%s %s (id: %d), angle: %g, speed: %g, load: %g' % (prefix, motor.name, motor.id, motor.getAngle(), motor.getSpeed(), motor.getLoad()))
+                if motor.lastUpdate:
+                    print('%s %s (id: %d), angle: %g, speed: %g, load: %g' % (prefix, motor.name, motor.id, motor.getAngle(), motor.getSpeed(), motor.getLoad()))
+                else:
+                    print('%s %s (id: %d) Not detected' % (prefix, motor.name, motor.id))
                 prefix = ' |-'
 
         # Moves
@@ -275,3 +280,52 @@ class SetCommand(RobotCommand):
         print('Setting motor %s (id=%d) angle=%g, load=%g, float=%g' % (motor.name, motor.id, motor.goalAngle, motor.goalLoad, motor.goalSpeed))
             
         robot.motors.pushValues()
+
+
+"""
+    Fait prendre la position initial à un ou plusieurs robots
+"""
+class InitCommand(RobotsCommand):
+    def define(self):
+        self.name = 'init'
+        self.description = 'Take the initial position for servos'
+
+    def executeFor(self, robot, options):
+        print('Taking initial servos position for %s' % robot.name)
+        robot.motors.goToInit()
+
+"""
+    Fait prendre la position zero à un ou plusieurs robots
+"""
+class ZeroCommand(RobotsCommand):
+    def define(self):
+        self.name = 'zero'
+        self.description = 'Take the zero position for servos'
+
+    def executeFor(self, robot, options):
+        print('Taking zero servos position for %s' % robot.name)
+        robot.motors.goToZero()
+
+"""
+    Lance un scan
+"""
+class ScanCommand(RobotsCommand):
+    def define(self):
+        self.name = 'scan'
+        self.description = 'Run a scan'
+
+    def executeFor(self, robot, options):
+        print('Running a scan for %s' % robot.name)
+        robot.motors.scan()
+
+"""
+    Arrêt d'urgence
+"""
+class EmergencyCommand(RobotsCommand):
+    def define(self):
+        self.name = 'emergency'
+        self.description = 'Emergency stop'
+
+    def executeFor(self, robot, options):
+        print('Emergency stopping all moves and turning compliant for %s' % robot.name)
+        robot.emergency()

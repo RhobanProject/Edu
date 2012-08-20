@@ -144,6 +144,9 @@ class Robot(object):
     def updateConstant(self, moveName, constantName, value):
         self.moves.updateConstant(moveName, constantName, value)
 
+    def emergency(self):
+        self.connection.SchedulerEmergencyStop()
+
     def stop(self):
         self.connection.stop()
         self.motors.stop()
