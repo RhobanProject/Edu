@@ -108,7 +108,7 @@ class Motors(threading.Thread):
     def goToInit(self):
         self.pullValues()
         for name, motor in self.motors.items():
-            motor.setAngle(motor.iniAngle)
+            motor.setRelAngle(0)
 
         self.raiseLoad()
 
@@ -164,9 +164,9 @@ class Motor:
         self.dirty = True
         self.goalAngle = float(angle)
 
-    def setAngle(self, angle):
+    def setRelAngle(self, angle):
         self.dirty = True
-        self.goalAngle = float(self.iniAngle + self.zeroAngle + angle)
+        self.goalAngle = self.iniAngle + self.zeroAngle + float(angle)
 
     def setLoad(self, load):
         self.dirty = True
