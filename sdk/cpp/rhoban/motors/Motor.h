@@ -24,10 +24,13 @@ namespace Rhoban
   {
   public:
     Motor(int id, string name);
+
     bool isDirty();
+
     void setAngle(int angle);
     void setLoad(double load);
     void setSpeed(double speed);
+
     int getAngle();
     double getLoad();
     double getSpeed();

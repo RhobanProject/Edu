@@ -43,19 +43,24 @@ namespace Rhoban
 
   void Robot::loadEnvironment(string environment)
   {
+    this->setEnvironment(environment);
+    checkFixEnvironmentPath();
+   
+    string env1 = this->environment;
+    string env2 = this->environment;
+    env1.append("ConfigFiles/LowLevelConfig.xml");
+    env2.append("ConfigFiles/MoveSchedulerConfig.xml");
+    this->loadLowLevelConfig(env1);
+    this->loadMoveSchedulerConfig(env2);  
+  }
+
+  void Robot::checkFixEnvironmentPath()
+  {
     string::iterator it;
     it = environment.end();
     it--;
     if(*it != '/')
       environment.push_back('/');
-    this->setEnvironment(environment);
-   
-    string env1 = environment;
-    string env2 = environment;
-    env1.append("ConfigFiles/LowLevelConfig.xml");
-    env2.append("ConfigFiles/MoveSchedulerConfig.xml");
-    this->loadLowLevelConfig(env1);
-    this->loadMoveSchedulerConfig(env2);  
   }
   
   void Robot::connect(const char *adress, int port)
@@ -105,12 +110,25 @@ namespace Rhoban
     motors->allCompliant();
   }
 
-  void Robot::loadMove(string filename)
+  string Robot::moveFileName(string name)
   {
-    string filepath = environment;
-    filepath.append("Moves/");
-    filepath.append(filename);
-    moves->loadMove(filepath);
+    string retval = getEnvironment();
+    retval.append("Moves/");
+    retval.append(name);
+    retval.append(".xml");
+    return retval;
+  }
+
+  void Robot::loadMove(string name)
+  {
+    string filename = name;
+    filename.append(".graphics");
+    filename = moveFileName(filename);
+    
+    if(1) // fichier existe
+      moves->loadMove(filename);
+    else
+      moves->loadMove(moveFileName(name));
   }
 
   void Robot::startMove(string name, int duration, int smooth)
@@ -181,16 +199,13 @@ namespace Rhoban
 
   void Robot::setEnvironment(string path)
   {
-    string::iterator it;
-    it = path.end();
-    it--;
-    if(*it != '/')
-      path.push_back('/');
     environment = path;
+    checkFixEnvironmentPath();
   }
   
   string Robot::getEnvironment()
   {
+    checkFixEnvironmentPath();
     return environment;
   }
   void Robot::setMoves(Moves *moves)

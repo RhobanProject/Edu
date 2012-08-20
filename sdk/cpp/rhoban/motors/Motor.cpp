@@ -20,6 +20,7 @@ namespace Rhoban
     this->id = id;
     this->name = name;
     lastUpdate = 0;
+    dirty = 0;
   }
 
   bool Motor::isDirty()

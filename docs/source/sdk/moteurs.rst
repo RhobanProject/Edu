@@ -18,7 +18,7 @@ Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 Lancement du dispatcher
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. cpp:function:: void Motors::start(int frequency)
+.. cpp:function:: Motor *Motors::start(int frequency)
 
 .. py:function:: Motors.start(frequency)
 
