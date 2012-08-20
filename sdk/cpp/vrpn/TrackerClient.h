@@ -61,7 +61,7 @@ class TrackerClient {
           the one pointed by the cursor*/
         Tracking_Data * getInfo(enum mode mode);
 
-        void smooth(double gamma);
+        void setDiscount(double);
 
         // mettre toute la liste dans un ficher texte
         void Log(string file_name);
