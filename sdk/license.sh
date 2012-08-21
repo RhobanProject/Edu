@@ -9,17 +9,24 @@ test_other="sourceforge"
 function process
 {
     grep -q $test_presence $1
-
-    if [ ! $? -eq 0 ]; then
-        grep -q $test_other $1
-    
-        if [ ! $? -eq 0 ]; then
-            cat $license > $tmpfile
-            cat $1 >> $tmpfile
-            echo "* Adding license to $1..."
-            mv $tmpfile $1
-        fi
+    if [ $? -eq 0 ]; then
+        return
     fi
+
+    grep -q $test_other $1
+    if [ $? -eq 0 ]; then
+        return
+    fi
+    
+    echo $1|grep -q 'yaml-cpp'
+    if [ $? -eq 0 ]; then
+        return
+    fi
+
+    cat $license > $tmpfile
+    cat $1 >> $tmpfile
+    echo "* Adding license to $1..."
+    mv $tmpfile $1
 }
 
 # Process all the .cpp and .h

@@ -23,6 +23,12 @@ class Config(object):
     def parse(self):
         pass
 
+class ServoConfig(object):
+    def __init__(self, id, iniAngle, zeroAngle):
+        self.id = id
+        self.iniAngle = iniAngle
+        self.zeroAngle = zeroAngle
+
 class MoveSchedulerConfig(Config):
     def parse(self):
         self.servos = {}
@@ -33,7 +39,8 @@ class MoveSchedulerConfig(Config):
 
     def processServos(self, servos):
         for servo in servos.getElementsByTagName('ServoConfig'):
-            self.servos[self.getText(servo, 'Name')] = self.getText(servo, 'Id')
+            newServo = ServoConfig(self.getText(servo, 'Id'), self.getText(servo, 'IniAngle'), self.getText(servo, 'ZeroAngle'))
+            self.servos[self.getText(servo, 'Name')] = newServo
 
 class LowLevelConfig(Config):
     pass
@@ -49,8 +56,9 @@ class Configurations(object):
         return response[0] == 1
 
     def loadMoveSchedulerConfig(self, config, force = False):
+        self.moveSchedulerConfig = MoveSchedulerConfig(config)
+
         if force or not self.isMoveSchedulerConfigLoaded():
-            self.moveSchedulerConfig = MoveSchedulerConfig(config)
             self.connection.SchedulerLoadConfig(self.moveSchedulerConfig.config)
             self.connection.ServosScan(250, 'Normal')
 
@@ -59,7 +67,8 @@ class Configurations(object):
         return response[0] == 1
 
     def loadLowLevelConfig(self, config, force = False):
+        self.lowLevelConfig = LowLevelConfig(config)
+
         if force or not self.isLowLevelConfigLoaded():
-            self.lowLevelConfig = LowLevelConfig(config)
             self.connection.LowLevelLoadConfig(self.lowLevelConfig.config)
 

@@ -16,11 +16,11 @@
 COMMAND_DEFINE(tracker_test)
 {
     TrackerClient tc("tracker", "192.168.16.100", 3883, -1);
+    tc.setDiscount(0.2);
 
-    sleep(10);
     int i;
     for ( i = 0; i < 600; i++) {
-        Tracking_Data * temp = tc.getInfo(CURSDATA);
+        Tracking_Data * temp = tc.getInfo();
 
         if (temp != NULL) {
             cout << "Timestamp : " << temp->timestamp << endl;
@@ -41,9 +41,7 @@ COMMAND_DEFINE(tracker_test)
 
         delete temp;
     }
-    tc.Log("avant.txt");
-    tc.smooth(0.2);
-    tc.Log("après.txt");
+    tc.Log("Tracker.log");
 
     return 0;
 }
