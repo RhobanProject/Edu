@@ -84,20 +84,21 @@ class Motors(threading.Thread):
             
     def processValues(self, values):
         for id, angle, speed, load in zip(values[0], values[1], values[2], values[3]):
-            motor = self.idMotors[int(id)]
-            motor.lastUpdate = datetime.now()
+            if id in self.idMotors:
+                motor = self.idMotors[int(id)]
+                motor.lastUpdate = datetime.now()
 
-            motor.currentAngle = angle
-            if motor.goalAngle == None:
-                motor.goalAngle = motor.currentAngle
+                motor.currentAngle = angle
+                if motor.goalAngle == None:
+                    motor.goalAngle = motor.currentAngle
 
-            motor.currentSpeed = speed/1023.0
-            if motor.goalSpeed == None:
-                motor.goalSpeed = max(0, motor.currentSpeed)
+                motor.currentSpeed = speed/1023.0
+                if motor.goalSpeed == None:
+                    motor.goalSpeed = max(0, motor.currentSpeed)
 
-            motor.currentLoad = load/1023.0
-            if motor.goalLoad == None:
-                motor.goalLoad = max(0, motor.currentLoad)
+                motor.currentLoad = load/1023.0
+                if motor.goalLoad == None:
+                    motor.goalLoad = max(0, motor.currentLoad)
     
     def goToZero(self, duration = 5, verbose = False):
         self.pullValues()

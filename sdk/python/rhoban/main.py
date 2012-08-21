@@ -65,7 +65,7 @@ class RobotsCommand(commands.Command):
         else:
             for name in arguments:
                 if name in self.robots.robots:
-                    self.executeFor(robot, options)
+                    self.executeFor(self.robots.robots[name], options)
                 else:
                     print('Robot %s not found' % name)
                     return
