@@ -23,15 +23,17 @@ namespace Rhoban
   class Motor
   {
   public:
-    Motor(int id, string name);
+    Motor(int id, string name, double iniAngle, double zeroAngle);
 
     bool isDirty();
 
-    void setAngle(int angle);
+    void setAngle(double angle);
+    void setRelAngle(double angle);
     void setLoad(double load);
     void setSpeed(double speed);
 
-    int getAngle();
+    double getAngle();
+    double getRelAngle();
     double getLoad();
     double getSpeed();
 
@@ -41,10 +43,14 @@ namespace Rhoban
     string getName();
     void setLastUpdate(time_t time);
     time_t getLastUpdate();
-    void setGoalAngle(int angle);
-    int getGoalAngle();
-    void setCurrentAngle(int angle);
-    int getCurrentAngle();
+    void setIniAngle(double angle);
+    double getIniAngle();
+    void setZeroAngle(double angle);
+    double getZeroAngle();
+    void setGoalAngle(double angle);
+    double getGoalAngle();
+    void setCurrentAngle(double angle);
+    double getCurrentAngle();
     void setGoalSpeed(double speed);
     double getGoalSpeed();
     void setCurrentSpeed(double speed);
@@ -57,15 +63,20 @@ namespace Rhoban
     bool getDirty();
     bool getGoalAngleInit();
     bool getCurrentAngleInit();
+    bool getGoalSpeedInit();
     bool getCurrentSpeedInit();
+    bool getGoalLoadInit();
+    bool getCurrentLoadInit();    
 
   protected:
+    time_t lastUpdate;
     int id;
     string name;
-    time_t lastUpdate;
+    double iniAngle;
+    double zeroAngle;
 
-    int goalAngle;
-    int currentAngle;
+    double goalAngle;
+    double currentAngle;
 
     double goalSpeed;
     double currentSpeed;
@@ -77,7 +88,10 @@ namespace Rhoban
 
     bool goalAngleInit;
     bool currentAngleInit;
+    bool goalSpeedInit;
     bool currentSpeedInit;
+    bool goalLoadInit;
+    bool currentLoadInit;
   };
 }
 

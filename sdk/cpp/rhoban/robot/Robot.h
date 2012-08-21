@@ -20,6 +20,7 @@ namespace Rhoban
 #include <string>
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
+#include <utils/types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Moves.h"
@@ -41,6 +42,7 @@ namespace Rhoban
     // Connection
     void connect(const char *adress, int port);
     int isConnected();
+    ui32 serverVersion();
     int testConnection();
     
     // Configuration
@@ -59,6 +61,7 @@ namespace Rhoban
     void killMove(string name);
     vector<string> getLoadedMoves();
     void updateConstant(string moveName, string constantName, double value);
+    void emergency();
     void stop();
 
   

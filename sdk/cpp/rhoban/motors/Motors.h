@@ -24,29 +24,43 @@ using namespace std;
 
 namespace Rhoban
 {
+  void motorsValues(Message *values, Motors *data);
+
   class Motors : public Thread
   {
   public:
     Motors(Connection *connection);
     ~Motors();
     
+    void setConfig(MoveSchedulerConfig *config);
+
     size_t len();
     Motor *operator[](string name);
+
     void start(int frequency);
     void stop();
+
     void compliant(string name);
     void allCompliant();
     void hard(string name);
     void allHard(string name);
-    void run();
-    void motorsValue(Message *values);
+
+    void pullValues();
+    void pushValues();
+    void processValues(Message *values);
+
+    void goToZero(int duration = 5, bool verbose = 0);
+    void goToInit(int duration = 5, bool verbose = 0);
+    void raiseLoad(int duration = 5, bool verbose = 0);
 
     void execute();
+    void scan();
+    
 
     void setConnection(Connection *connection);
     Connection * getConnection();
-    void setConfig(MoveSchedulerConfig *config);
-    MoveSchedulerConfig *getConfig();
+    void setConfiguration(MoveSchedulerConfig *config);
+    MoveSchedulerConfig *getConfiguration();
     void setMotors(map<string, Motor *> motors);
     map<string, Motor *> getMotors();
     void setIdMotors(map<int, Motor *> idMotors);

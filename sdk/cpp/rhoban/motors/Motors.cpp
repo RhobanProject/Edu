@@ -23,6 +23,12 @@ using namespace std;
 
 namespace Rhoban
 {
+  void motorsValues(Message *values, void *data)
+  { 
+    Motors *self = (Motors *)data;
+    self->processValues(values);
+  }
+
   Motors::Motors(Connection *connection) : Thread()
   {
     this->connection = connection;
@@ -36,6 +42,20 @@ namespace Rhoban
     delete configuration;
   }
 
+  void Motors::setConfig(MoveSchedulerConfig *config)
+  {
+    this->configuration = config;
+
+    vector<ServoConfig>::iterator it;
+    for(it = configuration->servos_config.servos.begin(); 
+	it != configuration->servos_config.servos.end(); ++it)
+      {	    
+	motors[it->Name] = new Motor(it->Id, it->Name, 
+				     it->IniAngle, it->ZeroAngle);
+	idMotors[it->Id] = motors[it->Name];
+      }
+  }
+  
   size_t Motors::len()
   {
     return motors.size();
@@ -54,13 +74,6 @@ namespace Rhoban
       cout << "No suitable motors configuration" << endl;
     else
       {
-	vector<ServoConfig>::iterator it;
-	for(it = configuration->servos_config.servos.begin(); 
-	    it != configuration->servos_config.servos.end(); ++it)
-	  {	    
-	    motors[it->Name] = new Motor(it->Id, it->Name);
-	    idMotors[it->Id] = motors[it->Name];
-	  }
 	running = 1;
 	Thread::start(NULL);
       }
@@ -73,7 +86,7 @@ namespace Rhoban
 
   void Motors::compliant(string name)
   {
-    motors[name]->setGoalLoad(0);
+    motors[name]->setLoad(0);
   }
 
   void Motors::allCompliant()
@@ -82,74 +95,147 @@ namespace Rhoban
     
     map<string, Motor *>::iterator it;
     for(it = motors.begin(); it != motors.end(); ++it)
-      it->second->setGoalLoad(0);
+      it->second->setLoad(0);
   }
 
   void Motors::hard(string name)
   {
-    motors[name]->setGoalLoad(1);
+    motors[name]->setLoad(1);
   }
 
   void Motors::allHard(string name)
   {
     map<string, Motor *>::iterator it;
     for(it = motors.begin(); it != motors.end(); ++it)
-      it->second->setGoalLoad(1);    
+      it->second->setLoad(1);    
   }
-  
-  void Motors::run()
+
+  void Motors::pullValues()
+  {
+    Message *values = connection->ServosGetValues_response(1);
+    processValues(values);
+  }
+
+  void Motors::pushValues()
   {
     map<string, Motor *>::iterator it;
+
     vector<byte> ids;
     vector<int> angles;
     vector<ui32> speeds;
     vector<ui32> loads;
-
-    //todo definir le callback motorsValues
-
-    while(running)
+    
+    for(it = motors.begin(); it != motors.end(); ++it)
       {
-	//	connection->ServosGetValues_callback(1, motorsValues);
-
-	ids.clear();
-	angles.clear();
-	speeds.clear();
-	loads.clear();
- 
-	for(it = motors.begin(); it != motors.end(); ++it)
+	if(it->second->isDirty()
+	   && it->second->getGoalAngleInit()
+	   && it->second->getCurrentAngleInit()   
+	   && it->second->getCurrentSpeedInit())
 	  {
-	    if(it->second->isDirty()
-	       && it->second->getGoalAngleInit()
-	       && it->second->getCurrentAngleInit()   
-	       && it->second->getCurrentSpeedInit())
-	      {
-		ids.push_back(it->second->getId());
-		angles.push_back(it->second->getGoalAngle()*1000);
-		speeds.push_back(it->second->getGoalSpeed()*1023);
-		loads.push_back(it->second->getGoalLoad()*1023);
-	      }
+	    ids.push_back   ((byte) (it->second->getId())             );
+	    angles.push_back((int)  (it->second->getGoalAngle()*1000) );
+	    speeds.push_back((ui32) (it->second->getGoalSpeed()*1023) );
+	    loads.push_back ((ui32) (it->second->getGoalLoad()*1023)  );
 	  }
-
-	if(ids.size())
-	  connection->ServosSetValues(1, ids, angles, speeds, loads);
-	
-	usleep(1000000/frequency);
       }
+
+    if(ids.size())
+      connection->ServosSetValues(1, ids, angles, speeds, loads);
   }
 
-  void Motors::motorsValue(Message *values)
+  void Motors::processValues(Message *values)
   {
     vector<byte> ids = values->read_array();
     vector<float> angles= values->read_float_array();
     vector<float> speeds= values->read_float_array();
     vector<float> loads= values->read_float_array();
     
-        
+    for(int i=0; i < ids.size(); ++i)
+      {
+	idMotors[ids[i]]->setLastUpdate(time(NULL));
+
+	idMotors[ids[i]]->setCurrentAngle((double)angles[i]);
+	if(idMotors[ids[i]]->getGoalAngleInit() == 0)
+	  idMotors[ids[i]]->setGoalAngle(idMotors[ids[i]]->getAngle());
+          
+	idMotors[ids[i]]->setCurrentSpeed((double)speeds[i]/1023);
+	if(idMotors[ids[i]]->getGoalSpeedInit() == 0)
+	  {
+	    if(idMotors[ids[i]]->getSpeed() > 0)
+	      idMotors[ids[i]]->setGoalSpeed(idMotors[ids[i]]->getSpeed());
+	    else
+	      idMotors[ids[i]]->setGoalSpeed(0);
+          }
+
+	idMotors[ids[i]]->setCurrentLoad((double)loads[i]/1023);
+	if(idMotors[ids[i]]->getGoalLoadInit() == 0)
+	  {
+	    if(idMotors[ids[i]]->getLoad() > 0)
+	      idMotors[ids[i]]->setGoalLoad(idMotors[ids[i]]->getLoad());
+	    else
+	      idMotors[ids[i]]->setGoalLoad(0);
+          }
+      }   
   }
   
+  void Motors::goToZero(int duration, bool verbose)
+  {
+    pullValues();
+    
+    map<string, Motor *>::iterator it;
+    for(it = motors.begin(); it != motors.end(); ++it)
+      it->second->setAngle(it->second->getZeroAngle());
+    
+    raiseLoad(duration, verbose);
+  }
+
+  void Motors::goToInit(int duration, bool verbose)
+  {
+    pullValues();
+    
+    map<string, Motor *>::iterator it;
+    for(it = motors.begin(); it != motors.end(); ++it)
+      it->second->setRelAngle(0);
+    
+    raiseLoad(duration, verbose);
+  }
+
+  void Motors::raiseLoad(int duration, bool verbose)
+  {
+    map<string, Motor *>::iterator it;
+    int cs = duration * 100;
+
+    for(int i=0; i < cs; i++)
+      {
+	if(verbose)
+	  printf("\rLoad: %3d%%", ((i+1)*100)/cs);
+	     
+	for(it = motors.begin(); it != motors.end(); ++it)
+	  it->second->setLoad(((double)i+1)/(double)cs);
+	
+	usleep(10000);
+	pushValues();	  
+      }
+    if(verbose)
+      cout << "" << endl;
+  }
+    
   void Motors::execute()
   {
-    // ??
+    while(running)
+      {
+	connection->ServosGetValues_callback(1, motorsValues, this);
+	pushValues();
+	usleep(1000000/frequency);
+      }
+  }
+
+  void Motors::scan()
+  {
+    map<string, Motor *>::iterator it;
+    for(it = motors.begin(); it != motors.end(); ++it)
+      it->second->setLastUpdate(0);
+    connection->ServosScan(250, "Normal");
   }
 
   void Motors::setConnection(Connection *connection)
@@ -162,12 +248,12 @@ namespace Rhoban
     return connection;
   }
 
-  void Motors::setConfig(MoveSchedulerConfig *config)
+  void Motors::setConfiguration(MoveSchedulerConfig *config)
   {
     this->configuration = config;
   }
   
-  MoveSchedulerConfig *Motors::getConfig()
+  MoveSchedulerConfig *Motors::getConfiguration()
   {
     return configuration;
   }
