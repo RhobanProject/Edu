@@ -28,6 +28,9 @@ class Robots(object):
             robot = Robot(storeFileName)
             self.robots[robotName] = robot
             robot.name = robotName
+
+            if not robotConfig.get('enabled', True):
+                continue
             
             if 'host' in robotConfig:
                 robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
