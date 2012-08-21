@@ -99,29 +99,32 @@ class Motors(threading.Thread):
             if motor.goalLoad == None:
                 motor.goalLoad = max(0, motor.currentLoad)
     
-    def goToZero(self):
+    def goToZero(self, duration = 5, verbose = False):
         self.pullValues()
         for name, motor in self.motors.items():
             motor.setAngle(motor.zeroAngle)
 
-        self.raiseLoad()
+        self.raiseLoad(duration, verbose)
 
-    def goToInit(self):
+    def goToInit(self, duration = 5, verbose = False):
         self.pullValues()
         for name, motor in self.motors.items():
             motor.setRelAngle(0)
 
-        self.raiseLoad()
+        self.raiseLoad(duration, verbose)
 
-    def raiseLoad(self, cs = 500):
+    def raiseLoad(self, duration = 5, verbose = False):
+        cs = duration * 100
         for x in xrange(cs):
-            sys.stdout.write("\rLoad: %3d%%" % (round(100*(x+1)/float(cs))))
-            sys.stdout.flush()
+            if verbose:
+                sys.stdout.write("\rLoad: %3d%%" % (round(100*(x+1)/float(cs))))
+                sys.stdout.flush()
             for name, motor in self.motors.items():
                 motor.setLoad((x +1) / float(cs))
             time.sleep(0.01)
             self.pushValues()
-        print('')
+        if verbose:
+            print('')
             
     def run(self):
         motors = self

@@ -310,7 +310,7 @@ class InitCommand(RobotsCommand):
 
     def executeFor(self, robot, options):
         print('Taking initial servos position for %s' % robot.name)
-        robot.motors.goToInit()
+        robot.motors.goToInit(5, True)
 
 """
     Fait prendre la position zero à un ou plusieurs robots
@@ -322,7 +322,7 @@ class ZeroCommand(RobotsCommand):
 
     def executeFor(self, robot, options):
         print('Taking zero servos position for %s' % robot.name)
-        robot.motors.goToZero()
+        robot.motors.goToZero(5, True)
 
 """
     Lance un scan
