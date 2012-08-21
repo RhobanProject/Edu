@@ -52,7 +52,7 @@ class Connection(tcp.TCPClient):
     def setStore(self, store):
         self.store = store
 
-    def sendMessageReceive(self, message, timeout = 1):
+    def sendMessageReceive(self, message, timeout = 5):
         entry = MailboxEntry(self.store.getSpecification(message))
         entry.event = threading.Event()
 

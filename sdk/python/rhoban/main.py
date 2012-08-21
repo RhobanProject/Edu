@@ -15,7 +15,7 @@ class RhobanMain(object):
         myCommands = {
                 'basic': [HelpCommand(), StatusCommand(), EmergencyCommand()],
                 'moves': [LoadMoveCommand(), KillMoveCommand(),
-                    StartMoveCommand(), StopMoveCommand()],
+                    StartMoveCommand(), StopMoveCommand(), UpdateConstantCommand()],
                 'motors': [CompliantCommand(), HardCommand(),
                     SetCommand(), ScanCommand(), SnapshotCommand(),
                     InitCommand(), ZeroCommand(), MonitorCommand()]
@@ -224,6 +224,19 @@ class StopMoveCommand(RobotCommand):
         robot.stopMove(arguments[0], smooth)
 
 """
+    Mise à jour d'une constante
+"""
+class UpdateConstantCommand(RobotCommand):
+    def define(self):
+        self.name = 'updateconstant'
+        self.arguments = 4
+        self.prototype = '<robot> <moveName> <constantName> <value>'
+        self.description = 'Updates a move constant'
+
+    def execute(self, robot, options, arguments):
+        robot.updateConstant(arguments[0], arguments[1], arguments[2])
+
+"""
     Relâche tous les servos
 """
 class CompliantCommand(RobotsCommand):
@@ -280,7 +293,7 @@ class SetCommand(RobotCommand):
         else:
             motor.setSpeed(1)
 
-        print('Setting motor %s (id=%d) angle=%g, load=%g, float=%g' % (motor.name, motor.id, motor.goalAngle, motor.goalLoad, motor.goalSpeed))
+        print('Setting motor %s (id=%d) angle=%g, load=%g, speed=%g' % (motor.name, motor.id, motor.goalAngle, motor.goalLoad, motor.goalSpeed))
             
         robot.motors.pushValues()
 

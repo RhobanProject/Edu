@@ -52,7 +52,10 @@ class Configurations(object):
         self.lowLevelConfig = None
 
     def isMoveSchedulerConfigLoaded(self):
-        response = self.connection.SchedulerConfigIsLoaded_response()
+        response = None
+
+        while response == None:
+            response = self.connection.SchedulerConfigIsLoaded_response()
         return response[0] == 1
 
     def loadMoveSchedulerConfig(self, config, force = False):
@@ -63,7 +66,10 @@ class Configurations(object):
             self.connection.ServosScan(250, 'Normal')
 
     def isLowLevelConfigLoaded(self):
-        response = self.connection.LowLevelConfigIsLoaded_response()
+        response = None
+
+        while response == None:
+            response = self.connection.LowLevelConfigIsLoaded_response()
         return response[0] == 1
 
     def loadLowLevelConfig(self, config, force = False):

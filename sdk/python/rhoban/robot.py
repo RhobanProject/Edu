@@ -146,7 +146,7 @@ class Robot(object):
         return self.moves.getLoadedMoves()
 
     def updateConstant(self, moveName, constantName, value):
-        self.moves.updateConstant(moveName, constantName, value)
+        self.moves.updateConstant(moveName, constantName, float(value))
 
     def emergency(self):
         self.connection.SchedulerEmergencyStop()
