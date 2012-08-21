@@ -91,6 +91,10 @@ class Robot(object):
     def isConnected(self):
         return self.connection.connected
 
+    def serverVersion(self):
+        response = self.connection.ServerGetVersion_response()
+        return response[0]
+
     def testConnection(self):
         print('Testing server version...')
         response = self.connection.ServerGetVersion_response()

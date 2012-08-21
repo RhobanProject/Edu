@@ -119,10 +119,11 @@ class StatusCommand(RobotsCommand):
     def executeFor(self, robot, options):
         loadedLabel = {True: 'loaded', False: 'not loaded'}
 
-        print('. Status for ' + robot.name + ':')
+        print('. Status for ' +robot.name + ':')
 
         # Connection
         if robot.isConnected():
+            print('|- Server version: %d' % robot.serverVersion())
             print('|- Connected at %s:%d' % (robot.connection.hostname, robot.connection.port))
 
         # Configurations
