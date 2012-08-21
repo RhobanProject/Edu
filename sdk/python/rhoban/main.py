@@ -37,7 +37,7 @@ class HelpCommand(commands.Command):
         self.prototype = '[family]'
 
     def run(self, options, arguments):
-        print('Rhoban System - http://edu.rhoban-system.fr/')
+        print('Rhoban System - http://edu.rhoban-system.fr/sdk/commandes.html')
         print('Available commands:')
 
         families = sorted(self.manager.families.items())
