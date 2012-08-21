@@ -32,10 +32,6 @@ typedef struct {
     double rot_mat[3][3];
 } Tracking_Data ;
 
-enum mode {
-    LASTDATA,
-    CURSDATA
-};
 
 class TrackerClient {
     private :
@@ -59,7 +55,8 @@ class TrackerClient {
 
         /*return NULL if empty wether you want to get the last value or
           the one pointed by the cursor*/
-        Tracking_Data * getInfo(enum mode mode);
+        Tracking_Data * getInfo();
+        Tracking_Data * getLastInfo();
 
         void setDiscount(double);
 

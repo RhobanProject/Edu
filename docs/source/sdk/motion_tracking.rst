@@ -27,16 +27,17 @@ les données réçues.
 Obtenir les informations
 ------------------------
 
-.. cpp:function:: Tracking_Data * TrackerClient::getInfo(enum mode)
+.. cpp:function:: Tracking_Data * TrackerClient::getInfo()
+
+.. cpp:function:: Tracking_Data * TrackerClient::getLastInfo()
 
 .. cpp:function:: void TrackerClient::Log(string file_name)
 
-Deux méthodes permettent d'extraire les informations, ``Log(string
+Trois méthodes permettent d'extraire les informations, ``Log(string
 file_name)`` écrit l'intégralité des données stockées dans le fichier
-dont le nom est passé en paramètre. Pour ``getInfo(enum mode mode)`` deux
-modes sont possibles, ``LASTDATA`` renverra la dernière donnée reçue
-et ``CURSDATA`` la donnée la plus vieille n'ayant pas été
-lue.
+dont le nom est passé en paramètre. ``getInfo()`` la donnée la plus
+vieille n'ayant pas été lue et ``getLastInfo()`` renverra la dernière
+donnée reçue.
 
 Changer la valeur du discount
 -----------------------------
