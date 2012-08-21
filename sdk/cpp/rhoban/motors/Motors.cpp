@@ -152,21 +152,23 @@ namespace Rhoban
     
     for(int i=0; i < ids.size(); ++i)
       {
-	idMotors[ids[i]]->setLastUpdate(time(NULL));
-
-	idMotors[ids[i]]->setCurrentAngle((double)angles[i]);
-	if(idMotors[ids[i]]->getGoalAngleInit() == 0)
-	  idMotors[ids[i]]->setGoalAngle(idMotors[ids[i]]->getAngle());
-          
-	idMotors[ids[i]]->setCurrentSpeed((double)speeds[i]/1023);
-	if(idMotors[ids[i]]->getGoalSpeedInit() == 0)
+	if(idMotors.count(ids[i]))
 	  {
-	    if(idMotors[ids[i]]->getSpeed() > 0)
-	      idMotors[ids[i]]->setGoalSpeed(idMotors[ids[i]]->getSpeed());
-	    else
-	      idMotors[ids[i]]->setGoalSpeed(0);
-          }
-
+	    idMotors[ids[i]]->setLastUpdate(time(NULL));
+	    
+	    idMotors[ids[i]]->setCurrentAngle((double)angles[i]);
+	    if(idMotors[ids[i]]->getGoalAngleInit() == 0)
+	      idMotors[ids[i]]->setGoalAngle(idMotors[ids[i]]->getAngle());
+	    
+	    idMotors[ids[i]]->setCurrentSpeed((double)speeds[i]/1023);
+	    if(idMotors[ids[i]]->getGoalSpeedInit() == 0)
+	      {
+		if(idMotors[ids[i]]->getSpeed() > 0)
+		  idMotors[ids[i]]->setGoalSpeed(idMotors[ids[i]]->getSpeed());
+		else
+		  idMotors[ids[i]]->setGoalSpeed(0);
+	      }
+	  }
 	idMotors[ids[i]]->setCurrentLoad((double)loads[i]/1023);
 	if(idMotors[ids[i]]->getGoalLoadInit() == 0)
 	  {
