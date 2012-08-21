@@ -13,11 +13,12 @@ class RhobanMain(object):
     def __init__(self):
         self.manager = commands.CommandsManager()
         myCommands = {
-                'basic': [HelpCommand(), StatusCommand()],
+                'basic': [HelpCommand(), StatusCommand(), EmergencyCommand()],
                 'moves': [LoadMoveCommand(), KillMoveCommand(),
-                    StartMoveCommand(), StopMoveCommand()],
+                    StartMoveCommand(), StopMoveCommand(), UpdateConstantCommand()],
                 'motors': [CompliantCommand(), HardCommand(),
-                    SetCommand()]
+                    SetCommand(), ScanCommand(), SnapshotCommand(),
+                    InitCommand(), ZeroCommand(), MonitorCommand()]
                 }
 
         for family, familyCommands in myCommands.items():
@@ -36,6 +37,7 @@ class HelpCommand(commands.Command):
         self.prototype = '[family]'
 
     def run(self, options, arguments):
+        print('Rhoban System - http://edu.rhoban-system.fr/sdk/commandes.html')
         print('Available commands:')
 
         families = sorted(self.manager.families.items())
@@ -59,7 +61,6 @@ class RobotsCommand(commands.Command):
 
         if not arguments:
             for name, robot in self.robots.robots.items():
-                robot.name = name
                 self.executeFor(robot, options)
         else:
             for name in arguments:
@@ -118,10 +119,11 @@ class StatusCommand(RobotsCommand):
     def executeFor(self, robot, options):
         loadedLabel = {True: 'loaded', False: 'not loaded'}
 
-        print('. Status for ' + robot.name + ':')
+        print('. Status for ' +robot.name + ':')
 
         # Connection
         if robot.isConnected():
+            print('|- Server version: %d' % robot.serverVersion())
             print('|- Connected at %s:%d' % (robot.connection.hostname, robot.connection.port))
 
         # Configurations
@@ -133,12 +135,16 @@ class StatusCommand(RobotsCommand):
 
         # Motors
         robot.motors.pullValues()
-        print('|- %d motors (%s)' % (len(robot.motors.motors), ','.join(map(str, robot.motors.idMotors.keys()))))
+        availableMotors = filter(lambda motor: motor.lastUpdate != None, robot.motors.motors.values())
+        print('|- %d/%d motors (%s)' % (len(availableMotors), len(robot.motors.motors), ','.join(map(str, robot.motors.idMotors.keys()))))
     
         if '-v' in options:
             prefix = ' \-'
             for id, motor in robot.motors.motors.items():
-                print('%s %s (id: %d), angle: %g, speed: %g, load: %g' % (prefix, motor.name, motor.id, motor.getAngle(), motor.getSpeed(), motor.getLoad()))
+                if motor.lastUpdate:
+                    print('%s %s (id: %d), angle: %g, speed: %g, load: %g' % (prefix, motor.name, motor.id, motor.getAngle(), motor.getSpeed(), motor.getLoad()))
+                else:
+                    print('%s %s (id: %d) Not detected' % (prefix, motor.name, motor.id))
                 prefix = ' |-'
 
         # Moves
@@ -220,6 +226,19 @@ class StopMoveCommand(RobotCommand):
         robot.stopMove(arguments[0], smooth)
 
 """
+    Mise à jour d'une constante
+"""
+class UpdateConstantCommand(RobotCommand):
+    def define(self):
+        self.name = 'updateconstant'
+        self.arguments = 4
+        self.prototype = '<robot> <moveName> <constantName> <value>'
+        self.description = 'Updates a move constant'
+
+    def execute(self, robot, options, arguments):
+        robot.updateConstant(arguments[0], arguments[1], arguments[2])
+
+"""
     Relâche tous les servos
 """
 class CompliantCommand(RobotsCommand):
@@ -248,8 +267,9 @@ class HardCommand(RobotsCommand):
 class SetCommand(RobotCommand):
     def define(self):
         self.name = 'set'
-        self.description = 'Set a motor angle (in °)'
-        self.prototype = '<robot> <motorName> <angle> [torque = 1023 [speed = 1023]]'
+        self.options = 'r'
+        self.description = 'Set a motor angle (in °), -r for relative angle'
+        self.prototype = '[-r] <robot> <motorName> <angle> [load = 1 [speed = 1]]'
         self.arguments = 3
 
     def execute(self, robot, options, arguments):
@@ -257,7 +277,10 @@ class SetCommand(RobotCommand):
         motor = robot.motors[arguments[0]]
         arguments = arguments[1:]
 
-        motor.setAngle(arguments[0])
+        if '-r' in options:
+            motor.setRelAngle(arguments[0])
+        else:
+            motor.setAngle(arguments[0])
         arguments = arguments[1:]
 
         if arguments:
@@ -272,6 +295,125 @@ class SetCommand(RobotCommand):
         else:
             motor.setSpeed(1)
 
-        print('Setting motor %s (id=%d) angle=%g, load=%g, float=%g' % (motor.name, motor.id, motor.goalAngle, motor.goalLoad, motor.goalSpeed))
+        print('Setting motor %s (id=%d) angle=%g, load=%g, speed=%g' % (motor.name, motor.id, motor.goalAngle, motor.goalLoad, motor.goalSpeed))
             
         robot.motors.pushValues()
+
+
+"""
+    Fait prendre la position initial à un ou plusieurs robots
+"""
+class InitCommand(RobotsCommand):
+    def define(self):
+        self.name = 'init'
+        self.description = 'Take the initial position for servos'
+
+    def executeFor(self, robot, options):
+        print('Taking initial servos position for %s' % robot.name)
+        robot.motors.goToInit(5, True)
+
+"""
+    Fait prendre la position zero à un ou plusieurs robots
+"""
+class ZeroCommand(RobotsCommand):
+    def define(self):
+        self.name = 'zero'
+        self.description = 'Take the zero position for servos'
+
+    def executeFor(self, robot, options):
+        print('Taking zero servos position for %s' % robot.name)
+        robot.motors.goToZero(5, True)
+
+"""
+    Lance un scan
+"""
+class ScanCommand(RobotsCommand):
+    def define(self):
+        self.name = 'scan'
+        self.description = 'Run a scan'
+
+    def executeFor(self, robot, options):
+        print('Running a scan for %s' % robot.name)
+        robot.motors.scan()
+
+"""
+    Arrêt d'urgence
+"""
+class EmergencyCommand(RobotsCommand):
+    def define(self):
+        self.name = 'emergency'
+        self.description = 'Emergency stop'
+
+    def executeFor(self, robot, options):
+        print('Emergency stopping all moves and turning compliant for %s' % robot.name)
+        robot.emergency()
+
+"""
+    Capture de la valeur de moteurs
+"""
+class SnapshotCommand(RobotsCommand):
+    def define(self):
+        self.name = 'snapshot'
+        self.options = 'rp'
+        self.prototype = ' [-r] [-p]'
+        self.description = 'Snapshots the value of the angles (-r for relative, -p for python)'
+
+    def executeFor(self, robot, options):
+        print('Snapshoting motors for %s' % robot.name)
+        robot.motors.pullValues()
+        snapshot = {}
+
+        for name, motor in robot.motors.motors.items():
+            if motor.lastUpdate != None:
+                if '-r' in options:
+                    snapshot[motor.name] = motor.getRelAngle()
+                else:
+                    snapshot[motor.name] = motor.getAngle()
+
+        if '-p' in options:
+            print(repr(snapshot))
+        else:
+            for motor, angle in snapshot.items():
+                print('%s: %s' % (motor, angle))
+
+"""
+    Monitorer les moteurs d'un robot
+"""
+class MonitorCommand(RobotCommand):
+    def define(self):
+        self.name = 'monitor'
+        self.prototype = '[-f frequency] [-i] <robotName>'
+        self.options = 'f:i'
+        self.arguments = 1
+        self.description = 'Monitors the servos (-i sorts by id)'
+
+    def execute(self, robot, options, arguments):
+        fmt = ' | %-10s | %-4s | %-7s | %-12s | %-8s | %-8s |'
+
+        frequency = float(options.get('-f', 1))
+        robot.motors.start(3 * frequency)
+
+        while True:
+            os.system('clear')
+            headline = (fmt % ('Name', 'Id', 'Present', 'Angle', 'Load', 'Speed'))
+            print(' Monitoring %s' % robot.name)
+            print(' ' + ('-' * (len(headline)-1)))
+            print(headline)
+            print(' ' + ('-' * (len(headline)-1)))
+
+            if '-i' in options:
+                items = sorted(robot.motors.idMotors.items())
+            else:
+                items = sorted(robot.motors.motors.items())
+
+            for name, motor in items:
+                if motor.lastUpdate != None:
+                    load = '%g%%' % round(100*motor.getLoad(), 1)
+                    speed = '%g%%' % round(100*motor.getSpeed(), 1)
+                    print(fmt % (motor.name, motor.id, 'Yes', motor.getAngle(), load, speed))
+                else:
+                    print(fmt % (motor.name, motor.id, 'No', '-', '-', '-'))
+
+            print(' ' + ('-' * (len(headline)-1)))
+            time.sleep(1.0/frequency)
+

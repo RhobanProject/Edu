@@ -27,6 +27,7 @@ class Robots(object):
         for robotName, robotConfig in config['robots'].items():
             robot = Robot(storeFileName)
             self.robots[robotName] = robot
+            robot.name = robotName
             
             if 'host' in robotConfig:
                 robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
@@ -35,8 +36,11 @@ class Robots(object):
                 robot.loadEnvironment(robotConfig['environment'])
 
             if 'loadMoves' in robotConfig:
+                loadedMoves = robot.getLoadedMoves()
+
                 for move in robotConfig['loadMoves']:
-                    robot.loadMove(move)
+                    if move not in loadedMoves:
+                        robot.loadMove(move)
 
     def stop(self):
         for name, robot in self.robots.items():
@@ -86,6 +90,10 @@ class Robot(object):
 
     def isConnected(self):
         return self.connection.connected
+
+    def serverVersion(self):
+        response = self.connection.ServerGetVersion_response()
+        return response[0]
 
     def testConnection(self):
         print('Testing server version...')
@@ -142,7 +150,10 @@ class Robot(object):
         return self.moves.getLoadedMoves()
 
     def updateConstant(self, moveName, constantName, value):
-        self.moves.updateConstant(moveName, constantName, value)
+        self.moves.updateConstant(moveName, constantName, float(value))
+
+    def emergency(self):
+        self.connection.SchedulerEmergencyStop()
 
     def stop(self):
         self.connection.stop()

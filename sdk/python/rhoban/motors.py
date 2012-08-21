@@ -21,9 +21,9 @@ class Motors(threading.Thread):
     def setConfig(self, configuration):
         self.configuration = configuration
 
-        for name, id in self.configuration.servos.items():
-            self.motors[name] = Motor(id, name)
-            self.idMotors[int(id)] = self.motors[name]
+        for name, servo in self.configuration.servos.items():
+            self.motors[name] = Motor(servo.id, name, servo.iniAngle, servo.zeroAngle)
+            self.idMotors[int(servo.id)] = self.motors[name]
 
     def __len__(self):
         return len(self.motors)
@@ -40,6 +40,7 @@ class Motors(threading.Thread):
         if self.configuration == None:
             raise Exception('No suitable motors configuration')
 
+        self.running = True
         super(Motors, self).start()
 
     def stop(self):
@@ -71,8 +72,7 @@ class Motors(threading.Thread):
         speeds = []
         loads = []
 
-        for name in self.motors:
-            motor = self.motors[name]
+        for name, motor in self.motors.items():
             if motor.goalAngle != None and motor.currentAngle != None and motor.currentSpeed != None and motor.dirty:
                 ids += [motor.id]
                 angles += [int(motor.goalAngle*1000)]
@@ -98,6 +98,33 @@ class Motors(threading.Thread):
             motor.currentLoad = load/1023.0
             if motor.goalLoad == None:
                 motor.goalLoad = max(0, motor.currentLoad)
+    
+    def goToZero(self, duration = 5, verbose = False):
+        self.pullValues()
+        for name, motor in self.motors.items():
+            motor.setAngle(motor.zeroAngle)
+
+        self.raiseLoad(duration, verbose)
+
+    def goToInit(self, duration = 5, verbose = False):
+        self.pullValues()
+        for name, motor in self.motors.items():
+            motor.setRelAngle(0)
+
+        self.raiseLoad(duration, verbose)
+
+    def raiseLoad(self, duration = 5, verbose = False):
+        cs = duration * 100
+        for x in xrange(cs):
+            if verbose:
+                sys.stdout.write("\rLoad: %3d%%" % (round(100*(x+1)/float(cs))))
+                sys.stdout.flush()
+            for name, motor in self.motors.items():
+                motor.setLoad((x +1) / float(cs))
+            time.sleep(0.01)
+            self.pushValues()
+        if verbose:
+            print('')
             
     def run(self):
         motors = self
@@ -110,14 +137,21 @@ class Motors(threading.Thread):
             self.pushValues()
             time.sleep(1.0/self.frequency)
 
+    def scan(self):
+        for name, motor in self.motors.items():
+            motor.lastUpdate = None
+
+        self.connection.ServosScan(250, 'Normal')
 """
     Représente un moteur
 """
 class Motor:
-    def __init__(self, id, name):
+    def __init__(self, id, name, iniAngle, zeroAngle):
         self.lastUpdate = None
         self.id = int(id)
         self.name = name
+        self.iniAngle = float(iniAngle)
+        self.zeroAngle = float(zeroAngle)
 
         self.goalAngle = None
         self.currentAngle = None
@@ -134,6 +168,10 @@ class Motor:
         self.dirty = True
         self.goalAngle = float(angle)
 
+    def setRelAngle(self, angle):
+        self.dirty = True
+        self.goalAngle = self.iniAngle + self.zeroAngle + float(angle)
+
     def setLoad(self, load):
         self.dirty = True
         self.goalLoad = float(load)
@@ -144,6 +182,9 @@ class Motor:
 
     def getAngle(self):
         return float(self.currentAngle)
+
+    def getRelAngle(self):
+        return float(self.currentAngle - self.iniAngle - self.zeroAngle)
 
     def getSpeed(self):
         return float(self.currentSpeed)
