@@ -269,7 +269,7 @@ class SetCommand(RobotCommand):
         self.name = 'set'
         self.options = 'r'
         self.description = 'Set a motor angle (in °), -r for relative angle'
-        self.prototype = '[-r] <robot> <motorName> <angle> [torque = 1023 [speed = 1023]]'
+        self.prototype = '[-r] <robot> <motorName> <angle> [torque = 1 [speed = 1]]'
         self.arguments = 3
 
     def execute(self, robot, options, arguments):
@@ -355,7 +355,7 @@ class SnapshotCommand(RobotsCommand):
     def define(self):
         self.name = 'snapshot'
         self.options = 'rp'
-        self.prototype = ' [-r]'
+        self.prototype = ' [-r] [-p]'
         self.description = 'Snapshots the value of the angles (-r for relative, -p for python)'
 
     def executeFor(self, robot, options):
