@@ -125,6 +125,9 @@ class StatusCommand(RobotsCommand):
         if robot.isConnected():
             print('|- Server version: %d' % robot.serverVersion())
             print('|- Connected at %s:%d' % (robot.connection.hostname, robot.connection.port))
+        else:
+            print('|- Disconnected')
+            return
 
         # Configurations
         loaded = robot.configs.isLowLevelConfigLoaded()
