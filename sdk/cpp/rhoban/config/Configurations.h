@@ -27,8 +27,10 @@ namespace Rhoban
     Configurations(Connection *connection);
     ~Configurations();
 
-    void loadLowLevelConfig(string filename, bool force = 0);
-    void loadMoveSchedulerConfig(string filename, bool force = 0);
+    bool isMoveSchedulerConfigLoaded();
+    void loadMoveSchedulerConfig(string config, bool force = 0);
+    bool isLowLevelConfigLoaded();
+    void loadLowLevelConfig(string config, bool force = 0);
     
     Connection *getConnection();
     void setConnection(Connection *connection);

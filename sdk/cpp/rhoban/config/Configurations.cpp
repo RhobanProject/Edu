@@ -32,45 +32,63 @@ namespace Rhoban
     delete connection;
     delete lowLevelConfig;
     delete moveSchedulerConfig;
-  }
+  } 
 
-  void Configurations::loadLowLevelConfig(string filename, bool force)
+  bool Configurations::isMoveSchedulerConfigLoaded()
   {
+    Message *response = NULL;
+    while(response == NULL)
+      response = connection->SchedulerConfigIsLoaded_response();
 
+    return response->read_uint();
   }
 
-  void Configurations::loadMoveSchedulerConfig(string filename, bool force)
+  void Configurations::loadMoveSchedulerConfig(string config, bool force)
+  {
+    //this->moveSchedulerConfig = MoveSchedulerConfig(config);
+  }
+ 
+  bool Configurations::isLowLevelConfigLoaded()
+  {
+    Message *response = NULL;
+    while(response == NULL)
+      response = connection->LowLevelConfigIsLoaded_response();
+
+    return response->read_uint();
+  }
+
+  void Configurations::loadLowLevelConfig(string config, bool force)
   {
 
   }
 
   Connection *Configurations::getConnection()
   {
-    return NULL;
+    return connection;
   }
 
   void Configurations::setConnection(Connection *connection)
   {
-
+    this->connection = connection;
   }
 
   LowLevelConfig *Configurations::getLowLevelConfig()
   {
-    return NULL;
+    return lowLevelConfig;
   }
 
   void Configurations::setLowLevelConfig(LowLevelConfig *lowLevelConfig)
   {
-
+    this->lowLevelConfig = lowLevelConfig;
   }
 
   MoveSchedulerConfig *Configurations::getMoveSchedulerConfig()
   {
-    return NULL;
+    return moveSchedulerConfig;
   }
   
   void Configurations::setMoveSchedulerConfig(MoveSchedulerConfig *moveSchedulerConfig)
   {
-
+    this->moveSchedulerConfig = moveSchedulerConfig;
   }
 }
