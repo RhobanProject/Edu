@@ -88,7 +88,7 @@ def generate_connection(store, out_dir):
 
         allArgumentNames = u', '.join(names)
         allArguments = u', '.join(arguments)
-        allArgumentsCallback = u', '.join(arguments + ['sendCallback callback'])
+        allArgumentsCallback = u', '.join(arguments + ['sendCallback callback, void *data'])
 
         # No answer
         prototypes += u"                void {0}({1});\n".format(name, allArguments)
@@ -107,11 +107,11 @@ def generate_connection(store, out_dir):
         methods += u"           }\n\n"
 
         # Callback answer
-        prototypes += u"                void {0}_callback({1});\n".format(name, allArgumentsCallback)
+        prototypes += u"                void {0}_callback({1}=NULL);\n".format(name, allArgumentsCallback)
         methods += u"           void Connection::{0}_callback({1})\n".format(name, allArgumentsCallback);
         methods += u"           {\n"
         methods += u"                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
-        methods += u"                   sendMessageCallback(message, callback);\n"
+        methods += u"                   sendMessageCallback(message, callback, data);\n"
         methods += u"           }\n\n"
 
     template_tag('Connection.h', '<METHODS_PROTOTYPES>', prototypes, out_dir)

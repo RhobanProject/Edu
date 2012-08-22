@@ -40,6 +40,7 @@ namespace Rhoban
     Connection *connection;
     LowLevelConfig *lowLevelconfig;
     MoveSchedulerConfig *moveSchedulerConfig;
+    
   };
 }
 

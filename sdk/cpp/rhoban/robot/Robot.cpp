@@ -15,7 +15,7 @@
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
 #include <communication/Message.h>
-#include <communication/types.h>
+#include <utils/types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Robot.h"
@@ -71,6 +71,11 @@ namespace Rhoban
   int Robot::isConnected()
   {
     return connection->isConnected();
+  }
+
+  ui32 Robot::serverVersion()
+  {
+    return connection->ServerGetVersion_response()->read_uint();
   }
 
   int Robot::testConnection()
@@ -159,6 +164,11 @@ namespace Rhoban
   void Robot::updateConstant(string moveName, string constantName, double value)
   {
     moves->updateConstant(moveName, constantName, value);
+  }
+
+  void Robot::emergency()
+  {
+    connection->SchedulerEmergencyStop();
   }
 
   void Robot::stop()
