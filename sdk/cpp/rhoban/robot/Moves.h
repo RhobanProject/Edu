@@ -24,13 +24,17 @@ namespace Rhoban
   public:
     Moves(Connection *connection);
     ~Moves();
+
     void loadMove(string path);
-    void startMove(string name, int duration, int smooth);
+    void startMove(string name, ui32 duration, ui32 smooth);
     void pauseMove(string name);
-    void stopMove(string name, int smooth);
+    void stopMove(string name, ui32 smooth = 500);
     void killMove(string name);
     vector<string> getLoadedMoves();
-    void updateConstant(string moveName, string constantName, double value);
+    void updateConstant(string moveName, string constantName, vector<float> values);
+    
+    void setConnection(Connection *connection);
+    Connection *getConnection();
   protected:
     Connection *connection;
   };

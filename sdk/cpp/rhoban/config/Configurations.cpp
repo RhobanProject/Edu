@@ -22,20 +22,24 @@ namespace Rhoban
 
   Configurations::Configurations(Connection *connection)
   {
-    
+    this->connection = connection;
+    lowLevelConfig = NULL;
+    moveSchedulerConfig = NULL;
   }
 
   Configurations::~Configurations()
   {
-
+    delete connection;
+    delete lowLevelConfig;
+    delete moveSchedulerConfig;
   }
 
-  void Configurations::loadLowLevelConfig(string filename)
+  void Configurations::loadLowLevelConfig(string filename, bool force)
   {
 
   }
 
-  void Configurations::loadMoveSchedulerConfig(string filename)
+  void Configurations::loadMoveSchedulerConfig(string filename, bool force)
   {
 
   }
