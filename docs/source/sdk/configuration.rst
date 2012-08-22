@@ -79,6 +79,6 @@ Puis en Python :
     # Relâche les moteurs de l'arraignée
     robots['spider'].allCompliant()
     # Lance le mouvement de marche
-    robots['humanoid'].startMove("'alk', 0, 1000)
+    robots['humanoid'].startMove("Walk', 0, 1000)
     # Ferme toutes les connexions
     robots.stop()
