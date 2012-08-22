@@ -99,14 +99,14 @@ namespace Rhoban
     delete response;
   }
 
-  void Robot::loadLowLevelConfig(string filename)
+  void Robot::loadLowLevelConfig(string filename, bool force)
   {
-    configs->loadLowLevelConfig(filename);
+    configs->loadLowLevelConfig(filename, force);
   }
 
-  void Robot::loadMoveSchedulerConfig(string filename)
+  void Robot::loadMoveSchedulerConfig(string filename, bool force)
   {
-    configs->loadMoveSchedulerConfig(filename);
+    configs->loadMoveSchedulerConfig(filename, force);
     motors->setConfig(configs->getMoveSchedulerConfig());
   }
 
@@ -130,13 +130,17 @@ namespace Rhoban
     filename.append(".graphics");
     filename = moveFileName(filename);
     
-    if(1) // fichier existe
+    ifstream ifile(filename.c_str());
+    bool fileExists = (bool)ifile;
+    ifile.close();
+    
+    if(fileExists)
       moves->loadMove(filename);
     else
       moves->loadMove(moveFileName(name));
   }
 
-  void Robot::startMove(string name, int duration, int smooth)
+  void Robot::startMove(string name, ui32 duration, ui32 smooth)
   {
     moves->startMove(name, duration, smooth);
   }
@@ -146,7 +150,7 @@ namespace Rhoban
     moves->pauseMove(name);
   }
 
-  void Robot::stopMove(string name, int smooth)
+  void Robot::stopMove(string name, ui32 smooth)
   {
     moves->stopMove(name, smooth);
   }
@@ -161,9 +165,9 @@ namespace Rhoban
     return moves->getLoadedMoves();
   }
 
-  void Robot::updateConstant(string moveName, string constantName, double value)
+  void Robot::updateConstant(string moveName, string constantName, vector<float> values)
   {
-    moves->updateConstant(moveName, constantName, value);
+    moves->updateConstant(moveName, constantName, values);
   }
 
   void Robot::emergency()

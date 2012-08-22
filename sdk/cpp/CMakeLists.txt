@@ -33,6 +33,7 @@ set(MAIN_SOURCES
 set(RHOBAN_SOURCES
     rhoban/config/Configurations.cpp
     rhoban/robot/Robot.cpp
+    rhoban/robot/Robots.cpp
     rhoban/robot/Moves.cpp
     rhoban/motors/Motors.cpp
     rhoban/motors/Motor.cpp

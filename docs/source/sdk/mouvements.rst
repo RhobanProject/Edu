@@ -56,9 +56,9 @@ paramètrer le comportement du mouvement.
 
 Il est possible de les mettre à jour à l'aide des méthodes suivantes :
 
-.. cpp:function:: void Robot::updateConstant(string moveName, string constantName, double value)
+.. cpp:function:: void Robot::updateConstant(string moveName, string constantName, vector<float> values)
 
-.. py:function:: Robot.updateConstant(moveName, constantName, double value)
+.. py:function:: Robot.updateConstant(moveName, constantName, values)
 
 Mettre un mouvement en pause
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -46,8 +46,8 @@ namespace Rhoban
     int testConnection();
     
     // Configuration
-    void loadLowLevelConfig(string filename);
-    void loadMoveSchedulerConfig(string filename);
+    void loadLowLevelConfig(string filename, bool force = 0);
+    void loadMoveSchedulerConfig(string filename, bool force = 0);
     
     // Motors
     void allCompliant();
@@ -55,16 +55,15 @@ namespace Rhoban
     // Moves
     string moveFileName(string name);
     void loadMove(string name);
-    void startMove(string name, int duration = 0, int smooth = 500);
+    void startMove(string name, ui32 duration = 0, ui32 smooth = 500);
     void pauseMove(string name);
-    void stopMove(string name, int smooth = 500);
+    void stopMove(string name, ui32 smooth = 500);
     void killMove(string name);
     vector<string> getLoadedMoves();
-    void updateConstant(string moveName, string constantName, double value);
+    void updateConstant(string moveName, string constantName, vector<float> values);
     void emergency();
     void stop();
 
-  
     void setMotors(Motors *motors);
     Motors* getMotors();
     void setConfigs(Configurations *configs);

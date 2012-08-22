@@ -9,6 +9,8 @@
  *************************************************/
 #include <cstdlib>
 #include <cstdio>
+#include <fstream>
+#include <iterator>
 #include <communication/Connection.h>
 #include "Moves.h"
 
@@ -26,39 +28,53 @@ namespace Rhoban
     delete connection;
   }
 
-  void Moves::loadMove(string path)
+  void Moves::loadMove(string path) ///////////////////////////
   {
-    
+    ifstream in_file(path.c_str());
+    string contents(istreambuf_iterator<char>(in_file), 
+		    (istreambuf_iterator<char>()) );
+    in_file.close();
+
+    connection->SchedulerLoadXMLMove_response(contents);
   }
 
-  void Moves::startMove(string name, int duration, int smooth)
+  void Moves::startMove(string name, ui32 duration, ui32 smooth)
   {
-
+    connection->SchedulerStartMove(name, duration, smooth);
   }
 
   void Moves::pauseMove(string name)
   {
-
+    connection->SchedulerPauseMove(name);
   }
 
-  void Moves::stopMove(string name, int smooth)
+  void Moves::stopMove(string name, ui32 smooth)
   {
-
+    connection->SchedulerStopMove(name, smooth);
   }
 
   void Moves::killMove(string name)
   {
-
+    connection->SchedulerKillMove(name);
   }
 
   vector<string> Moves::getLoadedMoves()
   {
-    vector<string> a;
-    return a;
+    return connection->SchedulerGetLoadedMoves_response()->read_string_array();
   }
 
-  void Moves::updateConstant(string moveName, string constantName, double value)
+  void Moves::updateConstant(string moveName, string constantName, vector<float> values)
   {
+    connection->SchedulerUpdateConstant(moveName, constantName, values);
+  }
 
+  void Moves::setConnection(Connection *connection)
+  {
+    this->connection = connection;
+  }
+
+  Connection *Moves::getConnection()
+  {
+    return connection;
   }
 }

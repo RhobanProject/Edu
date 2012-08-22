@@ -26,8 +26,9 @@ namespace Rhoban
   public:
     Configurations(Connection *connection);
     ~Configurations();
-    void loadLowLevelConfig(string filename);
-    void loadMoveSchedulerConfig(string filename);
+
+    void loadLowLevelConfig(string filename, bool force = 0);
+    void loadMoveSchedulerConfig(string filename, bool force = 0);
     
     Connection *getConnection();
     void setConnection(Connection *connection);
@@ -38,9 +39,8 @@ namespace Rhoban
    
   protected:
     Connection *connection;
-    LowLevelConfig *lowLevelconfig;
+    LowLevelConfig *lowLevelConfig;
     MoveSchedulerConfig *moveSchedulerConfig;
-    
   };
 }
 
