@@ -223,8 +223,8 @@ class StopMoveCommand(RobotCommand):
     def execute(self, robot, options, arguments):
         smooth = 500
 
-        if len(arguments) >= 2:
-            smooth = arguments[2]
+        if len(arguments) >= 1:
+            smooth = arguments[1]
 
         robot.stopMove(arguments[0], smooth)
 
