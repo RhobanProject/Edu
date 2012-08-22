@@ -52,8 +52,8 @@ class Motors(threading.Thread):
     def allCompliant(self):
         self.connection.ServosAllCompliant()
 
-        for name, motor in self.motors.items():
-            motor.setLoad(0)
+        #for name, motor in self.motors.items():
+        #    motor.setLoad(0)
 
     def hard(self, name):
         self.motors[name].setLoad(1)

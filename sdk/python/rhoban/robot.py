@@ -112,11 +112,11 @@ class Robot(object):
 
     # Configuration
 
-    def loadLowLevelConfig(self, config):
-        self.configs.loadLowLevelConfig(config)
+    def loadLowLevelConfig(self, config, force = False):
+        self.configs.loadLowLevelConfig(config, force)
 
-    def loadMoveSchedulerConfig(self, config):
-        self.configs.loadMoveSchedulerConfig(config)
+    def loadMoveSchedulerConfig(self, config, force = False):
+        self.configs.loadMoveSchedulerConfig(config, false)
         self.motors.setConfig(self.configs.moveSchedulerConfig)
 
     # Motors
