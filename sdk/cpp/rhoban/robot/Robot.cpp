@@ -20,6 +20,7 @@
 #include <config/Configurations.h>
 #include "Robot.h"
 #include "Moves.h"
+//#include "Sensors.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ namespace Rhoban
     motors = new Motors(connection);
     configs = new Configurations(connection);
     moves = new Moves(connection);
+    //sensors = new Sensors(connection);
   }
 
   Robot::~Robot()
@@ -39,6 +41,7 @@ namespace Rhoban
     delete connection;
     delete motors;
     delete moves;
+    //delete sensors;
   }
 
   void Robot::loadEnvironment(string environment)
@@ -231,4 +234,14 @@ namespace Rhoban
   {
     return moves;
   }
+  
+  // void Robot::setSensors(Sensors *sensors)
+  // {
+  //   this->sensors = sensors;
+  // }
+
+  // Sensors *Robot::getSensors()
+  // {
+  //   return sensors;
+  // }
 }

@@ -45,7 +45,13 @@ namespace Rhoban
 
   void Configurations::loadMoveSchedulerConfig(string config, bool force)
   {
-    //this->moveSchedulerConfig = MoveSchedulerConfig(config);
+    this->moveSchedulerConfig = new MoveSchedulerConfig(config);
+
+    if(force || isMoveSchedulerConfigLoaded() == 0)
+      {
+	connection->SchedulerLoadConfig(moveSchedulerConfig->getConfig());
+	connection->ServosScan(250, "Normal");
+      }
   }
  
   bool Configurations::isLowLevelConfigLoaded()
@@ -59,7 +65,12 @@ namespace Rhoban
 
   void Configurations::loadLowLevelConfig(string config, bool force)
   {
-
+    lowLevelConfig = new LowLevelConfig(config);
+    
+    if(force || isLowLevelConfigLoaded() == 0)
+      {
+	connection->LowLevelLoadConfig(lowLevelConfig->getConfig());
+      }
   }
 
   Connection *Configurations::getConnection()

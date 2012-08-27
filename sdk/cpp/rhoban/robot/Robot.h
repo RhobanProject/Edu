@@ -24,6 +24,7 @@ namespace Rhoban
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Moves.h"
+//#include "Sensors.h"
 
 using namespace std;
 
@@ -74,6 +75,8 @@ namespace Rhoban
     string getEnvironment();
     void setMoves(Moves *moves);
     Moves *getMoves();
+    //void setSensors(Sensors *sensors);
+    //Sensors *getSensors();
 
   protected:
     Motors *motors;
@@ -81,6 +84,7 @@ namespace Rhoban
     Connection *connection;
     string environment;
     Moves *moves;
+    //Sensors *sensors;
   };
 }
 

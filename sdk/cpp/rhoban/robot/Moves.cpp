@@ -9,9 +9,8 @@
  *************************************************/
 #include <cstdlib>
 #include <cstdio>
-#include <fstream>
-#include <iterator>
 #include <communication/Connection.h>
+#include <file_mngt.h>
 #include "Moves.h"
 
 using namespace std;
@@ -28,14 +27,9 @@ namespace Rhoban
     delete connection;
   }
 
-  void Moves::loadMove(string path) ///////////////////////////
+  void Moves::loadMove(string path)
   {
-    ifstream in_file(path.c_str());
-    string contents(istreambuf_iterator<char>(in_file), 
-		    (istreambuf_iterator<char>()) );
-    in_file.close();
-
-    connection->SchedulerLoadXMLMove_response(contents);
+    connection->SchedulerLoadXMLMove_response(file_to_string(path));
   }
 
   void Moves::startMove(string name, ui32 duration, ui32 smooth)
