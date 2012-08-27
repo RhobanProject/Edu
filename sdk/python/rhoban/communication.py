@@ -350,7 +350,7 @@ class ParametersPattern:
             raise IOError('Unable to read arguments from data for command %s (%s)' % (self.name, repr(data)))
 
         if data:
-            raise IOError('Remaining %d bytes of data for command %s' % (len(data), self.name))
+            raise IOError('Remaining %d bytes of data for command %s (%s)' % (len(data), self.name, repr(data)))
 
         return arguments
 

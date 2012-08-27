@@ -5,7 +5,7 @@ import sys, os, re, threading, time
 import yaml
 import configurations as config
 import communication as com
-import motors, motion
+import motors, motion, sensors
 
 """
     Représente un groupe de robots
@@ -72,6 +72,7 @@ class Robot(object):
         self.moves = motion.Moves(self.connection)
 
         self.motors = motors.Motors(self.connection)
+        self.sensors = sensors.Sensors(self.connection)
         self.configs = config.Configurations(self.connection)
 
         self.environment = ''
