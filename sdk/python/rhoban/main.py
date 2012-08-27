@@ -18,7 +18,8 @@ class RhobanMain(object):
                     StartMoveCommand(), StopMoveCommand(), UpdateConstantCommand()],
                 'motors': [CompliantCommand(), HardCommand(),
                     SetCommand(), ScanCommand(), SnapshotCommand(),
-                    InitCommand(), ZeroCommand(), MonitorCommand()]
+                    InitCommand(), ZeroCommand(), MonitorCommand()],
+                'sensors': [SensorsCommand()]
                 }
 
         for family, familyCommands in myCommands.items():
@@ -125,6 +126,9 @@ class StatusCommand(RobotsCommand):
         if robot.isConnected():
             print('|- Server version: %d' % robot.serverVersion())
             print('|- Connected at %s:%d' % (robot.connection.hostname, robot.connection.port))
+        else:
+            print('|- Disconnected')
+            return
 
         # Configurations
         loaded = robot.configs.isLowLevelConfigLoaded()
@@ -220,8 +224,8 @@ class StopMoveCommand(RobotCommand):
     def execute(self, robot, options, arguments):
         smooth = 500
 
-        if len(arguments) >= 2:
-            smooth = arguments[2]
+        if len(arguments) >= 1:
+            smooth = arguments[1]
 
         robot.stopMove(arguments[0], smooth)
 
@@ -416,4 +420,37 @@ class MonitorCommand(RobotCommand):
 
             print(' ' + ('-' * (len(headline)-1)))
             time.sleep(1.0/frequency)
+
+"""
+    Monitorer les sensors
+"""
+class SensorsCommand(RobotCommand):
+    def define(self):
+        self.name = 'sensors'
+        self.prototype = '<robotName>'
+        self.arguments = 1
+        self.description = 'Monitor the sensors values'
+
+    def execute(self, robot, options, arguments):
+        robot.sensors.start(5)
+        fmt = ' | %10s | %10s |'
+
+        while True:
+            os.system('clear')
+            headline = (fmt % ('Name', 'Value'))
+            separator = ' ' + ('-' * (len(headline)-1))
+
+            print(' Monitoring sensors of %s' % robot.name)
+            print(separator)
+            print(headline)
+            print(separator)
+
+            for name, sensor in robot.sensors.sensors.items():
+                if sensor.values:
+                    print(fmt % (sensor.name, sensor.values[0]))
+                else:
+                    print(fmt % (sensor.name, '?'))
+
+            print(separator)
+            time.sleep(0.5)
 

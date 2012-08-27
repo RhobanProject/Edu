@@ -5,7 +5,7 @@ import sys, os, re, threading, time
 import yaml
 import configurations as config
 import communication as com
-import motors, motion
+import motors, motion, sensors
 
 """
     Représente un groupe de robots
@@ -25,12 +25,12 @@ class Robots(object):
             raise Exception('Config error: no "robots" entry')
 
         for robotName, robotConfig in config['robots'].items():
+            if not robotConfig.get('enabled', True):
+                continue
+            
             robot = Robot(storeFileName)
             self.robots[robotName] = robot
             robot.name = robotName
-
-            if not robotConfig.get('enabled', True):
-                continue
             
             if 'host' in robotConfig:
                 robot.connect(robotConfig['host'], robotConfig.get('port', 12345))
@@ -72,6 +72,7 @@ class Robot(object):
         self.moves = motion.Moves(self.connection)
 
         self.motors = motors.Motors(self.connection)
+        self.sensors = sensors.Sensors(self.connection)
         self.configs = config.Configurations(self.connection)
 
         self.environment = ''
@@ -116,7 +117,7 @@ class Robot(object):
         self.configs.loadLowLevelConfig(config, force)
 
     def loadMoveSchedulerConfig(self, config, force = False):
-        self.configs.loadMoveSchedulerConfig(config, false)
+        self.configs.loadMoveSchedulerConfig(config, force)
         self.motors.setConfig(self.configs.moveSchedulerConfig)
 
     # Motors

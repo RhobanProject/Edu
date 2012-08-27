@@ -115,7 +115,7 @@ C++ :
 .. code-block:: cpp
 
     // Chargement du mouvement Walk
-    robot.loadMove("Walk.xml");
+    robot.loadMove("Walk");
     // Lance le mouvement "Walk" pour une durée indéterminée, smoothée pendant 1s
     robot.startMove("Walk", 0, 1000);
     // Dort une minute
@@ -128,7 +128,7 @@ Python :
 .. code-block:: python
 
     # Chargement du mouvement Walk
-    robot.loadMove('Walk.xml')
+    robot.loadMove('Walk')
     # Lance le mouvement "Walk" pour une durée indéterminée, smoothée pendant 1s
     robot.startMove('Walk', 0, 1000)
     # Dort une minute
