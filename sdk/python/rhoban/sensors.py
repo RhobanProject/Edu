@@ -65,3 +65,9 @@ class Sensor(object):
     def __init__(self, name):
         self.name = name
         self.values = []
+
+    def getValue(self):
+        if self.values:
+            return self.values[0]
+
+        return None

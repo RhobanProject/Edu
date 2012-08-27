@@ -96,4 +96,20 @@ La description sera affichée dans l'aide du programme.
 Python
 ------
 
-*A venir*
+Dans le fichier ``sdk.py`` livré avec le python, vous trouverez une commande d'exemple.
+
+Afin d'écrire une commande, vous pouvez hériter de ``RobotCommand`` :
+
+.. code-block:: python
+
+    # Exemple de commande 
+    class ExampleCommand(RobotCommand):
+        def define(self):
+            self.name = 'example'
+            self.description = 'Example command'
+            self.prototype = '<robotName>'
+            self.arguments = 1 
+
+        def execute(self, robot, options, arguments):
+            print('Example command for %s' % robot.name)
+

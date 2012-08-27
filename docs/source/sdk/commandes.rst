@@ -171,6 +171,18 @@ Les paramètres ``load`` et ``speed`` servent à régler respectivement la
 charge (c'est à dire la puissance) et la vitesse du moteur. Ils sont exprimés sous
 forme de nombres flottants en 0 et 1.
 
+Commandes capteurs
+~~~~~~~~~~~~~~~~~~
+
+``sensors``: Monitorer les capteurs
+-----------------------------------
+
+.. code-block:: bash
+
+    ./sdk sensors <robot>
+
+Sert à observer les valeurs des capteurs
+
 Commandes mouvement
 ~~~~~~~~~~~~~~~~~~~
 
