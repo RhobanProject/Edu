@@ -13,6 +13,7 @@ Documentation: SDK
     chargement_configs
     configuration
     moteurs
+    capteurs
     mouvements
     motion_tracking
 
