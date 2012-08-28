@@ -32,16 +32,21 @@ namespace Rhoban
 
   void Robots::loadYaml(string filename) //////////////
   {
-    ifstream file(filename.c_str());
-    YAML::Parser parser(file);
+    string name, host, port, environment;
+    vector<string> moves;
+    
+    ifstream cfgfile(filename.c_str());
+    YAML::Parser parser(cfgfile);
     YAML::Node doc;
     parser.GetNextDocument(doc);
+
     for(int i=0; i<doc.size(); i++)
       {
-	/////////////////////
-      }
-    /////////////////////:
+	Robot *robot;
+	// cfg le robot en question
 
+	//robots[
+      }
   }
 
   void Robots::stop()

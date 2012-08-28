@@ -11,3 +11,4 @@ sdk/python/rhoban/*.pyc
 sdk/python/rhoban/*/*.pyc
 sdk/python/sockets/*.pyc
 sdk/python/config.yml
+sdk/python/yaml/*.pyc

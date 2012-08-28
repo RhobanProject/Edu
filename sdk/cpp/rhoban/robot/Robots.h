@@ -33,6 +33,7 @@ namespace Rhoban
     
     void setRobots(map<string, Robot *> robots);
     map<string, Robot *> getRobots();
+
   protected:
     map<string, Robot *> robots;
   };
