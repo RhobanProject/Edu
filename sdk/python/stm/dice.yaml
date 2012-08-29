@@ -1,18 +1,17 @@
 machine:
   name: TheDiceMachine
-
-  global: |
-    tries
-    dice
+  
+  preamble: |
+    import random
     void throw_dice() { dice = 7 * rand() / RAND_MAX; }
 
   frequency: 50
 
   states:
     - name: Initial
-      start : i = 0
+      enter : tries = 0
       loop: |
-        i += 1
+        tries += 1
         throw_dice()
       transitions:
         - condition : i > 5
