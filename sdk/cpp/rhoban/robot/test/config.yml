@@ -11,6 +11,7 @@ robots:
 
     humanoid:
         host: 192.168.0.12
+        port: 43812
         environment: /configs/humanoid/
         loadMoves: ['Walk', 'Standup'] # Mouvements à charger automatiquement
 

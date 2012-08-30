@@ -21,18 +21,11 @@ using namespace std;
 
 namespace Rhoban
 {
-  struct robottest
-  {
-    string name, host, port, environment;
-    vector<string> moves;
-  };
   
   COMMAND_DEFINE(testyaml, "Run the Yaml parsing test")
   {
     cout << "Starting test on yaml parsing..." << endl;
 
-    int i;
-    robottest robot;
     string filename="../rhoban/robot/test/config.yml";
 
     string name, host, port, environment;
@@ -43,6 +36,22 @@ namespace Rhoban
     YAML::Node doc;
     parser.GetNextDocument(doc);
     
+    if(!doc.FindValue("robots"))
+      cout << "Config error : no \"robots\" entry" << endl;
+    else
+      {
+	YAML::Iterator it;
+	for(it=doc["robots"].begin();it!=doc["robots"].end();++it) 
+	  {
+	    it.first() >> name;
+	    cout << "robots[\"" << name << "\"] = new Robot(new CommandsStore);" << endl;
+	    
+	  }
+      }
+    
+    cout << "####################################################" << endl;
+    cout << "####################################################" << endl;
+    cout << "####################################################" << endl;
     cout << doc.size() << endl;
 
     string sortie;
@@ -54,6 +63,7 @@ namespace Rhoban
     doc["robots"]["humanoid"]["environment"] >> sortie;
     cout << sortie << endl;
 
+    int i;
     for(i=0; i<doc["robots"].size(); i++)
       {
 	cout << i << endl;
@@ -71,13 +81,26 @@ namespace Rhoban
 	it.first() >> sortie;
 	cout << sortie << endl;
 	
-	it.first() >> robot.name;
-	it.second()["host"] >> robot.host;
-	//it.second()["port"] >> robot.port;
-	it.second()["environment"] >> robot.environment;
+	it.first() >> name;
+	it.second()["host"] >> host;
+	//it.second()["port"] >> port;
+	it.second()["environment"] >> environment;
 	
-	cout << "== " << robot.name << " " << robot.host <<" " << robot.port <<" " << robot.environment << endl;
+	cout << "== " << name << " " << host <<" " << port <<" " << environment << endl;
+
+	cout << "size " << it.second().size() << endl;
+
+	cout << "boucle interne" << endl;
+	for(YAML::Iterator it2=it.second().begin();it2!=it.second().end();++it2)
+	  {
+	    cout << "a" << endl;
+	    it2.first() >> sortie;
+	    cout << sortie << endl;
+	  }
+	cout << "sortie boucle interne" << endl;
+	
+	cout << "TEST EXISTENCE PORT " << it.second().FindValue("port") << endl;
       }
-    
+    cout << doc.FindValue("commands") << endl;
   }
 }
