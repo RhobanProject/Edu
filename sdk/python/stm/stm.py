@@ -1,5 +1,5 @@
 '''
-Created on 16 ao�t 2012
+Created on 16 ao?t 2012
 
 @author: Hugo
 '''

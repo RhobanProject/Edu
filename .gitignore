@@ -7,3 +7,15 @@ sdk/cpp/example/build
 sdk/python/rhoban/*.pyc
 sdk/python/rhoban/*/*.pyc
 sdk/python/sockets/*.pyc
+/sdk/python/.pydevproject
+/sdk/python/.settings
+/sdk/python/.project
+/sdk/python/stm/__pycache__
+.settings
+/.cproject
+/.project
+/.pydevproject
+__pycache__
+/sdk/python/stm/dice.yaml
+/sdk/python/stm/dice2.yaml
+/sdk/python/stm/dice3.yaml
