@@ -35,6 +35,7 @@ namespace Rhoban
     
     void setConnection(Connection *connection);
     Connection *getConnection();
+ 
   protected:
     Connection *connection;
   };

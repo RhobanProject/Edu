@@ -17,5 +17,7 @@ robots:
 
     mechatron:
         host: 192.168.0.19
-        environment: /configs/mecha/
-        loadMoves: ['Fly', 'DoThePoneyPokey'] # Mouvements à charger automatiquement
+        loadMoves: ['Fly', 'DoThePoneyPokey', 'DoABarrelRoll', 'RickRollUs']
+
+    homelessbot:
+        loadMoves: ['DoNothing']

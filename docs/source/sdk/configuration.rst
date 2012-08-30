@@ -63,9 +63,9 @@ Voici comment ce fichier pourrait être utilisé dans le code, en C++ :
     // Charge la configuration et connecte les robots
     robots.loadYaml("config.yml");
     // Relâche les moteurs de l'arraignée
-    robots["spider"].allCompliant();
+    robots["spider"]->allCompliant();
     // Lance le mouvement de marche
-    robots["humanoid"].startMove("Walk", 0, 1000)
+    robots["humanoid"]->startMove("Walk", 0, 1000)
     // Ferme toutes les connexions
     robots.stop();
 
