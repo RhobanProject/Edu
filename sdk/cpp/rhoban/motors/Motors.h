@@ -24,7 +24,7 @@ using namespace std;
 
 namespace Rhoban
 {
-  void motorsValues(Message *values, Motors *data);
+  void motorsValues(Message *values, void *data);
 
   class Motors : public Thread
   {

@@ -229,7 +229,7 @@ namespace Rhoban
 	connection->ServosGetValues_callback(1, motorsValues, this);
 	pushValues();
 	usleep(1000000/frequency);
-      }
+      } 
   }
 
   void Motors::scan()

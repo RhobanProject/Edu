@@ -35,6 +35,8 @@ set(RHOBAN_SOURCES
     rhoban/robot/Robot.cpp
     rhoban/robot/Robots.cpp
     rhoban/robot/Moves.cpp
+    rhoban/robot/Sensor.cpp
+    rhoban/robot/Sensors.cpp
     rhoban/motors/Motors.cpp
     rhoban/motors/Motor.cpp
     rhoban/robot/test/testyaml.cpp
