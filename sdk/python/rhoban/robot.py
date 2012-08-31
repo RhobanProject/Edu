@@ -43,6 +43,7 @@ class Robots(object):
 
                 for move in robotConfig['loadMoves']:
                     if move not in loadedMoves:
+                        loadedMoves.append(move)
                         robot.loadMove(move)
 
     def stop(self):

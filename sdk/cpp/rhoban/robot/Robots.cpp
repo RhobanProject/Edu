@@ -11,8 +11,13 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 #include <yaml-cpp/yaml.h>
+#include <main/Command.h>
+#include <util.h>
 #include "Robots.h"
+#include "Robot.h"
 
 using namespace std;
 
@@ -30,24 +35,78 @@ namespace Rhoban
     return robots[name];
   }
 
-  void Robots::loadYaml(string filename) //////////////
+  void Robots::loadYaml(string filename)
   {
-    string name, host, port, environment;
-    vector<string> moves;
-    
+    cout << "Starting yaml config parsing..." << endl << endl;
+
     ifstream cfgfile(filename.c_str());
     YAML::Parser parser(cfgfile);
     YAML::Node doc;
     parser.GetNextDocument(doc);
-
-    for(int i=0; i<doc.size(); i++)
+    
+    if(!doc.FindValue("robots"))
+      cout << "Config error : no \"robots\" entry" << endl;
+    else
       {
-	Robot *robot;
-	// cfg le robot en question
+	YAML::Iterator it;
+	int i;
 
-	//robots[
+	string name, host, environment, move;
+	int port;
+	vector<string> loadedMoves;
+	
+	for(it=doc["robots"].begin();it!=doc["robots"].end();++it) 
+	  {
+	    loadedMoves.clear();
+	    
+	    // Name
+	    it.first() >> name;
+	    robots[name] = new Robot(new CommandsStore);
+	    
+	    // Host & port
+	    if(it.second().FindValue("host"))
+	      {
+		it.second()["host"] >> host;
+		
+		if(it.second().FindValue("port"))
+		  it.second()["port"] >> port;		  
+		else
+		  port = 12345;
+		
+		robots[name]->connect(host.c_str(), port);
+	      }
+	    
+	    // Environment
+	    if(it.second().FindValue("environment"))
+	      {
+		it.second()["environment"] >> environment;
+		
+		robots[name]->loadEnvironment(environment);
+	      }
+
+	    // LoadMoves
+	    if(it.second().FindValue("loadMoves"))
+	      {
+		loadedMoves = robots[name]->getLoadedMoves();
+		
+		for(i=0; i<it.second()["loadMoves"].size(); ++i)
+		  { 
+		    it.second()["loadMoves"][i] >> move;
+		    if(!is_in_vector_string(loadedMoves, move))
+		      {
+			loadedMoves.push_back(move);
+			robots[name]->loadMove(move);
+		      }
+		  }
+	      }   
+	  }
       }
   }
+
+
+
+
+
 
   void Robots::stop()
   {
@@ -55,7 +114,7 @@ namespace Rhoban
     for(it = robots.begin(); it != robots.end(); ++it)
       it->second->stop();
   }
-  
+
   void Robots::setRobots(map<string, Robot *> robots)
   {
     this->robots = robots;
