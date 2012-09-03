@@ -29,7 +29,6 @@ namespace Rhoban
 
   Configurations::~Configurations()
   {
-    delete connection;
     delete lowLevelConfig;
     delete moveSchedulerConfig;
   } 

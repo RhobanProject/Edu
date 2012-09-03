@@ -36,11 +36,6 @@ namespace Rhoban
   {
     this->connection = connection;
   }
-
-  Sensors::~Sensors()
-  {
-    delete connection;
-  }
     
   size_t Sensors::len()
   {

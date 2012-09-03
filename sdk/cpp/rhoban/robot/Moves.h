@@ -23,7 +23,6 @@ namespace Rhoban
   {
   public:
     Moves(Connection *connection);
-    ~Moves();
 
     void loadMove(string path);
     void startMove(string name, ui32 duration, ui32 smooth);

@@ -38,7 +38,6 @@ namespace Rhoban
 
   Motors::~Motors()
   {
-    delete connection;
     delete configuration;
   }
 

@@ -21,11 +21,6 @@ namespace Rhoban
   {
     this->connection = connection;
   }
-  
-  Moves::~Moves()
-  {
-    delete connection;
-  }
 
   void Moves::loadMove(string path)
   {

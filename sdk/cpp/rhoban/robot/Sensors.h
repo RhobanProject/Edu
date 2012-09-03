@@ -29,7 +29,6 @@ namespace Rhoban
   {
   public:
     Sensors(Connection *connection);
-    ~Sensors();
     
     size_t len();
     Sensor *operator[](string name);
