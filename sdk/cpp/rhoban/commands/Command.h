@@ -18,6 +18,7 @@ namespace Rhoban
 #include <cstdlib>
 #include <cstdio>
 #include <string>
+#include <vector>
 #include "CommandsManager.h"
 
 using namespace std;
@@ -29,7 +30,8 @@ namespace Rhoban
   public:
     Commandpy();
 
-    void run(string options, string arguments);
+    void run(vector<string> options, vector<string> arguments); // PROTOYPE ?
+    void stop();
 
     void setManager(CommandsManager *manager);
     CommandsManager *getManager();
@@ -39,18 +41,18 @@ namespace Rhoban
     string getDescription();
     void setPrototype(string prototype);
     string getPrototype();
-    void setOptions(string options);
-    string getOptions();
-    void setArguments(string arguments);
-    string getArguments();
+    void setOptions(vector<string> options);
+    vector<string> getOptions();
+    void setArguments(int arguments);
+    int getArguments();
 
   protected:
     CommandsManager *manager;
     string name;
     string description;
     string prototype;
-    string options;
-    string arguments; ///////////////////////////
+    vector<string> options;
+    int arguments;
   };
 }
 

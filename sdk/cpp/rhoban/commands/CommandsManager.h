@@ -31,7 +31,7 @@ namespace Rhoban
     CommandsManager(string fallbackCommand = "help");
 
     void addCommand(Commandpy *command, string family = "default");
-    void run(char *argv[]);
+    void run(int argc, char *argv[]);
 
     void setCommands(map<string, Commandpy *> commands);
     map<string, Commandpy *> getCommands();
