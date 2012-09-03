@@ -23,15 +23,13 @@ namespace Rhoban
     Sensors *self = (Sensors *)data;
     
     vector<string> names = response->read_string_array();
-    
-    vector< vector<ui32> > values;
+
+    vector< vector<ui32> > values = response->read_uint_array_array();
     for(int i=0; i<names.size(); ++i)
       {
-	values[i] = response->read_uint_array();
-   
 	if(self->hasSensorNamed(names[i]))
 	  self->setSensorValues(names[i], values[i]);
-      }    
+      }
   }
 
   Sensors::Sensors(Connection *connection)
