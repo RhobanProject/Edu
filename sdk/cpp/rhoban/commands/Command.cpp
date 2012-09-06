@@ -9,8 +9,10 @@
  *************************************************/
 #include <cstdlib>
 #include <cstdio>
+#include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 #include "CommandsManager.h"
 #include "Command.h"
 
@@ -20,18 +22,18 @@ namespace Rhoban
 {
   Commandpy::Commandpy()
   {
-
+    arguments = 0;
+    define();
   }
   
-  void Commandpy::run(vector<string> options, vector<string> arguments)
+  void Commandpy::run(map<char, string> options, vector<string> arguments)
   {
-
+    cout << "Command " << name << " nor implemented" << endl;
   }
   
-  void Commandpy::stop()
-  {
-
-  }
+  void Commandpy::stop(){}
+  
+  void Commandpy::define(){}
 
   void Commandpy::setManager(CommandsManager *manager)
   {
@@ -73,12 +75,12 @@ namespace Rhoban
     return prototype;
   }
 
-  void Commandpy::setOptions(vector<string> options)
+  void Commandpy::setOptions(string options)
   {
     this->options = options;
   }
 
-  vector<string> Commandpy::getOptions()
+  string Commandpy::getOptions()
   {
     return options;
   }

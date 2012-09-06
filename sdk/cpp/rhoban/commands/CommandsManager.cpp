@@ -13,6 +13,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <util.h>
 #include "CommandsManager.h"
 #include "Command.h"
 
@@ -44,10 +45,31 @@ namespace Rhoban
     
     if(commands.count(command))
       {
-	// getopt -> on recoit options et arguments (vector ?)
+	map<char, string> options;
 	vector<string> arguments;
-	vector<string> options;
-	// getopt
+	int opt;
+	while((opt = getopt(argc, argv, 
+			    commands[command]->getOptions().c_str())) != -1)
+	  {
+	    switch(opt)
+	      {
+		if(opt == '?' || opt == ':')
+		  {
+		  cout << "Command error" << endl;
+		  return;
+		  }
+		else
+		  {
+		    if(optarg)
+		      options[opt] = optarg;
+		    else
+		      options[opt];
+		  }
+	      }
+	  }
+	
+	for(int i=optind; i<argc; ++i)
+	  arguments.push_back(argv[i]);	
 
 	if(arguments.size() < commands[command]->getArguments())
 	  {
