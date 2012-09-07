@@ -4,7 +4,6 @@ Created on 6 sept. 2012
 @author: Hugo
 '''
 from threading import Thread, Event
-from time import time
 
 class RepeatedTimer(Thread):
     """Call a function after every specified number of seconds:

@@ -28,23 +28,16 @@ if __name__ == '__main__':
                 yaml.dump(dice_machine_desc.toTree(), deserial_stream, default_flow_style=False, indent = 4)
         
         print("Generating DiceMachine")
-        with open("dice_machine_generated.py",'w') as python_stream:
-            python_stream.write( dice_machine_desc.toPython() )
+        with open("dice_machine.py",'w') as python_stream:
+            python_stream.write( dice_machine_desc.to_python() )
 
-            
         print("Creating machine scheduler")
         global scheduler
         scheduler = StateMachineLoader()        
         print("Executing DiceMachine\n")
-        machine = StateMachine.from_file("dice_machine.yaml")
+        machine = StateMachine.from_yaml("dice_machine.yaml")
         scheduler.load_machine(machine)
-        
-        #machine.play()
-        
-        
-        #machine.play()
-        #os.system("dice_machine_generated.py")
-     
+             
     except yaml.scanner.ScannerError as e:
         print("Failed to parse file:\n" , e)
         

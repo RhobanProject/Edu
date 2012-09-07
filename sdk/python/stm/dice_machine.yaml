@@ -13,6 +13,7 @@ machine:
     name: TheDiceMachine
     preamble: |
         from random import randint
+        global TheDiceMachine
 
     states:
     
@@ -35,12 +36,10 @@ machine:
         -   next: Final
         
     -   name: Won
-        loop: print("You've won")
-        bye: print("Game Over")
         transitions:
         -   do : |
-                print("Dying giving birth")
-                machine = StateMachine.from_file("dice_machine.yaml")
+                print("You've won an extra game!")
+                machine = TheDiceMachine()
                 self.scheduler.load_machine(machine)
             next: Final
         

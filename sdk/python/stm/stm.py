@@ -71,9 +71,9 @@ class StateMachine(RepeatedTimer):
 
     '''builds the machine from a yaml file'''
     @classmethod
-    def from_file(cls, filename):
-        description = StateMachineDescription.from_file(filename)
-        return description.toMachine()
+    def from_yaml(cls, filename):
+        description = StateMachineDescription.from_yaml(filename)
+        return description.to_machine()
 
 
     
@@ -185,16 +185,15 @@ class StateMachineDescription(object):
  
     '''builds the machine description from a yaml file'''
     @classmethod
-    def from_file(cls, filename):
+    def from_yaml(cls, filename):
         with open(filename,'r') as yaml_stream:
             tree = yamlload(yaml_stream)
             description = StateMachineDescription()
             description.from_tree(tree)
             return description
                 
-
     '''turns the machine description to python code'''
-    def toPython(self):
+    def to_python(self):
         result = ""
         
         result += "\n\nfrom stm import StateMachine\n\n"
@@ -206,6 +205,9 @@ class StateMachineDescription(object):
             elif imports[0]=='from' and imports[2]=='import' :
                 result += "global " + imports[3] + "\n"
             result += line + "\n"
+            
+        '''this way the machine can create instances of itself'''
+        result += "global " + self.name + "\n\n"
         
         result += "class " + self.name + "(StateMachine):\n"
         
@@ -287,20 +289,12 @@ class StateMachineDescription(object):
         return result
         
     '''turns the machine description into a machine'''
-    def toMachine(self):
+    def to_machine(self):
         
-        exec(self.toPython())
+        exec(self.to_python())
                     
         machine = eval( self.name + "()")
         return machine
-    
-    def imports(self):
-        result = []
-        for line in self.preamble.splitlines() :
-            imports = line.split(' ')
-            if imports[0]=='import':
-                result.append(imports[1])
-        return result
     
     '''add #nb indentations before each line of the text #text" and returns the result'''
     def indent(self, text,nb):
