@@ -1,61 +1,114 @@
 '''
-Created on 16 ao?t 2012
+Created on 16 aout 2012
 
 @author: Hugo
 '''
-import yaml
-from collections import OrderedDict
+from timer import RepeatedTimer
+from yaml import load as yamlload
 
-class StateMachine(object):
+class StateMachine(RepeatedTimer):
     name = ""
     
     class States:
         (Initial , Final) = range(0,2)
 
-    state = States.Initial
+    class Status:
+        (Playing, Suspended, Stopped) = range(0,3)
         
-    def run(self):
-        print("Starting machine \'" + self.name+"\'")
+    def __init__(self, debug=False):
+        RepeatedTimer.__init__(self,1,self.step)
+        self.frequency = 1.0
         self.state = self.States.Initial
-        self.enter()
-        while self.state is not self.States.Final :
+        self.status = self.Status.Stopped
+        self.debug = debug
+        
+    def get_frequency(self):
+        return self.__frequency
+
+    def set_frequency(self, frequency):
+        if frequency > 0.001 and frequency < 500 :
+            self.__frequency = frequency
+            self.interval = 1.0 / frequency
+
+    frequency = property(get_frequency, set_frequency) 
+
+    def set_state(self, state):
+        self.state = state
+        
+    def play(self):
+        if self.status == self.Status.Stopped :
+            if self.debug : print("Starting machine \'" + self.name+"\'")
+            self.state = self.States.Initial
+            self.enter()
+            self.status = self.Status.Playing
+            RepeatedTimer.start(self)
+        elif self.status == self.Status.Suspended :
+            if self.debug : print("Resuming machine \'"+ self.name+"\'")
+            self.status = self.Status.Playing
+    
+    def suspend(self):
+        if self.debug : print("Suspending machine \'"+ self.name+"\'")
+        self.status = self.Status.Suspended
+
+    def stop(self):
+        if self.debug : print("Stopping machine \'"+ self.name+"\'")
+        self.status = self.Status.Stopped
+        RepeatedTimer.cancel(self)
+    
+    def step(self):
+        if self.debug : print("Stepping machine \'"+ self.name+"\' with status " + str(self.status))
+        if self.status == self.Status.Playing :
             self.loop()
             newstate = self.transition()
             if newstate != self.state :
                 self.bye()
                 self.state = newstate
                 self.enter()
-        self.bye()
-        print("Stopping machine \'"+ self.name+"\'")
+            if self.state is self.States.Final :
+                if self.debug : print("Machine has reached its final state\'"+ self.name+"\'")
+                self.bye()
+                self.stop()
+
+    '''builds the machine from a yaml file'''
+    @classmethod
+    def from_file(cls, filename):
+        description = StateMachineDescription.from_file(filename)
+        return description.toMachine()
 
 
-'''If the chain is non empty, addToMappingIfNonEmpty associates the value chain to the key 'tag'
-in the mapping 'mapping' '''
-def addToMappingIfNonEmpty(tag,chain,mapping):
-    if chain is not '' :
-        mapping[tag] = chain
-        
-def getFromMapping(tag,mapping):
-    if mapping.__contains__(tag)  :
-        return mapping[tag]
-    else :
-        return ""
     
 class StateMachineDescription(object):
+    
+    '''If the chain is non empty, add_tag associates the value chain to the key 'tag'
+    in the mapping 'mapping' '''
+    @classmethod
+    def add_tag(cls, tag,chain,mapping):
+        if chain is not '' :
+            mapping[tag] = chain
+        
+    '''If the mapping contains the key tag, return the key otherwise returns empty chain'''
+    @classmethod
+    def get_tag(cls, tag,mapping):
+        if mapping.__contains__(tag)  :
+            return mapping[tag]
+        else :
+            return ""
          
     class Transition(object):
 
+        '''turns the transition into a map'''
         def toTree(self):
             result = {}
-            addToMappingIfNonEmpty('condition',self.condition,result)
-            addToMappingIfNonEmpty('do',self.do,result)
-            addToMappingIfNonEmpty('next',self.next,result)
+            StateMachineDescription.add_tag('condition',self.condition,result)
+            StateMachineDescription.add_tag('do',self.do,result)
+            StateMachineDescription.add_tag('next',self.next,result)
             return result
 
+        '''build the transition from a map'''
         def from_tree(self, mapping):
-            self.condition = getFromMapping('condition' , mapping)
-            self.do = getFromMapping('do' , mapping)
-            self.next = getFromMapping('next' , mapping)
+            self.condition = StateMachineDescription.get_tag('condition' , mapping)
+            self.do = StateMachineDescription.get_tag('do' , mapping)
+            self.next = StateMachineDescription.get_tag('next' , mapping)
         
         
         def __init__(self, condition, do, nextt):
@@ -65,12 +118,13 @@ class StateMachineDescription(object):
     
     class State(object):
     
+        '''turns the state into a map of maps'''
         def toTree(self):
             result = {}
-            addToMappingIfNonEmpty('name',self.name,result)
-            addToMappingIfNonEmpty('enter',self.enter,result)
-            addToMappingIfNonEmpty('loop',self.loop,result)
-            addToMappingIfNonEmpty('bye',self.bye,result)
+            StateMachineDescription.add_tag('name',self.name,result)
+            StateMachineDescription.add_tag('enter',self.enter,result)
+            StateMachineDescription.add_tag('loop',self.loop,result)
+            StateMachineDescription.add_tag('bye',self.bye,result)
             trans = []
             for transition in self.transitions :
                 trans.append(transition.toTree())
@@ -78,11 +132,12 @@ class StateMachineDescription(object):
                 result['transitions'] = trans
             return result
 
+        '''build the state from a map of maps'''
         def from_tree(self, mapping):
-            self.name = getFromMapping('name' , mapping)
-            self.enter = getFromMapping('enter' , mapping)
-            self.loop = getFromMapping('loop' , mapping)
-            self.bye = getFromMapping('bye' , mapping)
+            self.name = StateMachineDescription.get_tag('name' , mapping)
+            self.enter = StateMachineDescription.get_tag('enter' , mapping)
+            self.loop = StateMachineDescription.get_tag('loop' , mapping)
+            self.bye = StateMachineDescription.get_tag('bye' , mapping)
             self.transitions = []
             if mapping.__contains__('transitions'):
                 transitions = mapping['transitions']
@@ -98,26 +153,28 @@ class StateMachineDescription(object):
             self.bye = bye
             self.transitions = []
         
+    '''turns the machine description into a map of maps'''
     def toTree(self):
         result = {}
-        addToMappingIfNonEmpty('name',self.name,result)
-        addToMappingIfNonEmpty('description',self.description,result)
-        addToMappingIfNonEmpty('frequency',self.frequency,result)
-        addToMappingIfNonEmpty('preamble',self.preamble,result)
-        addToMappingIfNonEmpty('functions',self.functions,result)
+        StateMachineDescription.add_tag('name',self.name,result)
+        StateMachineDescription.add_tag('description',self.description,result)
+        StateMachineDescription.add_tag('frequency',self.frequency,result)
+        StateMachineDescription.add_tag('preamble',self.preamble,result)
+        StateMachineDescription.add_tag('functions',self.functions,result)
         states = []
         for state in self.states :
             states.append(state.toTree())
         result['states'] = states
         return { 'machine' : result  }
 
+    '''builds the machine description from a map'''
     def from_tree(self, mapping):
         mapping = mapping['machine']
-        self.name = getFromMapping('name' , mapping)
-        self.functions = getFromMapping('functions' , mapping)
-        self.description = getFromMapping('description' , mapping)
-        self.frequency = getFromMapping('frequency' , mapping)
-        self.preamble = getFromMapping('preamble' , mapping)
+        self.name = StateMachineDescription.get_tag('name' , mapping)
+        self.functions = StateMachineDescription.get_tag('functions' , mapping)
+        self.description = StateMachineDescription.get_tag('description' , mapping)
+        self.frequency = StateMachineDescription.get_tag('frequency' , mapping)
+        self.preamble = StateMachineDescription.get_tag('preamble' , mapping)
         self.states = []
         states = mapping['states']
         if states :
@@ -126,14 +183,39 @@ class StateMachineDescription(object):
                 state.from_tree(stateDesc)
                 self.states.append(state)
  
+    '''builds the machine description from a yaml file'''
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename,'r') as yaml_stream:
+            tree = yamlload(yaml_stream)
+            description = StateMachineDescription()
+            description.from_tree(tree)
+            return description
+                
+
+    '''turns the machine description to python code'''
     def toPython(self):
         result = ""
-        result += "\n\nimport stm\n\n"
         
-        result += self.preamble + "\n\n"
+        result += "\n\nfrom stm import StateMachine\n\n"
+
+        for line in self.preamble.splitlines() :
+            imports = line.split(' ')
+            if imports[0]=='import':
+                result += "global " + imports[1] + "\n"
+            elif imports[0]=='from' and imports[2]=='import' :
+                result += "global " + imports[3] + "\n"
+            result += line + "\n"
         
-        result += "class " + self.name + "(stm.StateMachine):\n"
-        result += "    name = \"" + self.name + "\"\n"
+        result += "class " + self.name + "(StateMachine):\n"
+        
+        result += \
+'''
+    def __init__(self, verbose=False):
+'''
+        result += "        StateMachine.__init__(self, verbose)\n"
+        result += "        self.name = \"" + self.name + "\"\n"
+        result += "        self.frequency = "+ str(self.frequency) + "\n"
         
         result += "\n"
         
@@ -145,7 +227,6 @@ class StateMachineDescription(object):
             result += state.name + ", "
         result += ") = range(0," + str(len(self.states)) + ")\n\n"
         
-        result += self.indent(self.functions,1)
         
         result += \
 '''
@@ -200,14 +281,31 @@ class StateMachineDescription(object):
 
         result +="\n\n"
 
-        result += "if __name__ == '__main__':\n    the_machine = " + self.name + "()\n    the_machine.run()\n"
+        result += "if __name__ == '__main__':\n    the_machine = " + self.name + "()\n    the_machine.play()\n"
 
     
         return result
         
+    '''turns the machine description into a machine'''
+    def toMachine(self):
+        
+        exec(self.toPython())
+                    
+        machine = eval( self.name + "()")
+        return machine
+    
+    def imports(self):
+        result = []
+        for line in self.preamble.splitlines() :
+            imports = line.split(' ')
+            if imports[0]=='import':
+                result.append(imports[1])
+        return result
+    
+    '''add #nb indentations before each line of the text #text" and returns the result'''
     def indent(self, text,nb):
         result = ""
-        flines = text.split('\n')
+        flines = text.splitlines()
         for line in flines:
             result += nb * "    " + line + "\n"
         return result
@@ -234,16 +332,17 @@ class StateMachineDescription(object):
         '''The list of transitions'''
         self.transitions = {}
     
-        '''Thre frequency of the machine'''
-        self.frequency = 50
+        '''The frequency of the machine'''
+        self.frequency = 1
         
     
 
 class DiceMachineDescription(StateMachineDescription):    
     def __init__(self):
-        super( DiceMachineDescription, self ).__init__()
-        self.name = "TheDiceMachine";
+        StateMachineDescription.__init__(self)
+        self.name = "TheDiceMachine"
         self.description = "\nSimulates a game where we throw a dice and win iff we make a six in less than n tries"
+        self.frequency = 10
         self.preamble = \
 '''
 import random

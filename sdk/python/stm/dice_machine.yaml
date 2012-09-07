@@ -1,0 +1,50 @@
+machine:
+    description: |
+        Simulates a game where we throw a dice and win iff we make a six in less than
+        n tries
+        
+    frequency: 50
+    functions: |
+      def throw_dice(self):
+          print('Throwing dice')
+          self.dice = randint(1,6)
+          self.tries += 1
+          print('Dice is ', self.dice)
+    name: TheDiceMachine
+    preamble: |
+        from random import randint
+
+    states:
+    
+    -   name: Initial
+        enter: |
+            self.tries = 0
+            self.dice = 0
+        loop: self.throw_dice()
+        transitions:
+        -   condition: self.dice==6
+            next: Won
+        -   condition: self.tries>5
+            do: self.tries=0
+            next: Lost
+            
+    -   name: Lost
+        loop: print("You've lost")
+        bye: print("Game Over")
+        transitions:
+        -   next: Final
+        
+    -   name: Won
+        loop: print("You've won")
+        bye: print("Game Over")
+        transitions:
+        -   do : |
+                print("Dying giving birth")
+                machine = StateMachine.from_file("dice_machine.yaml")
+                self.scheduler.load_machine(machine)
+            next: Final
+        
+    -   name: Final
+        loop: print('Over, dice is ', self.dice)
+        
+        

@@ -1,37 +1,49 @@
 # -*- coding: utf-8 -*-
 
 import yaml
-import stm
-import os
+from stm import StateMachine, StateMachineDescription
+from loader import StateMachineLoader
 
 #from collections import OrderedDict
 
+'''Performs a test for StateMachines
+the dice_machine.yaml file is
+ * loaded
+ * deserialzed to a StateMachine description
+ * reserialized to the file dice_machine_reserialized.py
+ * turned to a py file dice_machine_generated.py
+ * executed
+'''
 
 if __name__ == '__main__':
     print(yaml.__file__)
     
     try:
-         
-        print("Creating yaml DiceMachine description")
-        machine = stm.DiceMachineDescription()
-        with open("test/diceMachine.yaml",'w') as serial_stream:
-            serialized = yaml.dump(machine.toTree(), default_flow_style=False, indent = 4)
-            serial_stream.write(serialized)
-            
         print("Deserializing and reserializing DiceMachine")
-        with open("test/diceMachine.yaml",'r') as yaml_stream:
-            with open("test/diceMachineReserialized.yaml",'w') as deserial_stream:
+        with open("dice_machine.yaml",'r') as yaml_stream:
+            with open("dice_machine_reserialized.yaml",'w') as deserial_stream:
                 truc = yaml.load(yaml_stream)
-                newmachine = stm.StateMachineDescription()
-                newmachine.from_tree(truc)
-                yaml.dump(newmachine.toTree(), deserial_stream, default_flow_style=False, indent = 4)
+                dice_machine_desc = StateMachineDescription()
+                dice_machine_desc.from_tree(truc)
+                yaml.dump(dice_machine_desc.toTree(), deserial_stream, default_flow_style=False, indent = 4)
         
         print("Generating DiceMachine")
-        with open("test/diceMachineGenerated.py",'w') as python_stream:
-            python_stream.write( newmachine.toPython() )
+        with open("dice_machine_generated.py",'w') as python_stream:
+            python_stream.write( dice_machine_desc.toPython() )
 
+            
+        print("Creating machine scheduler")
+        global scheduler
+        scheduler = StateMachineLoader()        
         print("Executing DiceMachine\n")
-        os.system("test/diceMachineGenerated.py")
+        machine = StateMachine.from_file("dice_machine.yaml")
+        scheduler.load_machine(machine)
+        
+        #machine.play()
+        
+        
+        #machine.play()
+        #os.system("dice_machine_generated.py")
      
     except yaml.scanner.ScannerError as e:
         print("Failed to parse file:\n" , e)
