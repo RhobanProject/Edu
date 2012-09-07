@@ -22,7 +22,7 @@ namespace Rhoban
 {
   Commandpy::Commandpy()
   {
-    arguments = 0;
+    argumentsLength = 0;
     define();
   }
   
@@ -85,13 +85,13 @@ namespace Rhoban
     return options;
   }
 
-  void Commandpy::setArguments(int arguments)
+  void Commandpy::setArgumentsLength(int argumentsLength)
   {
-    this->arguments = arguments;
+    this->argumentsLength = argumentsLength;
   }
 
-  int Commandpy::getArguments()
+  int Commandpy::getArgumentsLength()
   {
-    return arguments;
+    return argumentsLength;
   }
 }

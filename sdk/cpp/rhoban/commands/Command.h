@@ -45,8 +45,8 @@ namespace Rhoban
     string getPrototype();
     void setOptions(string options);
     string getOptions();
-    void setArguments(int arguments);
-    int getArguments();
+    void setArgumentsLength(int argumentsLength);
+    int getArgumentsLength();
 
   protected:
     CommandsManager *manager;
@@ -54,7 +54,7 @@ namespace Rhoban
     string description;
     string prototype;
     string options;
-    int arguments;
+    int argumentsLength;
   };
 }
 

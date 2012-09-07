@@ -71,10 +71,10 @@ namespace Rhoban
 	for(int i=optind; i<argc; ++i)
 	  arguments.push_back(argv[i]);	
 
-	if(arguments.size() < commands[command]->getArguments())
+	if(arguments.size() < commands[command]->getArgumentsLength())
 	  {
 	    cout << "Command requires at least " 
-		 << commands[command]->getArguments() 
+		 << commands[command]->getArgumentsLength() 
 		 << " arguments" << endl;
 	    cout << commands[command]->getName() << " "
 		 << commands[command]->getPrototype() << " : "

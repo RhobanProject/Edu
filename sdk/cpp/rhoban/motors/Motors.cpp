@@ -15,7 +15,7 @@
 #include <config/MoveSchedulerConfig.h>
 #include <communication/Connection.h>
 #include <robot/Robot.h>
-#include <utils/types.h>
+#include <types.h>
 #include "Motor.h"
 #include "Motors.h"
 

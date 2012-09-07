@@ -41,6 +41,11 @@ set(RHOBAN_SOURCES
     rhoban/motors/Motor.cpp
     rhoban/commands/Command.cpp
     rhoban/commands/CommandsManager.cpp
+    rhoban/commands/Commands.cpp
+    rhoban/commands/HelpCommand.cpp
+    rhoban/commands/RhobanMain.cpp
+    rhoban/commands/RobotCommand.cpp
+    rhoban/commands/RobotsCommand.cpp    
     rhoban/robot/test/testyaml.cpp 
     )
 

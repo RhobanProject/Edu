@@ -15,7 +15,7 @@
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
 #include <communication/Message.h>
-#include <utils/types.h>
+#include <types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Robot.h"
