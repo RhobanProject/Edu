@@ -21,9 +21,10 @@ using namespace std;
 
 namespace Rhoban
 {
-  // List availables commands
+  // Commande permettant de lister les commandes disponibles
   class HelpCommand : public Commandpy
   {
+  public:
     void define();
     void run(map<char, string> options, vector<string> arguments);
   };

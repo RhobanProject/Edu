@@ -80,7 +80,7 @@ class RobotsCommand(commands.Command):
 
 
 """
-    Commands abstraire qui s'applique à un seul robot
+    Commande abstraire qui s'applique à un seul robot
 """
 class RobotCommand(commands.Command):
     def run(self, options, arguments):
