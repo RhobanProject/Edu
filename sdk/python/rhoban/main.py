@@ -108,13 +108,13 @@ class RobotCommand(commands.Command):
             self.robots.stop()
 
 """
-    Commande permettant de visualiser le status de la connexion
+    Commande permettant de visualiser le statut de la connexion
 """
 class StatusCommand(RobotsCommand):
     def define(self):
         self.name = 'status'
         self.prototype = '[-v]'
-        self.description = 'Displays the status of the connection'
+        self.description = 'Displays the connection\'s status, -v for detailed informations'
         self.options = 'v'
 
     def executeFor(self, robot, options):
@@ -257,10 +257,10 @@ class CompliantCommand(RobotsCommand):
 class HardCommand(RobotsCommand):
     def define(self):
         self.name = 'hard'
-        self.description = 'Hard all the servos'
+        self.description = 'Harden all the servos'
 
     def executeFor(self, robot, options):
-        print('Hard all servos for %s...' % robot.name)
+        print('Harden servos for %s...' % robot.name)
         robot.motors.pullValues()
         robot.motors.allHard()
         robot.motors.pushValues()
@@ -273,7 +273,7 @@ class SetCommand(RobotCommand):
         self.name = 'set'
         self.options = 'r'
         self.description = 'Set a motor angle (in °), -r for relative angle'
-        self.prototype = '[-r] <robot> <motorName> <angle> [load = 1 [speed = 1]]'
+        self.prototype = '[-r] <robot> <motorName> <angle> [load=1 [speed=1]]'
         self.arguments = 3
 
     def execute(self, robot, options, arguments):

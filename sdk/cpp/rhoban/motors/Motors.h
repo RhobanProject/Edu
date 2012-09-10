@@ -43,7 +43,7 @@ namespace Rhoban
     void compliant(string name);
     void allCompliant();
     void hard(string name);
-    void allHard(string name);
+    void allHard();
 
     void pullValues();
     void pushValues();

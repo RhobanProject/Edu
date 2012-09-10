@@ -61,7 +61,7 @@ namespace Rhoban
 	    
 	    // Name
 	    it.first() >> name;
-	    robots[name] = new Robot(new CommandsStore);
+	    robots[name] = new Robot(new CommandsStore, name);
 	    
 	    // Host & port
 	    if(it.second().FindValue("host"))

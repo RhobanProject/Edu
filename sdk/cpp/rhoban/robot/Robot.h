@@ -33,7 +33,7 @@ namespace Rhoban
   class Robot
   {
   public:
-    Robot(CommandsStore *commandsStore);
+    Robot(CommandsStore *commandsStore, string name);
     ~Robot();
     
     // Environment
@@ -61,7 +61,7 @@ namespace Rhoban
     void stopMove(string name, ui32 smooth = 500);
     void killMove(string name);
     vector<string> getLoadedMoves();
-    void updateConstant(string moveName, string constantName, vector<float> values);
+    void updateConstant(string moveName, string constantName, string value);
     void emergency();
     void stop();
 
@@ -77,6 +77,12 @@ namespace Rhoban
     Moves *getMoves();
     void setSensors(Sensors *sensors);
     Sensors *getSensors();
+	void setName(string name);
+	string getName();
+	void setHostname(string hostname);
+	string getHostname();
+	void setPort(int port);
+	int getPort();
 
   protected:
     Motors *motors;
@@ -85,6 +91,9 @@ namespace Rhoban
     string environment;
     Moves *moves;
     Sensors *sensors;
+	string name;
+	string hostname;
+	int port;
   };
 }
 

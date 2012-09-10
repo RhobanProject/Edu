@@ -26,13 +26,14 @@ using namespace std;
 
 namespace Rhoban
 {
-  Robot::Robot(CommandsStore *commandsStore)
+  Robot::Robot(CommandsStore *commandsStore, string name)
   {
     connection = new Connection(commandsStore);
     motors = new Motors(connection);
     configs = new Configurations(connection);
     moves = new Moves(connection);
     sensors = new Sensors(connection);
+	this->name = name;
   }
 
   Robot::~Robot()
@@ -68,6 +69,8 @@ namespace Rhoban
   
   void Robot::connect(const char *adress, int port)
   {
+	this->hostname = adress;
+	this->port = port;
     connection->connectTo(adress, port);
   }
 
@@ -168,9 +171,9 @@ namespace Rhoban
     return moves->getLoadedMoves();
   }
 
-  void Robot::updateConstant(string moveName, string constantName, vector<float> values)
+  void Robot::updateConstant(string moveName, string constantName, string value)
   {
-    moves->updateConstant(moveName, constantName, values);
+    moves->updateConstant(moveName, constantName, atof(value.data()));
   }
 
   void Robot::emergency()
@@ -243,5 +246,35 @@ namespace Rhoban
   Sensors *Robot::getSensors()
   {
     return sensors;
+  }
+
+  void Robot::setName(string name)
+  {
+    this->name = name;
+  }
+
+  string Robot::getName()
+  {
+    return name;
+  }
+
+  void Robot::setHostname(string hostname)
+  {
+    this->hostname = hostname;
+  }
+
+  string Robot::getHostname()
+  {
+    return hostname;
+  }
+
+  void Robot::setPort(int port)
+  {
+    this->port = port;
+  }
+
+  int Robot::getPort()
+  {
+    return port;
   }
 }

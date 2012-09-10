@@ -52,8 +52,10 @@ namespace Rhoban
     return connection->SchedulerGetLoadedMoves_response()->read_string_array();
   }
 
-  void Moves::updateConstant(string moveName, string constantName, vector<float> values)
+  void Moves::updateConstant(string moveName, string constantName, float value)
   {
+	vector<float> values;
+	values[0] = value;
     connection->SchedulerUpdateConstant(moveName, constantName, values);
   }
 

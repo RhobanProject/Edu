@@ -102,7 +102,7 @@ namespace Rhoban
     motors[name]->setLoad(1);
   }
 
-  void Motors::allHard(string name)
+  void Motors::allHard()
   {
     map<string, Motor *>::iterator it;
     for(it = motors.begin(); it != motors.end(); ++it)
