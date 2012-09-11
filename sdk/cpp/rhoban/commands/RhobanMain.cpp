@@ -9,6 +9,8 @@
  *************************************************/
 #include <cstdlib>
 #include <cstdio>
+#include "HelpCommand.h"
+#include "Commands.h"
 #include "CommandsManager.h"
 #include "RhobanMain.h"
 
@@ -21,8 +23,26 @@ namespace Rhoban
     this->argc = argc-1;
     this->argv = argv+1;
     
-    ///////////////////: COMMANDS
+    manager.addCommand(new HelpCommand, "basic");
+    manager.addCommand(new StatusCommand, "basic");
+    manager.addCommand(new EmergencyCommand, "basic");
+
+    manager.addCommand(new LoadMoveCommand, "moves");
+    manager.addCommand(new KillMoveCommand, "moves");
+    manager.addCommand(new StartMoveCommand, "moves");
+    manager.addCommand(new StopMoveCommand, "moves");
+    manager.addCommand(new UpdateConstantCommand, "moves");
     
+    manager.addCommand(new CompliantCommand, "motors");
+    manager.addCommand(new HardCommand, "motors");
+    manager.addCommand(new SetCommand, "motors");
+    manager.addCommand(new ScanCommand, "motors");
+    manager.addCommand(new SnapshotCommand, "motors");
+    manager.addCommand(new InitCommand, "motors");
+    manager.addCommand(new ZeroCommand, "motors");
+    manager.addCommand(new MonitorCommand, "motors");
+    
+    manager.addCommand(new SensorsCommand, "sensors"); 
   }
 
   void RhobanMain::run()
