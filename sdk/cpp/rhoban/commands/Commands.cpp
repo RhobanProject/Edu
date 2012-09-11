@@ -338,35 +338,180 @@ namespace Rhoban
   
   void SnapshotCommand::define()
   {
-
+    name = "snapshot";
+    options = "r";
+    prototype = "[-r]";
+    description = "Snapshots the angles' values  (-r for relative angles)";
   }
 
   void SnapshotCommand::executeFor(Robot *robot, map<char, string> options)
   {
+    cout << "Snapshoting motors for " << robot->getName() << endl;
+    robot->getMotors()->pullValues();
+    
+    map<string, double> snapshot;
 
+    map<string, Motor*> motors = robot->getMotors()->getMotors();
+    map<string, Motor*>::iterator it;
+    for(it=motors.begin(); it!=motors.end(); ++it)
+      {
+	if(it->second->getLastUpdate())
+	  {
+	    if(options.count('r'))
+	      snapshot[it->second->getName()] = it->second->getRelAngle();
+	    else
+	      snapshot[it->second->getName()] = it->second->getAngle();
+	  }
+      }
+    
+    map<string, double>::iterator it2;
+    for(it2=snapshot.begin(); it2!=snapshot.end(); ++it)
+      cout << it2->first << " : " << it2->second << endl;
   } 
 
   
   void MonitorCommand::define()
   {
-
+    name = "monitor";
+    prototype = "[-f frequency] [-i] <robotName>";
+    options = "f:i";
+    argumentsLength = 1;
+    description = "Monitors the servos (-i sorts by id)";
   }
 
   void MonitorCommand::execute(Robot *robot, map<char, string> options, 
 			       vector<string> arguments)
   {
+    string fmttitle = " | %-10s | %-4s | %-7s | %-12s | %-8s | %-8s |\n";
+    string fmtloaded = " | %-10.10s | %-4d | %-7s | %-12.12f | %-7d%% | %-7d%% |\n";
+    string fmtnotloaded = " | %-10.10s | %-4d | %-7s | %-12.12f | %-8s | %-8s |\n";
 
+    float frequency;
+    if(options.count('f'))
+      frequency = atof(options['f'].c_str());
+    else
+      frequency = 1;
+  
+    robot->getMotors()->start(3*frequency);
+
+    while(1)
+      {
+	cout << " Monitoring " << robot->getName() << endl;
+
+	cout << " ";
+	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
+	  cout << "-";
+	cout << endl;
+	printf(fmttitle.c_str(), 
+	       "Name", "Id", "Present", "Angle", "Load", "Speed");
+	cout << " ";
+	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
+	  cout << "-";
+	cout << endl;
+	
+	if(options.count('i'))
+	  {
+	    map<int, Motor*> motors = robot->getMotors()->getIdMotors();
+	    map<int, Motor*>::iterator it;
+
+	    for(it=motors.begin(); it!=motors.end(); ++it)
+	      {
+		if(it->second->getLastUpdate())
+		  printf(fmtloaded.c_str(), 
+			 it->second->getName().c_str(), 
+			 it->second->getId(), 
+			 "Yes", 
+			 it->second->getAngle(), 
+			 (int)(100*it->second->getLoad()), 
+			 (int)(100*it->second->getLoad()));
+		else
+		  printf(fmtnotloaded.c_str(), 
+			 it->second->getName().c_str(), 
+			 it->second->getId(), 
+			 "No", "-", "-", "-");		  
+	      }
+	  }
+	
+	else // (!options.count('i'))
+	  {
+	    map<string, Motor*> motors = robot->getMotors()->getMotors();
+	    map<string, Motor*>::iterator it;
+	    
+	    for(it=motors.begin(); it!=motors.end(); ++it)
+	      {
+		if(it->second->getLastUpdate())
+		  printf(fmtloaded.c_str(), 
+			 it->second->getName().c_str(), 
+			 it->second->getId(), 
+			 "Yes", 
+			 it->second->getAngle(), 
+			 (int)(100*it->second->getLoad()), 
+			 (int)(100*it->second->getLoad()));
+		else
+		  printf(fmtnotloaded.c_str(), 
+			 it->second->getName().c_str(), 
+			 it->second->getId(), 
+			 "No", "-", "-", "-");
+	      }
+	  }
+	cout << " ";
+	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
+	  cout << "-";
+	cout << endl;
+	
+	usleep(1000000/frequency);	
+      }
   }
   
 
   void SensorsCommand::define()
   {
-
+    name = "sensors";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "Monitor the sensors values";
   }
   
   void SensorsCommand::execute(Robot *robot, map<char, string> options,
 			       vector<string> arguments)
   {
+    robot->getSensors()->start(5);
+    string fmttitle = " | %10s | %10s |\n";
+    string fmtloaded = " | %10s | %10d |\n";
+    string fmtnotloaded = " | %10s | %10s |\n";
+  
+    while(1)
+      {
+	cout << " Monitoring sensors of " << robot->getName() << endl;
+	
+	cout << " ";
+	for(int i=0; i<(10+10+3+2+2); ++i)
+	  cout << "-";
+	cout << endl;
+	printf(fmttitle.c_str(), "Name", "Value");
+	cout << " ";
+	for(int i=0; i<(10+10+3+2+2); ++i)
+	  cout << "-";
+	cout << endl;
 
+	map<string, Sensor*> sensors = robot->getSensors()->getSensors();
+	map<string, Sensor*>::iterator it;
+	for(it=sensors.begin(); it!=sensors.end(); ++it)
+	  {
+	    if(!it->second->getValues().empty())
+	      printf(fmtloaded.c_str(), 
+		     it->second->getName().c_str(), it->second->getValue());
+	    else
+	      printf(fmtnotloaded.c_str(), 
+		     it->second->getName().c_str(), "?");
+	  }
+	
+	cout << " ";
+	for(int i=0; i<(10+10+3+2+2); ++i)
+	  cout << "-";
+	cout << endl;
+	
+	usleep(500000);
+      }
   }    
 }

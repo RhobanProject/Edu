@@ -359,8 +359,8 @@ class SnapshotCommand(RobotsCommand):
     def define(self):
         self.name = 'snapshot'
         self.options = 'rp'
-        self.prototype = ' [-r] [-p]'
-        self.description = 'Snapshots the value of the angles (-r for relative, -p for python)'
+        self.prototype = '[-r] [-p]'
+        self.description = 'Snapshots the angles\' values (-r for relative, -p for python)'
 
     def executeFor(self, robot, options):
         print('Snapshoting motors for %s' % robot.name)
