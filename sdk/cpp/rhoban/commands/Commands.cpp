@@ -23,7 +23,7 @@ using namespace std;
 
 namespace Rhoban
 {
-  void StatusCommand::define()
+  StatusCommand::StatusCommand()
   {
     name = "status";
     prototype = "[-v]";
@@ -124,7 +124,7 @@ namespace Rhoban
   }
   
   
-  void LoadMoveCommand::define()
+  LoadMoveCommand::LoadMoveCommand()
   {
     name = "loadmove";
     prototype = "<robot> <moveName>";
@@ -139,7 +139,7 @@ namespace Rhoban
   }
   
  
-  void KillMoveCommand::define()
+  KillMoveCommand::KillMoveCommand()
   {
     name = "killmove";
     prototype = "<robot> <moveName>";
@@ -154,7 +154,7 @@ namespace Rhoban
   }
 
   
-  void StartMoveCommand::define()
+  StartMoveCommand::StartMoveCommand()
   {
     name = "startmove";
     prototype = "<robot> <moveName> [duration=0 [smooth=500]]";
@@ -179,7 +179,7 @@ namespace Rhoban
   }
 
   
-  void StopMoveCommand::define()
+  StopMoveCommand::StopMoveCommand()
   {
     name = "stopmove";
     argumentsLength = 2;
@@ -199,7 +199,7 @@ namespace Rhoban
   }
   
   
-  void UpdateConstantCommand::define()
+  UpdateConstantCommand::UpdateConstantCommand()
   {
     name = "updateconstant";
     argumentsLength = 4;
@@ -214,7 +214,7 @@ namespace Rhoban
   }  
 
   
-  void CompliantCommand::define()
+  CompliantCommand::CompliantCommand()
   {
     name = "compliant";
     description = "Release all the servos";
@@ -227,7 +227,7 @@ namespace Rhoban
   } 
 
   
-  void HardCommand::define()
+  HardCommand::HardCommand()
   {
     name = "hard";
     description = "Harden all the servos";
@@ -242,7 +242,7 @@ namespace Rhoban
   }
   
   
-  void SetCommand::define()
+  SetCommand::SetCommand()
   {
     name = "set";
     options = "r";
@@ -283,7 +283,7 @@ namespace Rhoban
   }  
 
   
-  void InitCommand::define()
+  InitCommand::InitCommand()
   {
     name = "init";
     description = "Take the initial position for servos";
@@ -296,7 +296,7 @@ namespace Rhoban
   }  
 
   
-  void ZeroCommand::define()
+  ZeroCommand::ZeroCommand()
   {
     name = "zero";
     description = "Take the zero position for servos";
@@ -309,7 +309,7 @@ namespace Rhoban
   }  
 
   
-  void ScanCommand::define()
+  ScanCommand::ScanCommand()
   {
     name = "scan";
     description = "Run a scan";
@@ -322,7 +322,7 @@ namespace Rhoban
   }
   
 
-  void EmergencyCommand::define()
+  EmergencyCommand::EmergencyCommand()
   {
     name = "emergency";
     description = "Emergency stop";
@@ -336,7 +336,7 @@ namespace Rhoban
   } 
 
   
-  void SnapshotCommand::define()
+  SnapshotCommand::SnapshotCommand()
   {
     name = "snapshot";
     options = "r";
@@ -370,7 +370,7 @@ namespace Rhoban
   } 
 
   
-  void MonitorCommand::define()
+  MonitorCommand::MonitorCommand()
   {
     name = "monitor";
     prototype = "[-f frequency] [-i] <robotName>";
@@ -464,7 +464,7 @@ namespace Rhoban
   }
   
 
-  void SensorsCommand::define()
+  SensorsCommand::SensorsCommand()
   {
     name = "sensors";
     prototype = "<robotName>";

@@ -25,7 +25,7 @@ namespace Rhoban
   class HelpCommand : public Commandpy
   {
   public:
-    void define();
+    HelpCommand();
     void run(map<char, string> options, vector<string> arguments);
   };
 }

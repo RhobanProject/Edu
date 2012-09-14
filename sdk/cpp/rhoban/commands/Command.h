@@ -31,9 +31,8 @@ namespace Rhoban
   public:
     Commandpy();
 
-    void run(map<char, string> options, vector<string> arguments);
-    void stop();
-    void define();
+    virtual void run(map<char, string> options, vector<string> arguments);
+    virtual void stop();
 
     void setManager(CommandsManager *manager);
     CommandsManager *getManager();

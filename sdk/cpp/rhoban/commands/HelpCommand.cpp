@@ -21,7 +21,7 @@ using namespace std;
 
 namespace Rhoban
 {
-  void HelpCommand::define()
+  HelpCommand::HelpCommand()
   {
     name = "help";
     description = "Displays the available commands";

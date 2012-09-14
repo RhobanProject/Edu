@@ -10,8 +10,8 @@
 #include <signal.h>
 #include <iostream>
 
-//#include <motor/motor.h>
 #include <main/Command.h>
+#include <commands/RhobanMain.h>
 
 using namespace std;
 using namespace Rhoban;
@@ -73,7 +73,7 @@ COMMAND_DEFINE(help, "Displays help about available commands")
 /**
  * Initializes and try to execute the given command
  */
-int main(int argc, char *argv[])
+int oldmain(int argc, char *argv[])
 {
     initiate();
 
@@ -93,4 +93,11 @@ int main(int argc, char *argv[])
     quit();
 
     return EXIT_SUCCESS;
+}
+
+int main(int argc, char *argv[])
+{
+	RhobanMain main(argc, argv);
+	main.run();
+	return EXIT_SUCCESS;
 }

@@ -28,7 +28,7 @@ namespace Rhoban
   {
   public:
     void run(map<char, string> options, vector<string> arguments);
-    void executeFor(Robot *robot, map<char, string> options);
+    virtual void executeFor(Robot *robot, map<char, string> options);
     void stop();
     
   protected:

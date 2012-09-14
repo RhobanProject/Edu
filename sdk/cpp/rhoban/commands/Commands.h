@@ -27,14 +27,16 @@ namespace Rhoban
   // Commande permettant de visualiser le statut de la connexion
   class StatusCommand : public RobotsCommand
   {
-    void define();
+  public:
+    StatusCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Commande de chargement de mouvement
   class LoadMoveCommand : public RobotCommand
   {
-    void define();
+  public:
+    LoadMoveCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -42,7 +44,8 @@ namespace Rhoban
   // Commande pour tuer un mouvement
   class KillMoveCommand : public RobotCommand
   {
-    void define();
+  public:
+    KillMoveCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -50,7 +53,8 @@ namespace Rhoban
   // Commande de lancement de mouvement
   class StartMoveCommand : public RobotCommand
   {
-    void define();
+  public:
+    StartMoveCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -58,7 +62,8 @@ namespace Rhoban
   // Commande de stoppage de mouvement
   class StopMoveCommand : public RobotCommand
   {
-    void define();
+  public:
+    StopMoveCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -66,7 +71,8 @@ namespace Rhoban
   // Commande de mise à jour d'une constante
   class UpdateConstantCommand : public RobotCommand
   {
-    void define();
+  public:
+    UpdateConstantCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -74,21 +80,24 @@ namespace Rhoban
   // Relâche tous les moteurs
   class CompliantCommand : public RobotsCommand
   {
-    void define();
+  public:
+    CompliantCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Bloque tous les moteurs
   class HardCommand : public RobotsCommand
   {
-    void define();
+  public:
+    HardCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Définit la valeur d'un angle
   class SetCommand : public RobotCommand
   {
-    void define();
+  public:
+    SetCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -96,42 +105,48 @@ namespace Rhoban
   // Fait prendre à un ou plusieurs robots leur positions initiales
   class InitCommand : public RobotsCommand
   {
-    void define();
+  public:
+    InitCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Fait prendre à un ou plusieurs robots la position zero
   class ZeroCommand : public RobotsCommand
   {
-    void define();
+  public:
+    ZeroCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Lance un scan
   class ScanCommand : public RobotsCommand
   {
-    void define();
+  public:
+    ScanCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Arrêt d'urgence
   class EmergencyCommand : public RobotsCommand
   {
-    void define();
+  public:
+    EmergencyCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Capture des valeurs des moteurs
   class SnapshotCommand : public RobotsCommand
   {
-    void define();
+  public:
+    SnapshotCommand();
     void executeFor(Robot *robot, map<char, string> options);
   };
 
   // Monitorer les moteurs d'un robot
   class MonitorCommand : public RobotCommand
   {
-    void define();
+  public:
+    MonitorCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
@@ -139,7 +154,8 @@ namespace Rhoban
   // Monitorer les capteurs d'un robot
   class SensorsCommand : public RobotCommand
   {
-    void define();
+  public:
+    SensorsCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };  

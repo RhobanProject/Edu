@@ -23,8 +23,8 @@ namespace Rhoban
   Commandpy::Commandpy()
   {
     argumentsLength = 0;
-    define();
   }
+
   
   void Commandpy::run(map<char, string> options, vector<string> arguments)
   {
@@ -32,8 +32,6 @@ namespace Rhoban
   }
   
   void Commandpy::stop(){}
-  
-  void Commandpy::define(){}
 
   void Commandpy::setManager(CommandsManager *manager)
   {

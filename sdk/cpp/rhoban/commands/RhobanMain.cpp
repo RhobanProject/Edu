@@ -26,7 +26,7 @@ namespace Rhoban
     manager.addCommand(new HelpCommand, "basic");
     manager.addCommand(new StatusCommand, "basic");
     manager.addCommand(new EmergencyCommand, "basic");
-
+	
     manager.addCommand(new LoadMoveCommand, "moves");
     manager.addCommand(new KillMoveCommand, "moves");
     manager.addCommand(new StartMoveCommand, "moves");
