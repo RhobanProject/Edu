@@ -97,7 +97,11 @@ int oldmain(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-	RhobanMain main(argc, argv);
-	main.run();
+        try {
+            RhobanMain main(argc, argv);
+            main.run();
+        } catch (string str) {
+            cout << "Error: " << str << endl;
+        }
 	return EXIT_SUCCESS;
 }
