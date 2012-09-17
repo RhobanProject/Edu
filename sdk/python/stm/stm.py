@@ -3,10 +3,12 @@ Created on 16 aout 2012
 
 @author: Hugo
 '''
-from timer import RepeatedTimer
+from repeated_task import RepeatedTask
 from yaml import load_all as load_all
+from importlib import import_module
+from time import time
 
-class StateMachine(RepeatedTimer):
+class StateMachine(RepeatedTask):
     
     class Status:
         (Playing, Suspended, Stopped) = range(0,3)
@@ -15,7 +17,7 @@ class StateMachine(RepeatedTimer):
     Constructor
     '''
     def __init__(self, debug=False):
-        RepeatedTimer.__init__(self,1,self.step)
+        RepeatedTask.__init__(self,1,self.step)
         '''The frequency of the machine'''
         self.frequency = 1.0
         '''The list of states'''
@@ -33,8 +35,9 @@ class StateMachine(RepeatedTimer):
         self.preamble = ""
         '''The functions definition'''
         self.functions = ""
-
-
+        self.begin = time()
+        self.duration = float('inf')
+        
     def set_state(self, state_name):
         self.lock.acquire()
         state = self.get_state(state_name)
@@ -44,16 +47,32 @@ class StateMachine(RepeatedTimer):
             self.enter()
         self.state = state
         self.lock.release()
-        
-    def play(self, threaded = True):
+
+    def play(self, duration = float("inf"), threaded = True):
         self.lock.acquire()
+        self.begin = time()
+        self.duration = duration
         if self.status == self.Status.Stopped :
-            print("Starting machine \'" + self.name+"\'")
+            if self.debug: print("Starting machine \'" + self.name+"\'")
             globals()[self.name] = self
             exec(self.preamble)
+            for line in self.preamble.splitlines() :
+                imports = line.split(' ')
+                if len(imports) >= 2:
+                    if imports[0]=='def':
+                        globals()[imports[1][:-3]] = locals()[imports[1][:-3]]
+                    elif imports[0]=='import':
+                        import_module(imports[1])
+                    elif imports[0]=='from' and imports[2]=='import' :
+                        if len(imports) == 4:
+                            globals()[imports[3]] = getattr(__import__(imports[1]), imports[3])
+                        elif len(imports) == 6 and imports[4]=='as':
+                            globals()[imports[5]] = getattr(__import__(imports[1]), imports[3]) 
+
             self.set_state("Initial")
             self.status = self.Status.Playing
-            if threaded : RepeatedTimer.start(self)
+            if threaded :
+                RepeatedTask.start(self)
         elif self.status == self.Status.Suspended :
             if self.debug : print("Resuming machine \'"+ self.name+"\'")
             self.status = self.Status.Playing
@@ -69,7 +88,7 @@ class StateMachine(RepeatedTimer):
         self.lock.acquire()
         if self.debug : print("Stopping machine \'"+ self.name+"\'")
         self.status = self.Status.Stopped
-        if threaded : RepeatedTimer.cancel(self)
+        if threaded : RepeatedTask.cancel(self)
         self.lock.release()
     
     def enter(self):
@@ -89,7 +108,10 @@ class StateMachine(RepeatedTimer):
                 self.loop()
                 #print("Transition of machine " + self.name + " in state "+ str(self.state))
                 self.set_state(self.transition())
-                if self.state.name == "Final" :
+                if time() - self.begin > self.duration:
+                    if self.debug: print("Time elapsed for machine " + self.name + str(time() - self.begin) + " " + str(self.duration))
+                    self.set_state("Final")
+                if self.state.name == "Final":
                     if self.debug : print("Machine has reached its final state\'"+ self.name+"\'")
                     self.bye()
                     self.stop()
@@ -111,7 +133,7 @@ class StateMachine(RepeatedTimer):
             if state.name == state_name : return state
         raise BaseException("Could not find state with name "+ state_name + " in machine " + self.name)
         
-    '''builds the machine descriptions from a yaml file'''
+    '''creates a list of machines extracted from a yaml file'''
     @classmethod
     def from_yaml(cls, filename):
         result = []
@@ -122,6 +144,15 @@ class StateMachine(RepeatedTimer):
                 machine.from_tree(tree)
                 result.append(machine)
         return result
+  
+    '''builds the machine descriptions from a yaml file'''
+    @classmethod
+    def yaml_to_py(cls, yaml_file, py_file):
+        machines = StateMachine.from_yaml(yaml_file)
+        with open(py_file,'w') as output:
+            for machine in machines:
+                output.write( machine.to_python() )
+  
   
     '''get a machine by its name'''
     def get_machine(self, machine_name):
@@ -245,45 +276,142 @@ class StateMachine(RepeatedTimer):
  
         
     '''turns the machine description to python code'''
-    def to_python(self):
+    def to_python(self, filename = "", generate_main = True):            
         result = ""
         
-        result += "\n\nfrom stm import StateMachine\n\n"
+        result += "\n\nfrom repeated_task import RepeatedTask\n\n"
 
-        for line in self.preamble.splitlines() :
-            imports = line.split(' ')
-            if imports[0]=='import':
-                result += "global " + imports[1] + "\n"
-            elif imports[0]=='from' and imports[2]=='import' :
-                result += "global " + imports[3] + "\n"
-            result += line + "\n"
+        result += self.preamble
+ 
+        result += "global " + self.name + "\n"
             
-        '''this way the machine can create instances of itself'''
-        result += "global " + self.name + "Class\n\n"
+        result += "\n\n'''" + str(self.description) + "'''\n\n"
+
+        result += "class " + self.name + "(RepeatedTask):\n"
         
-        result += "class " + self.name + "Class(StateMachine):\n"
+        result += "    class Status:\n"
+        result += "        (Playing, Suspended, Stopped) = range(0,3)\n"
+
+        result +=\
+'''
+    def play(self, threaded = True):
+        if self.status == self.Status.Stopped :
+            print("Starting machine \'" + self.name+"\'")
+            globals()[self.name] = self
+            self.set_state("Initial")
+            self.status = self.Status.Playing
+            if threaded : RepeatedTask.start(self)
+        elif self.status == self.Status.Suspended :
+            if self.debug : print("Resuming machine \'"+ self.name+"\'")
+            self.status = self.Status.Playing
+            
+    def set_state(self, state):
+        if state is not self.state:
+            self.bye()
+            self.state = state
+            self.enter()
+        self.state = state
         
+    def stop(self, threaded = True):
+        if self.debug : print("Stopping machine \'"+ self.name+"\'")
+        self.status = self.Status.Stopped
+        RepeatedTask.cancel(self)
+
+    def step(self):
+        try:
+            if self.debug : print("Stepping machine \'"+ self.name+"\' with status " + str(self.status))
+            if self.status == self.Status.Playing :
+                self.loop()
+                #print("Transition of machine " + self.name + " in state "+ str(self.state))
+                self.set_state(self.transition())
+                if self.state == "Final" :
+                    if self.debug : print("Machine has reached its final state\'"+ self.name+"\'")
+                    self.bye()
+                    self.stop()
+        except Exception as e:
+            print("Exception in machine "+ self.name + ": "+ str(e))
+            pass
+'''
         result += \
 '''
     def __init__(self, verbose=False):
 '''
-        result += "        StateMachine.__init__(self, verbose)\n"
+
+        result += "        RepeatedTask.__init__(self,1,self.step)\n"
         result += "        self.name = \"" + self.name + "\"\n"
         result += "        self.frequency = "+ str(self.frequency) + "\n"
-        
-        result += "\n"
-        
-        result += self.indent(self.functions, 1)
-        
-        result += "    class States:\n"
-        result += "        ("
-        for state in self.states:
-            result += state.name + ", "
-        result += ") = range(0," + str(len(self.states)) + ")\n\n"
-        
-        result += "if __name__ == '__main__':\n    the_machine = " + self.name + "Class()\n    the_machine.play()\n"
+        result += "        self.status = self.Status.Stopped \n"
+        result += "        self.state = None\n"
+        result += "        self.debug = False\n"
 
-    
+        result += \
+'''
+    def enter(self):
+'''
+        if_pref = ""
+        for state in self.states:
+            if state.enter is not "":
+                result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
+                result += self.indent(state.enter,3)
+                if_pref = "el"
+        if not if_pref: result += self.indent("pass\n\n",2)
+
+        result += \
+'''
+    def bye(self):
+'''
+        if_pref = ""
+        for state in self.states:
+            if state.bye:
+                result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
+                result += self.indent(state.bye,3)
+                if_pref = "el"
+        if not if_pref: result += self.indent("pass\n\n",2)
+                
+        result += \
+'''
+    def loop(self):
+'''
+        if_pref = ""
+        for state in self.states:
+            if state.loop:
+                result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
+                result += self.indent(state.loop,3)
+                if_pref = "el"
+        if not if_pref: result += self.indent("pass\n\n",2)
+
+        result += \
+'''
+    def transition(self):
+'''
+        if_pref = ""
+        for state in self.states:
+            if state.transitions:
+                result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
+                if_pref2 = ""
+                for transition in state.transitions:
+                    indentl = 3
+                    if transition.condition:
+                        result += self.indent(if_pref2 + "if " + transition.condition + ":",indentl)
+                        indentl = 4
+                        if_pref2 = "el"
+                    if transition.do:
+                        result += self.indent(transition.do ,indentl)
+                    result += self.indent("return \"" + transition.next +"\"",indentl)
+                if_pref = "el"
+        result += "        return self.state\n"
+        
+        result +="\n\n"
+
+        if generate_main:
+            result += "if __name__ == '__main__':\n"
+            result += "    the_machine = " + self.name + "()\n"
+            result += "    the_machine.play()\n"
+            
+        if filename != "":
+            with open(filename,'w') as python_stream:
+                python_stream.write( result )
+
         return result
         
     '''turns the machine description into a machine'''

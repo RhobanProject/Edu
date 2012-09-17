@@ -26,7 +26,7 @@ machine:
     -   name: Walk
         loop: |
              self.position = self.position + randint(-1,1)
-             print("|-(" + self.position * " " + "*" + (20 - self.position) * " " + ":-)")
+             print("#Cliffs#" + self.position * " " + ":~)" + (20 - self.position) * " " + "#Home#")
         transitions:
         -   condition: self.position >= 20
             next: Safe

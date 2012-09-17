@@ -8,7 +8,6 @@ machine:
     name: TheDiceMachine
     preamble: |
         from random import randint
-        global TheDiceMachine
        
         def throw_dice():
             print('Throwing dice')
@@ -16,8 +15,6 @@ machine:
             TheDiceMachine.tries += 1
             print('Dice is ', TheDiceMachine.dice)
 
-        global throw_dice
-        global randint
         
     states:
     

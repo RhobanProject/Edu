@@ -3,16 +3,18 @@ Created on 30 août 2012
 
 @author: Hugo
 '''
-from timer import RepeatedTimer
+from repeated_task import RepeatedTask
+from time import time
 
-class StateMachineLoader(RepeatedTimer):
+class StateMachineLoader(RepeatedTask):
 
     class ScheduledMachine():
         def __init__(self, machine):
             self.machine = machine
             self.max_counter = 1
             self.counter = 0
-            
+            self.begin = time()                
+                
         def get_interval(self):
             return self.machine.interval
 
@@ -20,30 +22,45 @@ class StateMachineLoader(RepeatedTimer):
 
 
     def __init__(self):
-        RepeatedTimer.__init__(self,0.1,self.step)
+        RepeatedTask.__init__(self,0.1,self.step)
         self.machines = []
-        RepeatedTimer.start(self)
+        RepeatedTask.start(self)
 
-    def load_machine(self, machine):
+    ''' Load a machine,
+     with an optional maximum duration
+     and optionally waiting for the machine to reach its final state'''
+    def load(self, machine, duration = float("inf"), wait = False):
         self.lock.acquire()
-        print("Loading machine "+ machine.name)
-        machine.stop()
-        machine.scheduler = self
-        self.machines.append(StateMachineLoader.ScheduledMachine(machine))
-        self.update_frequencies()
-        machine.play(False)
-        self.lock.release()
-   
-    def load_machines(self, machines):
-        self.lock.acquire()
-        for machine in machines :
+        if wait:
+            machine.play(duration, True)
+            machine.join()
+        else :
+            print("Loading machine "+ machine.name)
+            machine.stop()
             machine.scheduler = self
             self.machines.append(StateMachineLoader.ScheduledMachine(machine))
             self.update_frequencies()
-            machine.play(False)
+            machine.play(duration, False)
+        self.lock.release()
+   
+    ''' Load a list of machines and starts them
+    with an optional maximum duration'''
+    def load_machines(self, machines, duration = float("inf"), wait = False):
+        if wait:
+            for machine in machines :
+                machine.play(duration,True)
+            for machine in machines :
+                machine.join()
+        else :                        
+            self.lock.acquire()
+            for machine in machines :
+                machine.scheduler = self
+                self.machines.append(StateMachineLoader.ScheduledMachine(machine))
+                self.update_frequencies()
+                machine.play(duration, False)
             #print("Globals from load machines ", globals().keys())
             #print("Locals from load machines ", locals().keys())
-        self.lock.release()
+            self.lock.release()    
     
     def update_frequencies(self):
         self.lock.acquire()

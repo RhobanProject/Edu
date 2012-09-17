@@ -8,12 +8,13 @@ machine:
 
     preamble: |
         from time import time
-        global time
         
     states:
     
     -   name: Initial
-        enter: print('Starting ping machine')
+        enter: |
+               print('Starting ping machine')
+               ThePingMachine.begin = time()
         transitions:
         -   next: Send
             
@@ -21,13 +22,13 @@ machine:
         transitions:
         -   next: Wait
             do: |
-                print("Ping... ",end="")
-                self.get_machine("ThePongMachine").set_state("Receive")
+                print("Ping ",end="")
+                ThePongMachine.set_state("Receive")
         
     -   name: Wait
 
     -   name: Receive
-        enter: print(str(time()) )
+        enter: print(str(time() - ThePingMachine.begin) )
         transitions:
         -    next: Send
         
@@ -46,7 +47,9 @@ machine:
     states:
     
     -   name: Initial
-        enter: print('Starting pong machine')
+        enter: |
+               print('Starting pong machine')
+               ThePongMachine.begin = time()
         transitions:
         -   next: Wait
             
@@ -54,13 +57,13 @@ machine:
         transitions:
         -   next: Wait
             do: |
-                print("Pong... ",end="")
-                self.get_machine("ThePingMachine").set_state("Receive")
+                print("Pong ",end="")
+                ThePingMachine.set_state("Receive")
         
     -   name: Wait
 
     -   name: Receive
-        enter: print(str(time()))
+        enter: print(str(time() - ThePongMachine.begin))
         transitions:
         -    next: Send
         

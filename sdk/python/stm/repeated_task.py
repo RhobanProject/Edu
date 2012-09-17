@@ -5,10 +5,10 @@ Created on 6 sept. 2012
 '''
 from threading import Thread, Event, RLock
 
-class RepeatedTimer(Thread):
+class RepeatedTask(Thread):
     """Call a function after every specified number of seconds:
 
-    t = RepeatedTimer(30.0, f)
+    t = RepeatedTask(30.0, f)
     t.start()
     t.cancel() # stop the timer's action if it's still waiting
     """
