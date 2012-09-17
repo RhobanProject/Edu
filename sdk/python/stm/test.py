@@ -34,9 +34,9 @@ if __name__ == '__main__':
         print("Creating machine scheduler")
         global scheduler
         scheduler = StateMachineLoader()        
-        scheduler.load_machines( StateMachine.from_yaml("dice_machine.yaml") )
-        scheduler.load_machines( StateMachine.from_yaml("ping_pong.yaml") )
-        #scheduler.load_machines( StateMachine.from_yaml("drunk_sailor.yaml") )
+        #scheduler.load_machines( StateMachine.from_yaml("dice_machine.yaml") )
+        #scheduler.load_machines( StateMachine.from_yaml("ping_pong.yaml") )
+        scheduler.load_machines( StateMachine.from_yaml("drunk_sailor.yaml") )
         #print("Globals from top level ", globals().keys())
         #print("Locals from top level ", locals().keys())
 

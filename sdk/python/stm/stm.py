@@ -73,7 +73,7 @@ class StateMachine(RepeatedTimer):
         self.lock.release()
     
     def enter(self):
-        if self.state and self.state.enter : exec(self.state.enter, globals())
+        if self.state and self.state.enter : exec(self.state.enter)
 
     def bye(self):
         if self.state and self.state.bye : exec(self.state.bye)
