@@ -1,8 +1,15 @@
 '''
-Created on 16 aout 2012
-
-@author: Hugo
+/*************************************************
+* Publicly released by Rhoban System, September 2012
+* www.rhoban-system.fr
+*
+* Freely usable for non-commercial purposes
+*
+* Licence Creative Commons *CC BY-NC-SA
+* http://creativecommons.org/licenses/by-nc-sa/3.0
+*************************************************/
 '''
+
 from repeated_task import RepeatedTask
 from yaml import load_all as load_all
 from importlib import import_module
@@ -29,12 +36,12 @@ class StateMachine(RepeatedTask):
         
         '''The name of the machine'''
         self.name = ""
-        '''Adescription of its behaviour'''
+        '''A description of its behaviour'''
         self.description = ""
-        '''The preamble definition'''
+        '''The preamble'''
         self.preamble = ""
-        '''The functions definition'''
-        self.functions = ""
+        
+        
         self.begin = time()
         self.duration = float('inf')
         
@@ -153,23 +160,7 @@ class StateMachine(RepeatedTask):
             for machine in machines:
                 output.write( machine.to_python() )
   
-  
-    '''get a machine by its name'''
-    def get_machine(self, machine_name):
-        if self.scheduler is None:
-            return None
-        else:
-            return self.scheduler.get_machine(machine_name)
-
-    '''set a machine state'''
-    def set_machine(self, machine_name, state_name):
-        if self.scheduler is None:
-            return None
-        else:
-            machine = self.scheduler.get_machine(machine_name)
-            if machine is not None:
-                machine.set_state(state_name)
-    
+      
     '''If the chain is non empty, add_tag associates the value chain to the key 'tag'
     in the mapping 'mapping' '''
     @classmethod

@@ -1,4 +1,15 @@
 # -*- coding: utf-8 -*-
+'''
+/*************************************************
+* Publicly released by Rhoban System, September 2012
+* www.rhoban-system.fr
+*
+* Freely usable for non-commercial purposes
+*
+* Licence Creative Commons *CC BY-NC-SA
+* http://creativecommons.org/licenses/by-nc-sa/3.0
+*************************************************/
+'''
 
 import yaml
 from stm.stm import StateMachine

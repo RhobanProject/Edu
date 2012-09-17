@@ -1,7 +1,13 @@
 '''
-Created on 6 sept. 2012
-
-@author: Hugo
+/*************************************************
+* Publicly released by Rhoban System, September 2012
+* www.rhoban-system.fr
+*
+* Freely usable for non-commercial purposes
+*
+* Licence Creative Commons *CC BY-NC-SA
+* http://creativecommons.org/licenses/by-nc-sa/3.0
+*************************************************/
 '''
 from threading import Thread, Event, RLock
 

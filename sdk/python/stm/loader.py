@@ -1,7 +1,13 @@
 '''
-Created on 30 août 2012
-
-@author: Hugo
+/*************************************************
+* Publicly released by Rhoban System, September 2012
+* www.rhoban-system.fr
+*
+* Freely usable for non-commercial purposes
+*
+* Licence Creative Commons *CC BY-NC-SA
+* http://creativecommons.org/licenses/by-nc-sa/3.0
+*************************************************/
 '''
 from repeated_task import RepeatedTask
 from time import time
@@ -79,12 +85,3 @@ class StateMachineLoader(RepeatedTask):
                 machine.counter = 0
                 machine.machine.step()
                 
-    def get_machine(self, machine_name):
-        for machine in self.machines :
-            if machine.machine.name == machine_name:
-                return machine.machine
-        return None
-         
-    def set_machine_state(self, machine_name, state):
-        machine = self.scheduler.get_machine(machine_name)
-        machine.state = state
