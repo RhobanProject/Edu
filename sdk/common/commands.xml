@@ -1,628 +1,662 @@
 <?xml version="1.0"?>
 <ArrayOfCommandSpecification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <CommandSpecification>
-    <Name>ErrorMessage</Name>
-    <Description>error msg</Description>
-    <Destination>error</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServerGetVersion</Name>
-    <Description>request version of server</Description>
-    <Destination>server</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>ui32</AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SendXml</Name>
-    <Description>writes an XML stream to file. Filename then stream.</Description>
-    <Destination>server</Destination>
-    <CommandIndex>3</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ErrorFromServer</Name>
-    <Destination>server</Destination>
-    <CommandIndex>1</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ErrorFromScheduler</Name>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServerEcho</Name>
-    <Description>sends a message returned with same content</Description>
-    <Destination>server</Destination>
-    <CommandIndex>2</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerStartMove</Name>
-    <Description>starts a move, arguments are name of the move and duration</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>42</CommandIndex>
-    <ParametersPattern>string ui32 ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerStopMove</Name>
-    <Description>stops a move. Parameter are movename and smooth duration</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>43</CommandIndex>
-    <ParametersPattern>string ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerEmergencyStop</Name>
-    <Description>stops all moves, servos and set all servos compliant</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>68</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerUpdateBlock</Name>
-    <Description>updates a block of a move, first parameter is name of the move, second is encoding ofxml new block</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>45</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerTestSpline</Name>
-    <Description>test a spline position, first parameter is name of the move, second is name of the spline, third is affix, fourth is length in msecs</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>65</CommandIndex>
-    <ParametersPattern>string string float ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetSplineState</Name>
-    <Description>get spline state. Parameter is move name then spline name. Back is affixes</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>66</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>float[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosScan</Name>
-    <Description>performs scan, param is maxpingid and scan type</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>9</CommandIndex>
-    <ParametersPattern>ui32 string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetLoadedMoves</Name>
-    <Description>get the list of moves loaded in the move scheduler</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>46</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerKillMove</Name>
-    <Description>kills a move</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>48</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerLoadXMLMove</Name>
-    <Description>load an xml move</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>49</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerPauseMove</Name>
-    <Description>pauses a move</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>44</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetMoveInfo</Name>
-    <Description>get move info</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>50</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerSaveMove</Name>
-    <Description>saves move on the remote device</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>51</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>JoypadGetValues</Name>
-    <Description>get joypad values, return the 32 button values and then the 12 joypad axis values</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>51</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>byte[] int[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>JoypadSetValues</Name>
-    <Description>set joypad values, first the 32 button values and then the 12 joypad axis values</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>52</CommandIndex>
-    <ParametersPattern>byte[] int[] </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosCompliant</Name>
-    <Description>make servos compliant, param is list of ids</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>26</CommandIndex>
-    <ParametersPattern>byte[] </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosAllCompliant</Name>
-    <Description>make all servos compliant</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>27</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosGetStatus</Name>
-    <Description>get error. returns array of ids, error codes, voltages, temperatures, types, status, reading errors and totalreadingerrors</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>54</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>byte[] byte[] byte[] byte[] ui32[] ui32[] ui32[] ui32 </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosGetValues</Name>
-    <Description>get actual values. returns four arrays containing ids, angles, speeds, loads respectively. The parameter is the value encoding.</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>20</CommandIndex>
-    <ParametersPattern>ui32 </ParametersPattern>
-    <AnswerPattern>byte[] float[] float[] float[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetAvailableMoves</Name>
-    <Description>get the list of moves stored remotely</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>47</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosSetValues</Name>
-    <Description>set all values passing the encoding then four arrays containing ids, goal angle, goal speed, max load</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>22</CommandIndex>
-    <ParametersPattern>ui32 byte[] int[] ui32[] ui32[] </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerLoadMoveFile</Name>
-    <Description>loads a move stored remotely</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>52</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ErrorFromLowLevel</Name>
-    <Destination>low_level</Destination>
-    <CommandIndex>6</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosDeviceStatus</Name>
-    <Description>Ask status, returns name, status, servo nb, sync, freq, usart, wfreq, totalw, totalr</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>23</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string string ui32 ui32 ui32 ui32 ui32 ui32 ui32 </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosInit</Name>
-    <Description>Intiializes Dynamixel, param is serialzed config</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>24</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ErrorForLowLevel</Name>
-    <Destination>low_level</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetAllMoveValues</Name>
-    <Description>get all the values of blocks of a move. Argument is name of the move. Returns name of the move, name of theblocks, values.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>55</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string string[] float[][] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerCrossFade</Name>
-    <Description>cross fade two moves. Params are name of the first move, name of the second move and duration in ms.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>56</CommandIndex>
-    <ParametersPattern>string string ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetRecordedSplineFile</Name>
-    <Description>param is filename. Returns filename and stream.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>57</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerRecordSpline</Name>
-    <Description>param is move name and block name.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>59</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerStopSpline</Name>
-    <Description>param is move name and block name.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>60</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerPlaySpline</Name>
-    <Description>param is move name and block name.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>61</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetRecordedSpline</Name>
-    <Description>param is move name and block name. Returns move name, block name and serialized spline.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>62</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string string string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetCompressedRecordedSpline</Name>
-    <Description>param is move name and block name. Returns move name, block name, serialized spline and compressed data.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>63</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string string string float[][] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerPauseResumeSpline</Name>
-    <Description>param is move name and block name.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>64</CommandIndex>
-    <ParametersPattern>string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LowLevelLoadConfig</Name>
-    <Description>loads a config. The argument is a serialization of the LowLevelConfig</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>44</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LowLevelGetConfig</Name>
-    <Description>get the remote config of the robot</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>70</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LowLevelGetAnalogicSensors</Name>
-    <Description>get the list of analogic sensors. List of names list of frequencies and list of cans</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>42</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string[] ui32[] ui32[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LowLevelGetPwms</Name>
-    <Description>get the list of pwms. List of names, list of frequenciies, list of cyclic rates and list of pins</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>43</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string[] ui32[] float[] string[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>GetSensorsValues</Name>
-    <Description>asks for arg2 last values of the sensors with name arg1</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>45</CommandIndex>
-    <ParametersPattern>string[] ui32 </ParametersPattern>
-    <AnswerPattern>string[] ui32[][] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SetPwmsRates</Name>
-    <Description>set cyclic rates of pwms. List of names, list of cyclic rates</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>48</CommandIndex>
-    <ParametersPattern>string[] float[] </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionError</Name>
-    <Description>Error from vision module</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>1</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionGetIplFrame</Name>
-    <Description>ask a frame. Arg is image name then width depth and black/white. Returns name width height channels depth widthstep data</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>6</CommandIndex>
-    <ParametersPattern>string ui32 ui32 ui32 </ParametersPattern>
-    <AnswerPattern>string ui32 ui32 ui32 ui32 ui32 byte[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionGetJpegFrame</Name>
-    <Description>ask a jpeg frame. Arg is image name then width depth and black/white. Returns name and data</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>7</CommandIndex>
-    <ParametersPattern>string ui32 ui32 ui32 </ParametersPattern>
-    <AnswerPattern>string byte[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionGetJpegFrames</Name>
-    <Description>ask jpeg frames.</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>17</CommandIndex>
-    <ParametersPattern>string[] ui32[] ui32[] ui32[] </ParametersPattern>
-    <AnswerPattern>string[] byte[][] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ErrorFromVision</Name>
-    <Destination>vision</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionGetCameraParameters</Name>
-    <Description>get actual parameters</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>14</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionSetCameraParameters</Name>
-    <Description>set new parameters and get back actual parameters</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>15</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionResetCamera</Name>
-    <Description>reset camera</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>16</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationError</Name>
-    <Description>error from loc</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>1</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationGetDatabase</Name>
-    <Description>get the loc database</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>4</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationSetDatabase</Name>
-    <Description>set the loc database</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>6</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationGetField</Name>
-    <Description>get the image of the field. 0 means only field, 1 means with loc tag, 2 means with database tag</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>5</CommandIndex>
-    <ParametersPattern>ui32 </ParametersPattern>
-    <AnswerPattern />
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationAddSample</Name>
-    <Description>add sample</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>3</CommandIndex>
-    <ParametersPattern>float float </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationSaveDatabase</Name>
-    <Description>save database</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>7</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationClearDatabase</Name>
-    <Description>clear database</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>8</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationSendDatabase</Name>
-    <Description>send the database onboard. Parameter is serialized database</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>6</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationGetDatabase</Name>
-    <Description>get the database used onboard.</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>4</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationGetState</Name>
-    <Description>get x y and dir</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>2</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>float float float </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosOutofthebox</Name>
-    <Description>configure out of the box servo with new id</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>80</CommandIndex>
-    <ParametersPattern>ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosChangeId</Name>
-    <Description>change servo id. First param is oldid then newid</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>81</CommandIndex>
-    <ParametersPattern>ui32 ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosDiagnose</Name>
-    <Description>diagnose a servo. First param is list of ids. Return ids and diagnose results</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>82</CommandIndex>
-    <ParametersPattern>byte[] </ParametersPattern>
-    <AnswerPattern>byte[] string[] </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosStopOverloadCompliance</Name>
-    <Description>remove compliance of servos.</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>83</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerSaveRecorderSpline</Name>
-    <Description>params are move name block name and filename</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>58</CommandIndex>
-    <ParametersPattern>string string string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerSetCompressedSpline</Name>
-    <Description>param is move name block name anf raw data</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>67</CommandIndex>
-    <ParametersPattern>string string float[][] </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerLoadConfig</Name>
-    <Description>param is serialization of config file</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>40</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosGetConfig</Name>
-    <Description>gets move scheduler config</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>69</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosDetectOutofthebox</Name>
-    <Description>detect existence of a servo with id 1 at low baudrate</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>84</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>0</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern />
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerUpdateConstant</Name>
-    <Description>update constants of a constant block. Params are move name, block name and values.</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>70</CommandIndex>
-    <ParametersPattern>string string float[] </ParametersPattern>
-    <AnswerPattern />
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>ServosReconfigureAll</Name>
-    <Description>reconfigure all servos with default values. Parameter is max_id</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>85</CommandIndex>
-    <ParametersPattern>ui32 </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>SchedulerGetConfig</Name>
-    <Description>get the serialized remote moveschedulerconfig</Description>
-    <Destination>move_scheduler</Destination>
-    <CommandIndex>71</CommandIndex>
-    <ParametersPattern />
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
-    <Name>KinectSetValues</Name>
-    <Description>set kinect values. Parameters is angle list in mdegs</Description>
-    <Destination>low_level</Destination>
-    <CommandIndex>57</CommandIndex>
-    <ParametersPattern>float[] </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
+    <CommandSpecification>
+        <Name>ErrorMessage</Name>
+        <Description>error msg</Description>
+        <Destination>error</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServerGetVersion</Name>
+        <Description>request version of server</Description>
+        <Destination>server</Destination>
+        <CommandIndex>0</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>ui32 </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SendXml</Name>
+        <Description>writes an XML stream to file. Filename then stream.</Description>
+        <Destination>server</Destination>
+        <CommandIndex>3</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ErrorFromServer</Name>
+        <Destination>server</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ErrorFromScheduler</Name>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServerEcho</Name>
+        <Description>sends a message returned with same content</Description>
+        <Destination>server</Destination>
+        <CommandIndex>2</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerStartMove</Name>
+        <Description>starts a move, arguments are name of the move and duration</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>42</CommandIndex>
+        <ParametersPattern>string ui32 ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerStopMove</Name>
+        <Description>stops a move. Parameter are movename and smooth duration</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>43</CommandIndex>
+        <ParametersPattern>string ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerEmergencyStop</Name>
+        <Description>stops all moves, servos and set all servos compliant</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>68</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerUpdateBlock</Name>
+        <Description>updates a block of a move, first parameter is name of the move, second is encoding ofxml new block</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>45</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerTestSpline</Name>
+        <Description>test a spline position, first parameter is name of the move, second is name of the spline, third is affix, fourth is length in msecs</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>65</CommandIndex>
+        <ParametersPattern>string string float ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetSplineState</Name>
+        <Description>get spline state. Parameter is move name then spline name. Back is affixes</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>66</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>float[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosScan</Name>
+        <Description>performs scan, param is maxpingid and scan type</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>9</CommandIndex>
+        <ParametersPattern>ui32 string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetLoadedMoves</Name>
+        <Description>get the list of moves loaded in the move scheduler</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>46</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerKillMove</Name>
+        <Description>kills a move</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>48</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerLoadXMLMove</Name>
+        <Description>load an xml move</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>49</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerPauseMove</Name>
+        <Description>pauses a move</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>44</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetMoveInfo</Name>
+        <Description>get move info</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>50</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerSaveMove</Name>
+        <Description>saves move on the remote device</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>51</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>JoypadGetValues</Name>
+        <Description>get joypad values, return the 32 button values and then the 12 joypad axis values</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>51</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>byte[] int[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>JoypadSetValues</Name>
+        <Description>set joypad values, first the 32 button values and then the 12 joypad axis values</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>52</CommandIndex>
+        <ParametersPattern>byte[] int[] </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosCompliant</Name>
+        <Description>make servos compliant, param is list of ids</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>26</CommandIndex>
+        <ParametersPattern>byte[] </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosAllCompliant</Name>
+        <Description>make all servos compliant</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>27</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosGetStatus</Name>
+        <Description>get error. returns array of ids, error codes, voltages, temperatures, types, status, reading errors and totalreadingerrors</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>54</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>byte[] byte[] byte[] byte[] ui32[] ui32[] ui32[] ui32 </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosGetValues</Name>
+        <Description>get actual values. returns four arrays containing ids, angles, speeds, loads respectively. The parameter is the value encoding.</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>20</CommandIndex>
+        <ParametersPattern>ui32 </ParametersPattern>
+        <AnswerPattern>byte[] float[] float[] float[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetAvailableMoves</Name>
+        <Description>get the list of moves stored remotely</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>47</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosSetValues</Name>
+        <Description>set all values passing the encoding then four arrays containing ids, goal angle, goal speed, max load</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>22</CommandIndex>
+        <ParametersPattern>ui32 byte[] int[] ui32[] ui32[] </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerLoadMoveFile</Name>
+        <Description>loads a move stored remotely</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>52</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ErrorFromLowLevel</Name>
+        <Destination>low_level</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosDeviceStatus</Name>
+        <Description>Ask status, returns name, status, servo nb, sync, freq, usart, wfreq, totalw, totalr</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>23</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string string ui32 ui32 ui32 ui32 ui32 ui32 ui32 </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosInit</Name>
+        <Description>Intiializes Dynamixel, param is serialzed config</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>24</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ErrorForLowLevel</Name>
+        <Destination>low_level</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetAllMoveValues</Name>
+        <Description>get all the values of blocks of a move. Argument is name of the move. Returns name of the move, name of theblocks, values.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>55</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string string[] float[][] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerCrossFade</Name>
+        <Description>cross fade two moves. Params are name of the first move, name of the second move and duration in ms.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>56</CommandIndex>
+        <ParametersPattern>string string ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetRecordedSplineFile</Name>
+        <Description>param is filename. Returns filename and stream.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>57</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerRecordSpline</Name>
+        <Description>param is move name and block name.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>59</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerStopSpline</Name>
+        <Description>param is move name and block name.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>60</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerPlaySpline</Name>
+        <Description>param is move name and block name.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>61</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetRecordedSpline</Name>
+        <Description>param is move name and block name. Returns move name, block name and serialized spline.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>62</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string string string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetCompressedRecordedSpline</Name>
+        <Description>param is move name and block name. Returns move name, block name, serialized spline and compressed data.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>63</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string string string float[][] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerPauseResumeSpline</Name>
+        <Description>param is move name and block name.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>64</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LowLevelLoadConfig</Name>
+        <Description>loads a config. The argument is a serialization of the LowLevelConfig</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>44</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LowLevelGetConfig</Name>
+        <Description>get the remote config of the robot</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>70</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LowLevelGetAnalogicSensors</Name>
+        <Description>get the list of analogic sensors. List of names list of frequencies and list of cans</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>42</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string[] ui32[] ui32[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LowLevelGetPwms</Name>
+        <Description>get the list of pwms. List of names, list of frequenciies, list of cyclic rates and list of pins</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>43</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string[] ui32[] float[] string[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>GetSensorsValues</Name>
+        <Description>asks for arg2 last values of the sensors with name arg1</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>45</CommandIndex>
+        <ParametersPattern>string[] ui32 </ParametersPattern>
+        <AnswerPattern>string[] ui32[][] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SetPwmsRates</Name>
+        <Description>set cyclic rates of pwms. List of names, list of cyclic rates</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>48</CommandIndex>
+        <ParametersPattern>string[] float[] </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionError</Name>
+        <Description>Error from vision module</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionGetIplFrame</Name>
+        <Description>ask a frame. Arg is image name then width depth and black/white. Returns name width height channels depth widthstep data</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>6</CommandIndex>
+        <ParametersPattern>string ui32 ui32 ui32 </ParametersPattern>
+        <AnswerPattern>string ui32 ui32 ui32 ui32 ui32 byte[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionGetJpegFrame</Name>
+        <Description>ask a jpeg frame. Arg is image name then width depth and black/white. Returns name and data</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>7</CommandIndex>
+        <ParametersPattern>string ui32 ui32 ui32 </ParametersPattern>
+        <AnswerPattern>string byte[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionGetJpegFrames</Name>
+        <Description>ask jpeg frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>17</CommandIndex>
+        <ParametersPattern>string[] ui32[] ui32[] ui32[] </ParametersPattern>
+        <AnswerPattern>string[] byte[][] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ErrorFromVision</Name>
+        <Destination>vision</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionGetCameraParameters</Name>
+        <Description>get actual parameters</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>14</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionSetCameraParameters</Name>
+        <Description>set new parameters and get back actual parameters</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>15</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionResetCamera</Name>
+        <Description>reset camera</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>16</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationError</Name>
+        <Description>error from loc</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationGetDatabase</Name>
+        <Description>get the loc database</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>4</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationSetDatabase</Name>
+        <Description>set the loc database</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>6</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationGetField</Name>
+        <Description>get the image of the field. 0 means only field, 1 means with loc tag, 2 means with database tag</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>5</CommandIndex>
+        <ParametersPattern>ui32 </ParametersPattern>
+        <AnswerPattern />
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationAddSample</Name>
+        <Description>add sample. parameters are coordinates.</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>3</CommandIndex>
+        <ParametersPattern>float float </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationSaveDatabase</Name>
+        <Description>save database</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>7</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationClearDatabase</Name>
+        <Description>clear database</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>8</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationSendDatabase</Name>
+        <Description>send the database onboard. Parameter is serialized database</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>6</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationGetDatabase</Name>
+        <Description>get the database used onboard.</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>4</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationGetState</Name>
+        <Description>get x y coordinates and direction of the goal</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>2</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>float float float </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosOutofthebox</Name>
+        <Description>configure out of the box servo with new id</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>80</CommandIndex>
+        <ParametersPattern>ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosChangeId</Name>
+        <Description>change servo id. First param is oldid then newid</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>81</CommandIndex>
+        <ParametersPattern>ui32 ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosDiagnose</Name>
+        <Description>diagnose a servo. First param is list of ids. Return ids and diagnose results</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>82</CommandIndex>
+        <ParametersPattern>byte[] </ParametersPattern>
+        <AnswerPattern>byte[] string[] </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosStopOverloadCompliance</Name>
+        <Description>remove compliance of servos.</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>83</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerSaveRecorderSpline</Name>
+        <Description>params are move name block name and filename</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>58</CommandIndex>
+        <ParametersPattern>string string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerSetCompressedSpline</Name>
+        <Description>param is move name block name anf raw data</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>67</CommandIndex>
+        <ParametersPattern>string string float[][] </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerLoadConfig</Name>
+        <Description>param is serialization of config file</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>40</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosGetConfig</Name>
+        <Description>gets move scheduler config</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>69</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosDetectOutofthebox</Name>
+        <Description>detect existence of a servo with id 1 at low baudrate</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>84</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerUpdateConstant</Name>
+        <Description>update constants of a constant block. Params are move name, block name and values.</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>70</CommandIndex>
+        <ParametersPattern>string string float[] </ParametersPattern>
+        <AnswerPattern />
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>ServosReconfigureAll</Name>
+        <Description>reconfigure all servos with default values. Parameter is max_id</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>85</CommandIndex>
+        <ParametersPattern>ui32 </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerGetConfig</Name>
+        <Description>get the serialized remote moveschedulerconfig</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>71</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>KinectSetValues</Name>
+        <Description>set kinect values. Parameters is angle list in mdegs</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>57</CommandIndex>
+        <ParametersPattern>float[] </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionGetParameters</Name>
+        <Description>get parameters. Arg is parameters type.</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>18</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionSetParameters</Name>
+        <Description>set colors parameters. Arg is type and then serialized parameter object.</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>19</CommandIndex>
+        <ParametersPattern>string string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionSaveParameters</Name>
+        <Description>save the remote configuration file. Arg is parameter type.</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>20</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>SchedulerConfigIsLoaded</Name>
+        <Description>Returns 1 if a move scheduler configuration is already loaded, 0 else</Description>
+        <Destination>move_scheduler</Destination>
+        <CommandIndex>72</CommandIndex>
+        <ParametersPattern> </ParametersPattern>
+        <AnswerPattern>ui32 </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LowLevelConfigIsLoaded</Name>
+        <Description>Returns 1 if a low level configuration is already loaded, 0 else</Description>
+        <Destination>low_level</Destination>
+        <CommandIndex>71</CommandIndex>
+        <ParametersPattern> </ParametersPattern>
+        <AnswerPattern>ui32 </AnswerPattern>
+    </CommandSpecification>
 </ArrayOfCommandSpecification>

@@ -17,8 +17,20 @@ Pour cela, vous pouvez utiliser un fichier de configuration au format Yaml.
 La fonction ``loadYaml()`` de la classe ``Robots`` vous permet de charger les robots présents
 dans un fichier Yaml et de pouvoir intéragir avec eux.
 
+Entrées
+~~~~~~~
+
+Voici les entrées du fichier de configuration:
+
+* ``commands``: emplacement du :ref:`magasin de commandes <commandsstore>`
+* ``robots``: robots à instancier
+    * ``host``: adresse à laquelle établir la connexion (ou se trouve le serveur)
+    * ``port``: numéro de port à utiliser
+    * ``environment``: :ref:`environement à charger <load_env>` automatiquement
+    * ``loadMoves``: :ref:`mouvements <moves>` à charger automatiquement
+
 Exemple de fichier Yaml
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Voici un exemple de fichier Yaml :
 
@@ -33,19 +45,15 @@ Voici un exemple de fichier Yaml :
         spider:
             host: 192.168.0.5 # Adresse de connexion
             port: 89898 # Port (Si différent de 12345)
-            lowLevelConfig: /configs/spider/LowLevelConfig.xml # Configuration bas niveau
-            moveSchedulerConfig: /configs/spider/MoveSchedulerConfig.xml # Configuration mouvements
+            environment: /configs/spider/ # Emplacement de l'environement Spider
         
         humanoid:
             host: 192.168.0.12
-            moves:
-                directory: humanoidMoves # Dossier contenant les mouvements
-                load: ['Walk.xml', 'Standup.xml'] # Mouvements à charger
-            lowLevelConfig: /configs/humanoid/LowLevelConfig.xml
-            moveSchedulerConfig: /configs/humanoid/MoveSchedulerConfig.xml
+            environment: /configs/humanoid/
+            loadMoves: ['Walk', 'Standup'] # Mouvements à charger automatiquement
 
 Exemple d'utilisation
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Voici comment ce fichier pourrait être utilisé dans le code, en C++ :
 
@@ -55,9 +63,9 @@ Voici comment ce fichier pourrait être utilisé dans le code, en C++ :
     // Charge la configuration et connecte les robots
     robots.loadYaml("config.yml");
     // Relâche les moteurs de l'arraignée
-    robots["spider"].allCompliant();
+    robots["spider"]->allCompliant();
     // Lance le mouvement de marche
-    robots["humanoid"].startMove("Walk", 0, 1000)
+    robots["humanoid"]->startMove("Walk", 0, 1000)
     // Ferme toutes les connexions
     robots.stop();
 
@@ -71,6 +79,6 @@ Puis en Python :
     # Relâche les moteurs de l'arraignée
     robots['spider'].allCompliant()
     # Lance le mouvement de marche
-    robots['humanoid'].startMove("'alk', 0, 1000)
+    robots['humanoid'].startMove("Walk', 0, 1000)
     # Ferme toutes les connexions
     robots.stop()

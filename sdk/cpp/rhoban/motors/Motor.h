@@ -12,6 +12,9 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <ctime>
+#include <string>
+#include <utils/types.h>
 
 using namespace std;
 
@@ -20,17 +23,75 @@ namespace Rhoban
   class Motor
   {
   public:
-    Motor(int defaultAngle);
-    ~Motor();
+    Motor(int id, string name, double iniAngle, double zeroAngle);
 
-    void setDefaultAngle(int angle);
-    int getDefaultAngle();
-    void setGoalAngle(int angle);
-    int getGoalAngle();
+    bool isDirty();
+
+    void setAngle(double angle);
+    void setRelAngle(double angle);
+    void setLoad(double load);
+    void setSpeed(double speed);
+
+    double getAngle();
+    double getRelAngle();
+    double getLoad();
+    double getSpeed();
+
+    void setId(int id);
+    int getId();
+    void setName(string name);
+    string getName();
+    void setLastUpdate(time_t time);
+    time_t getLastUpdate();
+    void setIniAngle(double angle);
+    double getIniAngle();
+    void setZeroAngle(double angle);
+    double getZeroAngle();
+    void setGoalAngle(double angle);
+    double getGoalAngle();
+    void setCurrentAngle(double angle);
+    double getCurrentAngle();
+    void setGoalSpeed(double speed);
+    double getGoalSpeed();
+    void setCurrentSpeed(double speed);
+    double getCurrentSpeed();
+    void setGoalLoad(double load);
+    double getGoalLoad();
+    void setCurrentLoad(double load);
+    double getCurrentLoad();
+    void setDirty(bool val);
+    bool getDirty();
+    bool getGoalAngleInit();
+    bool getCurrentAngleInit();
+    bool getGoalSpeedInit();
+    bool getCurrentSpeedInit();
+    bool getGoalLoadInit();
+    bool getCurrentLoadInit();    
 
   protected:
-    int defaultAngle;
-    int goalAngle;x
+    time_t lastUpdate;
+    int id;
+    string name;
+    double iniAngle;
+    double zeroAngle;
+
+    double goalAngle;
+    double currentAngle;
+
+    double goalSpeed;
+    double currentSpeed;
+
+    double goalLoad;
+    double currentLoad;
+
+    bool dirty;
+
+    bool goalAngleInit;
+    bool currentAngleInit;
+    bool goalSpeedInit;
+    bool currentSpeedInit;
+    bool goalLoadInit;
+    bool currentLoadInit;
   };
 }
 

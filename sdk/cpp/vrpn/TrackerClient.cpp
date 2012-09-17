@@ -164,29 +164,28 @@ convertTItoTD(Tracking_Info *ti){
 }
 
 Tracking_Data *
-TrackerClient::getInfo(enum mode mode) {
+TrackerClient::getInfo() {
     Tracking_Data *td = NULL;
-    if (mode == CURSDATA) {
-        //send the info and move the iterator
+    //send the info and move the iterator
 
 
-        //if track_list.size() is not null it means that the iterator has
-        //been initialized
-        if ( track_list.size() && cur_info != track_list.begin() ) {
-            td = convertTItoTD(*cur_info);
-            cur_info--;
-        }
+    //if track_list.size() is not null it means that the iterator has
+    //been initialized
+    if ( track_list.size() && cur_info != track_list.begin() ) {
+	td = convertTItoTD(*cur_info);
+	cur_info--;
     }
-    else if (mode == LASTDATA)
-        //return the last data obtained
-        td = convertTItoTD(track_list.front());
 
     return td;
 }
 
+Tracking_Data *
+TrackerClient::getLastInfo() {
+    return convertTItoTD(track_list.front());
+}
 
 void
-TrackerClient::smooth(double g){
+TrackerClient::setDiscount(double g){
     discount=g;
 }
 

@@ -8,7 +8,12 @@ Si vous souhaitez obtenir des informations sur le fonctionnement des paquets, co
 la documentation du :ref:`protocol`
 
 Etablir une connexion
----------------------
+~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    Il est préférable de réaliser la connexion automatiquement en chargeant un :ref:`fichier de configuration
+    Yaml <configuration>`.
 
 Afin d'établir une connexion avec un robot, instanciez tout d'abord la classe ``Robot`` puis
 utilisez la méthode ``connect`` :
@@ -35,7 +40,7 @@ utilisez la méthode ``connect`` :
 
 
 Envoyer un message
-------------------
+~~~~~~~~~~~~~~~~~~
 
 .. note::
     Dans la plupart des cas, vous n'aurez sans doute pas besoin d'utiliser l'envoi de message,
@@ -45,7 +50,7 @@ Les messages qui peuvent être envoyés sont tous présents dans le magasin de c
 plus d'informations, réferez vous à la documentation du :ref:`protocol`.
 
 Sans réponse
-~~~~~~~~~~~~
+------------
 
 Les messages sans réponses peuvent être directement appelés sur la connexion :
 
@@ -60,7 +65,7 @@ Les messages sans réponses peuvent être directement appelés sur la connexion 
     robot.connection.StartMove('Something', 0, 0);
 
 Réponse synchrone
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Si vous souhaitez patienter durant l'envoi d'une commande et ne reprendre la main que lorsque la réponse
 est arrivée, utilisez le nom de la commande concaténé à ``_response`` :
@@ -82,7 +87,7 @@ est arrivée, utilisez le nom de la commande concaténé à ``_response`` :
     print 'La version du serveur est : ' + response[0]
 
 Réponse asynchrone
-~~~~~~~~~~~~~~~~~~
+------------------
 
 Enfin, si vous souhaitez traiter la réponse de manière asynchrone, vous pouvez utiliser le nom de la 
 commande concaténé à ``_callback`` :
@@ -106,7 +111,7 @@ commande concaténé à ``_callback`` :
 
 
 Diagramme de classes
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 
 .. image:: diag/ClassDiagram1.png

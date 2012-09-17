@@ -9,7 +9,7 @@ obtenir les dernières versions sur `le dépôt Github <https://github.com/Rhoba
 
 Vous pouvez également cloner le dépôt directement : ::
 
-    git clone https://github.com/RhobanProject/Edu.git
+    git clone --recursive https://github.com/RhobanProject/Edu.git
 
 IHM
 ~~~
@@ -27,7 +27,10 @@ Le **SDK** (Software Development Kit), est un kit de développement logiciel qui
 vous permettra de dialoguer avec les robots.  Pour la documentation, rendez-vous
 dans la rubrique :ref:`sdk`.
 
-*A venir*
+Version actuelle: ``%SDK_VERSION%``
+
+* `Télécharger (.zip) <%SDK_ZIP%>`_
+* `Télécharger (.tar.gz) <%SDK_TGZ%>`_
 
 Serveur
 ~~~~~~~~~~~~~

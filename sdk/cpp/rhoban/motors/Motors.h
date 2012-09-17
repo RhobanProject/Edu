@@ -24,28 +24,59 @@ using namespace std;
 
 namespace Rhoban
 {
+  void motorsValues(Message *values, void *data);
+
   class Motors : public Thread
   {
   public:
     Motors(Connection *connection);
     ~Motors();
+    
+    void setConfig(MoveSchedulerConfig *config);
+
+    size_t len();
+    Motor *operator[](string name);
+
     void start(int frequency);
-    void execute();
     void stop();
+
+    void compliant(string name);
     void allCompliant();
+    void hard(string name);
+    void allHard();
+
+    void pullValues();
+    void pushValues();
+    void processValues(Message *values);
+
+    void goToZero(int duration = 5, bool verbose = 0);
+    void goToInit(int duration = 5, bool verbose = 0);
+    void raiseLoad(int duration = 5, bool verbose = 0);
+
+    void execute();
+    void scan();
+    
 
     void setConnection(Connection *connection);
     Connection * getConnection();
-    void addMotor(string name, Motor *motor);
-    Motor *getMotor(string name);
-    void removeMotor(string name);
-    void setConfig(MoveSchedulerConfig *config);
-    MoveSchedulerConfig *getConfig();
+    void setConfiguration(MoveSchedulerConfig *config);
+    MoveSchedulerConfig *getConfiguration();
+    void setMotors(map<string, Motor *> motors);
+    map<string, Motor *> getMotors();
+    void setIdMotors(map<int, Motor *> idMotors);
+    map<int, Motor *> getIdMotors();
+    void setRunning(bool val);
+    bool getRunning();
+    void setFrequency(int frequency);
+    int getFrequency();
 
   protected:
-    map<string, Motor *> motorlist;
     Connection *connection;
-    MoveSchedulerConfig *config;
+    MoveSchedulerConfig *configuration;
+    map<string, Motor *> motors;
+    map<int, Motor *> idMotors;
+    bool running;
+    int frequency;
   };
 }
 

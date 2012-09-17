@@ -15,7 +15,7 @@ class CommandSpecification:
         self.destination = destination
         self.command = command
         self.parametersPattern = ParametersPattern(parametersPattern)
-        self.answerPattern = ParametersPattern(answerPattern)
+        self.answerPattern = ParametersPattern(answerPattern, name)
 
 """
     Une connexion avec le serveur
@@ -25,6 +25,8 @@ class Connection(tcp.TCPClient):
         super(Connection, self).__init__()
 
     def connectTo(self, hostname, port):
+        self.hostname = hostname
+        self.port = port
         self.waitHeader = True
         self.buffer = ''
         self.message = None
@@ -50,7 +52,7 @@ class Connection(tcp.TCPClient):
     def setStore(self, store):
         self.store = store
 
-    def sendMessageReceive(self, message, timeout = 1):
+    def sendMessageReceive(self, message, timeout = 5):
         entry = MailboxEntry(self.store.getSpecification(message))
         entry.event = threading.Event()
 
@@ -207,11 +209,11 @@ class Message:
 
     def getRaw(self):
         raw = ''
-        raw += struct.pack('>I', int(self.uid))
-        raw += struct.pack('>I', int(self.destination))
-        raw += struct.pack('>I', int(self.command))
-        raw += struct.pack('>I', len(self.data))
-        raw += self.data
+        raw += str(struct.pack('>I', int(self.uid)))
+        raw += str(struct.pack('>I', int(self.destination)))
+        raw += str(struct.pack('>I', int(self.command)))
+        raw += str(struct.pack('>I', len(self.data)))
+        raw += str(self.data)
 
         return raw
 
@@ -308,7 +310,8 @@ class CommandsStore:
     Représente le motif de plusieurs paramètres
 """
 class ParametersPattern:
-    def __init__(self, patternsString):
+    def __init__(self, patternsString, name = ''):
+        self.name = name
         self.patterns = []
         patternsString = patternsString.strip()
 
@@ -344,10 +347,10 @@ class ParametersPattern:
                 (data, argument) = pattern.readData(data)
                 arguments += [argument]
         except Exception:
-            raise IOError('Unable to read arguments from data')
+            raise IOError('Unable to read arguments from data for command %s (%s)' % (self.name, repr(data)))
 
         if data:
-            raise IOError('Remaning data')
+            raise IOError('Remaining %d bytes of data for command %s (%s)' % (len(data), self.name, repr(data)))
 
         return arguments
 
@@ -368,11 +371,14 @@ class ParameterPattern:
         self.specification = specification.replace('string', 'byte[]')
         self.subPattern = None
         self.depth = 0
-        
+ 
         if baseType == None:
             self.baseType = specification.strip('[]')
         else:
             self.baseType = baseType
+        
+        if not self.baseType in self.typesMapping:
+            raise Exception('Unknown type: ' + self.baseType)
         
         if self.specification.endswith('[]'):
             tmp = self.specification
@@ -421,23 +427,23 @@ class ParameterPattern:
         data = ''
 
         if self.depth > 1:
-            data += struct.pack('>I', len(argument))
+            data += str(struct.pack('>I', len(argument)))
 
             for subArgument in argument:
-                data += self.subPattern.getData(subArgument)
+                data += str(self.subPattern.getData(subArgument))
         else:
             if self.depth == 1:
                 packFormat = '>' + str(len(argument)) + self.typesMapping[self.baseType][1]
-                data += struct.pack('>I', len(argument))
+                data += str(struct.pack('>I', len(argument)))
 
                 if type(argument) == list:
-                    data += struct.pack(packFormat, *argument)
+                    data += str(struct.pack(packFormat, *argument))
                 else:
                     argument = self.castType(argument)
-                    data += struct.pack(packFormat, argument)
+                    data += str(struct.pack(packFormat, argument))
             else:
                 argument = self.castType(argument)
-                data += struct.pack('>' + self.typesMapping[self.baseType][1], argument)
+                data += str(struct.pack('>' + self.typesMapping[self.baseType][1], argument))
 
         return data
 

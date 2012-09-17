@@ -16,9 +16,9 @@ Voici un exemple de code utilisant la couche moteur recopiant la valeur d'un ser
 Le nom des moteurs est indiqué dans `MoveSchedulerConfig` (cf :ref:`moves`).
 
 Lancement du dispatcher
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. cpp:function:: void Motors.start(int frequency)
+.. cpp:function:: void Motors::start(int frequency)
 
 .. py:function:: Motors.start(frequency)
 
@@ -29,10 +29,30 @@ La configuration :ref:`MoveSchedulerConfig <configurations>` doit être chargée
 l'appel à cette méthode, en effet, ce fichier de configuration permet de faire le lien entre
 le nom des moteurs et leurs identifiants.
 
-Accéder à un moteur
--------------------
+Prendre le zéro géométrique
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. cpp:function:: void Motors.operator[](string name)
+.. cpp:function:: void Motors::goToZero(double duration = 5)
+
+.. py:function:: Motors.goToZero(double duration = 5)
+
+Cette fonction permet aux moteurs de prendre leur zéro géométrique en montant le torque de
+0 à 1 progressivement au cours de ``duration`` secondes
+
+Prendre la position initiale
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. cpp:function:: void Motors::goToInit(double duration = 5)
+
+.. py:function:: Motors.goToInit(double duration = 5)
+
+Cette fonction permet aux moteurs de prendre leur position initiale en montant le torque de
+0 à 1 progressivement au cours de ``duration`` secondes
+
+Accéder à un moteur
+~~~~~~~~~~~~~~~~~~~
+
+.. cpp:function:: Motor *Motors::operator[](string name)
 
 .. py:function:: Motors.__getitem__(name)
 
@@ -42,16 +62,21 @@ avec ses valeurs (angle, charge, vitesse).
 Lire les valeurs
 ~~~~~~~~~~~~~~~~
 
-.. cpp:function:: double Motor.getAngle()
-.. cpp:function:: double Motor.getLoad()
-.. cpp:function:: double Motor.getSpeed()
+.. cpp:function:: double Motor::getAngle()
+.. cpp:function:: double Motor::getRelAngle()
+.. cpp:function:: double Motor::getLoad()
+.. cpp:function:: double Motor::getSpeed()
 
 .. py:function:: Motor.getAngle()
+.. py:function:: Motor.getRelAngle()
 .. py:function:: Motor.getLoad()
 .. py:function:: Motor.getSpeed()
 
 Les accesseurs ``getAngle()``, ``getLoad()`` et ``getSpeed()`` permettent d'obtenir respectivement
 l'angle, la charge et la vitesse d'un moteur.
+
+L'accesseur ``getRelAngle()`` permet d'accéder à l'angle relatif à la position initiale et
+au zéro géométrique du robot.
 
 L'angle est exprimé en degré, la charge et la vitesse sont des nombre flottants allant de 0 à 1.
 
@@ -60,21 +85,26 @@ Ces valeurs sont lues depuis le moteur à la fréquence indiquée lors de l'appe
 Ecrire les valeurs
 ~~~~~~~~~~~~~~~~~~
 
-.. cpp:function:: void Motor.setAngle(double angle)
-.. cpp:function:: void Motor.setLoad(double load)
-.. cpp:function:: void Motor.setSpeed(double speed)
+.. cpp:function:: void Motor::setAngle(double angle)
+.. cpp:function:: void Motor::setRelAngle(double angle)
+.. cpp:function:: void Motor::setLoad(double load)
+.. cpp:function:: void Motor::setSpeed(double speed)
 
 .. py:function:: Motor.setAngle(angle)
+.. py:function:: Motor.setRelAngle(angle)
 .. py:function:: Motor.setLoad(load)
 .. py:function:: Motor.setSpeed(speed)
 
 De même, les accesseurs ``setAngle()``, ``setLoad()`` et ``setSpeed()`` permettent de définir
 la valeur pour l'angle, la charge et la vitesse du moteur.
 
+L'accesseur ``setRelAngle()`` permet de définir un angle relatif à la position initiale et au
+zéro géométrique du robot.
+
 Ces valeurs sont écrites sur les moteurs à la fréquence indiquée lors de l'appel à ``start()``.
 
 Exemples
---------
+~~~~~~~~
 
 C++ :
 
@@ -86,7 +116,7 @@ C++ :
     robot.motors.start(30); // Lance le dispatcher moteur à 30Hz
     robot.allCompliant(); // Relache les servos
 
-    robot.motors["Right"].setLoad(1023); // Met la charge de "Right" au maximum
+    robot.motors["Right"].setLoad(1.0); // Met la charge de "Right" au maximum
 
     while (1) {
         // Recopie l'angle du servo "Left" dans "Right"
@@ -107,7 +137,7 @@ Python :
     robot.motors.start(30) # Lance le dispatcheuir moteurs à 30Hz
     robot.allCompliant() # Relâche les servos
 
-    robot.motors['Right'].setLoad(1023) # Met la charge de "Right" au maximum
+    robot.motors['Right'].setLoad(1.0) # Met la charge de "Right" au maximum
 
     while True:
         # Recopie l'angle du servo "Left" dans "Right"

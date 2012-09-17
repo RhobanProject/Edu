@@ -4,7 +4,7 @@ Prise en main
 =============
 
 Prérequis
----------
+~~~~~~~~~
 
 Avant de commencer, assurez vous que vous disposez de :
 
@@ -22,18 +22,18 @@ Si vous êtes sous Ubuntu/Debian, vous pouvez obtenir les paquets nécéssaire �
 Si vous êtes sous Windows, vous devrez installer MinGW et MSYS, et éxécuter les commandes dans le "Shell MinGW"
 
 Obtenir les sources
--------------------
+~~~~~~~~~~~~~~~~~~~
 
-Il y a deux façons d'obtenir les sources, vous pouvez cloner le dépôt Git :
+Il y a deux façons d'obtenir les sources, vous pouvez cloner le :ref:`dépôt Github <https://github.com/RhobanProject/Edu>`_ :
 
 .. code-block:: bash
     
-    git clone https://github.com/RhobanProject/Edu.git
+    git clone --recursive http://github.com/RhobanProject/Edu.git
 
 Ou vous pouvez également vous rendre dans la rubrique :ref:`telechargements` pour obtenir une archive du SDK.
 
 Compilation des sources C++
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Afin de compiler le SDK, vous aurez besoin de l'outil ``cmake``, qui génerera des ``Makefile``.
 
@@ -66,14 +66,14 @@ Lancez alors la compilation à l'aide de la commande ``make``. La compilation pr
   serveur en ligne de commande
 
 Travailler avec le SDK
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 Le SDK vous propose un certain nombre de :ref:`commandes <commands>` natives que vous pouvez éxécuter. Ces
 :ref:`commandes <commands>` sont en fait des mots clés permettant d'embarquer plusieurs actions dans le 
 même executable.
 
 C++
-~~~
+---
 
 Dans le code C++, vous trouverez un dossier ``example/`` contenant un fichier ``CMakeLists.txt`` ainsi qu'une
 commande d'exemple.
@@ -94,6 +94,22 @@ Le paramètre ``name`` est une chaine de caractères, sans espaces, qui définit
 La description sera affichée dans l'aide du programme.
 
 Python
-~~~~~~
+------
 
-*A venir*
+Dans le fichier ``sdk.py`` livré avec le python, vous trouverez une commande d'exemple.
+
+Afin d'écrire une commande, vous pouvez hériter de ``RobotCommand`` :
+
+.. code-block:: python
+
+    # Exemple de commande 
+    class ExampleCommand(RobotCommand):
+        def define(self):
+            self.name = 'example'
+            self.description = 'Example command'
+            self.prototype = '<robotName>'
+            self.arguments = 1 
+
+        def execute(self, robot, options, arguments):
+            print('Example command for %s' % robot.name)
+

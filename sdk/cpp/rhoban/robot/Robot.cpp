@@ -15,20 +15,25 @@
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
 #include <communication/Message.h>
-#include <communication/types.h>
+#include <types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Robot.h"
+#include "Moves.h"
+#include "Sensors.h"
 
 using namespace std;
 
 namespace Rhoban
 {
-  Robot::Robot(CommandsStore *commandsStore)
+  Robot::Robot(CommandsStore *commandsStore, string name)
   {
     connection = new Connection(commandsStore);
     motors = new Motors(connection);
     configs = new Configurations(connection);
+    moves = new Moves(connection);
+    sensors = new Sensors(connection);
+	this->name = name;
   }
 
   Robot::~Robot()
@@ -36,16 +41,47 @@ namespace Rhoban
     delete configs;
     delete connection;
     delete motors;
+    delete moves;
+    delete sensors;
   }
 
+  void Robot::loadEnvironment(string environment)
+  {
+    this->setEnvironment(environment);
+    checkFixEnvironmentPath();
+   
+    string env1 = this->environment;
+    string env2 = this->environment;
+    env1.append("ConfigFiles/LowLevelConfig.xml");
+    env2.append("ConfigFiles/MoveSchedulerConfig.xml");
+    this->loadLowLevelConfig(env1);
+    this->loadMoveSchedulerConfig(env2);  
+  }
+
+  void Robot::checkFixEnvironmentPath()
+  {
+    string::iterator it;
+    it = environment.end();
+    it--;
+    if(*it != '/')
+      environment.push_back('/');
+  }
+  
   void Robot::connect(const char *adress, int port)
   {
+	this->hostname = adress;
+	this->port = port;
     connection->connectTo(adress, port);
   }
 
   int Robot::isConnected()
   {
     return connection->isConnected();
+  }
+
+  ui32 Robot::serverVersion()
+  {
+    return connection->ServerGetVersion_response()->read_uint();
   }
 
   int Robot::testConnection()
@@ -69,53 +105,86 @@ namespace Rhoban
     delete response;
   }
 
-  void Robot::loadLowLevelConfig(string filename)
+  void Robot::loadLowLevelConfig(string filename, bool force)
   {
-    configs->loadLowLevelConfig(filename);
+    configs->loadLowLevelConfig(filename, force);
   }
 
-  void Robot::loadMoveSchedulerConfig(string filename)
+  void Robot::loadMoveSchedulerConfig(string filename, bool force)
   {
-    configs->loadMoveSchedulerConfig(filename);
+    configs->loadMoveSchedulerConfig(filename, force);
     motors->setConfig(configs->getMoveSchedulerConfig());
+  }
+
+  void Robot::allCompliant()
+  {
+    motors->allCompliant();
+  }
+
+  string Robot::moveFileName(string name)
+  {
+    string retval = getEnvironment();
+    retval.append("Moves/");
+    retval.append(name);
+    retval.append(".xml");
+    return retval;
+  }
+
+  void Robot::loadMove(string name)
+  {
+    string filename = name;
+    filename.append(".graphics");
+    filename = moveFileName(filename);
+    
+    ifstream ifile(filename.c_str());
+    bool fileExists = (bool)ifile;
+    ifile.close();
+    
+    if(fileExists)
+      moves->loadMove(filename);
+    else
+      moves->loadMove(moveFileName(name));
+  }
+
+  void Robot::startMove(string name, ui32 duration, ui32 smooth)
+  {
+    moves->startMove(name, duration, smooth);
+  }
+
+  void Robot::pauseMove(string name)
+  {
+    moves->pauseMove(name);
+  }
+
+  void Robot::stopMove(string name, ui32 smooth)
+  {
+    moves->stopMove(name, smooth);
+  }
+
+  void Robot::killMove(string name)
+  {
+    moves->killMove(name);
+  }
+
+  vector<string> Robot::getLoadedMoves()
+  {
+    return moves->getLoadedMoves();
+  }
+
+  void Robot::updateConstant(string moveName, string constantName, string value)
+  {
+    moves->updateConstant(moveName, constantName, atof(value.data()));
+  }
+
+  void Robot::emergency()
+  {
+    connection->SchedulerEmergencyStop();
   }
 
   void Robot::stop()
   {
     connection->stop();
     motors->stop();
-  }
-
-  void Robot::moveMotor(byte motorId, int angle)
-  {
-    Message *response = new Message;
-    response = connection->ServosSetValues_response(1, vector<byte> (1, motorId), 
-						    vector<int> (1, angle), 
-						    vector<ui32> (1, 1023), 
-						    vector<ui32> (1, 1023));
-
-    cout << "moveMotor(" << motorId << ", " << angle << ") : "
-	 << response->read_string() << endl;
-
-    delete response;
-  }
-
-  void Robot::compliant(byte motorId)
-  {
-    Message *response = new Message;
-    response = connection->ServosSetValues_response(1, vector<byte> (1, motorId), 
-						    vector<int> (1, 0), 
-						    vector<ui32> (1, 0), 
-						    vector<ui32> (1, 0));
-
-    cout << "compliant(" << motorId << ") : " << response->read_string() << endl;
-
-    delete response;
-  }
-
-  void Robot::allCompliant()
-  {
-    motors->allCompliant();
   }
 
   void Robot::setMotors(Motors *motors)
@@ -148,4 +217,64 @@ namespace Rhoban
     return connection;
   }
 
+  void Robot::setEnvironment(string path)
+  {
+    environment = path;
+    checkFixEnvironmentPath();
+  }
+  
+  string Robot::getEnvironment()
+  {
+    checkFixEnvironmentPath();
+    return environment;
+  }
+  void Robot::setMoves(Moves *moves)
+  {
+    this->moves = moves;
+  }
+  
+  Moves *Robot::getMoves()
+  {
+    return moves;
+  }
+  
+  void Robot::setSensors(Sensors *sensors)
+  {
+    this->sensors = sensors;
+  }
+
+  Sensors *Robot::getSensors()
+  {
+    return sensors;
+  }
+
+  void Robot::setName(string name)
+  {
+    this->name = name;
+  }
+
+  string Robot::getName()
+  {
+    return name;
+  }
+
+  void Robot::setHostname(string hostname)
+  {
+    this->hostname = hostname;
+  }
+
+  string Robot::getHostname()
+  {
+    return hostname;
+  }
+
+  void Robot::setPort(int port)
+  {
+    this->port = port;
+  }
+
+  int Robot::getPort()
+  {
+    return port;
+  }
 }

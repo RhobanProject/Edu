@@ -1,9 +1,0 @@
-
-commands: ../common/commands.xml
-
-robots:
-    default:
-        host: localhost
-        lowLevelConfig: /configs/LowLevelConfig.xml
-        moveSchedulerConfig: /configs/MoveSchedulerConfig.xml
-

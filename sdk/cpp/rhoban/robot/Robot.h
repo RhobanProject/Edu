@@ -12,15 +12,19 @@
 
 namespace Rhoban
 {
-    class Motors;
+  class Motors;
 }
 
 #include <cstdlib>
 #include <cstdio>
+#include <string>
 #include <communication/Connection.h>
 #include <communication/CommandsStore.h>
+#include <utils/types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
+#include "Moves.h"
+#include "Sensors.h"
 
 using namespace std;
 
@@ -29,17 +33,37 @@ namespace Rhoban
   class Robot
   {
   public:
-    Robot(CommandsStore *commandsStore);
+    Robot(CommandsStore *commandsStore, string name);
     ~Robot();
+    
+    // Environment
+    void loadEnvironment(string environment);
+    void checkFixEnvironmentPath();
+    
+    // Connection
     void connect(const char *adress, int port);
     int isConnected();
+    ui32 serverVersion();
     int testConnection();
-    void loadLowLevelConfig(string filename);
-    void loadMoveSchedulerConfig(string filename);
-    void stop();
-    void moveMotor(byte motorId, int angle);
-    void compliant(byte motorId);
+    
+    // Configuration
+    void loadLowLevelConfig(string filename, bool force = 0);
+    void loadMoveSchedulerConfig(string filename, bool force = 0);
+    
+    // Motors
     void allCompliant();
+    
+    // Moves
+    string moveFileName(string name);
+    void loadMove(string name);
+    void startMove(string name, ui32 duration = 0, ui32 smooth = 500);
+    void pauseMove(string name);
+    void stopMove(string name, ui32 smooth = 500);
+    void killMove(string name);
+    vector<string> getLoadedMoves();
+    void updateConstant(string moveName, string constantName, string value);
+    void emergency();
+    void stop();
 
     void setMotors(Motors *motors);
     Motors* getMotors();
@@ -47,11 +71,29 @@ namespace Rhoban
     Configurations *getConfigs();
     void setConnection(Connection *connection);
     Connection *getConnection();
+    void setEnvironment(string path);
+    string getEnvironment();
+    void setMoves(Moves *moves);
+    Moves *getMoves();
+    void setSensors(Sensors *sensors);
+    Sensors *getSensors();
+	void setName(string name);
+	string getName();
+	void setHostname(string hostname);
+	string getHostname();
+	void setPort(int port);
+	int getPort();
 
   protected:
     Motors *motors;
     Configurations *configs;
     Connection *connection;
+    string environment;
+    Moves *moves;
+    Sensors *sensors;
+	string name;
+	string hostname;
+	int port;
   };
 }
 

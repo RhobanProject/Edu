@@ -1,5 +1,8 @@
 docs/build/
+docs/source/*.pyc
 docs/source/rhoban/*.pyc
+docs/source/telechargements.rst
+docs/source/generated.py
 
 sdk/cpp/build
 sdk/cpp/example/build
@@ -7,6 +10,8 @@ sdk/cpp/example/build
 sdk/python/rhoban/*.pyc
 sdk/python/rhoban/*/*.pyc
 sdk/python/sockets/*.pyc
+sdk/python/config.yml
+sdk/python/yaml/*.pyc
 /sdk/python/.pydevproject
 /sdk/python/.settings
 /sdk/python/.project
@@ -16,6 +21,4 @@ sdk/python/sockets/*.pyc
 /.project
 /.pydevproject
 __pycache__
-/sdk/python/stm/dice.yaml
-/sdk/python/stm/dice2.yaml
-/sdk/python/stm/dice3.yaml
+

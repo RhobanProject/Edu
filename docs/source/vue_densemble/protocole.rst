@@ -5,7 +5,7 @@ Protocole
 =========
 
 Fonctionnement
-~~~~~~~~~~~~~~
+--------------
 
 Le protocole de Rhoban est un protocole *binaire*, ce qui veut dire que les 
 données sont transmises de manière "brute" sur le réseau.
@@ -13,8 +13,18 @@ données sont transmises de manière "brute" sur le réseau.
 Le client établit tout d'abord une connexion avec le serveur, puis il peut
 envoyer des trames auxquelles le serveur répondra.
 
+.. _commandsstore:
+
+Magasin de commands
+-------------------
+
+Le magasin de commandes (ou *commands store*) est un fichier contenant l'ensemble des commande
+qu'il est possible d'envoyer au serveur, ainsi que le motif des paramètres et de la réponse.
+
+Vous le trouverez au format XML dans ``sdk/common/commands.xml``.
+
 Forme des trames
-~~~~~~~~~~~~~~~~
+----------------
 
 Les trames sont constituées d'une en-tête suivie des données.
 Les en-têtes possèdent la structure suivante :
@@ -46,7 +56,7 @@ Le serveur répondra par une trame ayant la même structure. La trame de répons
 en revanche, peuvent varier.
 
 Types
-~~~~~
+-----
 
 Chaque couple Destination/Commande correspond à une certaine opération, 
 caractérisée par une liste d'arguments passés lors de la requête et une liste
@@ -77,7 +87,7 @@ le type ``float[][][]`` sera donc un tableau de tableaux de tableaux de flottant
 Le type spécial ``string`` est équivalent à ``byte[]``.
 
 Destinations
-~~~~~~~~~~~~
+------------
 
 Dans le fichier ``commands.xml``, vous trouverez les destinations sous la forme
 de chaînes de caractères, voici le tableau de correspondance avec leurs indices :

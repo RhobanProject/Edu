@@ -11,6 +11,13 @@ option(TESTS
 option(ROBOARD
     "Compile for ROBOARD" OFF)
 
+if (NOT RHOBANMATH)
+    add_definitions(-DNO_RHOBANMATH)
+endif (NOT RHOBANMATH)
+
+option(RHOBANMATH
+    "Enables RhobanMath support" OFF)
+
 # Useful for getting common compiling
 set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
 
@@ -25,11 +32,21 @@ set(MAIN_SOURCES
 
 set(RHOBAN_SOURCES
     rhoban/config/Configurations.cpp
-	rhoban/config/LowLevelConfig.cpp
-	rhoban/config/MoveSchedulerConfig.cpp
     rhoban/robot/Robot.cpp
+    rhoban/robot/Robots.cpp
+    rhoban/robot/Moves.cpp
+    rhoban/robot/Sensor.cpp
+    rhoban/robot/Sensors.cpp
     rhoban/motors/Motors.cpp
     rhoban/motors/Motor.cpp
+    rhoban/commands/Command.cpp
+    rhoban/commands/CommandsManager.cpp
+    rhoban/commands/Commands.cpp
+    rhoban/commands/HelpCommand.cpp
+    rhoban/commands/RhobanMain.cpp
+    rhoban/commands/RobotCommand.cpp
+    rhoban/commands/RobotsCommand.cpp    
+    rhoban/robot/test/testyaml.cpp 
     )
 
 set(TESTS_SOURCES
@@ -48,6 +65,8 @@ foreach(DIRECTORY common utils)
     include_directories("${PROJECT_SOURCE_DIR}/${DIRECTORY}")
     include_directories("${PROJECT_BINARY_DIR}/${DIRECTORY}")
 endforeach(DIRECTORY)
+
+include_directories("${YAML_HEADERS}")
 
 set(ALL_SOURCES ${RHOBAN_SOURCES})
 set(EXE_SOURCES ${ALL_SOURCES} ${MAIN_SOURCES} ${COMMANDS_SOURCES})
