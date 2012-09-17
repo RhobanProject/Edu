@@ -4,29 +4,33 @@ machine:
         n tries
         
     frequency: 50
-    functions: |
-      def throw_dice(self):
-          print('Throwing dice')
-          self.dice = randint(1,6)
-          self.tries += 1
-          print('Dice is ', self.dice)
+      
     name: TheDiceMachine
     preamble: |
         from random import randint
         global TheDiceMachine
+       
+        def throw_dice():
+            print('Throwing dice')
+            TheDiceMachine.dice = randint(1,6)
+            TheDiceMachine.tries += 1
+            print('Dice is ', TheDiceMachine.dice)
 
+        global throw_dice
+        global randint
+        
     states:
     
     -   name: Initial
         enter: |
-            self.tries = 0
-            self.dice = 0
-        loop: self.throw_dice()
+            TheDiceMachine.tries = 0
+            TheDiceMachine.dice = 0
+        loop: throw_dice()
         transitions:
-        -   condition: self.dice==6
+        -   condition: TheDiceMachine.dice==6
             next: Won
-        -   condition: self.tries>5
-            do: self.tries=0
+        -   condition: TheDiceMachine.tries>5
+            do: TheDiceMachine.tries=0
             next: Lost
             
     -   name: Lost
@@ -39,11 +43,9 @@ machine:
         transitions:
         -   do : |
                 print("You've won an extra game!")
-                machine = TheDiceMachine()
-                self.scheduler.load_machine(machine)
-            next: Final
+            next: Initial
         
     -   name: Final
-        loop: print('Over, dice is ', self.dice)
+        loop: print('Over, dice is ', TheDiceMachine.dice)
         
         

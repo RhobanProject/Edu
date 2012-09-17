@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import yaml
-from stm import StateMachine, StateMachineDescription
+from stm import StateMachine
 from loader import StateMachineLoader
 
 #from collections import OrderedDict
@@ -23,7 +23,7 @@ if __name__ == '__main__':
         with open("dice_machine.yaml",'r') as yaml_stream:
             with open("dice_machine_reserialized.yaml",'w') as deserial_stream:
                 truc = yaml.load(yaml_stream)
-                dice_machine_desc = StateMachineDescription()
+                dice_machine_desc = StateMachine()
                 dice_machine_desc.from_tree(truc)
                 yaml.dump(dice_machine_desc.toTree(), deserial_stream, default_flow_style=False, indent = 4)
         
@@ -34,9 +34,12 @@ if __name__ == '__main__':
         print("Creating machine scheduler")
         global scheduler
         scheduler = StateMachineLoader()        
-        print("Executing DiceMachine\n")
-        machine = StateMachine.from_yaml("dice_machine.yaml")
-        scheduler.load_machine(machine)
+        scheduler.load_machines( StateMachine.from_yaml("dice_machine.yaml") )
+        scheduler.load_machines( StateMachine.from_yaml("ping_pong.yaml") )
+        #scheduler.load_machines( StateMachine.from_yaml("drunk_sailor.yaml") )
+        #print("Globals from top level ", globals().keys())
+        #print("Locals from top level ", locals().keys())
+
              
     except yaml.scanner.ScannerError as e:
         print("Failed to parse file:\n" , e)

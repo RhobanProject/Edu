@@ -1,0 +1,68 @@
+machine:
+    description: |
+        The ping machine
+
+    name: ThePingMachine
+        
+    frequency: 5
+
+    preamble: |
+        from time import time
+        global time
+        
+    states:
+    
+    -   name: Initial
+        enter: print('Starting ping machine')
+        transitions:
+        -   next: Send
+            
+    -   name: Send
+        transitions:
+        -   next: Wait
+            do: |
+                print("Ping... ",end="")
+                self.get_machine("ThePongMachine").set_state("Receive")
+        
+    -   name: Wait
+
+    -   name: Receive
+        enter: print(str(time()) )
+        transitions:
+        -    next: Send
+        
+    -   name: Final
+        
+---
+        
+machine:
+    description: |
+        The pong machine
+
+    name: ThePongMachine
+        
+    frequency: 5
+
+    states:
+    
+    -   name: Initial
+        enter: print('Starting pong machine')
+        transitions:
+        -   next: Wait
+            
+    -   name: Send
+        transitions:
+        -   next: Wait
+            do: |
+                print("Pong... ",end="")
+                self.get_machine("ThePingMachine").set_state("Receive")
+        
+    -   name: Wait
+
+    -   name: Receive
+        enter: print(str(time()))
+        transitions:
+        -    next: Send
+        
+    -   name: Final
+        
