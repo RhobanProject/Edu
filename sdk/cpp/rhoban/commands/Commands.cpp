@@ -62,7 +62,7 @@ namespace Rhoban
     // Motors
     map<int, Motor*> motors = robot->getMotors()->getIdMotors();
     map<int, Motor*>::iterator it;
-
+    
     robot->getMotors()->pullValues();
 
     int val=0;

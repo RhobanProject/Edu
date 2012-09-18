@@ -148,7 +148,7 @@ namespace Rhoban
     vector<float> angles= values->read_float_array();
     vector<float> speeds= values->read_float_array();
     vector<float> loads= values->read_float_array();
-    
+
     for(int i=0; i < ids.size(); ++i)
       {
 	if(idMotors.count(ids[i]))
