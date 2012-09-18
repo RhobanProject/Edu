@@ -1,0 +1,472 @@
+<?xml version="1.0"?>
+<GraphicalMotorPrimitive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entries />
+  <name>Bras_Test</name>
+  <gain>1</gain>
+  <gainString>1</gainString>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>1</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Bassin Long</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>14</servo_id>
+      <servo_name>Bassin Long</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-18.75</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>369.03960720816497</X>
+      <Y>-8.685993916368858</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>4</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Cuisse D</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>36</servo_id>
+      <servo_name>Cuisse D</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-3.808</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>310.23960720816513</X>
+      <Y>102.51400608363113</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>5</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Cuisse G</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>12</servo_id>
+      <servo_name>Cuisse G</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-4.394</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>358.23960720816513</X>
+      <Y>141.71400608363112</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>6</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Genou D</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>6</servo_id>
+      <servo_name>Genou D</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-4.98</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>313.83960720816492</X>
+      <Y>177.71400608363106</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>2</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Cheville D</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>37</servo_id>
+      <servo_name>Cheville D</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>3.222</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>327.43960720816517</X>
+      <Y>27.314006083631142</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>3</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Cheville G</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>32</servo_id>
+      <servo_name>Cheville G</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-8.789</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>366.23960720816524</X>
+      <Y>61.714006083631176</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>7</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Genou G</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>39</servo_id>
+      <servo_name>Genou G</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>6.152</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>346.23960720816513</X>
+      <Y>220.91400608363117</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <Spline>
+      <entries />
+      <name>Spline</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <sequences>
+        <SplineSequence>
+          <Points>
+            <SplinePoint>
+              <left_tangent>0</left_tangent>
+              <right_tangent>0</right_tangent>
+              <x>0</x>
+              <y>0</y>
+              <xs>0</xs>
+              <ys>0</ys>
+              <lts>0</lts>
+              <rts>0</rts>
+            </SplinePoint>
+            <SplinePoint>
+              <left_tangent>0</left_tangent>
+              <right_tangent>0</right_tangent>
+              <x>100</x>
+              <y>10</y>
+              <xs>100</xs>
+              <ys>10</ys>
+              <lts>0</lts>
+              <rts>0</rts>
+            </SplinePoint>
+            <SplinePoint>
+              <left_tangent>0</left_tangent>
+              <right_tangent>0</right_tangent>
+              <x>200</x>
+              <y>100</y>
+              <xs>200</xs>
+              <ys>100</ys>
+              <lts>0</lts>
+              <rts>0</rts>
+            </SplinePoint>
+          </Points>
+          <name>Pied G</name>
+          <cyclic>1</cyclic>
+          <type>0</type>
+          <CyclicBool>true</CyclicBool>
+        </SplineSequence>
+      </sequences>
+      <length>4</length>
+      <shift>0</shift>
+      <speed_factor>1</speed_factor>
+    </Spline>
+    <Position>
+      <X>17.196820391247364</X>
+      <Y>127.28498454234497</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Bassin Lat</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>110</servo_id>
+      <servo_name>Bassin Lat</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-17.285</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>315.39682039124727</X>
+      <Y>-45.915015457655</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>8</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Hanche D Lat</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>35</servo_id>
+      <servo_name>Hanche D Lat</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-3.222</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>296.99682039124718</X>
+      <Y>261.28498454234489</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>9</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Hanche D Rot</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>103</servo_id>
+      <servo_name>Hanche D Rot</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-20.8</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>338.59682039124721</X>
+      <Y>309.28498454234489</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>10</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Hanche G Lat</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>10</servo_id>
+      <servo_name>Hanche G Lat</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>0.292</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>306.196820391247</X>
+      <Y>346.884984542345</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>11</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Hanche G Rot</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>102</servo_id>
+      <servo_name>Hanche G Rot</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>16.406</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>328.19682039124746</X>
+      <Y>392.48498454234505</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>12</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Pied D</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>38</servo_id>
+      <servo_name>Pied D</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>0.292</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>324.99682039124718</X>
+      <Y>434.08498454234496</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Spline</name>
+          <output_idx>13</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Pied G</name>
+      <gain>1</gain>
+      <gainString>1</gainString>
+      <servo_id>17</servo_id>
+      <servo_name>Pied G</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+      <ref_angle>-1.171</ref_angle>
+    </BlockServo>
+    <Position>
+      <X>315.39682039124727</X>
+      <Y>473.284984542345</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Bassin Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>1</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Bassin Long</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>2</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Cheville D</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>3</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Cheville G</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>4</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Cuisse D</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>5</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Cuisse G</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>6</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Genou D</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>7</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Genou G</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>8</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Hanche D Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>9</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Hanche D Rot</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>10</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Hanche G Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>11</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Hanche G Rot</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>12</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Pied D</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>13</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Spline</SourceName>
+    <TargetName>Pied G</TargetName>
+  </GraphicalBlockLink>
+  <hsize>500</hsize>
+  <vsize>500</vsize>
+  <filename>C:\Users\UX31\Desktop\Rhoban\code\trunk\bipede\AcrobanIHM\RobotBoard\RobotBoard\BrasSettings\Moves\AAA.graphics.xml</filename>
+  <Frequency>100</Frequency>
+</GraphicalMotorPrimitive>

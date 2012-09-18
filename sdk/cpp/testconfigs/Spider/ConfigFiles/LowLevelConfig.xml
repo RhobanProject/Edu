@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<LowLevelConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <dynamixel_config>
+    <device_name>Dynamixel </device_name>
+    <frequency>600</frequency>
+    <usart_id>0</usart_id>
+    <write_frequency>250</write_frequency>
+    <total_writes>0</total_writes>
+    <total_reads>0</total_reads>
+    <MaxPingId>252</MaxPingId>
+  </dynamixel_config>
+  <pwm_config>
+    <pwms />
+  </pwm_config>
+  <sensors_config>
+    <sensors>
+      <AnalogicSensorParameter>
+        <name>Test</name>
+        <frequency>200</frequency>
+        <can>0</can>
+        <zero>0</zero>
+        <max>0</max>
+        <min>0</min>
+      </AnalogicSensorParameter>
+    </sensors>
+  </sensors_config>
+  <joypad_config>
+    <joypads>
+      <JoypadSensorParameter>
+        <name>Joypad</name>
+        <Enabled>false</Enabled>
+        <min>
+          <double>0</double>
+          <double>65535</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+        </min>
+        <max>
+          <double>65535</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+        </max>
+        <zero>
+          <double>32767</double>
+          <double>32767</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+          <double>0</double>
+        </zero>
+      </JoypadSensorParameter>
+    </joypads>
+  </joypad_config>
+  <EnableMonitoring>false</EnableMonitoring>
+  <kinect_config>
+    <kinects />
+  </kinect_config>
+  <pins_config>
+    <pins />
+  </pins_config>
+</LowLevelConfig>

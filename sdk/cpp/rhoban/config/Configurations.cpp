@@ -45,7 +45,7 @@ namespace Rhoban
   void Configurations::loadMoveSchedulerConfig(string config, bool force)
   {
     this->moveSchedulerConfig = new MoveSchedulerConfig(config);
-
+    
     if(force || isMoveSchedulerConfigLoaded() == 0)
       {
 	connection->SchedulerLoadConfig(moveSchedulerConfig->getConfig());

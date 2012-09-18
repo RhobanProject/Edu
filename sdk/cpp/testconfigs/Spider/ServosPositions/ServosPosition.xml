@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ArrayOfServoDynamixel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ServoDynamixel>
+    <type>None</type>
+    <Id>0</Id>
+    <Name>Epaule Long</Name>
+    <TargetAngle>0</TargetAngle>
+    <ActualAngle>0</ActualAngle>
+    <IniAngle>0</IniAngle>
+    <ZeroAngle>0</ZeroAngle>
+    <TargetSpeed>0</TargetSpeed>
+    <ActualSpeed>0</ActualSpeed>
+    <MaxLoad>0</MaxLoad>
+    <ActualLoad>0</ActualLoad>
+    <Voltage>0</Voltage>
+    <Temperature>0</Temperature>
+  </ServoDynamixel>
+</ArrayOfServoDynamixel>

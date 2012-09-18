@@ -43,7 +43,7 @@ namespace Rhoban
     YAML::Parser parser(cfgfile);
     YAML::Node doc;
     parser.GetNextDocument(doc);
-
+    
     if(!doc.FindValue("robots"))
       cout << "Config error : no \"robots\" entry" << endl;
     else
@@ -79,11 +79,10 @@ namespace Rhoban
 	    // Environment
 	    if(it.second().FindValue("environment"))
 	      {
-		it.second()["environment"] >> environment;
-		
-		robots[name]->loadEnvironment(environment);
+		it.second()["environment"] >> environment;		
+      		robots[name]->loadEnvironment(environment);	       
 	      }
-
+      
 	    // LoadMoves
 	    if(it.second().FindValue("loadMoves"))
 	      {

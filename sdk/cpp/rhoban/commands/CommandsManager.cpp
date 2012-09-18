@@ -39,10 +39,6 @@ namespace Rhoban
     if(argc>0)
       command = argv[0];
 
-    vector<string> parameters;
-    for(int i=1; i<argc; ++i)
-      parameters[i-1] = argv[i];
-    
     if(commands.count(command))
       {
 	map<char, string> options;

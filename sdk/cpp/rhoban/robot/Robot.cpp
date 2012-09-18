@@ -49,12 +49,13 @@ namespace Rhoban
   {
     this->setEnvironment(environment);
     checkFixEnvironmentPath();
-   
+    
     string env1 = this->environment;
     string env2 = this->environment;
     env1.append("ConfigFiles/LowLevelConfig.xml");
     env2.append("ConfigFiles/MoveSchedulerConfig.xml");
-    this->loadLowLevelConfig(env1);
+    
+    this->loadLowLevelConfig(env1); 
     this->loadMoveSchedulerConfig(env2);  
   }
 

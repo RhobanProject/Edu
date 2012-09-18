@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<MotorPrimitive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entries />
+  <name>SpiderSinus</name>
+  <gain>1</gain>
+  <gainMin>-2</gainMin>
+  <gainMax>100</gainMax>
+  <EntrySinus>
+    <entries />
+    <name>EntrySinus</name>
+    <gain>1</gain>
+    <gainMin>-2</gainMin>
+    <gainMax>100</gainMax>
+    <period>1</period>
+    <shift>0</shift>
+    <smooth_update>true</smooth_update>
+  </EntrySinus>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>BlockDynamicGain</name>
+        <output_idx>0</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>ML21</name>
+    <gain>1</gain>
+    <gainMin>-2</gainMin>
+    <gainMax>100</gainMax>
+    <servo_name>ML2</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+  </BlockServo>
+  <BlockDynamicGain>
+    <entries>
+      <BlockPredecessor>
+        <name>Amplitude</name>
+        <output_idx>0</output_idx>
+      </BlockPredecessor>
+      <BlockPredecessor>
+        <name>EntrySinus</name>
+        <output_idx>0</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>BlockDynamicGain</name>
+    <gain>20</gain>
+    <gainMin>-2</gainMin>
+    <gainMax>100</gainMax>
+  </BlockDynamicGain>
+  <Constant>
+    <entries />
+    <name>Amplitude</name>
+    <gain>1</gain>
+    <gainMin>-2</gainMin>
+    <gainMax>100</gainMax>
+    <constants>
+      <float>1</float>
+    </constants>
+  </Constant>
+  <Constant>
+    <entries />
+    <name>Offset</name>
+    <gain>1</gain>
+    <gainMin>-2</gainMin>
+    <gainMax>100</gainMax>
+    <constants>
+      <float>-50</float>
+    </constants>
+  </Constant>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Offset</name>
+        <output_idx>0</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>ML2</name>
+    <gain>1</gain>
+    <gainMin>-2</gainMin>
+    <gainMax>100</gainMax>
+    <servo_name>ML2</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+  </BlockServo>
+  <SchemaComments />
+  <frequency>100</frequency>
+</MotorPrimitive>
