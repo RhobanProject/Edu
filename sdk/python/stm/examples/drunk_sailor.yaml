@@ -11,8 +11,6 @@ machine:
     preamble: |
         from time import time
         from random import randint
-        global time
-        global randint
         
     states:
     

@@ -4,8 +4,6 @@ from repeated_task import RepeatedTask
 
 from time import time
 from random import randint
-global time
-global randint
 global TheDrunkSailorMachine
 
 
