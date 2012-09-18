@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 '''
 /*************************************************
 * Publicly released by Rhoban System, September 2012
@@ -310,8 +312,31 @@ class StateMachine(RepeatedTask):
                 state = StateMachine.State("","","","")
                 state.from_tree(stateDesc)
                 self.states.append(state)
- 
-        
+   
+    '''
+       Create a GraphVIZ representation 
+    '''
+    def to_graphviz(self):
+        dot = "digraph %s {\n" % self.name
+        dot+= "    label=\"%s\";\n" % self.name
+
+        def escape(s):
+            s = "\\n".join(filter(lambda x: not x.startswith('print'), s.split("\n")))
+            return s.replace("\"", "\\\"")
+
+        for state in self.states:
+            dot += "    %s;\n" % state.name
+
+            if escape(state.loop):
+                dot += "    %s -> %s [label=\"%s\"];\n" % (state.name, state.name, escape(state.loop))
+
+            for transition in state.transitions:
+                dot += "    %s -> %s [label=\"%s\"];\n" % (state.name, transition.next, escape(transition.condition))
+
+
+        dot += "};\n"
+        return dot
+  
     '''turns the machine description to python code'''
     def to_python(self, filename = "", generate_main = True):            
         result = ""
