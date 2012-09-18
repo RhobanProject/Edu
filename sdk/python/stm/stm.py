@@ -15,6 +15,37 @@ from yaml import load_all as load_all
 from importlib import import_module
 from time import time
 
+
+'''
+The straightforward way to create a StateMachine is from yaml files (see the examples folder)
+          my_stm = StateMachine.from_yaml("my_stm.yaml")[0]
+
+There are three ways to use a StateMachine
+1) as a standalone thread
+          my_stm.play(duration,True)
+  (as well as my_stm.join() and my_stm.stop())
+2) generating python code
+          StateMachine.yaml_to_py("my_stm.yaml","my_stm.py")
+3) using the stm loader, which allows to animate multiple stms with a single thread
+   this is the best way to run mutliple stms that interact with each other.
+   For example:
+   
+          loader = StateMachineLoader()
+          my_stms = StateMachine.from_yaml("my_stm.yaml")
+          my_stms2 = StateMachine.from_yaml("my_stm2.yaml")
+          my_stm = StateMachine.from_yaml("my_stm3.yaml")[0]
+          
+          loader.load_machines(my_stms , False, 5.0)
+          loader.load_machines(my_stms2, True)
+          loader.load_machine(my_stms)
+
+   will 
+      * load and execute the machines from the my_stm2.yaml file for 5 seconds
+      * then immediately load and execute the machines from the my_stms2.yaml file,
+              and wait for all of these machines to reach their final state
+      * then load and execute the first machine from the my_stm3.yaml file 
+'''
+
 class StateMachine(RepeatedTask):
     
     class Status:
@@ -25,36 +56,38 @@ class StateMachine(RepeatedTask):
     '''
     def __init__(self, debug=False):
         RepeatedTask.__init__(self,1,self.step)
-        '''The frequency of the machine'''
-        self.frequency = 1.0
-        '''The list of states'''
-        self.states = {}
-        self.state = None
-        self.status = self.Status.Stopped
-        self.debug = debug
-        self.scheduler = None
-        
+
         '''The name of the machine'''
         self.name = ""
+        
         '''A description of its behaviour'''
         self.description = ""
+        
+        '''The frequency of the machine'''
+        self.frequency = 1.0
+        
         '''The preamble'''
         self.preamble = ""
         
+        '''The list of states'''
+        self.states = {}
         
-        self.begin = time()
-        self.duration = float('inf')
+        '''The current state'''
+        self.state = None
         
-    def set_state(self, state_name):
-        self.lock.acquire()
-        state = self.get_state(state_name)
-        if state is not self.state:
-            self.bye()
-            self.state = state
-            self.enter()
-        self.state = state
-        self.lock.release()
+        '''The playing status of the machine'''
+        self.status = self.Status.Stopped
 
+        '''The date where playing begins'''
+        self.begin = time()
+        
+        '''The total playing duration'''
+        self.duration = float("inf")
+        
+        self.debug = debug
+        
+
+    '''Plays the machine for the given duration'''
     def play(self, duration = float("inf"), threaded = True):
         self.lock.acquire()
         self.begin = time()
@@ -84,18 +117,52 @@ class StateMachine(RepeatedTask):
             if self.debug : print("Resuming machine \'"+ self.name+"\'")
             self.status = self.Status.Playing
         self.lock.release()
-            
+
+    '''Suspends the machine execution, use play() to resume'''            
     def suspend(self):
         self.lock.acquire()
         if self.debug : print("Suspending machine \'"+ self.name+"\'")
         self.status = self.Status.Suspended
         self.lock.release()
 
+    '''Stops the machine execution, and stops the thread as well'''            
     def stop(self, threaded = True):
         self.lock.acquire()
         if self.debug : print("Stopping machine \'"+ self.name+"\'")
         self.status = self.Status.Stopped
         if threaded : RepeatedTask.cancel(self)
+        self.lock.release()
+
+    '''creates a list of machines from a yaml file'''
+    @classmethod
+    def from_yaml(cls, filename):
+        result = []
+        with open(filename,'r') as yaml_stream:
+            trees = load_all(yaml_stream)
+            for tree in trees :
+                machine = StateMachine()
+                machine.from_tree(tree)
+                result.append(machine)
+        return result
+  
+    '''builds an executable python script from a yaml file'''
+    @classmethod
+    def yaml_to_py(cls, yaml_file, py_file):
+        machines = StateMachine.from_yaml(yaml_file)
+        with open(py_file,'w') as output:
+            for machine in machines:
+                output.write( machine.to_python() )
+  
+
+    '''Changes the machine state'''
+    def set_state(self, state_name):
+        self.lock.acquire()
+        state = self.get_state(state_name)
+        if state is not self.state:
+            self.bye()
+            self.state = state
+            self.enter()
+        self.state = state
         self.lock.release()
     
     def enter(self):
@@ -139,28 +206,7 @@ class StateMachine(RepeatedTask):
         for state in self.states:
             if state.name == state_name : return state
         raise BaseException("Could not find state with name "+ state_name + " in machine " + self.name)
-        
-    '''creates a list of machines extracted from a yaml file'''
-    @classmethod
-    def from_yaml(cls, filename):
-        result = []
-        with open(filename,'r') as yaml_stream:
-            trees = load_all(yaml_stream)
-            for tree in trees :
-                machine = StateMachine()
-                machine.from_tree(tree)
-                result.append(machine)
-        return result
-  
-    '''builds the machine descriptions from a yaml file'''
-    @classmethod
-    def yaml_to_py(cls, yaml_file, py_file):
-        machines = StateMachine.from_yaml(yaml_file)
-        with open(py_file,'w') as output:
-            for machine in machines:
-                output.write( machine.to_python() )
-  
-      
+              
     '''If the chain is non empty, add_tag associates the value chain to the key 'tag'
     in the mapping 'mapping' '''
     @classmethod
@@ -405,17 +451,6 @@ class StateMachine(RepeatedTask):
 
         return result
         
-    '''turns the machine description into a machine'''
-    def to_machine(self):
-        
-        python_code = self.to_python()
-        print(python_code)
-        d = dict(locals(), **globals())
-        exec(python_code ,d , d)
-        exec(self.name + "=" + self.name +"Class()" ,d , d)
-        exec("global " + self.name ,d , d)
-        return eval(self.name ,d , d)
-    
     '''add #nb indentations before each line of the text #text" and returns the result'''
     def indent(self, text,nb):
         result = ""
@@ -423,47 +458,3 @@ class StateMachine(RepeatedTask):
         for line in flines:
             result += nb * "    " + line + "\n"
         return result
-        
-         
-    
-
-class DiceMachineDescription(StateMachine):    
-    def __init__(self):
-        StateMachine.__init__(self)
-        self.name = "TheDiceMachine"
-        self.description = "\nSimulates a game where we throw a dice and win iff we make a six in less than n tries"
-        self.frequency = 10
-        self.preamble = \
-'''
-import random
-'''
-
-        self.functions = \
-'''
-def throw_dice(self):
-    print('Throwing dice')
-    self.dice = random.randint(1,6)
-    self.tries += 1
-    print('Dice is ', self.dice)
-'''
-
-        Initial = StateMachine.State("Initial",\
-"""self.tries = 0
-self.dice = 0""" , "self.throw_dice()","")
-        Initial.transitions.append(StateMachine.Transition("self.tries>5","self.tries=0","Lost"))
-        Initial.transitions.append(StateMachine.Transition("self.dice==6","","Won"))
-        
-        Lost = StateMachine.State("Lost", "", "print(\"You've lost\")", "print(\"Game Over\")")
-        Lost.transitions.append(StateMachine.Transition("","","Final"))
-        
-        Won = StateMachine.State("Won", "", "print(\"You've won\")", "print(\"Game Over\")")
-        Won.transitions.append(StateMachine.Transition("","","Final"))
-        
-        Final = StateMachine.State("Final", "", "print('Over, dice is ', self.dice)", "")
-        
-        self.states = [Initial,Lost, Won, Final]
-        
-        
-        
-
-

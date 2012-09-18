@@ -6,7 +6,7 @@ machine:
 
     name: TheDrunkSailorMachine
         
-    frequency: 5
+    frequency: 20
 
     preamble: |
         from time import time

@@ -12,6 +12,8 @@
 from repeated_task import RepeatedTask
 from time import time
 
+'''A loader for state machines, check stm.py for documentation'''
+
 class StateMachineLoader(RepeatedTask):
 
     class ScheduledMachine():
@@ -35,9 +37,9 @@ class StateMachineLoader(RepeatedTask):
     ''' Load a machine,
      with an optional maximum duration
      and optionally waiting for the machine to reach its final state'''
-    def load(self, machine, duration = float("inf"), wait = False):
+    def load(self, machine, wait_final = False, duration = float("inf")):
         self.lock.acquire()
-        if wait:
+        if wait_final:
             machine.play(duration, True)
             machine.join()
         else :
@@ -51,8 +53,8 @@ class StateMachineLoader(RepeatedTask):
    
     ''' Load a list of machines and starts them
     with an optional maximum duration'''
-    def load_machines(self, machines, duration = float("inf"), wait = False):
-        if wait:
+    def load_machines(self, machines, wait_final = False, duration = float("inf")):
+        if wait_final:
             for machine in machines :
                 machine.play(duration,True)
             for machine in machines :

@@ -57,7 +57,7 @@ class TheDrunkSailorMachine(RepeatedTask):
     def __init__(self, verbose=False):
         RepeatedTask.__init__(self,1,self.step)
         self.name = "TheDrunkSailorMachine"
-        self.frequency = 5.0
+        self.frequency = 20.0
         self.status = self.Status.Stopped 
         self.state = None
         self.debug = False
