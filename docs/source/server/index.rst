@@ -9,7 +9,7 @@ Les binaires permettant d'exécuter le serveur Rhoban sont récupérables dans l
 .. code-block:: bash
 
     Utilisation :
-    $> ./rhoban_server [-h|--help] [-p <port>] [-m <module|fake|serial> [-s <baudrate> -d <device>]]
+    $> ./RhobanServer [-h|--help] [-p <port>] [-m <module|fake|serial> [-s <baudrate> -d <device>]]
 
 Lors de l'exécution du serveur, il est possible de lui fournir des arguments permettant de définir
 quel adaptateur bas niveau doit être utilisé ainsi que quelques éléments de configuration :

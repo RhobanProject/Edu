@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<GraphicalMotorPrimitive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entries />
+  <name>ComplianceTest</name>
+  <gain>1</gain>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>Constant1</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name>Constant1</name>
+          <output_idx>1</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name>Constant1</name>
+          <output_idx>2</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Epaule D Lat1</name>
+      <gain>1</gain>
+      <servo_name>Epaule D Lat</servo_name>
+      <unit>1</unit>
+      <relative>1</relative>
+    </BlockServo>
+    <Position>
+      <X>278.20000000000016</X>
+      <Y>57.200000000000017</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <ComplianceBlock>
+      <entries />
+      <name>Epaule D Lat</name>
+      <gain>1</gain>
+      <servo_name>Epaule D Lat</servo_name>
+      <compliance_margin>2</compliance_margin>
+      <compliance_slope>250</compliance_slope>
+      <punch>0</punch>
+    </ComplianceBlock>
+    <Position>
+      <X>243.80000000000007</X>
+      <Y>189.2</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <Constant>
+      <entries />
+      <name>Constant1</name>
+      <gain>1</gain>
+      <constants>
+        <float>50</float>
+        <float>0</float>
+        <float>-600</float>
+      </constants>
+    </Constant>
+    <Position>
+      <X>127.80000000000013</X>
+      <Y>85.199999999999989</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>50</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Constant1</SourceName>
+    <TargetName>Epaule D Lat1</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>1</SourceIndex>
+    <TargetIndex>1</TargetIndex>
+    <SourceName>Constant1</SourceName>
+    <TargetName>Epaule D Lat1</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>-900</output_value>
+    <SourceIndex>2</SourceIndex>
+    <TargetIndex>2</TargetIndex>
+    <SourceName>Constant1</SourceName>
+    <TargetName>Epaule D Lat1</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlock>
+    <Constant>
+      <entries />
+      <name>Constant</name>
+      <gain>1</gain>
+      <constants>
+        <float>1</float>
+        <float>200</float>
+        <float>1</float>
+      </constants>
+    </Constant>
+    <Position>
+      <X>132.59999999999997</X>
+      <Y>209.20000000000005</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Constant</SourceName>
+    <TargetName>Epaule D Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>1</SourceIndex>
+    <TargetIndex>1</TargetIndex>
+    <SourceName>Constant</SourceName>
+    <TargetName>Epaule D Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>2</SourceIndex>
+    <TargetIndex>2</TargetIndex>
+    <SourceName>Constant</SourceName>
+    <TargetName>Epaule D Lat</TargetName>
+  </GraphicalBlockLink>
+  <hsize>500</hsize>
+  <vsize>500</vsize>
+  <filename>ComplianceTest.graphics.xml</filename>
+  <Frequency>100</Frequency>
+  <SmoothStart>0</SmoothStart>
+  <SmoothStop>0</SmoothStop>
+  <Duration>0</Duration>
+</GraphicalMotorPrimitive>

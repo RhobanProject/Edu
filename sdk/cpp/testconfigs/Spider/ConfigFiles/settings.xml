@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <command_store_filename>ConfigFiles\commands.xml</command_store_filename>
+  <robot_spec_filename>ConfigFiles\joints.xml</robot_spec_filename>
+  <moves_directory>C:\Documents and Settings\hugo\Mes documents\optimal\rhoban\code\trunk\bipede\AcrobanIHM\RobotBoard\RobotBoard\MoveFiles</moves_directory>
+  <servos_config_filename>ConfigFiles\servos.xml</servos_config_filename>
+  <lowlevel_config_filename>ConfigFiles\LowLevelConfig.xml</lowlevel_config_filename>
+  <robot_config_filename>ConfigFiles\RobotConfig.xml</robot_config_filename>
+  <ip>127.0.0.1</ip>
+  <port>12345</port>
+  <ErrorPopup>false</ErrorPopup>
+  <LogAllMsgs>false</LogAllMsgs>
+</Settings>

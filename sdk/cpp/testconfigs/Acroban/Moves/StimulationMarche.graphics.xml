@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<GraphicalMotorPrimitive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entries />
+  <name>StimulationMarche</name>
+  <gain>1</gain>
+  <GraphicalBlock>
+    <EntrySinus>
+      <entries />
+      <name>EntrySinus1</name>
+      <gain>1</gain>
+      <period>4</period>
+      <shift>0</shift>
+    </EntrySinus>
+    <Position>
+      <X>27.000000000000057</X>
+      <Y>121.64000000000002</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>BlockGain</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name />
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name>Constant</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Buste Lat</name>
+      <gain>1</gain>
+      <servo_name>Buste Lat</servo_name>
+      <servo_id>112</servo_id>
+      <ref_angle>0</ref_angle>
+      <unit>1</unit>
+      <relative>1</relative>
+    </BlockServo>
+    <Position>
+      <X>424.6</X>
+      <Y>90</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries>
+        <BlockPredecessor>
+          <name>BlockGain</name>
+          <output_idx>1</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name />
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name>Constant</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>Bassin Lat</name>
+      <gain>1</gain>
+      <servo_name>Bassin Lat</servo_name>
+      <servo_id>110</servo_id>
+      <ref_angle>0</ref_angle>
+      <unit>1</unit>
+      <relative>1</relative>
+    </BlockServo>
+    <Position>
+      <X>455</X>
+      <Y>156.4</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockGain>
+      <entries>
+        <BlockPredecessor>
+          <name>EntrySinus1</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name>EntrySinus1</name>
+          <output_idx>0</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>BlockGain</name>
+      <gain>10</gain>
+      <gains>
+        <float>1</float>
+        <float>1</float>
+      </gains>
+    </BlockGain>
+    <Position>
+      <X>295</X>
+      <Y>109.20000000000002</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>-0.99900001287460327</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>EntrySinus1</SourceName>
+    <TargetName>BlockGain</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>-0.99900001287460327</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>1</TargetIndex>
+    <SourceName>EntrySinus1</SourceName>
+    <TargetName>BlockGain</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>-9.9980001449584961</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>BlockGain</SourceName>
+    <TargetName>Buste Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>-9.9980001449584961</output_value>
+    <SourceIndex>1</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>BlockGain</SourceName>
+    <TargetName>Bassin Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlock>
+    <Constant>
+      <entries />
+      <name>Constant</name>
+      <gain>1</gain>
+      <constants>
+        <float>-500</float>
+      </constants>
+    </Constant>
+    <Position>
+      <X>296.6</X>
+      <Y>174.8</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>-500</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>2</TargetIndex>
+    <SourceName>Constant</SourceName>
+    <TargetName>Buste Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>-500</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>2</TargetIndex>
+    <SourceName>Constant</SourceName>
+    <TargetName>Bassin Lat</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries />
+      <name>Genou G</name>
+      <gain>1</gain>
+      <servo_name>Genou G</servo_name>
+      <servo_id>39</servo_id>
+      <ref_angle>0</ref_angle>
+      <unit>1</unit>
+      <relative>1</relative>
+    </BlockServo>
+    <Position>
+      <X>414.19999999999993</X>
+      <Y>229.2</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockServo>
+      <entries />
+      <name>Genou D</name>
+      <gain>1</gain>
+      <servo_name>Genou D</servo_name>
+      <servo_id>6</servo_id>
+      <ref_angle>0</ref_angle>
+      <unit>1</unit>
+      <relative>1</relative>
+    </BlockServo>
+    <Position>
+      <X>421.40000000000009</X>
+      <Y>276.4</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlock>
+    <BlockWatch>
+      <entries>
+        <BlockPredecessor>
+          <name>Genou G</name>
+          <output_idx>2</output_idx>
+        </BlockPredecessor>
+        <BlockPredecessor>
+          <name>Genou D</name>
+          <output_idx>2</output_idx>
+        </BlockPredecessor>
+      </entries>
+      <name>BlockWatch</name>
+      <gain>1</gain>
+      <delay_ms>10</delay_ms>
+    </BlockWatch>
+    <Position>
+      <X>599</X>
+      <Y>221.20000000000005</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>2</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>Genou G</SourceName>
+    <TargetName>BlockWatch</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>2</SourceIndex>
+    <TargetIndex>1</TargetIndex>
+    <SourceName>Genou D</SourceName>
+    <TargetName>BlockWatch</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlock>
+    <BlockDelay>
+      <entries />
+      <name>BlockDelay</name>
+      <gain>1</gain>
+      <delay>0</delay>
+    </BlockDelay>
+    <Position>
+      <X>167.79999999999996</X>
+      <Y>230.8</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>-0.99900001287460327</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>EntrySinus1</SourceName>
+    <TargetName>BlockDelay</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlock>
+    <BlockGain>
+      <entries />
+      <name>G</name>
+      <gain>1</gain>
+      <gains />
+    </BlockGain>
+    <Position>
+      <X>300.6</X>
+      <Y>249.2</Y>
+    </Position>
+  </GraphicalBlock>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>G</SourceName>
+    <TargetName>Genou G</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>1</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>G</SourceName>
+    <TargetName>Genou D</TargetName>
+  </GraphicalBlockLink>
+  <GraphicalBlockLink>
+    <output_value>0</output_value>
+    <SourceIndex>0</SourceIndex>
+    <TargetIndex>0</TargetIndex>
+    <SourceName>BlockDelay</SourceName>
+    <TargetName>G</TargetName>
+  </GraphicalBlockLink>
+  <hsize>500</hsize>
+  <vsize>500</vsize>
+  <filename>StimulationMarche.graphics.xml</filename>
+  <Frequency>100</Frequency>
+  <SmoothStart>1000</SmoothStart>
+  <SmoothStop>1000</SmoothStop>
+  <Duration>0</Duration>
+</GraphicalMotorPrimitive>

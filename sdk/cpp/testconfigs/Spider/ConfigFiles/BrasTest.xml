@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<MotorPrimitive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entries />
+  <name>AAA</name>
+  <gain>1</gain>
+  <gainString>1</gainString>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>1</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Bassin Long</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>14</servo_id>
+    <servo_name>Bassin Long</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-18.75</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>4</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Cuisse D</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>36</servo_id>
+    <servo_name>Cuisse D</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-3.808</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>5</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Cuisse G</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>12</servo_id>
+    <servo_name>Cuisse G</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-4.394</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>6</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Genou D</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>6</servo_id>
+    <servo_name>Genou D</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-4.98</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>2</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Cheville D</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>37</servo_id>
+    <servo_name>Cheville D</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>3.222</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>3</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Cheville G</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>32</servo_id>
+    <servo_name>Cheville G</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-8.789</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>7</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Genou G</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>39</servo_id>
+    <servo_name>Genou G</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>6.152</ref_angle>
+  </BlockServo>
+  <Spline>
+    <entries />
+    <name>Spline</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <sequences>
+      <SplineSequence>
+        <Points>
+          <SplinePoint>
+            <left_tangent>0</left_tangent>
+            <right_tangent>0</right_tangent>
+            <x>0</x>
+            <y>0</y>
+            <xs>0</xs>
+            <ys>0</ys>
+            <lts>0</lts>
+            <rts>0</rts>
+          </SplinePoint>
+          <SplinePoint>
+            <left_tangent>0</left_tangent>
+            <right_tangent>0</right_tangent>
+            <x>100</x>
+            <y>10</y>
+            <xs>100</xs>
+            <ys>10</ys>
+            <lts>0</lts>
+            <rts>0</rts>
+          </SplinePoint>
+          <SplinePoint>
+            <left_tangent>0</left_tangent>
+            <right_tangent>0</right_tangent>
+            <x>200</x>
+            <y>100</y>
+            <xs>200</xs>
+            <ys>100</ys>
+            <lts>0</lts>
+            <rts>0</rts>
+          </SplinePoint>
+        </Points>
+        <name>Pied G</name>
+        <cyclic>1</cyclic>
+        <type>0</type>
+        <CyclicBool>true</CyclicBool>
+      </SplineSequence>
+    </sequences>
+    <length>4</length>
+    <shift>0</shift>
+    <speed_factor>1</speed_factor>
+  </Spline>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>0</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Bassin Lat</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>110</servo_id>
+    <servo_name>Bassin Lat</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-17.285</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>8</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Hanche D Lat</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>35</servo_id>
+    <servo_name>Hanche D Lat</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-3.222</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>9</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Hanche D Rot</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>103</servo_id>
+    <servo_name>Hanche D Rot</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-20.8</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>10</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Hanche G Lat</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>10</servo_id>
+    <servo_name>Hanche G Lat</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>0.292</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>11</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Hanche G Rot</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>102</servo_id>
+    <servo_name>Hanche G Rot</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>16.406</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>12</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Pied D</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>38</servo_id>
+    <servo_name>Pied D</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>0.292</ref_angle>
+  </BlockServo>
+  <BlockServo>
+    <entries>
+      <BlockPredecessor>
+        <name>Spline</name>
+        <output_idx>13</output_idx>
+      </BlockPredecessor>
+    </entries>
+    <name>Pied G</name>
+    <gain>1</gain>
+    <gainString>1</gainString>
+    <servo_id>17</servo_id>
+    <servo_name>Pied G</servo_name>
+    <unit>1</unit>
+    <relative>1</relative>
+    <ref_angle>-1.171</ref_angle>
+  </BlockServo>
+  <frequency>100</frequency>
+</MotorPrimitive>

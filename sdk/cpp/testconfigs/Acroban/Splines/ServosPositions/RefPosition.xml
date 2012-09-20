@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ArrayOfServoDynamixel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ServoDynamixel>
+    <type>None</type>
+    <Id>110</Id>
+    <Name>Bassin Lat</Name>
+    <TargetAngle>-18.42001</TargetAngle>
+    <ActualAngle>-15.82</ActualAngle>
+    <ZeroAngle>-15.82</ZeroAngle>
+    <TargetSpeed>834</TargetSpeed>
+    <ActualSpeed>4</ActualSpeed>
+    <MaxLoad>1000</MaxLoad>
+    <ActualLoad>5</ActualLoad>
+  </ServoDynamixel>
+</ArrayOfServoDynamixel>
