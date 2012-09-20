@@ -2,24 +2,29 @@
 
 from repeated_task import RepeatedTask
 
+global PingPongMachine
+
 from time import time
-global ThePingMachine
+
+global PongMachine
+global PingMachine
 
 
-'''The ping machine
+'''The PingPong machine contains the PingMachine and the PongMachine
 '''
 
-class ThePingMachine(RepeatedTask):
+class StateMachine(RepeatedTask):
     class Status:
         (Playing, Suspended, Stopped) = range(0,3)
 
-    def play(self, threaded = True):
+    def play(self):
+        for submachine in self.submachines.values():
+            submachine.play() 
         if self.status == self.Status.Stopped :
             print("Starting machine '" + self.name+"'")
-            globals()[self.name] = self
             self.set_state("Initial")
             self.status = self.Status.Playing
-            if threaded : RepeatedTask.start(self)
+            RepeatedTask.start(self)
         elif self.status == self.Status.Suspended :
             if self.debug : print("Resuming machine '"+ self.name+"'")
             self.status = self.Status.Playing
@@ -34,6 +39,8 @@ class ThePingMachine(RepeatedTask):
     def stop(self, threaded = True):
         if self.debug : print("Stopping machine '"+ self.name+"'")
         self.status = self.Status.Stopped
+        for submachine in self.submachines.values():
+            submachine.stop() 
         RepeatedTask.cancel(self)
 
     def step(self):
@@ -51,131 +58,123 @@ class ThePingMachine(RepeatedTask):
             print("Exception in machine "+ self.name + ": "+ str(e))
             pass
 
+
+class PingPongMachineClass(StateMachine):
+
     def __init__(self, verbose=False):
+        global PongMachine
+        global PingMachine
         RepeatedTask.__init__(self,1,self.step)
-        self.name = "ThePingMachine"
-        self.frequency = 5.0
+        self.name = "PingPongMachine"
+        self.frequency = 1.0
         self.status = self.Status.Stopped 
         self.state = None
         self.debug = False
+        self.submachines = {}
+        PongMachine = PongMachineClass()
+        self.submachines['PongMachine'] = PongMachine
+        PingMachine = PingMachineClass()
+        self.submachines['PingMachine'] = PingMachine
 
     def enter(self):
-        if self.state == "Initial" :
-            print('Starting ping machine')
-            ThePingMachine.begin = time()
-        elif self.state == "Receive" :
-            print(str(time() - ThePingMachine.begin) )
+        pass
 
     def bye(self):
         pass
-        
 
     def loop(self):
         pass
-        
 
     def transition(self):
-        if self.state == "Initial" :
-            return "Send"
-        elif self.state == "Send" :
-            print("Ping ",end="")
-            ThePongMachine.set_state("Receive")
-            return "Wait"
-        elif self.state == "Receive" :
-            return "Send"
         return self.state
 
 
-if __name__ == '__main__':
-    the_machine = ThePingMachine()
-    the_machine.play()
-
-
-from repeated_task import RepeatedTask
-
-global ThePongMachine
 
 
 '''The pong machine
 '''
 
-class ThePongMachine(RepeatedTask):
-    class Status:
-        (Playing, Suspended, Stopped) = range(0,3)
 
-    def play(self, threaded = True):
-        if self.status == self.Status.Stopped :
-            print("Starting machine '" + self.name+"'")
-            globals()[self.name] = self
-            self.set_state("Initial")
-            self.status = self.Status.Playing
-            if threaded : RepeatedTask.start(self)
-        elif self.status == self.Status.Suspended :
-            if self.debug : print("Resuming machine '"+ self.name+"'")
-            self.status = self.Status.Playing
-            
-    def set_state(self, state):
-        if state is not self.state:
-            self.bye()
-            self.state = state
-            self.enter()
-        self.state = state
-        
-    def stop(self, threaded = True):
-        if self.debug : print("Stopping machine '"+ self.name+"'")
-        self.status = self.Status.Stopped
-        RepeatedTask.cancel(self)
 
-    def step(self):
-        try:
-            if self.debug : print("Stepping machine '"+ self.name+"' with status " + str(self.status))
-            if self.status == self.Status.Playing :
-                self.loop()
-                #print("Transition of machine " + self.name + " in state "+ str(self.state))
-                self.set_state(self.transition())
-                if self.state == "Final" :
-                    if self.debug : print("Machine has reached its final state'"+ self.name+"'")
-                    self.bye()
-                    self.stop()
-        except Exception as e:
-            print("Exception in machine "+ self.name + ": "+ str(e))
-            pass
+class PongMachineClass(StateMachine):
 
     def __init__(self, verbose=False):
         RepeatedTask.__init__(self,1,self.step)
-        self.name = "ThePongMachine"
+        self.name = "PongMachine"
         self.frequency = 5.0
         self.status = self.Status.Stopped 
         self.state = None
         self.debug = False
+        self.submachines = {}
 
     def enter(self):
-        if self.state == "Initial" :
+        if self.state == "Receive" :
+            print(str(time() - PongMachine.begin))
+        elif self.state == "Initial" :
             print('Starting pong machine')
-            ThePongMachine.begin = time()
-        elif self.state == "Receive" :
-            print(str(time() - ThePongMachine.begin))
+            PongMachine.begin = time()
 
     def bye(self):
         pass
-        
 
     def loop(self):
         pass
-        
 
     def transition(self):
-        if self.state == "Initial" :
+        if self.state == "Receive" :
+            return "Send"
+        elif self.state == "Initial" :
             return "Wait"
         elif self.state == "Send" :
             print("Pong ",end="")
-            ThePingMachine.set_state("Receive")
+            PingMachine.set_state("Receive")
             return "Wait"
-        elif self.state == "Receive" :
+        return self.state
+
+
+
+
+'''The ping machine
+'''
+
+
+
+class PingMachineClass(StateMachine):
+
+    def __init__(self, verbose=False):
+        RepeatedTask.__init__(self,1,self.step)
+        self.name = "PingMachine"
+        self.frequency = 10.0
+        self.status = self.Status.Stopped 
+        self.state = None
+        self.debug = False
+        self.submachines = {}
+
+    def enter(self):
+        if self.state == "Receive" :
+            print(str(time() - PingMachine.begin) )
+        elif self.state == "Initial" :
+            print('Starting ping machine')
+            self.begin = time()
+
+    def bye(self):
+        pass
+
+    def loop(self):
+        pass
+
+    def transition(self):
+        if self.state == "Receive" :
             return "Send"
+        elif self.state == "Initial" :
+            return "Send"
+        elif self.state == "Send" :
+            print("Ping ",end="")
+            PongMachine.set_state("Receive")
+            return "Wait"
         return self.state
 
 
 if __name__ == '__main__':
-    the_machine = ThePongMachine()
-    the_machine.play()
+    PingPongMachine = PingPongMachineClass()
+    PingPongMachine.play()

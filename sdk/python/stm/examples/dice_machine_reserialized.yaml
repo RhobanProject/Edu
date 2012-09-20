@@ -1,39 +1,6 @@
 machine:
-    description: 'Simulates a game where we throw a dice and win iff we make a six
-        in less than
-
-        n tries
-
-        '
-    frequency: 50.0
-    name: TheDiceMachine
-    preamble: "from random import randint\n\ndef throw_dice():\n    print('Throwing\
-        \ dice')\n    TheDiceMachine.dice = randint(1,6)\n    TheDiceMachine.tries\
-        \ += 1\n    print('Dice is ', TheDiceMachine.dice)\n"
+    frequency: 1.0
     states:
-    -   enter: 'TheDiceMachine.tries = 0
-
-            TheDiceMachine.dice = 0
-
-            '
-        loop: throw_dice()
-        name: Initial
-        transitions:
-        -   condition: TheDiceMachine.dice==6
-            next: Won
-        -   condition: TheDiceMachine.tries>5
-            do: TheDiceMachine.tries=0
-            next: Lost
-    -   bye: print("Game Over")
-        loop: print("You've lost")
-        name: Lost
-        transitions:
-        -   next: Final
-    -   name: Won
-        transitions:
-        -   do: 'print("You''ve won an extra game!")
-
-                '
-            next: Initial
-    -   loop: print('Over, dice is ', TheDiceMachine.dice)
-        name: Final
+    -   name: Initial
+    -   name: Final
+    submachines: []

@@ -48,3 +48,8 @@ class RepeatedTask(Thread):
             #print("Repeated timer waiting " + str(self.interval) + " at " + str(time()))
             self.finished.wait(self.interval)
         
+    '''Waits for the machine to be stopped'''
+    def wait_stopped(self):
+        self.finished.wait()
+        
+ 

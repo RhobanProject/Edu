@@ -1,44 +1,43 @@
-machine:
-    description: |
-        The drunk sailor starts 10 meters away from the cliffs on its left
-        If he reaches its house 20 meters on the right he is safe
-        If he reaches the cliffs he falls
+description: |
+    The drunk sailor starts 10 meters away from the cliffs on its left
+    If he reaches its house 20 meters on the right he is safe
+    If he reaches the cliffs he falls
 
-    name: TheDrunkSailorMachine
+name: TheDrunkSailorMachine
         
-    frequency: 20
+frequency: 20
 
-    preamble: |
-        from time import time
-        from random import randint
+preamble: |
+    from time import time
+    from random import randint
         
-    states:
+states:
     
-    -   name: Initial
-        enter: |
-            print('Damned the pub is closed')
-            self.position = 10
-        transitions:
-        -   next: Walk
+-   name: Initial
+    enter: |
+        print('Damned the pub is closed')
+        self.position = 10
+    transitions:
+    -   next: Walk
             
-    -   name: Walk
-        loop: |
-             self.position = self.position + randint(-1,1)
-             print("#Cliffs#" + self.position * " " + ":~)" + (20 - self.position) * " " + "#Home#")
-        transitions:
-        -   condition: self.position >= 20
-            next: Safe
-        -   condition: self.position <= 0
-            next: Dead
+-   name: Walk
+    loop: |
+         self.position = self.position + randint(-1,1)
+         print("#Cliffs#" + self.position * " " + ":~)" + (20 - self.position) * " " + "#Home#")
+    transitions:
+    -   condition: self.position >= 20
+        next: Safe
+    -   condition: self.position <= 0
+        next: Dead
         
-    -   name: Safe
-        enter: print("Safe!")
-        transitions:
-        -   next: Final
+-   name: Safe
+    enter: print("Safe!")
+    transitions:
+    -   next: Final
 
-    -   name: Dead
-        enter: print("Oups...")
-        transitions:
-        -   next: Final
+-   name: Dead
+    enter: print("Oups...")
+    transitions:
+    -   next: Final
 
-    -   name: Final
+-   name: Final

@@ -9,11 +9,14 @@ def throw_dice():
     TheDiceMachine.dice = randint(1,6)
     TheDiceMachine.tries += 1
     print('Dice is ', TheDiceMachine.dice)
+
+    
 global TheDiceMachine
 
 
 '''Simulates a game where we throw a dice and win iff we make a six in less than
 n tries
+    
 '''
 
 class TheDiceMachine(RepeatedTask):
@@ -78,10 +81,10 @@ class TheDiceMachine(RepeatedTask):
     def loop(self):
         if self.state == "Initial" :
             throw_dice()
-        elif self.state == "Lost" :
-            print("You've lost")
         elif self.state == "Final" :
             print('Over, dice is ', TheDiceMachine.dice)
+        elif self.state == "Lost" :
+            print("You've lost")
 
     def transition(self):
         if self.state == "Initial" :
@@ -90,11 +93,11 @@ class TheDiceMachine(RepeatedTask):
             elif TheDiceMachine.tries>5:
                 TheDiceMachine.tries=0
                 return "Lost"
-        elif self.state == "Lost" :
-            return "Final"
         elif self.state == "Won" :
             print("You've won an extra game!")
             return "Initial"
+        elif self.state == "Lost" :
+            return "Final"
         return self.state
 
 

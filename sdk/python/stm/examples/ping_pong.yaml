@@ -1,71 +1,66 @@
-machine:
-    description: |
-        The ping machine
+name: PingPongMachine
 
-    name: ThePingMachine
-        
-    frequency: 5
-
-    preamble: |
-        from time import time
-        
-    states:
+description: |
+    The PingPong machine contains the PingMachine and the PongMachine
     
-    -   name: Initial
-        enter: |
-               print('Starting ping machine')
-               ThePingMachine.begin = time()
-        transitions:
-        -   next: Send
-            
-    -   name: Send
-        transitions:
-        -   next: Wait
-            do: |
-                print("Ping ",end="")
-                ThePongMachine.set_state("Receive")
-        
-    -   name: Wait
+submachines: 
+    -   name: PingMachine
 
-    -   name: Receive
-        enter: print(str(time() - ThePingMachine.begin) )
-        transitions:
-        -    next: Send
+        description: |
+            The ping machine
         
-    -   name: Final
-        
----
-        
-machine:
-    description: |
-        The pong machine
-
-    name: ThePongMachine
-        
-    frequency: 5
-
-    states:
+        frequency: 10
+        preamble: |
+            from time import time
     
-    -   name: Initial
-        enter: |
-               print('Starting pong machine')
-               ThePongMachine.begin = time()
-        transitions:
-        -   next: Wait
-            
-    -   name: Send
-        transitions:
-        -   next: Wait
-            do: |
-                print("Pong ",end="")
-                ThePingMachine.set_state("Receive")
-        
-    -   name: Wait
+        states:
+        -   name: Initial
+            enter: |
+                   print('Starting ping machine')
+                   self.begin = time()
+            transitions:
+            -   next: Send
 
-    -   name: Receive
-        enter: print(str(time() - ThePongMachine.begin))
-        transitions:
-        -    next: Send
+        -   name: Send
+            transitions:
+            -   next: Wait
+                do: |
+                    print("Ping ",end="")
+                    PongMachine.set_state("Receive")
+    
+        -   name: Wait
+        -   name: Receive
+            enter: print(str(time() - PingMachine.begin) )
+            transitions:
+            -    next: Send
         
-    -   name: Final
+        -   name: Final
+    
+    -   name: PongMachine
+        description: |
+            The pong machine
+        frequency: 5
+        states:
+        -   name: Initial
+            enter: |
+                   print('Starting pong machine')
+                   PongMachine.begin = time()
+            transitions:
+            -   next: Wait
+            
+        -   name: Send
+            transitions:
+            -   next: Wait
+                do: |
+                    print("Pong ",end="")
+                    PingMachine.set_state("Receive")
+                
+        -   name: Wait
+
+        -   name: Receive
+            enter: print(str(time() - PongMachine.begin))
+            transitions:
+            -    next: Send
+        
+        -   name: Final
         
