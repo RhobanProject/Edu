@@ -8,6 +8,7 @@ sdk/cpp/build
 sdk/cpp/example/build
 
 sdk/python/rhoban/*.pyc
+sdk/python/tests/*.pyc
 sdk/python/rhoban/*/*.pyc
 sdk/python/sockets/*.pyc
 sdk/python/config.yml

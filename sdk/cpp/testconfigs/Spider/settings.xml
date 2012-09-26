@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <command_store_filename>commands.xml</command_store_filename>
+  <robot_spec_filename>joints.xml</robot_spec_filename>
+  <lowlevel_config_filename>LowLevelConfig.xml</lowlevel_config_filename>
+  <robot_config_filename>MoveSchedulerConfig.xml</robot_config_filename>
+  <port>12345</port>
+  <ip>127.0.0.1</ip>
+  <known_ips>
+    <string>127.0.0.1</string>
+    <string>192.168.16.3</string>
+    <string>192.168.0.10</string>
+    <string>192.168.16.4</string>
+    <string>192.168.16.10</string>
+    <string>192.168.16.11</string>
+    <string>192.168.16.8</string>
+    <string>192.168.16.9</string>
+    <string>10.1.1.8</string>
+    <string>192.168.16.101</string>
+    <string>192.168.16.20</string>
+    <string>192.168.16.21</string>
+    <string>192.168.16.24</string>
+    <string>192.168.16.25</string>
+    <string>192.168.16.111</string>
+    <string>192.168.16.105</string>
+  </known_ips>
+  <monitor_frequency>5</monitor_frequency>
+  <monitor_error_frequency>1</monitor_error_frequency>
+  <splineModelerCloudWidth>30</splineModelerCloudWidth>
+  <maxPointsNbToDraw>400</maxPointsNbToDraw>
+  <splineModelerMonitorFrequency>5</splineModelerMonitorFrequency>
+  <ErrorPopup>false</ErrorPopup>
+  <LogAllMsgs>true</LogAllMsgs>
+  <AutoConnect>true</AutoConnect>
+  <UseLocalisation>false</UseLocalisation>
+  <UseVision>false</UseVision>
+</Settings>

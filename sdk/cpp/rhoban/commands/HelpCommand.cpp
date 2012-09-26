@@ -31,7 +31,8 @@ namespace Rhoban
   void HelpCommand::run(map<char, string> options, vector<string> arguments)
   {
     cout << "Rhoban System - http://edu.rhoban-system.fr/sdk/commandes.html"
-	 << endl << "Available commands :" << endl;
+	 << endl;
+    cout << "Available commands :" << endl;
     
     map<string, map<string, Commandpy *> > families = manager->getFamilies();
     

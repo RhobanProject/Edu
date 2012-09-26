@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <string>
+#include <file_mngt.h>
 #include <communication/Connection.h>
 #include <config/LowLevelConfig.h>
 #include <config/MoveSchedulerConfig.h>
@@ -45,10 +46,18 @@ namespace Rhoban
   void Configurations::loadMoveSchedulerConfig(string config, bool force)
   {
     this->moveSchedulerConfig = new MoveSchedulerConfig(config);
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cout << config << endl;
+    //cout << "moveSchedulerConfig->getConfig() = " << moveSchedulerConfig->getConfig() << endl << endl;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     if(force || isMoveSchedulerConfigLoaded() == 0)
       {
-	connection->SchedulerLoadConfig(moveSchedulerConfig->getConfig());
+	//connection->SchedulerLoadConfig(config);
+	//connection->SchedulerLoadConfig(moveSchedulerConfig->getConfig());
+	string configContents = file_to_string(config);
+	connection->SchedulerLoadConfig(configContents);
 	connection->ServosScan(250, "Normal");
       }
   }
@@ -65,10 +74,19 @@ namespace Rhoban
   void Configurations::loadLowLevelConfig(string config, bool force)
   {
     lowLevelConfig = new LowLevelConfig(config);
-    
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cout << endl << config << endl;
+    //cout << "lowLevelConfig->getConfig() = " << lowLevelConfig->getConfig() << endl << endl;
+    cout << "TESTBLI : " << lowLevelConfig->dynamixel_config->frequency << endl;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     if(force || isLowLevelConfigLoaded() == 0)
       {
-	connection->LowLevelLoadConfig(lowLevelConfig->getConfig());
+	//connection->LowLevelLoadConfig(config);
+	//connection->LowLevelLoadConfig(lowLevelConfig->getConfig());
+	string configContents = file_to_string(config);
+	connection->LowLevelLoadConfig(configContents);
       }
   }
 

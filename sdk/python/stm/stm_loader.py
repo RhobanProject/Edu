@@ -34,42 +34,23 @@ class StateMachineLoader(RepeatedTask):
         self.machines = []
         RepeatedTask.start(self)
 
-    ''' Load a machine,
+    ''' Load a machine or a list of machines,
      with an optional maximum duration
-     and optionally waiting for the machine to reach its final state'''
-    def load(self, machine, wait_final = False, duration = float("inf")):
+     and optionally waiting for the machine to stop
+     and optionally waiting for the machine to be started stopped'''
+    def load(self, machine, wait_stop = False, duration = float("inf"), start_stopped = False):
         self.lock.acquire()
-        if wait_final:
-            machine.play(duration, True)
-            machine.join()
-        else :
-            print("Loading machine "+ machine.name)
-            machine.stop()
-            machine.scheduler = self
-            self.machines.append(StateMachineLoader.ScheduledMachine(machine))
-            self.update_frequencies()
-            machine.play(duration, False)
+        print("Loading machine "+ machine.name)
+        if machine.status is not machine.Status.Stopped :
+            raise BaseException("Cannot load a running machine")
+        for submachine in machine.submachines.values() :
+            self.load(submachine, False, duration, True)
+        self.machines.append( StateMachineLoader.ScheduledMachine(machine) )
+        self.update_frequencies()
         self.lock.release()
+        if not start_stopped:
+            machine.play(wait_stop, duration, False)
    
-    ''' Load a list of machines and starts them
-    with an optional maximum duration'''
-    def load_machines(self, machines, wait_final = False, duration = float("inf")):
-        if wait_final:
-            for machine in machines :
-                machine.play(duration,True)
-            for machine in machines :
-                machine.join()
-        else :                        
-            self.lock.acquire()
-            for machine in machines :
-                machine.scheduler = self
-                self.machines.append(StateMachineLoader.ScheduledMachine(machine))
-                self.update_frequencies()
-                machine.play(duration, False)
-            #print("Globals from load machines ", globals().keys())
-            #print("Locals from load machines ", locals().keys())
-            self.lock.release()    
-    
     def update_frequencies(self):
         self.lock.acquire()
         self.interval = 0.1

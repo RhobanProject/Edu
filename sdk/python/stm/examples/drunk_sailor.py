@@ -4,6 +4,7 @@ from repeated_task import RepeatedTask
 
 from time import time
 from random import randint
+    
 global TheDrunkSailorMachine
 
 
@@ -83,15 +84,15 @@ class TheDrunkSailorMachine(RepeatedTask):
     def transition(self):
         if self.state == "Initial" :
             return "Walk"
+        elif self.state == "Safe" :
+            return "Final"
+        elif self.state == "Dead" :
+            return "Final"
         elif self.state == "Walk" :
             if self.position >= 20:
                 return "Safe"
             elif self.position <= 0:
                 return "Dead"
-        elif self.state == "Safe" :
-            return "Final"
-        elif self.state == "Dead" :
-            return "Final"
         return self.state
 
 

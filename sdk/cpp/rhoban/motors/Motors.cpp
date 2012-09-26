@@ -145,10 +145,19 @@ namespace Rhoban
   void Motors::processValues(Message *values)
   {
     vector<byte> ids = values->read_array();
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cout << ids.size()<<endl;
+    for(int i=0; i< ids.size(); i++)
+      cout << ids[i];
+    cout << endl;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     vector<float> angles= values->read_float_array();
     vector<float> speeds= values->read_float_array();
     vector<float> loads= values->read_float_array();
     
+
     for(int i=0; i < ids.size(); ++i)
       {
 	if(idMotors.count(ids[i]))

@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 '''
 /*************************************************
 * Publicly released by Rhoban System, September 2012
@@ -13,7 +11,7 @@
 '''
 
 from repeated_task import RepeatedTask
-from yaml import load_all as load_all
+from yaml import load as load
 from importlib import import_module
 from time import time
 
@@ -71,8 +69,13 @@ class StateMachine(RepeatedTask):
         '''The preamble'''
         self.preamble = ""
         
-        '''The list of states'''
+        '''The dict of states (name-> state)'''
         self.states = {}
+        self.states['Initial'] = StateMachine.State("Initial")
+        self.states['Final'] = StateMachine.State("Final")
+         
+        '''The dict of submachines'''
+        self.submachines = {}
         
         '''The current state'''
         self.state = None
@@ -87,11 +90,14 @@ class StateMachine(RepeatedTask):
         self.duration = float("inf")
         
         self.debug = debug
-        
-
-    '''Plays the machine for the given duration'''
-    def play(self, duration = float("inf"), threaded = True):
+                
+    '''Plays the machine for the given duration
+    optionally waits for the machine to be stopped before returning
+    last option is used by the stm_loader to prevent creation of too many threads'''
+    def play(self, wait_stopped = False, duration = float("inf"), threaded = True):
         self.lock.acquire()
+        for submachine in self.submachines.values() :
+            submachine.play(False, duration, threaded)
         self.begin = time()
         self.duration = duration
         if self.status == self.Status.Stopped :
@@ -119,6 +125,9 @@ class StateMachine(RepeatedTask):
             if self.debug : print("Resuming machine \'"+ self.name+"\'")
             self.status = self.Status.Playing
         self.lock.release()
+        if wait_stopped:
+            self.wait_stopped()
+
 
     '''Suspends the machine execution, use play() to resume'''            
     def suspend(self):
@@ -132,34 +141,29 @@ class StateMachine(RepeatedTask):
         self.lock.acquire()
         if self.debug : print("Stopping machine \'"+ self.name+"\'")
         self.status = self.Status.Stopped
-        if threaded : RepeatedTask.cancel(self)
+        for submachine in self.submachines.values():
+            submachine.stop()
+        RepeatedTask.cancel(self)
         self.lock.release()
-
+       
     '''creates a list of machines from a yaml file'''
     @classmethod
     def from_yaml(cls, filename):
-        result = []
         with open(filename,'r') as yaml_stream:
-            trees = load_all(yaml_stream)
-            for tree in trees :
-                machine = StateMachine()
-                machine.from_tree(tree)
-                result.append(machine)
-        return result
+            tree = load(yaml_stream)
+            return StateMachine.from_tree(tree)
   
     '''builds an executable python script from a yaml file'''
     @classmethod
     def yaml_to_py(cls, yaml_file, py_file):
-        machines = StateMachine.from_yaml(yaml_file)
+        machine = StateMachine.from_yaml(yaml_file)
         with open(py_file,'w') as output:
-            for machine in machines:
-                output.write( machine.to_python() )
+            output.write( machine.to_python() )
   
-
     '''Changes the machine state'''
     def set_state(self, state_name):
         self.lock.acquire()
-        state = self.get_state(state_name)
+        state = self.states[state_name]
         if state is not self.state:
             self.bye()
             self.state = state
@@ -179,10 +183,9 @@ class StateMachine(RepeatedTask):
     def step(self):
         try:
             self.lock.acquire()
-            if self.debug : print("Stepping machine \'"+ self.name+"\' with status " + str(self.status))
             if self.status == self.Status.Playing :
                 self.loop()
-                #print("Transition of machine " + self.name + " in state "+ str(self.state))
+                if self.debug: print("Transition of machine " + self.name + " in state "+ self.state.name)
                 self.set_state(self.transition())
                 if time() - self.begin > self.duration:
                     if self.debug: print("Time elapsed for machine " + self.name + str(time() - self.begin) + " " + str(self.duration))
@@ -197,18 +200,15 @@ class StateMachine(RepeatedTask):
             pass
         #raise e
 
+    ''' Performs the transition and returns the name of the new state'''
     def transition(self):  
         for transition in self.state.transitions:
             if not transition.condition or eval(transition.condition):
-                if transition.do : exec(transition.do)
+                if transition.do :
+                    exec(transition.do)
                 return transition.next
         return self.state.name
-    
-    def get_state(self, state_name):
-        for state in self.states:
-            if state.name == state_name : return state
-        raise BaseException("Could not find state with name "+ state_name + " in machine " + self.name)
-              
+                  
     '''If the chain is non empty, add_tag associates the value chain to the key 'tag'
     in the mapping 'mapping' '''
     @classmethod
@@ -276,7 +276,7 @@ class StateMachine(RepeatedTask):
                     transition.from_tree(transitionDesc)
                     self.transitions.append(transition)
         
-        def __init__(self, name, enter, loop, bye):
+        def __init__(self, name = "", enter = "", loop = "", bye = ""):
             self.name = name
             self.enter = enter
             self.loop = loop
@@ -290,29 +290,63 @@ class StateMachine(RepeatedTask):
         StateMachine.add_tag('description',self.description,result)
         StateMachine.add_tag('frequency',self.frequency,result)
         StateMachine.add_tag('preamble',self.preamble,result)
-        StateMachine.add_tag('functions',self.functions,result)
         states = []
-        for state in self.states :
+        for state in self.states.values() :
             states.append(state.toTree())
         result['states'] = states
+        submachines = []
+        for submachine in self.submachines.values() :
+            submachines.append(submachine.toTree())
+        result['submachines'] = submachines
         return { 'machine' : result  }
 
-    '''builds a machine description from a map'''
-    def from_tree(self, mapping):
-        mapping = mapping['machine']
-        self.name = StateMachine.get_tag('name' , mapping)
-        self.functions = StateMachine.get_tag('functions' , mapping)
-        self.description = StateMachine.get_tag('description' , mapping)
-        self.frequency = StateMachine.get_tag('frequency' , mapping)
-        self.preamble = StateMachine.get_tag('preamble' , mapping)
-        self.states = []
-        states = mapping['states']
-        if states :
+    '''builds a machine description from a map
+    if the second argument is None the machine is build from scratch
+    otherwise the data in the tree is appended to the machine (used for cloning)
+    '''
+    @classmethod
+    def from_tree(cls, mapping, machine = None):
+        if machine == None : machine = StateMachine()
+        machine.name = StateMachine.get_tag('name' , mapping)
+        machine.description += StateMachine.get_tag('description' , mapping)
+        if mapping.__contains__('frequency') :
+            machine.frequency = float(StateMachine.get_tag('frequency' , mapping))
+        machine.preamble += StateMachine.get_tag('preamble' , mapping)
+        if mapping.__contains__('states') :
+            states = mapping['states']
             for stateDesc in states:
-                state = StateMachine.State("","","","")
+                state = StateMachine.State()
                 state.from_tree(stateDesc)
-                self.states.append(state)
-   
+                machine.states[state.name] = state
+            
+        if mapping.__contains__('submachines') :
+            submachines = mapping['submachines']
+            for subtree in submachines:
+                instance_nb = StateMachine.get_tag('instances' , subtree)
+                if instance_nb:
+                    nb = int(instance_nb)
+                    globals()[subtree['name']] = {}
+                else:
+                    nb = 1
+                for index in range(1,nb+1) :
+                    '''We first check whether the submachine extends another'''
+                    clone_name = StateMachine.get_tag('extends' , subtree)
+                    if clone_name :
+                        clone_tree = None
+                        for tree in submachines :
+                            if tree['name'] == clone_name : clone_tree = tree
+                        clone = StateMachine.from_tree(clone_tree)
+                        submachine = StateMachine.from_tree(subtree, clone)
+                    else :
+                        submachine = StateMachine.from_tree(subtree)
+                    if instance_nb:
+                        submachine.name += "["+ str(index) + "]"
+                        submachine.index = index
+                        globals()[subtree['name']][index] = submachine
+                    machine.submachines[submachine.name] = submachine
+                    print("Created submachine " + submachine.name)
+        return machine
+    
     '''
        Create a GraphVIZ representation 
     '''
@@ -336,33 +370,38 @@ class StateMachine(RepeatedTask):
 
         dot += "};\n"
         return dot
-  
+ 
     '''turns the machine description to python code'''
-    def to_python(self, filename = "", generate_main = True):            
+    def to_python(self, filename = "", only_core_code = False):            
         result = ""
         
-        result += "\n\nfrom repeated_task import RepeatedTask\n\n"
+        if not only_core_code:
+            result += "\n\nfrom repeated_task import RepeatedTask\n\n"
+            result += self.preamble
+            result += "global " + self.name + "\n"
+        
+        for submachine in self.submachines.values():
+            result += submachine.preamble + "\n"
+        for submachine in self.submachines.values():
+            result += "global " + submachine.name + "\n"
 
-        result += self.preamble
- 
-        result += "global " + self.name + "\n"
-            
         result += "\n\n'''" + str(self.description) + "'''\n\n"
 
-        result += "class " + self.name + "(RepeatedTask):\n"
-        
-        result += "    class Status:\n"
-        result += "        (Playing, Suspended, Stopped) = range(0,3)\n"
 
-        result +=\
+        if not only_core_code:
+            result += "class StateMachine(RepeatedTask):\n"
+            result += "    class Status:\n"
+            result += "        (Playing, Suspended, Stopped) = range(0,3)\n"
+            result +=\
 '''
-    def play(self, threaded = True):
+    def play(self):
+        for submachine in self.submachines.values():
+            submachine.play() 
         if self.status == self.Status.Stopped :
             print("Starting machine \'" + self.name+"\'")
-            globals()[self.name] = self
             self.set_state("Initial")
             self.status = self.Status.Playing
-            if threaded : RepeatedTask.start(self)
+            RepeatedTask.start(self)
         elif self.status == self.Status.Suspended :
             if self.debug : print("Resuming machine \'"+ self.name+"\'")
             self.status = self.Status.Playing
@@ -377,6 +416,8 @@ class StateMachine(RepeatedTask):
     def stop(self, threaded = True):
         if self.debug : print("Stopping machine \'"+ self.name+"\'")
         self.status = self.Status.Stopped
+        for submachine in self.submachines.values():
+            submachine.stop() 
         RepeatedTask.cancel(self)
 
     def step(self):
@@ -394,60 +435,67 @@ class StateMachine(RepeatedTask):
             print("Exception in machine "+ self.name + ": "+ str(e))
             pass
 '''
+        result += "\n\nclass " + self.name + "Class(StateMachine):\n"
         result += \
 '''
     def __init__(self, verbose=False):
 '''
 
-        result += "        RepeatedTask.__init__(self,1,self.step)\n"
-        result += "        self.name = \"" + self.name + "\"\n"
-        result += "        self.frequency = "+ str(self.frequency) + "\n"
-        result += "        self.status = self.Status.Stopped \n"
-        result += "        self.state = None\n"
-        result += "        self.debug = False\n"
+        for submachine in self.submachines.values():
+            result += self.indent("global " + submachine.name, 2)
+        result += self.indent("RepeatedTask.__init__(self,1,self.step)\n",2)
+        result += self.indent("self.name = \"" + self.name + "\"\n",2)
+        result += self.indent("self.frequency = "+ str(self.frequency) + "\n",2)
+        result += self.indent("self.status = self.Status.Stopped \n",2)
+        result += self.indent("self.state = None\n",2)
+        result += self.indent("self.debug = False\n",2)
+        result += self.indent("self.submachines = {}",2)
+        for submachine in self.submachines.values():
+            result += self.indent(submachine.name + " = " + submachine.name + "Class()\n", 2)
+            result += self.indent("self.submachines['" +submachine.name + "'] = " + submachine.name,2)
 
         result += \
 '''
     def enter(self):
 '''
         if_pref = ""
-        for state in self.states:
+        for state in self.states.values():
             if state.enter is not "":
                 result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
                 result += self.indent(state.enter,3)
                 if_pref = "el"
-        if not if_pref: result += self.indent("pass\n\n",2)
+        if not if_pref: result += self.indent("pass\n",2)
 
         result += \
 '''
     def bye(self):
 '''
         if_pref = ""
-        for state in self.states:
+        for state in self.states.values():
             if state.bye:
                 result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
                 result += self.indent(state.bye,3)
                 if_pref = "el"
-        if not if_pref: result += self.indent("pass\n\n",2)
+        if not if_pref: result += self.indent("pass\n",2)
                 
         result += \
 '''
     def loop(self):
 '''
         if_pref = ""
-        for state in self.states:
+        for state in self.states.values():
             if state.loop:
                 result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
                 result += self.indent(state.loop,3)
                 if_pref = "el"
-        if not if_pref: result += self.indent("pass\n\n",2)
+        if not if_pref: result += self.indent("pass\n",2)
 
         result += \
 '''
     def transition(self):
 '''
         if_pref = ""
-        for state in self.states:
+        for state in self.states.values():
             if state.transitions:
                 result += self.indent(if_pref + "if self.state == \"" + state.name + "\" :\n",2)
                 if_pref2 = ""
@@ -465,10 +513,13 @@ class StateMachine(RepeatedTask):
         
         result +="\n\n"
 
-        if generate_main:
+        for submachine in self.submachines.values():
+            result += submachine.to_python("",True)
+            
+        if not only_core_code:
             result += "if __name__ == '__main__':\n"
-            result += "    the_machine = " + self.name + "()\n"
-            result += "    the_machine.play()\n"
+            result += "    " + self.name + " = " + self.name + "Class()\n"
+            result += "    " + self.name + ".play()\n"
             
         if filename != "":
             with open(filename,'w') as python_stream:

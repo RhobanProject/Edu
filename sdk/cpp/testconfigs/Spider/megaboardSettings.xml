@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Robots>
+    <Robot>
+      <Name>Drum</Name>
+      <Ip>192.168.1.2</Ip>
+      <Port>12345</Port>
+      <MontitoringInformations />
+    </Robot>
+    <Robot>
+      <Name>Guitar</Name>
+      <Ip>192.168.1.3</Ip>
+      <Port>12345</Port>
+      <MontitoringInformations />
+    </Robot>
+    <Robot>
+      <Name>Vocal</Name>
+      <Ip>192.168.1.4</Ip>
+      <Port>12345</Port>
+      <MontitoringInformations />
+    </Robot>
+    <Robot>
+      <Name>Bass</Name>
+      <Ip>192.168.1.5</Ip>
+      <Port>12345</Port>
+      <MontitoringInformations />
+    </Robot>
+    <Robot>
+      <Name>Synth</Name>
+      <Ip>192.168.1.7</Ip>
+      <Port>12345</Port>
+      <MontitoringInformations />
+    </Robot>
+  </Robots>
+</Settings>

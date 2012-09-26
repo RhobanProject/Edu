@@ -79,11 +79,10 @@ namespace Rhoban
 	    // Environment
 	    if(it.second().FindValue("environment"))
 	      {
-		it.second()["environment"] >> environment;
-		
-		robots[name]->loadEnvironment(environment);
+		it.second()["environment"] >> environment;		
+      		robots[name]->loadEnvironment(environment);	       
 	      }
-
+      
 	    // LoadMoves
 	    if(it.second().FindValue("loadMoves"))
 	      {
@@ -98,7 +97,7 @@ namespace Rhoban
 			robots[name]->loadMove(move);
 		      }
 		  }
-	      }   
+	      } 
 	  }
       }
   }
