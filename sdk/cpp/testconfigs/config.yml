@@ -1,0 +1,15 @@
+# config.yml
+
+# Seulement utile pour python
+commands: /configs/commands.xml
+
+robots:
+    spider:
+        host: localhost # Adresse de connexion
+        port: 12345 # Port (Si différent de 12345)
+        environment: ../testconfigs/Spider/ # Emplacement de l'environement Spider
+
+    acroban:
+        host: localhost
+        environment: ../testconfigs/Acroban/
+

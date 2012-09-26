@@ -70,8 +70,8 @@ namespace Rhoban
   
   void Robot::connect(const char *adress, int port)
   {
-	this->hostname = adress;
-	this->port = port;
+    this->hostname = adress;
+    this->port = port;
     connection->connectTo(adress, port);
   }
 
