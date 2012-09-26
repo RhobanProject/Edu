@@ -140,11 +140,22 @@ namespace Rhoban
     ifstream ifile(filename.c_str());
     bool fileExists = (bool)ifile;
     ifile.close();
-    
+
     if(fileExists)
       moves->loadMove(filename);
     else
-      moves->loadMove(moveFileName(name));
+      {
+	string filename2 = moveFileName(name);
+
+	ifstream ifile2(filename2.c_str());
+	bool fileExists2 = (bool)ifile2;
+	ifile2.close();
+
+	if(fileExists2)
+	  moves->loadMove(filename2);
+	else
+	  cout << "Move file for " << name << " not found." << endl;
+      }      
   }
 
   void Robot::startMove(string name, ui32 duration, ui32 smooth)

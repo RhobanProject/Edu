@@ -44,11 +44,10 @@ namespace Rhoban
 	map<char, string> options;
 	vector<string> arguments;
 	int opt;
+
 	while((opt = getopt(argc, argv, 
 			    commands[command]->getOptions().c_str())) != -1)
 	  {
-	    switch(opt)
-	      {
 		if(opt == '?' || opt == ':')
 		  {
 		  cout << "Command error" << endl;
@@ -61,9 +60,8 @@ namespace Rhoban
 		    else
 		      options[opt];
 		  }
-	      }
 	  }
-	
+
 	for(int i=optind; i<argc; ++i)
 	  arguments.push_back(argv[i]);	
 

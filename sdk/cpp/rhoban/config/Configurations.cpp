@@ -47,17 +47,11 @@ namespace Rhoban
   {
     this->moveSchedulerConfig = new MoveSchedulerConfig(config);
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cout << config << endl;
-    //cout << "moveSchedulerConfig->getConfig() = " << moveSchedulerConfig->getConfig() << endl << endl;
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     if(force || isMoveSchedulerConfigLoaded() == 0)
       {
-	//connection->SchedulerLoadConfig(config);
-	//connection->SchedulerLoadConfig(moveSchedulerConfig->getConfig());
 	string configContents = file_to_string(config);
 	connection->SchedulerLoadConfig(configContents);
+
 	connection->ServosScan(250, "Normal");
       }
   }
@@ -75,16 +69,8 @@ namespace Rhoban
   {
     lowLevelConfig = new LowLevelConfig(config);
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cout << endl << config << endl;
-    //cout << "lowLevelConfig->getConfig() = " << lowLevelConfig->getConfig() << endl << endl;
-    cout << "TESTBLI : " << lowLevelConfig->dynamixel_config->frequency << endl;
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     if(force || isLowLevelConfigLoaded() == 0)
       {
-	//connection->LowLevelLoadConfig(config);
-	//connection->LowLevelLoadConfig(lowLevelConfig->getConfig());
 	string configContents = file_to_string(config);
 	connection->LowLevelLoadConfig(configContents);
       }

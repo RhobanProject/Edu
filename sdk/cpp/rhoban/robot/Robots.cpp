@@ -37,7 +37,7 @@ namespace Rhoban
 
   void Robots::loadYaml(string filename)
   {
-    cout << "Starting yaml config parsing..." << endl << endl;
+    cout << endl << "Starting yaml config parsing..." << endl;
 
     ifstream cfgfile(filename.c_str());
     YAML::Parser parser(cfgfile);
@@ -87,10 +87,11 @@ namespace Rhoban
 	    if(it.second().FindValue("loadMoves"))
 	      {
 		loadedMoves = robots[name]->getLoadedMoves();
-		
+
 		for(i=0; i<it.second()["loadMoves"].size(); ++i)
 		  { 
 		    it.second()["loadMoves"][i] >> move;
+
 		    if(!is_in_vector_string(loadedMoves, move))
 		      {
 			loadedMoves.push_back(move);
@@ -99,6 +100,7 @@ namespace Rhoban
 		  }
 	      } 
 	  }
+	cout << endl;
       }
   }
 
