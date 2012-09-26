@@ -3,9 +3,11 @@
 
 import sys, os, re, threading, time
 import yaml
-import configurations as config
-import communication as com
-import motors, motion, sensors
+import rhoban.configurations as config
+import rhoban.communication as com
+import rhoban.motors as motors
+import rhoban.motion as motion
+import rhoban.sensors as sensors
 
 """
     Représente un groupe de robots
@@ -15,7 +17,7 @@ class Robots(object):
         self.robots = {}
 
     def loadYaml(self, filename):
-        config = yaml.load(file(filename, 'r').read())
+        config = yaml.load(open(filename, 'rb').read())
         storeFileName = '../common/commands.xml'
 
         if 'commands' in config:
@@ -106,7 +108,7 @@ class Robot(object):
         print('~> %s' % response[0])
 
         print('Testing echo "Hello world"...')
-        response = self.connection.ServerEcho_response('Hello world')
+        response = self.connection.ServerEcho_response(b'Hello world')
         print('~> %s' % response[0])
 
         if response[0] == 'Hello world':

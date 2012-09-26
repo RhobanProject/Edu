@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys, os, socket
+import sys, os, socket, pickle
 
 """
     Client TCP, peut se connecter et envoyer/recevoir des données

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import sys, os, re, threading, time
-import commands
-from robot import Robots
+import rhoban.commands as commands
+from rhoban.robot import Robots
 
 """
     Classe pouvant être exécutée pour présenter les commandes
@@ -139,7 +139,7 @@ class StatusCommand(RobotsCommand):
 
         # Motors
         robot.motors.pullValues()
-        availableMotors = filter(lambda motor: motor.lastUpdate != None, robot.motors.motors.values())
+        availableMotors = list(filter(lambda motor: motor.lastUpdate != None, robot.motors.motors.values()))
         print('|- %d/%d motors (%s)' % (len(availableMotors), len(robot.motors.motors), ','.join(map(str, robot.motors.idMotors.keys()))))
     
         if '-v' in options:
@@ -159,7 +159,7 @@ class StatusCommand(RobotsCommand):
             prefix = ' \-'
             if moves:
                 for move in moves:
-                    print('%s %s' % (prefix, move))
+                    print('%s %s' % (prefix, str(move, 'utf-8')))
                     prefix = ' |-'
 
         print('')

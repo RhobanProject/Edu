@@ -11,7 +11,7 @@ class Moves:
         self.connection = connection
 
     def loadMove(self, filename):
-        contents = file(filename, 'r').read()
+        contents = open(filename, 'rb').read()
         self.connection.SchedulerLoadXMLMove_response(contents)
 
     def startMove(self, name, duration, smooth = 500):
