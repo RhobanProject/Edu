@@ -54,8 +54,8 @@ namespace Rhoban
 
   void Moves::updateConstant(string moveName, string constantName, float value)
   {
-	vector<float> values;
-	values[0] = value;
+    vector<float> values;
+    values.push_back(value);
     connection->SchedulerUpdateConstant(moveName, constantName, values);
   }
 

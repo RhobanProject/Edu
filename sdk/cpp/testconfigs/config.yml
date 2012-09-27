@@ -8,8 +8,18 @@ robots:
         host: localhost # Adresse de connexion
         port: 12345 # Port (Si différent de 12345)
         environment: ../testconfigs/Spider/ # Emplacement de l'environement Spider
+        loadMoves: [SpiderSinus]
 
-    acroban:
-        host: localhost
-        environment: ../testconfigs/Acroban/
+    spider2:
+        host: localhost # Adresse de connexion
+        port: 12346 # Port (Si différent de 12345)
+        environment: ../testconfigs/Spider/ # Emplacement de l'environement Spider
+        loadMoves: [SpiderSinus]
+
+    spider3:
+        host: localhost # Adresse de connexion
+        port: 12347 # Port (Si différent de 12345)
+        environment: ../testconfigs/Spider/ # Emplacement de l'environement Spider
+        loadMoves: [SpiderSinus]
+
 

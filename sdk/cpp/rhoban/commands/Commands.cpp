@@ -62,7 +62,7 @@ namespace Rhoban
     // Motors
     map<int, Motor*> motors = robot->getMotors()->getIdMotors();
     map<int, Motor*>::iterator it;
-    
+
     robot->getMotors()->pullValues();
 
     int val=0;
@@ -174,7 +174,6 @@ namespace Rhoban
 	if(arguments.size() > 2)
 	  smooth = atoi(arguments[2].c_str());
       }
-    
     robot->startMove(arguments[0], duration, smooth);
   }
 
@@ -246,8 +245,8 @@ namespace Rhoban
   {
     name = "set";
     options = "r";
-    description = "Set a motor angle (in °), -r for relative angle";
-    prototype = "[-r] <robot> <motorName> <angle> [load=1 [speed=1]]";
+    description = "Set a motor angle (in °), -r for relative angle, -- befor angle for negative values";
+    prototype = "[-r] <robot> <motorName> -- <angle> [load=1 [speed=1]]";
     argumentsLength = 3;
   }
   
@@ -339,9 +338,9 @@ namespace Rhoban
   SnapshotCommand::SnapshotCommand()
   {
     name = "snapshot";
-    options = "r";
-    prototype = "[-r]";
-    description = "Snapshots the angles' values  (-r for relative angles)";
+    options = "rp";
+    prototype = "[-r] [-p]";
+    description = "Snapshots the angles' values  (-r for relative angles, p for python format)";
   }
 
   void SnapshotCommand::executeFor(Robot *robot, map<char, string> options)
@@ -365,8 +364,25 @@ namespace Rhoban
       }
     
     map<string, double>::iterator it2;
-    for(it2=snapshot.begin(); it2!=snapshot.end(); ++it)
-      cout << it2->first << " : " << it2->second << endl;
+    if(options.count('p'))
+      {
+	cout << "{";
+	bool testval=0;
+	for(it2=snapshot.begin(); it2!=snapshot.end(); ++it2)
+	  {
+	    if(testval)
+	      cout << ", ";
+	    else
+	      testval=1;
+	    cout << "'" << it2->first << "': " << it2->second;
+	  }	
+	cout << "}" << endl;
+      }
+    else
+      {
+	for(it2=snapshot.begin(); it2!=snapshot.end(); ++it2)
+	  cout << it2->first << " : " << it2->second << endl;
+      }
   } 
 
   
@@ -383,8 +399,8 @@ namespace Rhoban
 			       vector<string> arguments)
   {
     string fmttitle = " | %-10s | %-4s | %-7s | %-12s | %-8s | %-8s |\n";
-    string fmtloaded = " | %-10.10s | %-4d | %-7s | %-12.12f | %-7d%% | %-7d%% |\n";
-    string fmtnotloaded = " | %-10.10s | %-4d | %-7s | %-12.12f | %-8s | %-8s |\n";
+    string fmtloaded = " | %-10.10s | %-4d | %-7s | %-12f | %-7d%% | %-7d%% |\n";
+    string fmtnotloaded = " | %-10.10s | %-4d | %-7s | %-12c | %-8c | %-8c |\n";
 
     float frequency;
     if(options.count('f'))
@@ -394,6 +410,12 @@ namespace Rhoban
   
     robot->getMotors()->start(3*frequency);
 
+    map<int, Motor*> idmotors;
+    map<int, Motor*>::iterator idit;
+    
+    map<string, Motor*> motors;
+    map<string, Motor*>::iterator it;
+	    
     while(1)
       {
 	cout << " Monitoring " << robot->getName() << endl;
@@ -411,32 +433,32 @@ namespace Rhoban
 	
 	if(options.count('i'))
 	  {
-	    map<int, Motor*> motors = robot->getMotors()->getIdMotors();
-	    map<int, Motor*>::iterator it;
-
-	    for(it=motors.begin(); it!=motors.end(); ++it)
+	    idmotors = robot->getMotors()->getIdMotors();
+	    
+	    for(idit=idmotors.begin(); idit!=idmotors.end(); ++idit)
 	      {
-		if(it->second->getLastUpdate())
+		if(idit->second->getLastUpdate())
 		  printf(fmtloaded.c_str(), 
-			 it->second->getName().c_str(), 
-			 it->second->getId(), 
+			 idit->second->getName().c_str(), 
+			 idit->second->getId(), 
 			 "Yes", 
-			 it->second->getAngle(), 
-			 (int)(100*it->second->getLoad()), 
-			 (int)(100*it->second->getLoad()));
+			 idit->second->getAngle(), 
+			 (int)(100*idit->second->getLoad()), 
+			 (int)(100*idit->second->getLoad()));
 		else
-		  printf(fmtnotloaded.c_str(), 
-			 it->second->getName().c_str(), 
-			 it->second->getId(), 
-			 "No", "-", "-", "-");		  
+		  {
+		    printf(fmtnotloaded.c_str(), 
+			   idit->second->getName().c_str(), 
+			   idit->second->getId(), 
+			   "No", '-', '-', '-');
+		  }		  
 	      }
 	  }
 	
 	else // (!options.count('i'))
 	  {
-	    map<string, Motor*> motors = robot->getMotors()->getMotors();
-	    map<string, Motor*>::iterator it;
-	    
+	    motors = robot->getMotors()->getMotors();
+	    	    
 	    for(it=motors.begin(); it!=motors.end(); ++it)
 	      {
 		if(it->second->getLastUpdate())
@@ -451,9 +473,10 @@ namespace Rhoban
 		  printf(fmtnotloaded.c_str(), 
 			 it->second->getName().c_str(), 
 			 it->second->getId(), 
-			 "No", "-", "-", "-");
+			 "No", '-', '-', '-');
 	      }
 	  }
+
 	cout << " ";
 	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
 	  cout << "-";
