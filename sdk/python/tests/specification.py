@@ -36,8 +36,8 @@ class TestSpecification(unittest.TestCase):
     def test_simple_pattern(self):
         pattern = self.paramsClass('ui32 float byte string')
 
-        argument = [1, 1.0, 99, 'hello']
-        data = '\x00\x00\x00\x01?\x80\x00\x00c\x00\x00\x00\x05hello'
+        argument = [1, 1.0, 99, b'hello']
+        data = b'\x00\x00\x00\x01?\x80\x00\x00c\x00\x00\x00\x05hello'
 
         self.assertEquals(pattern.getData(*argument), data)
         self.assertEquals(pattern.readData(data), argument)
@@ -46,7 +46,7 @@ class TestSpecification(unittest.TestCase):
         pattern = self.paramsClass('ui32[][]')
 
         argument = [[[1,2],[3,4]]]
-        data = '\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00\x04'
+        data = b'\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00\x04'
         
         self.assertEquals(pattern.getData(*argument), data)
         self.assertEquals(pattern.readData(data), argument)
@@ -55,7 +55,7 @@ class TestSpecification(unittest.TestCase):
         pattern = self.paramsClass('byte[]')
 
         argument = [[1,2,3]]
-        data = '\x00\x00\x00\x03\x01\x02\x03'
+        data = b'\x00\x00\x00\x03\x01\x02\x03'
         
         self.assertEquals(pattern.getData(*argument), data)
         self.assertEquals(pattern.readData(data), argument)
@@ -70,8 +70,8 @@ class TestSpecification(unittest.TestCase):
     def test_bad_datas(self):
         pattern = self.paramsClass('ui32')
 
-        dataIncomplete = '\x00\x00\x00'
-        dataOverflow = '\x00\x00\x00\x01\x02'
+        dataIncomplete = b'\x00\x00\x00'
+        dataOverflow = b'\x00\x00\x00\x01\x02'
 
         self.assertRaises(IOError, pattern.readData, dataIncomplete)
         self.assertRaises(IOError, pattern.readData, dataOverflow)
@@ -79,15 +79,15 @@ class TestSpecification(unittest.TestCase):
     def test_bad_datas_array(self):
         pattern = self.paramsClass('ui32[]')
 
-        data = '\x00\x00\x00\x99\x00\x00\x00\x01'
+        data = b'\x00\x00\x00\x99\x00\x00\x00\x01'
 
         self.assertRaises(IOError, pattern.readData, data)
 
     def test_strings(self):
         pattern = self.paramsClass('string string[]')
 
-        argument = ['hello', ['worl', 'd!']]
-        data = '\x00\x00\x00\x05hello\x00\x00\x00\x02\x00\x00\x00\x04worl\x00\x00\x00\x02d!'
+        argument = [b'hello', [b'worl', b'd!']]
+        data = b'\x00\x00\x00\x05hello\x00\x00\x00\x02\x00\x00\x00\x04worl\x00\x00\x00\x02d!'
         
         self.assertEquals(pattern.getData(*argument), data)
         self.assertEquals(pattern.readData(data), argument)
@@ -97,7 +97,7 @@ class TestSpecification(unittest.TestCase):
         store.addSpecification(self.specClass('test', 'desc', 12, 34, 'ui32 ui32', ''))
         message = store.builder.test(5, 8)
 
-        self.assertEquals(message.getRaw(), '\x00\x00\x00\x01\x00\x00\x00\x0c\x00\x00\x00"\x00\x00\x00\x08\x00\x00\x00\x05\x00\x00\x00\x08')
+        self.assertEquals(message.getRaw(), b'\x00\x00\x00\x01\x00\x00\x00\x0c\x00\x00\x00"\x00\x00\x00\x08\x00\x00\x00\x05\x00\x00\x00\x08')
 
     def test_cpp(self):
         self.assertEqual(self.paramClass('ui32').cpp().strip(), 'ui32')

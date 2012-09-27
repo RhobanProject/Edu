@@ -3,8 +3,8 @@
 
 import sys, os, re, threading, time
 from datetime import datetime
-import configurations as config
-import communication as com
+import rhoban.configurations as config
+import rhoban.communication as com
 
 """
     Classe permetant d'intéragir avec les capteurs

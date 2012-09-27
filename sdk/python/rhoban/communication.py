@@ -28,7 +28,7 @@ class Connection(tcp.TCPClient):
         self.hostname = hostname
         self.port = port
         self.waitHeader = True
-        self.buffer = ''
+        self.buffer = b''
         self.message = None
         self.length = 0
         self.counter = 0
@@ -121,7 +121,7 @@ class Connection(tcp.TCPClient):
             message.setStore(self.store)
         except Exception:
             pass
-        
+
         return message
 
     def __getattr__(self, name):
@@ -205,15 +205,15 @@ class Message:
         self.uid = uid
         self.destination = destination
         self.command = command
-        self.data = ''
+        self.data = b''
 
     def getRaw(self):
-        raw = ''
-        raw += str(struct.pack('>I', int(self.uid)))
-        raw += str(struct.pack('>I', int(self.destination)))
-        raw += str(struct.pack('>I', int(self.command)))
-        raw += str(struct.pack('>I', len(self.data)))
-        raw += str(self.data)
+        raw = b''
+        raw += struct.pack('>I', int(self.uid))
+        raw += struct.pack('>I', int(self.destination))
+        raw += struct.pack('>I', int(self.command))
+        raw += struct.pack('>I', len(self.data))
+        raw += self.data
 
         return raw
 
@@ -329,7 +329,7 @@ class ParametersPattern:
         if len(args) != len(self.patterns):
             raise Exception('Arguments error, found %s arguments where %s expected' % (len(args), len(self.patterns)))
 
-        data = ''
+        data = b''
 
         try:
             for (argument, pattern) in zip(args, self.patterns):
@@ -424,26 +424,28 @@ class ParameterPattern:
         return self.typesMapping[self.baseType][0](argument)
 
     def getData(self, argument):
-        data = ''
+        data = b''
 
         if self.depth > 1:
-            data += str(struct.pack('>I', len(argument)))
+            data += struct.pack('>I', len(argument))
 
             for subArgument in argument:
-                data += str(self.subPattern.getData(subArgument))
+                data += self.subPattern.getData(subArgument)
         else:
             if self.depth == 1:
                 packFormat = '>' + str(len(argument)) + self.typesMapping[self.baseType][1]
-                data += str(struct.pack('>I', len(argument)))
+                data += struct.pack('>I', len(argument))
 
                 if type(argument) == list:
-                    data += str(struct.pack(packFormat, *argument))
+                    data += struct.pack(packFormat, *argument)
                 else:
-                    argument = self.castType(argument)
-                    data += str(struct.pack(packFormat, argument))
+                    if type(argument) == str:
+                        data += struct.pack(packFormat, bytes(argument, 'utf-8'))
+                    else:
+                        data += struct.pack(packFormat, argument)
             else:
                 argument = self.castType(argument)
-                data += str(struct.pack('>' + self.typesMapping[self.baseType][1], argument))
+                data += struct.pack('>' + self.typesMapping[self.baseType][1], argument)
 
         return data
 
@@ -462,7 +464,7 @@ class ParameterPattern:
 
                 return (data[size:], argument)
             else:
-                for n in xrange(length):
+                for n in range(length):
                     (data, subArgument) = self.subPattern.readData(data)
                     argument += [subArgument]
 

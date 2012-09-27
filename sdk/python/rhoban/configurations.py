@@ -3,11 +3,11 @@
 
 import sys, os, re, threading, time
 from xml.dom import minidom
-import communication as com
+import rhoban.communication as com
 
 class Config(object):
     def __init__(self, filename):
-        self.config = open(filename, 'r').read()
+        self.config = open(filename, 'rb').read()
         self.parse()
 
     def getText(self, node, name):
@@ -63,7 +63,7 @@ class Configurations(object):
 
         if force or not self.isMoveSchedulerConfigLoaded():
             self.connection.SchedulerLoadConfig(self.moveSchedulerConfig.config)
-            self.connection.ServosScan(250, 'Normal')
+            self.connection.ServosScan(250, b'Normal')
 
     def isLowLevelConfigLoaded(self):
         response = None
