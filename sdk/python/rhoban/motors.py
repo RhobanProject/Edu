@@ -116,7 +116,7 @@ class Motors(threading.Thread):
 
     def raiseLoad(self, duration = 5, verbose = False):
         cs = duration * 100
-        for x in xrange(cs):
+        for x in range(cs):
             if verbose:
                 sys.stdout.write("\rLoad: %3d%%" % (round(100*(x+1)/float(cs))))
                 sys.stdout.flush()
