@@ -149,7 +149,6 @@ namespace Rhoban
     vector<float> speeds= values->read_float_array();
     vector<float> loads= values->read_float_array();
     
-
     for(int i=0; i < ids.size(); ++i)
       {
 	if(idMotors.count(ids[i]))
@@ -168,16 +167,17 @@ namespace Rhoban
 		else
 		  idMotors[ids[i]]->setGoalSpeed(0);
 	      }
-	  }
-	idMotors[ids[i]]->setCurrentLoad((double)loads[i]/1023);
-	if(idMotors[ids[i]]->getGoalLoadInit() == 0)
-	  {
-	    if(idMotors[ids[i]]->getLoad() > 0)
-	      idMotors[ids[i]]->setGoalLoad(idMotors[ids[i]]->getLoad());
-	    else
-	      idMotors[ids[i]]->setGoalLoad(0);
-          }
-      }   
+	  
+	    idMotors[ids[i]]->setCurrentLoad((double)loads[i]/1023);
+	    if(idMotors[ids[i]]->getGoalLoadInit() == 0)
+	      {
+		if(idMotors[ids[i]]->getLoad() > 0)
+		  idMotors[ids[i]]->setGoalLoad(idMotors[ids[i]]->getLoad());
+		else
+		  idMotors[ids[i]]->setGoalLoad(0);
+	      }
+	  }   
+      }
   }
   
   void Motors::goToZero(int duration, bool verbose)

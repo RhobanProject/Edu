@@ -58,13 +58,13 @@ namespace Rhoban
     if(!robot->getConfigs()->isMoveSchedulerConfigLoaded())
       cout << "not ";
     cout << "loaded" << endl;
-
+    
     // Motors
     map<int, Motor*> motors = robot->getMotors()->getIdMotors();
     map<int, Motor*>::iterator it;
-
+    
     robot->getMotors()->pullValues();
-
+    
     int val=0;
     for(it=motors.begin(); it!=motors.end(); ++it)
       {
@@ -73,7 +73,7 @@ namespace Rhoban
       }
 
     cout << "|- " << val << "/" << motors.size() << " motors (";
-
+    
     bool testval = 0;
     for(it=motors.begin(); it!=motors.end(); ++it)
       {
@@ -119,7 +119,6 @@ namespace Rhoban
 	    prefix = " |- ";
 	  }
       }
-    
     cout << endl;
   }
   
@@ -191,7 +190,7 @@ namespace Rhoban
   {
     int smooth = 500;
     
-    if(arguments.size() > 0)
+    if(arguments.size() > 1)
       smooth = atoi(arguments[1].c_str());
 
     robot->stopMove(arguments[0], smooth);
@@ -202,8 +201,8 @@ namespace Rhoban
   {
     name = "updateconstant";
     argumentsLength = 4;
-    prototype = "<robot> <moveName> <constantName> <value>";
-    description = "Updates a move constant";
+    prototype = "<robot> <moveName> <constantName> -- <value>";
+    description = "Updates a move constant (-- before value for negative values)";
   }
 
   void UpdateConstantCommand::execute(Robot *robot, map<char, string> options, 
