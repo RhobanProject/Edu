@@ -363,7 +363,7 @@ class ParameterPattern:
         'float': [float, 'f', 4],
         'ui32': [int, 'I', 4],
         'int': [int, 'i', 4],
-        'byte': [int, 'b', 1],
+        'byte': [int, 'B', 1],
         'string': [str, 's', 1],
     }
 
