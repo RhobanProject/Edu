@@ -161,6 +161,7 @@ class Robot(object):
 
     def emergency(self):
         self.connection.SchedulerEmergencyStop()
+        self.motors.allCompliant()
 
     def stop(self):
         self.connection.stop()
