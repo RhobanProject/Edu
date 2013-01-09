@@ -392,7 +392,7 @@ class MonitorCommand(RobotCommand):
         self.description = 'Monitors the servos (-i sorts by id)'
 
     def execute(self, robot, options, arguments):
-        fmt = ' | %-10s | %-4s | %-7s | %-12s | %-8s | %-8s |'
+        fmt = ' | %-20s | %-4s | %-7s | %-12s | %-8s | %-8s |'
 
         frequency = float(options.get('-f', 1))
         robot.motors.start(3 * frequency)
