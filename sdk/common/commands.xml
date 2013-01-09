@@ -108,7 +108,7 @@
         <Destination>move_scheduler</Destination>
         <CommandIndex>46</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string[] </AnswerPattern>
+        <AnswerPattern>string[] string[]</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerKillMove</Name>
