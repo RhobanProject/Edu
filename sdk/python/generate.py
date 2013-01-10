@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sys, os
@@ -6,7 +6,7 @@ import rhoban.communication as com
 from rhoban.generate import generate_message_builder, generate_connection
 
 if len(sys.argv) != 2:
-    print 'Usage: generate.py <Output directory>'
+    print('Usage: generate.py <Output directory>')
     exit()
     
 
