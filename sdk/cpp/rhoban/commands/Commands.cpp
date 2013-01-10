@@ -18,6 +18,7 @@
 #include "RobotCommand.h"
 #include "RobotsCommand.h"
 #include "Commands.h"
+#include "ticks.h"
 
 using namespace std;
 
@@ -481,7 +482,7 @@ namespace Rhoban
 	  cout << "-";
 	cout << endl;
 	
-	usleep(1000000/frequency);	
+	syst_wait_ms(1000/frequency);
       }
   }
   
@@ -533,7 +534,7 @@ namespace Rhoban
 	  cout << "-";
 	cout << endl;
 	
-	usleep(500000);
+	syst_wait_ms(500);
       }
   }    
 }

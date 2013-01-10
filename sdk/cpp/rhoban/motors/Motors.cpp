@@ -18,6 +18,7 @@
 #include <types.h>
 #include "Motor.h"
 #include "Motors.h"
+#include "ticks.h"
 
 using namespace std;
 
@@ -215,7 +216,7 @@ namespace Rhoban
 	for(it = motors.begin(); it != motors.end(); ++it)
 	  it->second->setLoad(((double)i+1)/(double)cs);
 	
-	usleep(10000);
+	syst_wait_ms(10);
 	pushValues();	  
       }
     if(verbose)
@@ -228,7 +229,7 @@ namespace Rhoban
       {
 	connection->ServosGetValues_callback(1, motorsValues, this);
 	pushValues();
-	usleep(1000000/frequency);
+	syst_wait_ms(1000/frequency);
       } 
   }
 
