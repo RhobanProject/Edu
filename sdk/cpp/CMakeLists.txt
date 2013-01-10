@@ -8,6 +8,7 @@ option(SDK
 option(TESTS
     "Enable tests" OFF)
 
+
 option(ROBOARD
     "Compile for ROBOARD" OFF)
 
@@ -20,6 +21,7 @@ option(RHOBANMATH
 
 # Useful for getting common compiling
 set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
+set(YAML_HEADERS "${RHOBAN_UTILS_DIRECTORY}/yaml-cpp/include/yaml-cpp" CACHE STRING "Yaml headers directory")
 
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
