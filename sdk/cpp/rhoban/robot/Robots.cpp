@@ -66,7 +66,10 @@ namespace Rhoban
 	    // Host & port
 	    if(it.second().FindValue("host"))
 	      {
-		it.second()["host"] >> host;
+		if(it.second().FindValue("host"))
+		  it.second()["host"] >> host;
+		else
+		  host = "localhost";
 		
 		if(it.second().FindValue("port"))
 		  it.second()["port"] >> port;		  
