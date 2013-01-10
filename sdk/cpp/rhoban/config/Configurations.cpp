@@ -21,88 +21,103 @@ using namespace std;
 namespace Rhoban
 {
 
-  Configurations::Configurations(Connection *connection)
-  {
-    this->connection = connection;
-    lowLevelConfig = NULL;
-    moveSchedulerConfig = NULL;
-  }
+Configurations::Configurations(Connection *connection)
+{
+	this->connection = connection;
+	lowLevelConfig = NULL;
+	moveSchedulerConfig = NULL;
+}
 
-  Configurations::~Configurations()
-  {
-    delete lowLevelConfig;
-    delete moveSchedulerConfig;
-  } 
+Configurations::~Configurations()
+{
+	delete lowLevelConfig;
+	delete moveSchedulerConfig;
+}
 
-  bool Configurations::isMoveSchedulerConfigLoaded()
-  {
-    Message *response = NULL;
-    while(response == NULL)
-      response = connection->SchedulerConfigIsLoaded_response();
+bool Configurations::isMoveSchedulerConfigLoaded()
+{
+	Message *response = NULL;
+	while(response == NULL)
+		response = connection->SchedulerConfigIsLoaded_response();
 
-    return response->read_uint();
-  }
+	return response->read_uint();
+}
 
-  void Configurations::loadMoveSchedulerConfig(string config, bool force)
-  {
-    this->moveSchedulerConfig = new MoveSchedulerConfig(config);
-    
-    if(force || isMoveSchedulerConfigLoaded() == 0)
-      {
-	string configContents = file_to_string(config);
-	connection->SchedulerLoadConfig(configContents);
+void Configurations::loadMoveSchedulerConfig(string config, bool force)
+{
+	this->moveSchedulerConfig = new MoveSchedulerConfig(config);
 
-	connection->ServosScan(250, "Normal");
-      }
-  }
- 
-  bool Configurations::isLowLevelConfigLoaded()
-  {
-    Message *response = NULL;
-    while(response == NULL)
-      response = connection->LowLevelConfigIsLoaded_response();
+	if(force || isMoveSchedulerConfigLoaded() == 0)
+	{
+		string configContents = file_to_string(config);
+		connection->SchedulerLoadConfig(configContents);
 
-    return response->read_uint();
-  }
+		connection->ServosScan(250, "Normal");
+	}
+}
 
-  void Configurations::loadLowLevelConfig(string config, bool force)
-  {
-    lowLevelConfig = new LowLevelConfig(config);
+bool Configurations::isLowLevelConfigLoaded()
+{
+	try
+	{
+		Message *response = NULL;
+		while(response == NULL)
+			response = connection->LowLevelConfigIsLoaded_response();
+		return response->read_uint();
+	}
+	catch(string exc)
+	{
+		throw string("Failed to check whether LowLevelConfigisLoaded:\n\t" ) + exc;
+	}
 
-    if(force || isLowLevelConfigLoaded() == 0)
-      {
-	string configContents = file_to_string(config);
-	connection->LowLevelLoadConfig(configContents);
-      }
-  }
+}
 
-  Connection *Configurations::getConnection()
-  {
-    return connection;
-  }
+void Configurations::loadLowLevelConfig(string config, bool force)
+{
+	try
+	{
+	lowLevelConfig = new LowLevelConfig(config);
 
-  void Configurations::setConnection(Connection *connection)
-  {
-    this->connection = connection;
-  }
+	if(force || isLowLevelConfigLoaded() == 0)
+	{
+		string configContents = file_to_string(config);
+		connection->LowLevelLoadConfig(configContents);
+	}
+	}
+	catch(string exc)
+	{
+		throw string("Failed to load lowlevelconfig:\n\t") + exc;
 
-  LowLevelConfig *Configurations::getLowLevelConfig()
-  {
-    return lowLevelConfig;
-  }
+	}
+}
 
-  void Configurations::setLowLevelConfig(LowLevelConfig *lowLevelConfig)
-  {
-    this->lowLevelConfig = lowLevelConfig;
-  }
+Connection *Configurations::getConnection()
+{
+	return connection;
+}
 
-  MoveSchedulerConfig *Configurations::getMoveSchedulerConfig()
-  {
-    return moveSchedulerConfig;
-  }
-  
-  void Configurations::setMoveSchedulerConfig(MoveSchedulerConfig *moveSchedulerConfig)
-  {
-    this->moveSchedulerConfig = moveSchedulerConfig;
-  }
+void Configurations::setConnection(Connection *connection)
+{
+	this->connection = connection;
+}
+
+LowLevelConfig *Configurations::getLowLevelConfig()
+{
+	return lowLevelConfig;
+}
+
+void Configurations::setLowLevelConfig(LowLevelConfig *lowLevelConfig)
+{
+	this->lowLevelConfig = lowLevelConfig;
+}
+
+MoveSchedulerConfig *Configurations::getMoveSchedulerConfig()
+{
+	return moveSchedulerConfig;
+}
+
+void Configurations::setMoveSchedulerConfig(MoveSchedulerConfig *moveSchedulerConfig)
+{
+	this->moveSchedulerConfig = moveSchedulerConfig;
+}
 }

@@ -1,0 +1,7 @@
+commands: ../../common/commands.xml
+robots:
+    bras:
+        host: 127.0.0.1 # Adresse de connexion
+        port: 12345 # Port (Si différent de 12345)
+        environment: 'C:\Users\Hugo\Documents\GitHub\Environments\RobotBoard\Drawer'
+

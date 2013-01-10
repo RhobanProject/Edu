@@ -18,7 +18,7 @@ namespace Rhoban
 #include <cstdlib>
 #include <cstdio>
 #include <string>
-#include <communication/Connection.h>
+#include <communication/BaseConnection.h>
 #include <communication/CommandsStore.h>
 #include <utils/types.h>
 #include <motors/Motors.h>

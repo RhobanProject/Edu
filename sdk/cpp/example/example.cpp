@@ -12,10 +12,51 @@
 #include <cstdlib>
 #include <main/Command.h>
 
+#include <ticks.h>
+
+#include <rhoban/robot/Robots.h>
+
 using namespace std;
 using namespace Rhoban;
 
-COMMAND_DEFINE(example, "Example command")
+int main(int argc, char **argv)
 {
-    cout << "Hello there!" << endl;
+	try
+	{
+	Robots robots;
+
+	cout << "Starting " << endl;
+
+	// Charge la configuration et connecte les robots
+	robots.loadYaml("config.yml");
+
+	Robot * robot = robots["bras"];
+	Motors * motors = robot->getMotors();
+
+	cout << "Starting motors " << endl;
+	motors->start(30);
+	syst_wait_ms(1000);
+
+	cout << "Putting all motors compliant " << endl;
+	robot->allCompliant();
+	syst_wait_ms(1000);
+
+	cout << "Taking initial position..." << endl;
+	motors->goToInit();
+	cout << "...done." << endl;
+	syst_wait_ms(1000);
+
+	cout << "Putting all motors compliant " << endl;
+	robot->allCompliant();
+	syst_wait_ms(1000);
+
+	cout << "Bye bye" << endl;
+	robots.stop();
+	}
+	catch(string exc)
+	{
+		cout << "Received exception " << exc << endl;
+		exit(0);
+	}
+
 }

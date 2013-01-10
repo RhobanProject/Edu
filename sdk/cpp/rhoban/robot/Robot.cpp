@@ -26,267 +26,274 @@ using namespace std;
 
 namespace Rhoban
 {
-  Robot::Robot(CommandsStore *commandsStore, string name)
-  {
-    connection = new Connection(commandsStore);
-    motors = new Motors(connection);
-    configs = new Configurations(connection);
-    moves = new Moves(connection);
-    sensors = new Sensors(connection);
+Robot::Robot(CommandsStore *commandsStore, string name)
+{
+	connection = new Connection(commandsStore);
+	motors = new Motors(connection);
+	configs = new Configurations(connection);
+	moves = new Moves(connection);
+	sensors = new Sensors(connection);
 	this->name = name;
-  }
+}
 
-  Robot::~Robot()
-  {
-    delete configs;
-    delete connection;
-    delete motors;
-    delete moves;
-    delete sensors;
-  }
+Robot::~Robot()
+{
+	delete configs;
+	delete connection;
+	delete motors;
+	delete moves;
+	delete sensors;
+}
 
-  void Robot::loadEnvironment(string environment)
-  {
-    this->setEnvironment(environment);
-    checkFixEnvironmentPath();
-    
-    string env1 = this->environment;
-    string env2 = this->environment;
-    env1.append("ConfigFiles/LowLevelConfig.xml");
-    env2.append("ConfigFiles/MoveSchedulerConfig.xml");
-    
-    this->loadLowLevelConfig(env1); 
-    this->loadMoveSchedulerConfig(env2);  
-  }
+void Robot::loadEnvironment(string environment)
+{
+	try
+	{
+		this->setEnvironment(environment);
+		checkFixEnvironmentPath();
 
-  void Robot::checkFixEnvironmentPath()
-  {
-    string::iterator it;
-    it = environment.end();
-    it--;
-    if(*it != '/')
-      environment.push_back('/');
-  }
-  
-  void Robot::connect(const char *adress, int port)
-  {
-    this->hostname = adress;
-    this->port = port;
-    connection->connectTo(adress, port);
-  }
+		string env1 = this->environment;
+		string env2 = this->environment;
+		env1.append("ConfigFiles/LowLevelConfig.xml");
+		env2.append("ConfigFiles/MoveSchedulerConfig.xml");
 
-  int Robot::isConnected()
-  {
-    return connection->isConnected();
-  }
+		this->loadLowLevelConfig(env1);
+		this->loadMoveSchedulerConfig(env2);
+	}
+	catch(string exc)
+	{
+		throw string("Failed to load environment ") + environment + " for robot " + name + " :\n\t" + exc;
+	}
+}
 
-  ui32 Robot::serverVersion()
-  {
-    return connection->ServerGetVersion_response()->read_uint();
-  }
+void Robot::checkFixEnvironmentPath()
+{
+	string::iterator it;
+	it = environment.end();
+	it--;
+	if(*it != '/')
+		environment.push_back('/');
+}
 
-  int Robot::testConnection()
-  {
-    Message *response = new Message;
-    cout << "Testing server version..." << endl;
+void Robot::connect(const char *adress, int port)
+{
+	this->hostname = adress;
+	this->port = port;
+	connection->connectTo(adress, port);
+}
 
-    response = connection->ServerGetVersion_response();
-    cout << "Version : " << response->read_uint() << endl;
-    
-    cout << "Testing echo\"Hello world\"..." << endl;
-   
-    response = connection->ServerEcho_response("Hello world");
-    cout << " Echo : " << response->read_string() << endl;
+int Robot::isConnected()
+{
+	return connection->isConnected();
+}
 
-    if(response->read_string().compare("Hello world") == 0)
-      cout << "Connection test successful." << endl;
-    else
-      cout << "Connection test failed." << endl;
+ui32 Robot::serverVersion()
+{
+	return connection->ServerGetVersion_response()->read_uint();
+}
 
-    delete response;
-  }
+int Robot::testConnection()
+{
+	Message *response = new Message;
+	cout << "Testing server version..." << endl;
 
-  void Robot::loadLowLevelConfig(string filename, bool force)
-  {
-    configs->loadLowLevelConfig(filename, force);
-  }
+	response = connection->ServerGetVersion_response();
+	cout << "Version : " << response->read_uint() << endl;
 
-  void Robot::loadMoveSchedulerConfig(string filename, bool force)
-  {
-    configs->loadMoveSchedulerConfig(filename, force);
-    motors->setConfig(configs->getMoveSchedulerConfig());
-  }
+	cout << "Testing echo\"Hello world\"..." << endl;
 
-  void Robot::allCompliant()
-  {
-    motors->allCompliant();
-  }
+	response = connection->ServerEcho_response("Hello world");
+	cout << " Echo : " << response->read_string() << endl;
 
-  string Robot::moveFileName(string name)
-  {
-    string retval = getEnvironment();
-    retval.append("Moves/");
-    retval.append(name);
-    retval.append(".xml");
-    return retval;
-  }
-
-  void Robot::loadMove(string name)
-  {
-    string filename = name;
-    filename.append(".graphics");
-    filename = moveFileName(filename);
-    
-    ifstream ifile(filename.c_str());
-    bool fileExists = (bool)ifile;
-    ifile.close();
-
-    if(fileExists)
-      moves->loadMove(filename);
-    else
-      {
-	string filename2 = moveFileName(name);
-
-	ifstream ifile2(filename2.c_str());
-	bool fileExists2 = (bool)ifile2;
-	ifile2.close();
-
-	if(fileExists2)
-	  moves->loadMove(filename2);
+	if(response->read_string().compare("Hello world") == 0)
+		cout << "Connection test successful." << endl;
 	else
-	  cout << "Move file for " << name << " not found." << endl;
-      }      
-  }
+		cout << "Connection test failed." << endl;
 
-  void Robot::startMove(string name, ui32 duration, ui32 smooth)
-  {
-    moves->startMove(name, duration, smooth);
-  }
+	delete response;
+}
 
-  void Robot::pauseMove(string name)
-  {
-    moves->pauseMove(name);
-  }
+void Robot::loadLowLevelConfig(string filename, bool force)
+{
+	configs->loadLowLevelConfig(filename, force);
+}
 
-  void Robot::stopMove(string name, ui32 smooth)
-  {
-    moves->stopMove(name, smooth);
-  }
+void Robot::loadMoveSchedulerConfig(string filename, bool force)
+{
+	configs->loadMoveSchedulerConfig(filename, force);
+	motors->setConfig(configs->getMoveSchedulerConfig());
+}
 
-  void Robot::killMove(string name)
-  {
-    moves->killMove(name);
-  }
+void Robot::allCompliant()
+{
+	motors->allCompliant();
+}
 
-  vector<string> Robot::getLoadedMoves()
-  {
-    return moves->getLoadedMoves();
-  }
+string Robot::moveFileName(string name)
+{
+	string retval = getEnvironment();
+	retval.append("Moves/");
+	retval.append(name);
+	retval.append(".xml");
+	return retval;
+}
 
-  void Robot::updateConstant(string moveName, string constantName, string value)
-  {
-    moves->updateConstant(moveName, constantName, atof(value.c_str()));
-  }
+void Robot::loadMove(string name)
+{
+	string filename = name;
+	filename.append(".graphics");
+	filename = moveFileName(filename);
 
-  void Robot::emergency()
-  {
-    connection->SchedulerEmergencyStop();
-  }
+	ifstream ifile(filename.c_str());
+	bool fileExists = (bool)ifile;
+	ifile.close();
 
-  void Robot::stop()
-  {
-    connection->stop();
-    motors->stop();
-  }
+	if(fileExists)
+		moves->loadMove(filename);
+	else
+	{
+		string filename2 = moveFileName(name);
 
-  void Robot::setMotors(Motors *motors)
-  {
-    this->motors = motors;
-  }
+		ifstream ifile2(filename2.c_str());
+		bool fileExists2 = (bool)ifile2;
+		ifile2.close();
 
-  Motors* Robot::getMotors()
-  {
-    return motors;
-  }
+		if(fileExists2)
+			moves->loadMove(filename2);
+		else
+			cout << "Move file for " << name << " not found." << endl;
+	}
+}
 
-  void Robot::setConfigs(Configurations *configs)
-  {
-    this->configs = configs;
-  }
+void Robot::startMove(string name, ui32 duration, ui32 smooth)
+{
+	moves->startMove(name, duration, smooth);
+}
 
-  Configurations *Robot::getConfigs()
-  {
-    return configs;
-  }
+void Robot::pauseMove(string name)
+{
+	moves->pauseMove(name);
+}
 
-  void Robot::setConnection(Connection *connection)
-  {
-    this->connection = connection;
-  }
+void Robot::stopMove(string name, ui32 smooth)
+{
+	moves->stopMove(name, smooth);
+}
 
-  Connection *Robot::getConnection()
-  {
-    return connection;
-  }
+void Robot::killMove(string name)
+{
+	moves->killMove(name);
+}
 
-  void Robot::setEnvironment(string path)
-  {
-    environment = path;
-    checkFixEnvironmentPath();
-  }
-  
-  string Robot::getEnvironment()
-  {
-    checkFixEnvironmentPath();
-    return environment;
-  }
-  void Robot::setMoves(Moves *moves)
-  {
-    this->moves = moves;
-  }
-  
-  Moves *Robot::getMoves()
-  {
-    return moves;
-  }
-  
-  void Robot::setSensors(Sensors *sensors)
-  {
-    this->sensors = sensors;
-  }
+vector<string> Robot::getLoadedMoves()
+{
+	return moves->getLoadedMoves();
+}
 
-  Sensors *Robot::getSensors()
-  {
-    return sensors;
-  }
+void Robot::updateConstant(string moveName, string constantName, string value)
+{
+	moves->updateConstant(moveName, constantName, atof(value.c_str()));
+}
 
-  void Robot::setName(string name)
-  {
-    this->name = name;
-  }
+void Robot::emergency()
+{
+	connection->SchedulerEmergencyStop();
+}
 
-  string Robot::getName()
-  {
-    return name;
-  }
+void Robot::stop()
+{
+	connection->stop();
+	motors->stop();
+}
 
-  void Robot::setHostname(string hostname)
-  {
-    this->hostname = hostname;
-  }
+void Robot::setMotors(Motors *motors)
+{
+	this->motors = motors;
+}
 
-  string Robot::getHostname()
-  {
-    return hostname;
-  }
+Motors* Robot::getMotors()
+{
+	return motors;
+}
 
-  void Robot::setPort(int port)
-  {
-    this->port = port;
-  }
+void Robot::setConfigs(Configurations *configs)
+{
+	this->configs = configs;
+}
 
-  int Robot::getPort()
-  {
-    return port;
-  }
+Configurations *Robot::getConfigs()
+{
+	return configs;
+}
+
+void Robot::setConnection(Connection *connection)
+{
+	this->connection = connection;
+}
+
+Connection *Robot::getConnection()
+{
+	return connection;
+}
+
+void Robot::setEnvironment(string path)
+{
+	environment = path;
+	checkFixEnvironmentPath();
+}
+
+string Robot::getEnvironment()
+{
+	checkFixEnvironmentPath();
+	return environment;
+}
+void Robot::setMoves(Moves *moves)
+{
+	this->moves = moves;
+}
+
+Moves *Robot::getMoves()
+{
+	return moves;
+}
+
+void Robot::setSensors(Sensors *sensors)
+{
+	this->sensors = sensors;
+}
+
+Sensors *Robot::getSensors()
+{
+	return sensors;
+}
+
+void Robot::setName(string name)
+{
+	this->name = name;
+}
+
+string Robot::getName()
+{
+	return name;
+}
+
+void Robot::setHostname(string hostname)
+{
+	this->hostname = hostname;
+}
+
+string Robot::getHostname()
+{
+	return hostname;
+}
+
+void Robot::setPort(int port)
+{
+	this->port = port;
+}
+
+int Robot::getPort()
+{
+	return port;
+}
 }
