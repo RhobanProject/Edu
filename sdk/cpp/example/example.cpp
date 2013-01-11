@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	cout << "Recording for ten seconds..." << endl;
 	moves->startRecordingSpline();
 
-	syst_wait_ms(10000);
+	syst_wait_ms(1000);
 	cout << "... done." << endl;
 	moves->stopRecordingSpline();
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 	cout << "Playing slower spline..." << endl;
 	moves->playSpline();
 
-	syst_wait_ms(20000);
+	syst_wait_ms(2000);
 	cout << "...done." << endl;
 	moves->stopSpline();
 

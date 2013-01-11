@@ -89,23 +89,34 @@ int Robot::isConnected()
 
 ui32 Robot::serverVersion()
 {
-	return connection->ServerGetVersion_response()->read_uint();
+	try
+	{
+		Message * response = connection->ServerGetVersion_response(10000);
+		uint answer = response->read_uint();
+		delete response;
+		return answer;
+	}
+	catch(string exc)
+	{
+		throw string("Failed to get server version:\n\t") = exc;
+	}
 }
 
 int Robot::testConnection()
 {
-	Message *response = new Message;
 	cout << "Testing server version..." << endl;
 
-	response = connection->ServerGetVersion_response();
-	cout << "Version : " << response->read_uint() << endl;
+	cout << "Version : " << serverVersion() << endl;
 
 	cout << "Testing echo\"Hello world\"..." << endl;
 
-	response = connection->ServerEcho_response("Hello ","world");
-	cout << " Echo : " << response->read_string() << response->read_string() << endl;
+	Message * response = connection->ServerEcho_response("Hello ","world", 10000);
+	string s1 = response->read_string();
+	string s2 = response->read_string();
 
-	if(response->read_string().compare("Hello world") == 0)
+	cout << " Echo : " << s1 << s2 << endl;
+
+	if((s1 == "Hello ") && (s2 == "world"))
 		cout << "Connection test successful." << endl;
 	else
 		cout << "Connection test failed." << endl;

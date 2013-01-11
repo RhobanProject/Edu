@@ -36,11 +36,17 @@ Configurations::~Configurations()
 
 bool Configurations::isMoveSchedulerConfigLoaded()
 {
-	Message *response = NULL;
-	while(response == NULL)
-		response = connection->SchedulerConfigIsLoaded_response();
-
-	return response->read_uint();
+	try
+	{
+	Message * response = connection->SchedulerConfigIsLoaded_response(10000);
+	bool answer = response->read_uint();
+	delete response;
+	return answer;
+	}
+	catch(string exc)
+	{
+		throw string("Failed to check whether MoveSchedulerConfigISLoaded:\n\t"+ exc);
+	}
 }
 
 void Configurations::loadMoveSchedulerConfig(string config, bool force)
@@ -60,10 +66,10 @@ bool Configurations::isLowLevelConfigLoaded()
 {
 	try
 	{
-		Message *response = NULL;
-		while(response == NULL)
-			response = connection->LowLevelConfigIsLoaded_response();
-		return response->read_uint();
+		Message *response = connection->LowLevelConfigIsLoaded_response(10000);
+		bool answer = response->read_uint();
+		delete response;
+		return answer;
 	}
 	catch(string exc)
 	{

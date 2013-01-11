@@ -24,7 +24,8 @@ Moves::Moves(Connection *connection)
 
 void Moves::loadMove(string path)
 {
-	connection->SchedulerLoadXMLMove_response(file_to_string(path));
+	Message * response = connection->SchedulerLoadXMLMove_response(file_to_string(path));
+	delete response;
 }
 
 void Moves::startMove(string name, ui32 duration, ui32 smooth)
@@ -49,7 +50,10 @@ void Moves::killMove(string name)
 
 vector<string> Moves::getLoadedMoves()
 {
-	return connection->SchedulerGetLoadedMoves_response()->read_string_array();
+	Message * response = connection->SchedulerGetLoadedMoves_response();
+	vector<string> answer = response->read_string_array();
+	delete response;
+	return answer;
 }
 
 void Moves::updateConstant(string moveName, string constantName, float value)
@@ -73,6 +77,8 @@ LinearSpline Moves::getRecordedSpline(string movename, string splineName)
 		spline.Serializable::from_xml(stream);
 
 		vector < vector < float > > values = answer->read_float_array_array();
+		delete answer;
+
 		spline.importRawData(values);
 	}
 	catch(string & exc)
