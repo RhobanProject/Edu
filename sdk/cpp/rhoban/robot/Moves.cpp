@@ -73,7 +73,7 @@ LinearSpline Moves::getRecordedSpline(string movename, string splineName)
 		spline.Serializable::from_xml(stream);
 
 		vector < vector < float > > values = answer->read_float_array_array();
-		spline.set_raw_data(values);
+		spline.importRawData(values);
 	}
 	catch(string & exc)
 	{
@@ -88,7 +88,7 @@ void Moves::setSpline(const LinearSpline & spline, string movename)
 	try
 	{
 		vector < vector < float > > values;
-		spline.to_raw_data(values);
+		spline.exportToRawData(values);
 		connection->SchedulerSetCompressedSpline(movename, spline.name, values);
 	}
 	catch(string & exc)
