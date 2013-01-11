@@ -102,8 +102,8 @@ int Robot::testConnection()
 
 	cout << "Testing echo\"Hello world\"..." << endl;
 
-	response = connection->ServerEcho_response("Hello world");
-	cout << " Echo : " << response->read_string() << endl;
+	response = connection->ServerEcho_response("Hello ","world");
+	cout << " Echo : " << response->read_string() << response->read_string() << endl;
 
 	if(response->read_string().compare("Hello world") == 0)
 		cout << "Connection test successful." << endl;

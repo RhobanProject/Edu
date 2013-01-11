@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 
 	Robot * robot = robots["bras"];
 	Motors * motors = robot->getMotors();
+	Moves * moves = robot->getMoves();
 
 	cout << "Starting motors " << endl;
 	motors->start(30);
@@ -41,10 +42,31 @@ int main(int argc, char **argv)
 	robot->allCompliant();
 	syst_wait_ms(1000);
 
+	cout << "Recording for ten seconds..." << endl;
+	moves->startRecordingSpline();
+
+	syst_wait_ms(10000);
+	cout << "... done." << endl;
+	moves->stopRecordingSpline();
+
+	cout << "Retrieving recorded spline" << endl;
+	LinearSpline spline = moves->getRecordedSpline();
+
+	cout << "Sending back slower spline" << endl;
+	spline.speed_factor *= 0.5;
+	moves->setSpline(spline);
+
 	cout << "Taking initial position..." << endl;
 	motors->goToInit();
 	cout << "...done." << endl;
 	syst_wait_ms(1000);
+
+	cout << "Playing slower spline..." << endl;
+	moves->playSpline();
+
+	syst_wait_ms(20000);
+	cout << "...done." << endl;
+	moves->stopSpline();
 
 	cout << "Putting all motors compliant " << endl;
 	robot->allCompliant();

@@ -42,4 +42,4 @@ include_directories(
 )
 
 add_executable(Program ${SOURCES})
-target_link_libraries(Program RhobanSDKMain RhobanMath)
+target_link_libraries(Program RhobanSDKMain RhobanMath RhobanCommon RhobanUtils )

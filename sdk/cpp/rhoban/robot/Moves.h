@@ -15,6 +15,8 @@
 #include <string>
 #include <communication/Connection.h>
 
+#include <motion/LinearSpline.h>
+
 using namespace std;
 
 namespace Rhoban
@@ -32,6 +34,18 @@ namespace Rhoban
     vector<string> getLoadedMoves();
     void updateConstant(string moveName, string constantName, float value);
     
+    LinearSpline getRecordedSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+    void setSpline(const LinearSpline & spline, string movename= "Recorder");
+
+    void startRecordingSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+    void stopRecordingSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+
+    void playSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+    void stopSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+    void pauseResumeSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+    void testSplinePosition(float x, string movename= "Recorder", string splinename = "SplineRecorder");
+
+
     void setConnection(Connection *connection);
     Connection *getConnection();
  
