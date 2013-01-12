@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	moves->stopRecordingSpline();
 
 	cout << "Retrieving recorded spline" << endl;
-	LinearSpline spline = moves->getRecordedSpline();
+	LinearSpline spline = moves->getSpline();
 
 	cout << "Sending back slower spline" << endl;
 	spline.speed_factor *= 0.5;
