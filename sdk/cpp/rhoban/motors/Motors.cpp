@@ -141,9 +141,7 @@ void Motors::pushValues()
 
 	if(ids.size())
 	{
-		cout << "Sending" << endl;
 		connection->ServosSetValues(1, ids, angles, speeds, loads);
-		cout << "Sent" << endl;
 	}
 }
 

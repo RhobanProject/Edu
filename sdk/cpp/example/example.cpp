@@ -52,6 +52,8 @@ int main(int argc, char **argv)
 	cout << "Retrieving recorded spline" << endl;
 	LinearSpline spline = moves->getSpline();
 
+	cout << "Spline has " << spline.sequences[0].points.size() << "points " << endl;
+
 	cout << "Sending back slower spline" << endl;
 	spline.speed_factor *= 0.5;
 	moves->setSpline(spline);
