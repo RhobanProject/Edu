@@ -34,7 +34,7 @@ namespace Rhoban
     vector<string> getLoadedMoves();
     void updateConstant(string moveName, string constantName, float value);
     
-    LinearSpline getRecordedSpline(string movename = "Recorder", string splinename = "SplineRecorder");
+    LinearSpline getSpline(string movename = "Recorder", string splinename = "SplineRecorder");
     void setSpline(const LinearSpline & spline, string movename= "Recorder");
 
     void startRecordingSpline(string movename = "Recorder", string splinename = "SplineRecorder");

@@ -63,7 +63,7 @@ void Moves::updateConstant(string moveName, string constantName, float value)
 	connection->SchedulerUpdateConstant(moveName, constantName, values);
 }
 
-LinearSpline Moves::getRecordedSpline(string movename, string splineName)
+LinearSpline Moves::getSpline(string movename, string splineName)
 {
 	LinearSpline spline;
 	try
@@ -71,6 +71,7 @@ LinearSpline Moves::getRecordedSpline(string movename, string splineName)
 		Message * answer = connection->SchedulerGetCompressedRecordedSpline_response(movename, splineName);
 
 		string movename = answer->read_string();
+		string splinename = answer->read_string();
 		string stream = answer->read_string();
 
 		//we serialize and deserialize to check everything is fine
@@ -83,7 +84,7 @@ LinearSpline Moves::getRecordedSpline(string movename, string splineName)
 	}
 	catch(string & exc)
 	{
-		throw string("Failed to get recorded spline:\n\t" + exc);
+		throw string("Failed to get spline:\n\t" + exc);
 	}
 	return spline;
 }
@@ -99,7 +100,7 @@ void Moves::setSpline(const LinearSpline & spline, string movename)
 	}
 	catch(string & exc)
 	{
-		throw string("Failed to get recorded spline:\n\t" + exc);
+		throw string("Failed to set spline:\n\t" + exc);
 	}
 
 }
