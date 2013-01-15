@@ -42,17 +42,20 @@ int main(int argc, char **argv)
 	robot->allCompliant();
 	syst_wait_ms(1000);
 
+	cout << "Starting record move..." << endl;
+	moves->startMove("Recorder",0,0);
+
 	cout << "Recording for ten seconds..." << endl;
 	moves->startRecordingSpline();
 
-	syst_wait_ms(1000);
+	syst_wait_ms(10000);
 	cout << "... done." << endl;
 	moves->stopRecordingSpline();
 
 	cout << "Retrieving recorded spline" << endl;
 	LinearSpline spline = moves->getSpline();
 
-	cout << "Spline has " << spline.sequences[0].points.size() << "points " << endl;
+	cout << "Spline has " << spline.sequences.size() << "sequencess " << spline.sequences[0].points.size() << "points " << endl;
 
 	cout << "Sending back slower spline" << endl;
 	spline.speed_factor *= 0.5;

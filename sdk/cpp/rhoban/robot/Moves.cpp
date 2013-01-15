@@ -78,15 +78,17 @@ LinearSpline Moves::getSpline(string movename, string splineName)
 		spline.Serializable::from_xml(stream);
 
 		vector < vector < float > > values = answer->read_float_array_array();
+
 		delete answer;
 
 		spline.importRawData(values);
+
+		return spline;
 	}
 	catch(string & exc)
 	{
 		throw string("Failed to get spline:\n\t" + exc);
 	}
-	return spline;
 }
 
 
@@ -107,6 +109,7 @@ void Moves::setSpline(const LinearSpline & spline, string movename)
 
 void Moves::startRecordingSpline(string movename, string splinename)
 {
+	connection->SchedulerStartMove(movename, 0, 0);
 	connection->SchedulerRecordSpline(movename, splinename);
 }
 void Moves::stopRecordingSpline(string movename, string splinename)
