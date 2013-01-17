@@ -445,12 +445,14 @@ class SensorsCommand(RobotCommand):
             print(headline)
             print(separator)
 
-            for name, sensor in robot.sensors.sensors.items():
+            items = sorted(robot.sensors.sensors.items())
+
+            for name, sensor in items:
                 if sensor.values:
                     print(fmt % (sensor.name, sensor.values[0]))
                 else:
                     print(fmt % (sensor.name, '?'))
 
             print(separator)
-            time.sleep(0.5)
+            time.sleep(0.1)
 

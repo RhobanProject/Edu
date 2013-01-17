@@ -14,6 +14,7 @@ class ExampleCommand(RobotCommand):
 
     def execute(self, robot, options, arguments):
         print('Example command for %s' % robot.name)
+        print(robot.connection.VisionHello_response())
 
 main = RhobanMain()
 main.manager.addCommand(ExampleCommand(), 'example')
