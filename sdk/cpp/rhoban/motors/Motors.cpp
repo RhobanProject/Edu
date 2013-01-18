@@ -112,8 +112,15 @@ void Motors::allHard()
 
 void Motors::pullValues()
 {
-	Message *values = connection->ServosGetValues_response(1);
-	processValues(values);
+	try
+	{
+		Message *values = connection->ServosGetValues_response(1,10000);
+		processValues(values);
+	}
+	catch(string exc)
+	{
+		throw string("Failed to pull values:\n\t") + exc;
+	}
 }
 
 void Motors::pushValues()
@@ -196,13 +203,20 @@ void Motors::goToZero(int duration, bool verbose)
 
 void Motors::goToInit(int duration, bool verbose)
 {
-	pullValues();
+	try
+	{
+		pullValues();
 
-	map<string, Motor *>::iterator it;
-	for(it = motors.begin(); it != motors.end(); ++it)
-		it->second->setRelAngle(0);
+		map<string, Motor *>::iterator it;
+		for(it = motors.begin(); it != motors.end(); ++it)
+			it->second->setRelAngle(0);
 
-	raiseLoad(duration, verbose);
+		raiseLoad(duration, verbose);
+	}
+	catch(string exc)
+	{
+		throw string("Failed to go to initial posiiton:\n\t") + exc;
+	}
 }
 
 void Motors::raiseLoad(int duration, bool verbose)

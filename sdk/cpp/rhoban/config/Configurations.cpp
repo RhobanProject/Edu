@@ -38,10 +38,10 @@ bool Configurations::isMoveSchedulerConfigLoaded()
 {
 	try
 	{
-	Message * response = connection->SchedulerConfigIsLoaded_response(10000);
-	bool answer = response->read_uint();
-	delete response;
-	return answer;
+		Message * response = connection->SchedulerConfigIsLoaded_response(10000);
+		bool answer = response->read_uint();
+		delete response;
+		return answer;
 	}
 	catch(string exc)
 	{
@@ -66,10 +66,21 @@ bool Configurations::isLowLevelConfigLoaded()
 {
 	try
 	{
-		Message *response = connection->LowLevelConfigIsLoaded_response(10000);
-		bool answer = response->read_uint();
-		delete response;
-		return answer;
+		int max_tries = 3;
+		while(max_tries -- >= 0)
+		{
+			try
+			{
+				Message *response = connection->LowLevelConfigIsLoaded_response(1000);
+				bool answer = response->read_uint();
+				delete response;
+				return answer;
+			}catch(string exc)
+			{
+				if(max_tries <= 0)
+					throw string("Failed three times to ask whether low level config is loaded:\n\t")+ exc;
+			}
+		}
 	}
 	catch(string exc)
 	{
@@ -82,13 +93,13 @@ void Configurations::loadLowLevelConfig(string config, bool force)
 {
 	try
 	{
-	lowLevelConfig = new LowLevelConfig(config);
+		lowLevelConfig = new LowLevelConfig(config);
 
-	if(force || isLowLevelConfigLoaded() == 0)
-	{
-		string configContents = file_to_string(config);
-		connection->LowLevelLoadConfig(configContents);
-	}
+		if(force || isLowLevelConfigLoaded() == 0)
+		{
+			string configContents = file_to_string(config);
+			connection->LowLevelLoadConfig(configContents);
+		}
 	}
 	catch(string exc)
 	{

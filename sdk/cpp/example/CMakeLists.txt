@@ -41,5 +41,5 @@ include_directories(
     ${PROJECT_BINARY_DIR}/sdk/common
 )
 
-add_executable(Program ${SOURCES})
-target_link_libraries(Program RhobanSDKMain RhobanMath RhobanCommon RhobanUtils )
+add_executable(DemoBras ${SOURCES})
+target_link_libraries(DemoBras RhobanSDKMain RhobanMath RhobanCommon RhobanUtils )

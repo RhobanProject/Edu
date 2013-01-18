@@ -68,7 +68,7 @@ LinearSpline Moves::getSpline(string movename, string splineName)
 	LinearSpline spline;
 	try
 	{
-		Message * answer = connection->SchedulerGetCompressedRecordedSpline_response(movename, splineName);
+		Message * answer = connection->SchedulerGetCompressedRecordedSpline_response(movename, splineName,10000);
 
 		string movename = answer->read_string();
 		string splinename = answer->read_string();
