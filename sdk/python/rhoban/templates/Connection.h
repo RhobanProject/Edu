@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 
+#include <communication/CommandsStore.h>
 #include <communication/BaseConnection.h>
 
 using namespace Rhoban;
@@ -30,6 +31,8 @@ namespace Rhoban
     {
         public:
             Connection(CommandsStore *commandsStore_);
+
+			CommandsStore *commandsStore;
 
             <METHODS_PROTOTYPES>
     };
