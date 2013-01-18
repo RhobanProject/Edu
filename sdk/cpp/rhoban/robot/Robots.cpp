@@ -23,109 +23,124 @@ using namespace std;
 
 namespace Rhoban
 {
-  Robots::Robots(){}
+Robots::Robots(){}
 
-  size_t Robots::len()
-  {
-    return robots.size();
-  }
+size_t Robots::len()
+{
+	return robots.size();
+}
 
-  Robot *Robots::operator[](string name)
-  {
-    return robots[name];
-  }
+Robot *Robots::operator[](string name)
+{
+	return robots[name];
+}
 
-  void Robots::loadYaml(string filename)
-  {
-    cout << endl << "Starting yaml config parsing..." << endl;
+void Robots::loadYaml(string filename)
+{
+	cout << endl << "Loading yaml configuration " << filename << endl;
 
-    ifstream cfgfile(filename.c_str());
-    YAML::Parser parser(cfgfile);
-    YAML::Node doc;
-    parser.GetNextDocument(doc);
-    
-    if(!doc.FindValue("robots"))
-      cout << "Config error : no \"robots\" entry" << endl;
-    else
-      {
-	YAML::Iterator it;
-	int i;
+	try
+	{
+		ifstream cfgfile(filename.c_str());
+		if(!cfgfile)
+			throw string("Failed to open file " + filename);
 
-	string name, host, environment, move;
-	int port;
-	vector<string> loadedMoves;
-	
-	for(it=doc["robots"].begin();it!=doc["robots"].end();++it) 
-	  {
-	    loadedMoves.clear();
-	    
-	    // Name
-	    it.first() >> name;
-	    robots[name] = new Robot(new CommandsStore, name);
-	    
-	    // Host & port
-	    if(it.second().FindValue("host"))
-	      {
-		if(it.second().FindValue("host"))
-		  it.second()["host"] >> host;
+		YAML::Parser parser(cfgfile);
+		YAML::Node doc;
+
+		bool result = parser.GetNextDocument(doc);
+		if(!result)
+			throw string("Parser failed to load document");
+
+		if(!doc.FindValue("robots"))
+		{
+			throw string("Config error : no robots entry in yaml doc");
+		}
 		else
-		  host = "localhost";
-		
-		if(it.second().FindValue("port"))
-		  it.second()["port"] >> port;		  
-		else
-		  port = 12345;
-		
-		robots[name]->connect(host.c_str(), port);
-	      }
-	    
-	    // Environment
-	    if(it.second().FindValue("environment"))
-	      {
-		it.second()["environment"] >> environment;		
-      		robots[name]->loadEnvironment(environment);	       
-	      }
-      
-	    // LoadMoves
-	    if(it.second().FindValue("loadMoves"))
-	      {
-		loadedMoves = robots[name]->getLoadedMoves();
+		{
+			YAML::Iterator it;
+			int i;
 
-		for(i=0; i<it.second()["loadMoves"].size(); ++i)
-		  { 
-		    it.second()["loadMoves"][i] >> move;
+			string name, host, environment, move;
+			int port;
+			vector<string> loadedMoves;
 
-		    if(!is_in_vector_string(loadedMoves, move))
-		      {
-			loadedMoves.push_back(move);
-			robots[name]->loadMove(move);
-		      }
-		  }
-	      } 
-	  }
-	cout << endl;
-      }
-  }
+			for(it=doc["robots"].begin();it!=doc["robots"].end();++it)
+			{
+				loadedMoves.clear();
+
+				// Name
+				it.first() >> name;
+				robots[name] = new Robot(new CommandsStore, name);
+
+				// Host & port
+				if(it.second().FindValue("host"))
+				{
+					if(it.second().FindValue("host"))
+						it.second()["host"] >> host;
+					else
+						host = "localhost";
+
+					if(it.second().FindValue("port"))
+						it.second()["port"] >> port;
+					else
+						port = 12345;
+
+					robots[name]->connect(host.c_str(), port);
+				}
+
+				// Environment
+				if(it.second().FindValue("environment"))
+				{
+					it.second()["environment"] >> environment;
+					robots[name]->loadEnvironment(environment);
+				}
+
+				// LoadMoves
+				if(it.second().FindValue("loadMoves"))
+				{
+					loadedMoves = robots[name]->getLoadedMoves();
+
+					for(i=0; i<it.second()["loadMoves"].size(); ++i)
+					{
+						it.second()["loadMoves"][i] >> move;
+
+						if(!is_in_vector_string(loadedMoves, move))
+						{
+							loadedMoves.push_back(move);
+							robots[name]->loadMove(move);
+						}
+					}
+				}
+			}
+			cout << endl;
+		}
+	}
+	catch(const std::exception& ex)
+	{
+		throw string("Failed to load yaml configuration:\n\t")+ string(ex.what());
+	}
+}
 
 
 
 
 
 
-  void Robots::stop()
-  {
-    map<string, Robot *>::iterator it;
-    for(it = robots.begin(); it != robots.end(); ++it)
-      it->second->stop();
-  }
+void Robots::stop()
+{
+	map<string, Robot *>::iterator it;
+	for(it = robots.begin(); it != robots.end(); ++it)
+		it->second->stop();
+}
 
-  void Robots::setRobots(map<string, Robot *> robots)
-  {
-    this->robots = robots;
-  }
+void Robots::setRobots(map<string, Robot *> robots)
+{
+	this->robots = robots;
+}
 
-  map<string, Robot *> Robots::getRobots()
-  {
-    return robots;
-  }
+map<string, Robot *> Robots::getRobots()
+{
+	return robots;
+}
 }

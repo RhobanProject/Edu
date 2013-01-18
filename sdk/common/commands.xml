@@ -4,11 +4,27 @@
         <Name>ErrorMessage</Name>
         <Description>error msg</Description>
         <Destination>error</Destination>
-        <CommandIndex>1</CommandIndex>
+        <CommandIndex>0</CommandIndex>
         <ParametersPattern />
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
+        <Name>ErrorMessage</Name>
+        <Description>error msg</Description>
+        <Destination>error</Destination>
+        <CommandIndex>1</CommandIndex>
+        <ParametersPattern />
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+  <CommandSpecification>
+    <Name>ServerEcho</Name>
+    <Description>echo from server</Description>
+    <Destination>server</Destination>
+    <CommandIndex>2</CommandIndex>
+    <ParametersPattern>string string</ParametersPattern>
+    <AnswerPattern>string string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>ServerGetVersion</Name>
         <Description>request version of server</Description>
         <Destination>server</Destination>
@@ -36,14 +52,6 @@
         <Destination>move_scheduler</Destination>
         <CommandIndex>1</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string </AnswerPattern>
-    </CommandSpecification>
-    <CommandSpecification>
-        <Name>ServerEcho</Name>
-        <Description>sends a message returned with same content</Description>
-        <Destination>server</Destination>
-        <CommandIndex>2</CommandIndex>
-        <ParametersPattern>string </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -104,7 +112,7 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerGetLoadedMoves</Name>
-        <Description>get the list of moves loaded in the move scheduler</Description>
+        <Description>get the list of moves loaded in the move scheduler and their status</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>46</CommandIndex>
         <ParametersPattern />
@@ -126,7 +134,15 @@
         <ParametersPattern>string </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>SchedulerStoreXMLMove</Name>
+    <Description>store an xml move remotely. Params are serialization, spline bocks, spline datas</Description>
+    <Destination>move_scheduler</Destination>
+    <CommandIndex>51</CommandIndex>
+    <ParametersPattern>string string[] float[][][]</ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>SchedulerPauseMove</Name>
         <Description>pauses a move</Description>
         <Destination>move_scheduler</Destination>
@@ -237,7 +253,7 @@
         <ParametersPattern />
         <AnswerPattern>string string ui32 ui32 ui32 ui32 ui32 ui32 ui32 </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
         <Name>ServosInit</Name>
         <Description>Intiializes Dynamixel, param is serialzed config</Description>
         <Destination>low_level</Destination>
@@ -324,6 +340,14 @@
         <ParametersPattern>string string </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
+  <CommandSpecification>
+    <Name>SchedulerTakeRefPosition</Name>
+    <Description>first param is "Ini" or "Zero" and second is duration in ms.</Description>
+    <Destination>move_scheduler</Destination>
+    <CommandIndex>73</CommandIndex>
+    <ParametersPattern>string ui32 </ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+  </CommandSpecification>
     <CommandSpecification>
         <Name>LowLevelLoadConfig</Name>
         <Description>loads a config. The argument is a serialization of the LowLevelConfig</Description>

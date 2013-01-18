@@ -19,7 +19,8 @@ Si vous êtes sous Ubuntu/Debian, vous pouvez obtenir les paquets nécéssaire �
 
     apt-get install gcc g++ make python cmake
 
-Si vous êtes sous Windows, vous devrez installer MinGW et MSYS, et éxécuter les commandes dans le "Shell MinGW"
+Si vous êtes sous Windows, vous devrez installer MinGW et MSYS, et
+configurer cmake pour utiliser MinGW.
 
 Obtenir les sources
 ~~~~~~~~~~~~~~~~~~~
@@ -50,7 +51,8 @@ Créez ensuite les Makefile à l'aide de ``cmake`` :
 
     cmake chemin/vers/sdk/cpp
 
-Si vous êtes sous Windows, vous devrez forcer ``cmake`` à créer des `Makefiles MSYS` :
+Si vous êtes sous Windows, vous devrez forcer ``cmake`` à créer des `Makefiles MSYS`.
+En mode graphique il suffit de choisir initialement la chaîne de compilation MinGW.
 
 .. code-block:: bash
 

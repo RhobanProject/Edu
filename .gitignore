@@ -24,3 +24,5 @@ sdk/python/yaml/*.pyc
 /.pydevproject
 __pycache__
 
+
+/.externalToolBuilders

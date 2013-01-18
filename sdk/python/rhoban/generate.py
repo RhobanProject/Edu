@@ -89,6 +89,9 @@ def generate_connection(store, out_dir):
         allArgumentNames = ', '.join(names)
         allArguments = ', '.join(arguments)
         allArgumentsCallback = ', '.join(arguments + ['sendCallback callback, void *data'])
+        allArgumentsTimeout = ', '.join(arguments + ['ui32 timeout'])
+        allArgumentsTimeoutProt = ', '.join(arguments + ['ui32 timeout=1000'])
+
 
         # No answer
         prototypes += "                void {0}({1});\n".format(name, allArguments)
@@ -96,14 +99,17 @@ def generate_connection(store, out_dir):
         methods += "           {\n"
         methods += "                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
         methods += "                   sendMessage(message);\n"
+        methods += "                   delete message;\n"
         methods += "           }\n\n"
 
         # Direct answer
-        prototypes += "                Message *{0}_response({1});\n".format(name, allArguments)
-        methods += "           Message *Connection::{0}_response({1})\n".format(name, allArguments);
+        prototypes += "                Message *{0}_response({1});\n".format(name, allArgumentsTimeoutProt)
+        methods += "           Message *Connection::{0}_response({1})\n".format(name, allArgumentsTimeout)
         methods += "           {\n"
         methods += "                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
-        methods += "                   return sendMessageRecieve(message);\n"
+        methods += "                   Message * answer = sendMessageReceive(message, timeout);\n"
+        methods += "                   delete message;\n"
+        methods += "                   return answer;\n"
         methods += "           }\n\n"
 
         # Callback answer
@@ -112,6 +118,7 @@ def generate_connection(store, out_dir):
         methods += "           {\n"
         methods += "                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
         methods += "                   sendMessageCallback(message, callback, data);\n"
+        methods += "                   delete message;\n"
         methods += "           }\n\n"
 
     template_tag('Connection.h', '<METHODS_PROTOTYPES>', prototypes, out_dir)

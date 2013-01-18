@@ -13,6 +13,7 @@
 #include <threading/Thread.h>
 #include "Sensors.h"
 #include "Sensor.h"
+#include "ticks.h"
 
 using namespace std;
 
@@ -100,7 +101,7 @@ namespace Rhoban
       {
 	connection->GetSensorsValues_callback(names, queue, 
 					      processResponse, this);
-	usleep(1000000/frequency);
+	syst_wait_ms(1000/frequency);
       }    
   }
 

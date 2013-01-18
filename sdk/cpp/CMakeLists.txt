@@ -15,11 +15,17 @@ if (NOT RHOBANMATH)
     add_definitions(-DNO_RHOBANMATH)
 endif (NOT RHOBANMATH)
 
+set(RHOBAN_MATH_DIRECTORY
+	"${PROJECT_SOURCE_DIR}/../../../Math"
+		CACHE STRING "Rhoban Math Directory")
+
 option(RHOBANMATH
     "Enables RhobanMath support" OFF)
 
 # Useful for getting common compiling
 set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
+set(RHOBAN_COMMON_DIRECTORY "${PROJECT_SOURCE_DIR}/common" CACHE STRING "RhobanCommon directory")
+set(YAML_HEADERS "${RHOBAN_UTILS_DIRECTORY}/yaml-cpp/include" CACHE STRING "Yaml headers directory")
 
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
@@ -58,6 +64,9 @@ set(COMMANDS_SOURCES
 
 include_directories("${PROJECT_SOURCE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/rhoban")
+if(RHOBANMATH)
+	include_directories("${RHOBAN_MATH_DIRECTORY}")
+endif(RHOBANMATH)
 
 # Adding common & utils
 foreach(DIRECTORY common utils)

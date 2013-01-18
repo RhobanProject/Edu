@@ -17,6 +17,10 @@
 #include "CommandsManager.h"
 #include "Command.h"
 
+#ifdef WIN32
+#include <getopt.h>
+#endif
+
 using namespace std;
 
 namespace Rhoban
