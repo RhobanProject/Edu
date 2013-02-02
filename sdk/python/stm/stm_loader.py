@@ -42,15 +42,28 @@ class StateMachineLoader(RepeatedTask):
         self.lock.acquire()
         print("Loading machine "+ machine.name)
         if machine.status is not machine.Status.Stopped :
+            self.lock.release()
             raise BaseException("Cannot load a running machine")
         for submachine in machine.submachines.values() :
             self.load(submachine, False, duration, True)
-        self.machines.append( StateMachineLoader.ScheduledMachine(machine) )
+        if machine.name in self.machines :
+            self.lock.release()
+            raise BaseException("Machine " + machine.name + " already loaded")
+        self.machines[machine.name] = StateMachineLoader.ScheduledMachine(machine)
         self.update_frequencies()
         self.lock.release()
         if not start_stopped:
             machine.play(wait_stop, duration, False)
    
+    def kill(self, machineName):
+        self.lock.acquire()
+        if machineName in self.machines :
+            del self.machines[machineName]
+        else :
+            self.lock.release()
+            raise Exception("Unknown machine '" + machineName + "'")
+        self.lock.release()
+        
     def update_frequencies(self):
         self.lock.acquire()
         self.interval = 0.1

@@ -24,22 +24,24 @@ class Connection(tcp.TCPClient):
     def __init__(self):
         super(Connection, self).__init__()
 
-    def connectTo(self, hostname, port):
+    def connectTo(self, hostname, port, receptionCallback = None):
         self.hostname = hostname
         self.port = port
+        self.receptionCallback = receptionCallback;
         self.waitHeader = True
         self.buffer = b''
         self.message = None
         self.length = 0
         self.counter = 0
+        self.connect()
 
-        super(Connection, self).connectTo(hostname, port)
 
-        if self.connected:
-            self.mailbox = Mailbox(self)
+    def connect(self):
+        super(Connection, self).connectTo(self.hostname, self.port)
+        if self.connected :
+            self.mailbox = Mailbox(self, self.receptionCallback)
             self.mailbox.start()
-        else:
-            raise Exception('Unable to connect to %s:%d' % (hostname, port))
+
 
     def stop(self):
         if self.connected:
@@ -53,6 +55,9 @@ class Connection(tcp.TCPClient):
         self.store = store
 
     def sendMessageReceive(self, message, timeout = 5):
+        if not self.connected :
+            raise Exception("Cannot send message: disconnected")
+
         entry = MailboxEntry(self.store.getSpecification(message))
         entry.event = threading.Event()
 
@@ -69,6 +74,9 @@ class Connection(tcp.TCPClient):
         return None
 
     def sendMessageCallback(self, message, callback):
+        if not self.connected :
+            raise Exception("Cannot send message: disconnected")
+
         entry = MailboxEntry(self.store.getSpecification(message))
         entry.callback = callback
         self.mailbox.entries[message.uid] = entry
@@ -80,7 +88,22 @@ class Connection(tcp.TCPClient):
         self.sendMessage(message)
 
     def sendMessage(self, message):
+        if not self.connected :
+            raise Exception("Cannot send message: disconnected")
         self.transmit(message.getRaw())
+
+    def sendAnswer(self, incomingMessage, data, commandName = None):
+        if not self.connected :
+            raise Exception("Cannot send answer: disconnected")
+
+        if commandName == None :
+            specification = incomingMessage.specification
+        else :
+            specification = self.store.getSpecification(commandName)
+
+        answer = Message(incomingMessage.uid, incomingMessage.destination, incomingMessage.source, str( int(specification.command) | 0x80000000 ) )
+        answer.data = specification.answerPattern.getData(*data)
+        self.transmit(answer.getRaw())
 
     def processData(self):
         change = True
@@ -90,9 +113,9 @@ class Connection(tcp.TCPClient):
             change = False
             if self.waitHeader:
                 if len(self.buffer) >= headerSize:
-                    (uid, destination, command, length) = struct.unpack('>IIII', self.buffer[0:headerSize])
+                    (uid, source, destination, command, length) = struct.unpack('>IHHII', self.buffer[0:headerSize])
                     self.buffer = self.buffer[headerSize:]
-                    self.message = Message(uid, destination, command)
+                    self.message = Message(uid, source, destination, command)
                     self.length = length
                     self.waitHeader = False
                     change = True
@@ -118,9 +141,11 @@ class Connection(tcp.TCPClient):
 
                 self.buffer += self.receive(1024)
 
-            message.setStore(self.store)
-        except Exception:
-            pass
+            message.readData(self.store)
+            
+        except Exception as e:
+            print("Connection caught exception " + str(e) + " while receiving message")
+            raise e
 
         return message
 
@@ -132,7 +157,6 @@ class Connection(tcp.TCPClient):
             name = name[:-len(responseSuffix)]
             def buildAndSend(*args):
                 message = self.store.builder.build(name, *args)
-
                 return self.sendMessageReceive(message)
         else:
             if name.endswith(callbackSuffix):
@@ -167,31 +191,44 @@ class MailboxEntry:
     Boîte aux lettres d'échange de messages
 """
 class Mailbox(threading.Thread):
-    def __init__(self, connection):
+    def __init__(self, connection, incomingMessageProcessor = None):
         super(Mailbox, self).__init__()
         self.entries = {}
         self.connection = connection
+        self.incomingMessageProcessor = incomingMessageProcessor;
 
     def run(self):
         while self.connection.connected:
-            message = self.connection.getMessage()
+            
+            try :
+                message = self.connection.getMessage()
+    
+                if message == None:
+                    break
+    
+                uid = message.uid
+                
+                if message.isAnswer and uid in self.entries:
+                    entry = self.entries[uid]
+                    entry.response = message.data
+    
+                    if entry.event != None:
+                        entry.event.set()
+    
+                    if entry.callback != None:
+                        entry.callback(entry.response)
+                        del self.entries[uid]
+                    
+                if self.incomingMessageProcessor != None:
+                    try :
+                        self.incomingMessageProcessor(message)
+                    except Exception as e :
+                        print("Exception " + str(type(e)) + " while processing incoming message " + str(message.uid))
 
-            if message == None:
-                break
-
-            uid = message.uid
-
-            if uid in self.entries:
-                entry = self.entries[uid]
-                entry.response = entry.specification.answerPattern.readData(message.data)
-
-                if entry.event != None:
-                    entry.event.set()
-
-                if entry.callback != None:
-                    entry.callback(entry.response)
-                    del self.entries[uid]
-
+            except Exception as e:
+                print("Mailbox caught exception '" + str(e)  + "', disconnecting")
+                self.connection.stop()
+                 
     def garbageCollect(self):
         for uid in self.entries:
             if self.entries[uid].expires():
@@ -201,27 +238,32 @@ class Mailbox(threading.Thread):
     Message à envoyer au serveur
 """
 class Message:
-    def __init__(self, uid, destination, command):
+    def __init__(self, uid, source, destination, command):
         self.uid = uid
+        self.source = source
         self.destination = destination
-        self.command = command
+        self.command = str(int(command)  & 0x7FFFFFFF)
+        self.isAnswer = (int(command) & 0x80000000 != 0)
         self.data = b''
 
     def getRaw(self):
         raw = b''
         raw += struct.pack('>I', int(self.uid))
-        raw += struct.pack('>I', int(self.destination))
+        raw += struct.pack('>H', int(self.source))
+        raw += struct.pack('>H', int(self.destination))
         raw += struct.pack('>I', int(self.command))
         raw += struct.pack('>I', len(self.data))
         raw += self.data
 
         return raw
 
-    def setStore(self, store):
-        self.store = store
-
-    def readData(self):
-        return self.store.readData(self)
+    def readData(self, store):
+        self.specification = store.getSpecification(self)
+        if self.isAnswer :
+            self.data = self.specification.answerPattern.readData(self.data)
+        else :
+            self.data = self.specification.parametersPattern.readData(self.data)
+        
 
 """
     Créateur de message
@@ -239,10 +281,10 @@ class MessageBuilder:
     def build(self, name, *args):
         specification = self.store.get(name)
 
-        message = Message(self.getUid(), specification.destination, specification.command)
+        message = Message(self.getUid(), 0, specification.destination, specification.command)
         message.data = specification.parametersPattern.getData(*args)
-
         return message
+    
 
     def __getattr__(self, name):
         def messageBuilder(*args):
@@ -261,7 +303,8 @@ class CommandsStore:
         'low_level': 3,
         'move_scheduler': 4,
         'vision': 5,
-        'localisation': 6
+        'localisation': 6,
+        'stm': 7
     }
 
     def __init__(self):
@@ -271,6 +314,9 @@ class CommandsStore:
 
     def parseXml(self, filename):
         xmldoc = minidom.parse(filename)
+        if not hasattr(xmldoc,'childNodes') :
+            raise Exception("Failed to parse xml file "+ filename);
+        
 
         def getText(command, name):
             tag = command.getElementsByTagName(name)
@@ -295,10 +341,20 @@ class CommandsStore:
             self.indexCommands[(int(specification.destination), int(specification.command))] = specification
 
     def getSpecification(self, message):
-        return self.indexCommands[(int(message.destination), int(message.command))]
+        try :
+            if message.isAnswer :
+                cmd = self.indexCommands[( int(message.source), int(message.command) )]
+            else :
+                cmd = self.indexCommands[( int(message.destination), int(message.command) )]
+            return cmd
+        except KeyError as e:
+            raise Exception("No command with destination " + str(message.destination) + " and command " + str(message.command) + " in command store")
 
     def readData(self, message):
-        return self.getSpecification(message).answerPattern.readData(message.data)
+            if message.isAnswer :
+                return self.getSpecification(message).answerPattern.readData(message.data)
+            else :
+                return self.getSpecification(message).parametersPattern.readData(message.data)
 
     def get(self, name):
         return(self.commands[name])

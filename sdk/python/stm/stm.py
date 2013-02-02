@@ -12,6 +12,7 @@
 
 from repeated_task import RepeatedTask
 from yaml import load as load
+from xml.dom import minidom
 from importlib import import_module
 from time import time
 
@@ -153,10 +154,35 @@ class StateMachine(RepeatedTask):
             tree = load(yaml_stream)
             return StateMachine.from_tree(tree)
   
+    '''creates a list of machines from an xml file'''
+    @classmethod
+    def from_xml(cls, filename):
+        xmldoc = minidom.parse(filename)
+        
+        def buildtree(rootNode):
+            if rootNode.childNodes != []:
+                result = []
+                for node in rootNode.childNodes:
+                    result[node.nodeName] = node.nodeValue
+                return result
+            else:
+                return rootNode.nodeValue
+            
+
+        tree = load(xmldoc.childNodes)
+        return StateMachine.from_tree(tree)
+       
     '''builds an executable python script from a yaml file'''
     @classmethod
     def yaml_to_py(cls, yaml_file, py_file):
         machine = StateMachine.from_yaml(yaml_file)
+        with open(py_file,'w') as output:
+            output.write( machine.to_python() )
+            
+    '''builds an executable python script from an xml file'''
+    @classmethod
+    def xml_to_py(cls, xml_file, py_file):
+        machine = StateMachine.from_xml(xml_file)
         with open(py_file,'w') as output:
             output.write( machine.to_python() )
   
