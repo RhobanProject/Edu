@@ -10,7 +10,9 @@
 *************************************************/
 '''
 from repeated_task import RepeatedTask
-from time import time
+import datetime
+from threading import Event
+
 
 '''A loader for state machines, check stm.py for documentation'''
 
@@ -21,7 +23,6 @@ class StateMachineLoader(RepeatedTask):
             self.machine = machine
             self.max_counter = 1
             self.counter = 0
-            self.begin = time()                
                 
         def get_interval(self):
             return self.machine.interval
@@ -31,7 +32,7 @@ class StateMachineLoader(RepeatedTask):
 
     def __init__(self):
         RepeatedTask.__init__(self,0.1,self.step)
-        self.machines = []
+        self.machines = {}
         RepeatedTask.start(self)
 
     ''' Load a machine or a list of machines,
@@ -48,13 +49,17 @@ class StateMachineLoader(RepeatedTask):
             self.load(submachine, False, duration, True)
         if machine.name in self.machines :
             self.lock.release()
-            raise BaseException("Machine " + machine.name + " already loaded")
+            raise Exception("Machine " + machine.name + " already loaded")
         self.machines[machine.name] = StateMachineLoader.ScheduledMachine(machine)
         self.update_frequencies()
         self.lock.release()
         if not start_stopped:
             machine.play(wait_stop, duration, False)
    
+    def startMachine(self, machineName, duration = float("inf")):
+        machine = self.getMachine(machineName)
+        machine.machine.play(False, duration, False)
+
     def kill(self, machineName):
         self.lock.acquire()
         if machineName in self.machines :
@@ -67,15 +72,15 @@ class StateMachineLoader(RepeatedTask):
     def update_frequencies(self):
         self.lock.acquire()
         self.interval = 0.1
-        for machine in self.machines:
+        for machine in self.machines.values():
             self.interval = min(self.interval, machine.interval)
-        for machine in self.machines:
+        for machine in self.machines.values():
             machine.counter = 0
             machine.max_counter =  int(round(machine.interval / self.interval))
         self.lock.release()
     
     def step(self):
-        for machine in self.machines:
+        for machine in self.machines.values():
             machine.counter = machine.counter + 1
             if machine.counter >= machine.max_counter :
                 machine.counter = 0

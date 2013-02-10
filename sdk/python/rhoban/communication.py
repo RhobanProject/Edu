@@ -99,9 +99,10 @@ class Connection(tcp.TCPClient):
         if commandName == None :
             specification = incomingMessage.specification
         else :
-            specification = self.store.getSpecification(commandName)
+            specification = self.store.commands[commandName]
 
-        answer = Message(incomingMessage.uid, incomingMessage.destination, incomingMessage.source, str( int(specification.command) | 0x80000000 ) )
+        answer = Message(incomingMessage.uid, incomingMessage.destination, incomingMessage.source, specification.command )
+        answer.isAnswer = True
         answer.data = specification.answerPattern.getData(*data)
         self.transmit(answer.getRaw())
 
@@ -223,7 +224,7 @@ class Mailbox(threading.Thread):
                     try :
                         self.incomingMessageProcessor(message)
                     except Exception as e :
-                        print("Exception " + str(type(e)) + " while processing incoming message " + str(message.uid))
+                        print("Exception " + str(e) + " while processing incoming message " + str(message.uid))
 
             except Exception as e:
                 print("Mailbox caught exception '" + str(e)  + "', disconnecting")
@@ -251,7 +252,10 @@ class Message:
         raw += struct.pack('>I', int(self.uid))
         raw += struct.pack('>H', int(self.source))
         raw += struct.pack('>H', int(self.destination))
-        raw += struct.pack('>I', int(self.command))
+        if self.isAnswer :
+            raw += struct.pack('>I', int(self.command) | 0x80000000 )
+        else :
+            raw += struct.pack('>I', int(self.command) )
         raw += struct.pack('>I', len(self.data))
         raw += self.data
 
@@ -347,7 +351,7 @@ class CommandsStore:
             else :
                 cmd = self.indexCommands[( int(message.destination), int(message.command) )]
             return cmd
-        except KeyError as e:
+        except KeyError:
             raise Exception("No command with destination " + str(message.destination) + " and command " + str(message.command) + " in command store")
 
     def readData(self, message):
@@ -402,8 +406,8 @@ class ParametersPattern:
             for pattern in self.patterns:
                 (data, argument) = pattern.readData(data)
                 arguments += [argument]
-        except Exception:
-            raise IOError('Unable to read arguments from data for command %s (%s)' % (self.name, repr(data)))
+        except Exception as e:
+            raise IOError('Unable to read arguments from data for command %s (%s)' + str(e) % (self.name, repr(data)))
 
         if data:
             raise IOError('Remaining %d bytes of data for command %s (%s)' % (len(data), self.name, repr(data)))
@@ -516,7 +520,7 @@ class ParameterPattern:
                 argument = list(struct.unpack('>' + str(length) + self.typesMapping[self.baseType][1], data[:size]))
 
                 if self.specification == 'byte[]' and self.baseType == 'string':
-                    argument = argument[0]
+                    argument = str(argument[0],'utf8')
 
                 return (data[size:], argument)
             else:
