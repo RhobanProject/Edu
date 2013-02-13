@@ -154,7 +154,7 @@ class StateMachine(RepeatedTask):
         for submachine in self.submachines.values():
             submachine.stop()
         RepeatedTask.cancel(self)
-        self.set_state("Initial")
+        self.state = self.states["Initial"]
         self.lock.release()
        
     '''creates a list of machines from a yaml file'''

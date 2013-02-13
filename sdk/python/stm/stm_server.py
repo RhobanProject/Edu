@@ -62,9 +62,8 @@ class StateMachineServer(StateMachineLoader):
         
 
     def registerAsComponent(self):
-        message = self.store.builder.build('ServerRegisterComponent', com.CommandsStore.destinationToIndex['stm'])
         print('Registering component...')
-        answer = self.connection.sendMessageReceive(message)
+        answer = self.connection.ServerRegisterComponent_response(com.CommandsStore.destinationToIndex['stm'])
         if answer is not None :
             print('Answer from server:' + str(answer))
         else :
@@ -95,6 +94,7 @@ class StateMachineServer(StateMachineLoader):
         print("Loading machine " + xml )
         machine = StateMachine.from_xml_stream(xml)
         self.load(machine, False, float("inf"), True)
+        machine.connection = self.connection
         return ['Loaded machine ' + machine.name]
 
     def getMachine(self, name):
@@ -146,5 +146,4 @@ class StateMachineServer(StateMachineLoader):
 
         except Exception as e:
             print("Got exception " + str(e) + " while receiving message: " + str(message.uid))
-
-
+    

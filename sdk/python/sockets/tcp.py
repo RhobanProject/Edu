@@ -29,10 +29,12 @@ class TCPClient(object):
 
     def transmit(self, data):
         try :
+            self.socketLock.acquire()
             self.socket.send(data)
         except Exception as e :
             self.socketLock.release()
             raise(e)
+        self.socketLock.release()
 
     def receive(self, size):
         ret = self.socket.recv(size)
@@ -43,9 +45,11 @@ class TCPClient(object):
             return 0
 
     def close(self):
+        self.socketLock.acquire()
         try :
             self.socket.shutdown(2)
             self.socket.close()
             self.connected = False
         except Exception :
             self.connected = False
+        self.socketLock.release()
