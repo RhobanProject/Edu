@@ -44,8 +44,7 @@ class Connection(tcp.TCPClient):
 
 
     def stop(self):
-        if self.connected:
-            self.close()
+        self.close()
         self.connected = False
 
     def close(self):

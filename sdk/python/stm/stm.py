@@ -112,7 +112,7 @@ class StateMachine(RepeatedTask):
         if self.status == self.Status.Stopped :
             if self.debug: print("Starting machine \'" + self.name+"\'")
             globals()[self.name] = self
-            exec(self.preamble)
+            if self.preamble: exec(self.preamble)
             for line in self.preamble.splitlines() :
                 imports = line.split(' ')
                 if len(imports) >= 2:
@@ -154,6 +154,7 @@ class StateMachine(RepeatedTask):
         for submachine in self.submachines.values():
             submachine.stop()
         RepeatedTask.cancel(self)
+        self.set_state("Initial")
         self.lock.release()
        
     '''creates a list of machines from a yaml file'''
@@ -227,6 +228,21 @@ class StateMachine(RepeatedTask):
         self.state = state
         self.lock.release()
     
+    def set_attributes(self, keys, values):
+        if len(keys) != len(values):
+            raise Exception("Cannot set variables: not same number of keys and values")
+        for i in range(len(keys)):
+            setattr(self,keys[i],values[i])
+        
+    def get_attributes(self, keys):
+        values = []
+        for key in keys:
+            values.append(float(getattr(self, key)))
+        return values
+
+    def evaluate(self, expression):
+        return float(eval(expression))
+        
     def enter(self):
         if self.state and self.state.enter : exec(self.state.enter)
 

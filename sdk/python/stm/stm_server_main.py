@@ -5,7 +5,6 @@ Created on 31 janv. 2013
 '''
 
 import argparse
-import sys
 import time
 import yaml
 

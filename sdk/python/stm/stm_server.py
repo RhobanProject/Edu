@@ -29,7 +29,11 @@ class StateMachineServer(StateMachineLoader):
                            'StmKillMachine':self.processKillMachineMessage,
                            'StmGetState' : self.processGetStateMessage,
                            'StmGetStates' : self.processGetStatesMessage,
-                           'StmGetMachinesInfo':self.processGetMachinesInfo}
+                           'StmGetMachinesInfo':self.processGetMachinesInfo,
+                           'StmSetMachineAttributes':self.processSetMachineAttributes,
+                           'StmGetMachineAttributes':self.processGetMachineAttributes,
+                           'StmEvaluateExpression':self.processEvaluateExpression,
+                           }
         
         self.store = com.CommandsStore()
         self.store.parseXml(storeFileName)
@@ -111,25 +115,34 @@ class StateMachineServer(StateMachineLoader):
     def processKillMachineMessage(self,message):
         self.kill(message[0])
         return ['Killed machine ' + message[0]]
+      
+    def processSetMachineAttributes(self, message):
+        machine = self.getMachine(message[0])
+        machine.machine.set_attributes(message[1],message[2])
+        
+    def processGetMachineAttributes(self, message):
+        machine = self.getMachine(message[0])
+        return [machine.machine.get_attributes(message[1])]
+
+    def processEvaluateExpression(self, message):
+        machine = self.getMachine(message[0])
+        return [machine.machine.evaluate(message[1])]
         
     def incomingMessageProcessor(self, message):
         try :
             if message.specification.name in self.callbacks:
-                '''print("Processing message " + message.specification.name)'''
                 callback = self.callbacks[message.specification.name];
                 if(callback != None) : 
                     self.lock.acquire()
                     try :
                         data = callback(message.data)
                         if data != None :
-                            '''print("Sending answer to message " + message.specification.name)'''
                             self.connection.sendAnswer(message, data)
                         self.lock.release()
 
                     except Exception as e :
                         self.lock.release()
                         self.connection.sendAnswer(message, [str(e)], 'StmError')
-
 
         except Exception as e:
             print("Got exception " + str(e) + " while receiving message: " + str(message.uid))
