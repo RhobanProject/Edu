@@ -19,7 +19,7 @@ class RhobanMain(object):
                 'motors': [CompliantCommand(), HardCommand(),
                     SetCommand(), ScanCommand(), SnapshotCommand(),
                     InitCommand(), ZeroCommand(), MonitorCommand()],
-                'sensors': [SensorsCommand()]
+                'sensors': [SensorsCommand(), PlotCommand()]
                 }
 
         for family, familyCommands in myCommands.items():
@@ -454,3 +454,36 @@ class SensorsCommand(RobotCommand):
             print(separator)
             time.sleep(0.5)
 
+"""
+    Plot les sensors
+"""
+class PlotCommand(RobotCommand):
+    def define(self):
+        self.name = 'plot'
+        self.description = 'Plots the sensors to CSV'
+        self.prototype = '<robotName>'
+        self.options = 'f:'
+        self.arguments = 1
+
+    def execute(self, robot, options, arguments):
+        frequency = float(options.get('-f', 30))
+        robot.sensors.start(frequency)
+        items = sorted(robot.sensors.sensors.items())
+            
+        values = ['Time']
+        for name, sensor in items:
+            values += [name]
+
+        print(';'.join(values))
+
+        start = time.time()
+        while True:
+            time.sleep(1/frequency)
+            values = [time.time()-start]
+            for name, sensor in items:
+                if sensor.values:
+                    values += [sensor.values[0]]
+                else:
+                    values += [0]
+
+            print(';'.join(map(str, values)))
