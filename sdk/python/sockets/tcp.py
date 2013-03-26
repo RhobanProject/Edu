@@ -3,6 +3,8 @@
 
 import sys, os, socket, pickle
 
+from threading import RLock
+
 """
     Client TCP, peut se connecter et envoyer/recevoir des données
 """
@@ -10,25 +12,32 @@ class TCPClient(object):
     def __init__(self):
         self.socket = None
         self.connected = False
+        self.socketLock = RLock()
 
     def connectTo(self, hostname, port):
-        if self.socket != None:
-            self.close()
-
-        self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-
+        self.socketLock.acquire()
         try:
-            self.connected = True
+            if self.socket != None:
+                self.close()
+            self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.socket.connect((hostname, port))
-        except Exception:
+            self.connected = True
+        except Exception  as e:
+            print("TCPClient failed to connect " + str(e))
             self.connected = False
+        self.socketLock.release()
 
     def transmit(self, data):
-        self.socket.send(data)
+        try :
+            self.socketLock.acquire()
+            self.socket.send(data)
+        except Exception as e :
+            self.socketLock.release()
+            raise(e)
+        self.socketLock.release()
 
     def receive(self, size):
         ret = self.socket.recv(size)
-
         if ret != 0:
             return ret
         else:
@@ -36,6 +45,11 @@ class TCPClient(object):
             return 0
 
     def close(self):
-        self.socket.shutdown(2)
-        self.socket.close()
-        self.connected = False
+        self.socketLock.acquire()
+        try :
+            self.socket.shutdown(2)
+            self.socket.close()
+            self.connected = False
+        except Exception :
+            self.connected = False
+        self.socketLock.release()

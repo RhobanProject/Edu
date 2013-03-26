@@ -1,19 +1,13 @@
 docs/build/
-docs/source/*.pyc
-docs/source/rhoban/*.pyc
 docs/source/telechargements.rst
 docs/source/generated.py
 
 sdk/cpp/build
 sdk/cpp/example/build
 
-sdk/python/rhoban/*.pyc
-sdk/python/tests/*.pyc
-sdk/python/rhoban/*/*.pyc
-sdk/python/sockets/*.pyc
+**.pyc
 sdk/python/config.yml
 sdk/python/testconfigs
-sdk/python/yaml/*.pyc
 /sdk/python/.pydevproject
 /sdk/python/.settings
 /sdk/python/.project
@@ -23,6 +17,5 @@ sdk/python/yaml/*.pyc
 /.project
 /.pydevproject
 __pycache__
-
 
 /.externalToolBuilders

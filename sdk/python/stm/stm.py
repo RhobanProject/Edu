@@ -12,6 +12,7 @@
 
 from repeated_task import RepeatedTask
 from yaml import load as load
+from xml.dom import minidom
 from importlib import import_module
 from time import time
 
@@ -90,7 +91,15 @@ class StateMachine(RepeatedTask):
         self.duration = float("inf")
         
         self.debug = debug
-                
+              
+    def statusString(self):
+        if self.status == self.Status.Playing:
+            return 'Playing'
+        elif self.status == self.Status.Stopped:
+            return 'Stopped'
+        elif self.status == self.Status.Suspended:
+            return 'Suspended'
+        
     '''Plays the machine for the given duration
     optionally waits for the machine to be stopped before returning
     last option is used by the stm_loader to prevent creation of too many threads'''
@@ -103,7 +112,7 @@ class StateMachine(RepeatedTask):
         if self.status == self.Status.Stopped :
             if self.debug: print("Starting machine \'" + self.name+"\'")
             globals()[self.name] = self
-            exec(self.preamble)
+            if self.preamble: exec(self.preamble)
             for line in self.preamble.splitlines() :
                 imports = line.split(' ')
                 if len(imports) >= 2:
@@ -119,8 +128,9 @@ class StateMachine(RepeatedTask):
 
             self.set_state("Initial")
             self.status = self.Status.Playing
-            if threaded :
+            if threaded:
                 RepeatedTask.start(self)
+                
         elif self.status == self.Status.Suspended :
             if self.debug : print("Resuming machine \'"+ self.name+"\'")
             self.status = self.Status.Playing
@@ -144,6 +154,7 @@ class StateMachine(RepeatedTask):
         for submachine in self.submachines.values():
             submachine.stop()
         RepeatedTask.cancel(self)
+        self.state = self.states["Initial"]
         self.lock.release()
        
     '''creates a list of machines from a yaml file'''
@@ -153,10 +164,56 @@ class StateMachine(RepeatedTask):
             tree = load(yaml_stream)
             return StateMachine.from_tree(tree)
   
+    '''creates a list of machines from an xml file'''
+    @classmethod
+    def from_xml(cls, filename):
+        xmldoc = minidom.parse(filename)
+        return StateMachine.from_xml_doc(xmldoc)
+
+    '''creates a list of machines from an xml stream'''
+    @classmethod
+    def from_xml_stream(cls, stream):
+        xmldoc = minidom.parseString(stream)
+        return StateMachine.from_xml_doc(xmldoc)
+
+    '''creates a list of machines from an xml doc'''
+    @classmethod
+    def from_xml_doc(cls, xmldoc):
+        
+        def buildtree(rootNode):
+            if len(rootNode.childNodes) == 0:
+                return ""
+            elif len(rootNode.childNodes) == 1 and rootNode.firstChild.nodeType == rootNode.firstChild.TEXT_NODE:
+                return rootNode.firstChild.nodeValue
+            else:
+                result = {}
+                n = 0
+                for node in rootNode.childNodes:
+                    if node.nodeType != node.TEXT_NODE:
+                        if node.nodeName in result.keys():
+                            n = n + 1
+                            result[node.nodeName + "#" + str(n)] = buildtree(node)
+                        else:
+                            result[node.nodeName] = buildtree(node)
+                return result
+            
+
+        tree = buildtree(xmldoc)
+        return StateMachine.from_tree(tree['Stm'])
+    
+    
+       
     '''builds an executable python script from a yaml file'''
     @classmethod
     def yaml_to_py(cls, yaml_file, py_file):
         machine = StateMachine.from_yaml(yaml_file)
+        with open(py_file,'w') as output:
+            output.write( machine.to_python() )
+            
+    '''builds an executable python script from an xml file'''
+    @classmethod
+    def xml_to_py(cls, xml_file, py_file):
+        machine = StateMachine.from_xml(xml_file)
         with open(py_file,'w') as output:
             output.write( machine.to_python() )
   
@@ -171,6 +228,21 @@ class StateMachine(RepeatedTask):
         self.state = state
         self.lock.release()
     
+    def set_attributes(self, keys, values):
+        if len(keys) != len(values):
+            raise Exception("Cannot set variables: not same number of keys and values")
+        for i in range(len(keys)):
+            setattr(self,keys[i],values[i])
+        
+    def get_attributes(self, keys):
+        values = []
+        for key in keys:
+            values.append(float(getattr(self, key)))
+        return values
+
+    def evaluate(self, expression):
+        return float(eval(expression))
+        
     def enter(self):
         if self.state and self.state.enter : exec(self.state.enter)
 
@@ -265,16 +337,20 @@ class StateMachine(RepeatedTask):
         '''build the state from a map of maps'''
         def from_tree(self, mapping):
             self.name = StateMachine.get_tag('name' , mapping)
+            print("Added state " + self.name + " from xml")
             self.enter = StateMachine.get_tag('enter' , mapping)
             self.loop = StateMachine.get_tag('loop' , mapping)
             self.bye = StateMachine.get_tag('bye' , mapping)
             self.transitions = []
-            if mapping.__contains__('transitions'):
-                transitions = mapping['transitions']
-                for transitionDesc in transitions :
+            if 'transitions' in mapping.keys() and mapping['transitions']:
+                print("Mapping contains transitions")
+                for transitionDesc in mapping['transitions'].values():
                     transition = StateMachine.Transition("","","")
                     transition.from_tree(transitionDesc)
                     self.transitions.append(transition)
+            else:
+                print("Found no transitions")
+                
         
         def __init__(self, name = "", enter = "", loop = "", bye = ""):
             self.name = name
@@ -314,10 +390,12 @@ class StateMachine(RepeatedTask):
         machine.preamble += StateMachine.get_tag('preamble' , mapping)
         if mapping.__contains__('states') :
             states = mapping['states']
-            for stateDesc in states:
+            print("Found " + str(len(states)) + " states")
+            for stateDesc in states.values():
                 state = StateMachine.State()
                 state.from_tree(stateDesc)
                 machine.states[state.name] = state
+                print("Added state " + state.name)
             
         if mapping.__contains__('submachines') :
             submachines = mapping['submachines']
