@@ -33,6 +33,9 @@ Robot::Robot(CommandsStore *commandsStore, string name)
 	configs = new Configurations(connection);
 	moves = new Moves(connection);
 	sensors = new Sensors(connection);
+   #ifdef WITH_OPENCV
+	   vision = new Vision(connection);
+   #endif
 	this->name = name;
 }
 
@@ -276,6 +279,16 @@ void Robot::setSensors(Sensors *sensors)
 Sensors *Robot::getSensors()
 {
 	return sensors;
+}
+
+void Robot::setVision(Vision *vision)
+{
+	this->vision = vision;
+}
+
+Vision *Robot::getVision()
+{
+	return vision;
 }
 
 void Robot::setName(string name)

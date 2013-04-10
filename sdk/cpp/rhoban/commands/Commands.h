@@ -159,6 +159,15 @@ namespace Rhoban
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };  
+
+  // Afficher la webcam du module vision
+  class VisionCommand : public RobotCommand
+  {
+  public:
+    VisionCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
 }
 
 #endif // COMMANDS_H

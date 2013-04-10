@@ -25,6 +25,7 @@ namespace Rhoban
 #include <config/Configurations.h>
 #include "Moves.h"
 #include "Sensors.h"
+#include "vision/Vision.hpp"
 
 using namespace std;
 
@@ -77,12 +78,14 @@ namespace Rhoban
     Moves *getMoves();
     void setSensors(Sensors *sensors);
     Sensors *getSensors();
-	void setName(string name);
-	string getName();
-	void setHostname(string hostname);
-	string getHostname();
-	void setPort(int port);
-	int getPort();
+    void setVision(Vision *vision);
+    Vision *getVision();
+    void setName(string name);
+    string getName();
+    void setHostname(string hostname);
+    string getHostname();
+    void setPort(int port);
+    int getPort();
 
   protected:
     Motors *motors;
@@ -91,9 +94,10 @@ namespace Rhoban
     string environment;
     Moves *moves;
     Sensors *sensors;
-	string name;
-	string hostname;
-	int port;
+    Vision *vision;
+	 string name;
+	 string hostname;
+	 int port;
   };
 }
 

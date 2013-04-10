@@ -43,6 +43,8 @@ namespace Rhoban
     manager.addCommand(new MonitorCommand, "motors");
     
     manager.addCommand(new SensorsCommand, "sensors"); 
+    
+    manager.addCommand(new VisionCommand, "vision"); 
   }
 
   void RhobanMain::run()

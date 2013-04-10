@@ -537,4 +537,34 @@ namespace Rhoban
 	syst_wait_ms(500);
       }
   }    
+
+  VisionCommand::VisionCommand()
+  {
+    name = "vision";
+    prototype = "[-w width=300] [-h height=200] <robotName>";
+    options = "w:ih:i";
+    argumentsLength = 1;
+    description = "Display vision camera";
+  }
+  
+  void VisionCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+    unsigned int width = 300;
+    unsigned int height = 200;
+    if (options.count('w')) {
+        width = atoi(options['w'].c_str());
+    }
+    if (options.count('h')) {
+        height = atoi(options['h'].c_str());
+    }
+    cout << "Displaying vision module " << width << "x" << height << endl;
+    #ifdef WITH_OPENCV
+        while (1) {
+            robot->getVision()->runOne(width, height);
+        }
+    #else
+        cout << "Error: Compilation without OPENCV" << endl;
+    #endif
+  }
 }
