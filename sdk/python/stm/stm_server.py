@@ -33,6 +33,7 @@ class StateMachineServer(StateMachineLoader):
                            'StmSetMachineAttributes':self.processSetMachineAttributes,
                            'StmGetMachineAttributes':self.processGetMachineAttributes,
                            'StmEvaluateExpression':self.processEvaluateExpression,
+                           'StmPing':self.processPing,
                            }
         
         self.store = com.CommandsStore()
@@ -80,6 +81,9 @@ class StateMachineServer(StateMachineLoader):
     def error(self, message):
         print('Received error ' + message[0] + "\n")
         
+    def processPing(selfself, message):
+        return [ message[0] ]
+    
     def processGetStatesMessage(self, message):
         return [ self.machines.keys() , [machine.machine.state.name for machine in self.machines.values()] ]
 
