@@ -161,10 +161,37 @@ namespace Rhoban
   };  
 
   // Afficher la webcam du module vision
-  class VisionCommand : public RobotCommand
+  class FramesDisplayCommand : public RobotCommand
   {
   public:
-    VisionCommand();
+    FramesDisplayCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
+  
+  // Récupérer les infos de la ball du module vision
+  class BallInfoCommand : public RobotCommand
+  {
+  public:
+    BallInfoCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
+  
+  // Récupérer les infos du goal du module vision
+  class GoalInfoCommand : public RobotCommand
+  {
+  public:
+    GoalInfoCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
+  
+  // Calibration de la détection de la balle
+  class BallCalibrationCommand : public RobotCommand
+  {
+  public:
+    BallCalibrationCommand();
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };

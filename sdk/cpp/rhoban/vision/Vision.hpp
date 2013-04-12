@@ -17,9 +17,40 @@ namespace Rhoban
             Vision(Connection* connection);
 
             /**
-             * Grab and display one camera frame
+             * Ask to RhobanServer ball information and store them internaly
              */
-            void runOne(unsigned int width, unsigned int height);
+            void grabBallInfo(bool clipping = false);
+
+            /**
+             * Ask to RhobanServer goal information and store them internaly
+             */
+            void grabGoalInfo(std::string color = "yellow");
+
+            /**
+             * Ball and Goal getters
+             */
+            bool getIsBallDetected() const;
+            float getBallRelPosX() const;
+            float getBallRelPosY() const;
+            float getBallRelRadius() const;
+            bool getIsGoalDetected() const;
+            float getGoalRelPosX() const;
+            float getGoalRelPosY() const;
+            float getGoalRelWidth() const;
+            float getGoalRelHeight() const;
+            
+            #ifdef WITH_OPENCV
+                /**
+                 * Grab and display one camera frame
+                 */
+                void grabAndDisplayFrames(unsigned int width, unsigned int height);
+
+                /**
+                 * Do the ball calibration
+                 * The ball have to be in the middle of the screen
+                 */
+                void ballCalibration();
+            #endif
 
         protected:
 
@@ -38,20 +69,39 @@ namespace Rhoban
              */
             bool isInitialized;
 
-            /**
-             * Initialize image windows
-             */
-            void initWindows();
+            #ifdef WITH_OPENCV
+                /**
+                 * Initialize image windows
+                 */
+                void initWindows();
+
+                /**
+                 * Display on windows the given message
+                 */
+                void display(Message* response);
+
+                /**
+                 * Destroy images windows
+                 */
+                void endWindows();
+            #endif
 
             /**
-             * Display on windows the given message
+             * Ball information
              */
-            void display(Message* response);
+            bool isBallDetected;
+            float ballRelPosX;
+            float ballRelPosY;
+            float ballRelRadius;
 
             /**
-             * Destroy images windows
+             * Goal information
              */
-            void endWindows();
+            bool isGoalDetected;
+            float goalRelPosX;
+            float goalRelPosY;
+            float goalRelWidth;
+            float goalRelHeight;
     };
 }
 
