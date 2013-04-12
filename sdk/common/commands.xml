@@ -422,18 +422,18 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetJpegFrame</Name>
-        <Description>ask a jpeg frame. Arg is image name then width depth and black/white. Returns name and data</Description>
+        <Description>ask a jpeg frame. Arg is image name then width height and black/white bool. Returns name and data</Description>
         <Destination>vision</Destination>
         <CommandIndex>7</CommandIndex>
-        <ParametersPattern>string ui32 ui32 bool </ParametersPattern>
+        <ParametersPattern>string ui32 ui32 byte </ParametersPattern>
         <AnswerPattern>string byte[] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetJpegFrames</Name>
-        <Description>ask jpeg frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
+        <Description>ask jpeg frames. Args are image names then widths height and black/white bool. Returns names and datas</Description>
         <Destination>vision</Destination>
         <CommandIndex>17</CommandIndex>
-        <ParametersPattern>string[] ui32[] ui32[] bool[] </ParametersPattern>
+        <ParametersPattern>string[] ui32[] ui32[] byte[] </ParametersPattern>
         <AnswerPattern>string[] byte[][] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -484,6 +484,22 @@
     <AnswerPattern>bool float float float float </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
+        <Name>VisionGetBallInfo</Name>
+        <Description>Arg is bool clipping. Returns bool isDetected, relative position x, y, radius</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>21</CommandIndex>
+        <ParametersPattern>byte</ParametersPattern>
+        <AnswerPattern>byte float float float</AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>VisionGetGoalInfo</Name>
+        <Description>Arg is color. Returns goal bool isDetected, relative position x, y, width, height</Description>
+        <Destination>vision</Destination>
+        <CommandIndex>22</CommandIndex>
+        <ParametersPattern>string</ParametersPattern>
+        <AnswerPattern>byte float float float float</AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
         <Name>LocalisationError</Name>
         <Description>error from loc</Description>
         <Destination>localisation</Destination>
@@ -563,15 +579,23 @@
         <ParametersPattern />
         <AnswerPattern>float float float </AnswerPattern>
     </CommandSpecification>
-  <CommandSpecification>
-    <Name>LocalisationAutoCalibrate</Name>
-    <Description>autocalibrate the colors of an object. Parameter is either "yellow" (to calibrate the yellow  goal) or "ball" (to calibrate the ball)</Description>
-    <Destination>localisation</Destination>
-    <CommandIndex>9</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
-    <AnswerPattern>string </AnswerPattern>
-  </CommandSpecification>
-  <CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationPatternCalibrate</Name>
+        <Description>Calibration of ball or goal detection</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>11</CommandIndex>
+        <ParametersPattern>string float[]</ParametersPattern>
+        <AnswerPattern>string</AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
+        <Name>LocalisationAutoCalibrate</Name>
+        <Description>autocalibrate the colors of an object. Parameter is either "yellow" (to calibrate the yellow  goal) or "ball" (to calibrate the ball)</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>9</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
+    <CommandSpecification>
         <Name>ServosOutofthebox</Name>
         <Description>configure out of the box servo with new id</Description>
         <Destination>low_level</Destination>

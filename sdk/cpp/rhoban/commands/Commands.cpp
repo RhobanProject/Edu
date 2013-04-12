@@ -538,16 +538,16 @@ namespace Rhoban
       }
   }    
 
-  VisionCommand::VisionCommand()
+  FramesDisplayCommand::FramesDisplayCommand()
   {
-    name = "vision";
+    name = "framesdisplay";
     prototype = "[-w width=300] [-h height=200] <robotName>";
     options = "w:ih:i";
     argumentsLength = 1;
-    description = "Display vision camera";
+    description = "Display frames vision camera";
   }
   
-  void VisionCommand::execute(Robot *robot, map<char, string> options,
+  void FramesDisplayCommand::execute(Robot *robot, map<char, string> options,
     vector<string> arguments)
   {
     unsigned int width = 300;
@@ -561,10 +561,79 @@ namespace Rhoban
     cout << "Displaying vision module " << width << "x" << height << endl;
     #ifdef WITH_OPENCV
         while (1) {
-            robot->getVision()->runOne(width, height);
+            robot->getVision()->grabBallInfo();
+            robot->getVision()->grabAndDisplayFrames(width, height);
         }
     #else
         cout << "Error: Compilation without OPENCV" << endl;
+    #endif
+  }
+  
+  BallInfoCommand::BallInfoCommand()
+  {
+    name = "ballinfo";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "Monitor Ball info from vision";
+  }
+  
+  void BallInfoCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+      cout << "Reading Ball infos" << endl;
+      while (1) {
+          robot->getVision()->grabBallInfo();
+          if (true || robot->getVision()->getIsBallDetected()) {
+              cout << "posX=" << robot->getVision()->getBallRelPosX() << " ";
+              cout << "posY=" << robot->getVision()->getBallRelPosY() << " ";
+              cout << "radius=" << robot->getVision()->getBallRelRadius() << endl;
+          } else {
+              cout << "No ball detected" << endl;
+          }
+      }
+  }
+  
+  GoalInfoCommand::GoalInfoCommand()
+  {
+    name = "goalinfo";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "Monitor Goal info from vision";
+  }
+  
+  void GoalInfoCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+      cout << "Reading Goal infos" << endl;
+      while (1) {
+          robot->getVision()->grabGoalInfo();
+          if (robot->getVision()->getIsGoalDetected()) {
+              cout << "posX=" << robot->getVision()->getGoalRelPosX() << " ";
+              cout << "posY=" << robot->getVision()->getGoalRelPosY() << " ";
+              cout << "width=" << robot->getVision()->getGoalRelWidth() << " ";
+              cout << "height=" << robot->getVision()->getGoalRelHeight() << endl;
+          } else {
+              cout << "No goal detected" << endl;
+          }
+      }
+  }
+  
+  BallCalibrationCommand::BallCalibrationCommand()
+  {
+    name = "ballcalibration";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "Calibrate the ball detection process";
+  }
+  
+  void BallCalibrationCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+    cout << "Calibrating ball detection process" << endl;
+    #ifdef WITH_OPENCV
+      robot->getVision()->ballCalibration();
+    #else
+      cout << "Error: Compilation without OPENCV" << endl;
     #endif
   }
 }
