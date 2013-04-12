@@ -53,7 +53,7 @@ class Connection(tcp.TCPClient):
     def setStore(self, store):
         self.store = store
 
-    def sendMessageReceive(self, message, timeout = 5):
+    def sendMessageReceive(self, message, timeout = 1):
         if not self.connected :
             raise Exception("Cannot send message: disconnected")
 
@@ -70,6 +70,7 @@ class Connection(tcp.TCPClient):
             del self.mailbox.entries[message.uid]
             return response
 
+        print('Got no response to message')
         return None
 
     def sendMessageCallback(self, message, callback):
