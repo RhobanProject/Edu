@@ -421,9 +421,11 @@ class ParameterPattern:
     typesMapping = {
         'float': [float, 'f', 4],
         'ui32': [int, 'I', 4],
+        'uint': [int, 'I', 4],
         'int': [int, 'i', 4],
         'byte': [int, 'B', 1],
         'string': [str, 's', 1],
+        'bool': [bool, '?', 1],
     }
 
     def __init__(self, specification, baseType = None):

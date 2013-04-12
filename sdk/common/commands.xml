@@ -32,7 +32,15 @@
         <ParametersPattern />
         <AnswerPattern>ui32 </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>ServerRegisterComponent</Name>
+    <Description>register component in server. Parameter is component number.</Description>
+    <Destination>server</Destination>
+    <CommandIndex>5</CommandIndex>
+    <ParametersPattern>ui32</ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>SendXml</Name>
         <Description>writes an XML stream to file. Filename then stream.</Description>
         <Destination>server</Destination>
@@ -56,7 +64,7 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerStartMove</Name>
-        <Description>starts a move, arguments are name of the move and duration</Description>
+        <Description>starts a move, arguments are name of the move and duration and smooth duration</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>42</CommandIndex>
         <ParametersPattern>string ui32 ui32 </ParametersPattern>
@@ -188,7 +196,7 @@
         <Destination>low_level</Destination>
         <CommandIndex>26</CommandIndex>
         <ParametersPattern>byte[] </ParametersPattern>
-        <AnswerPattern>string </AnswerPattern>
+        <AnswerPattern></AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServosAllCompliant</Name>
@@ -196,7 +204,7 @@
         <Destination>low_level</Destination>
         <CommandIndex>27</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string </AnswerPattern>
+        <AnswerPattern> </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServosGetStatus</Name>
@@ -326,13 +334,13 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerGetCompressedRecordedSpline</Name>
-        <Description>param is move name and block name. Returns move name, block name, serialized spline and compressed data.</Description>
+        <Description>param is move name and block name. Returns move name, block name, serialized spline header and compressed data.</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>63</CommandIndex>
         <ParametersPattern>string string </ParametersPattern>
         <AnswerPattern>string string string float[][] </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
         <Name>SchedulerPauseResumeSpline</Name>
         <Description>param is move name and block name.</Description>
         <Destination>move_scheduler</Destination>
@@ -555,7 +563,6 @@
         <ParametersPattern />
         <AnswerPattern>float float float </AnswerPattern>
     </CommandSpecification>
-
     <CommandSpecification>
         <Name>LocalisationPatternCalibrate</Name>
         <Description>Calibration of ball or goal detection</Description>
@@ -564,9 +571,14 @@
         <ParametersPattern>string float[]</ParametersPattern>
         <AnswerPattern>string</AnswerPattern>
     </CommandSpecification>
-
-
-
+    <CommandSpecification>
+        <Name>LocalisationAutoCalibrate</Name>
+        <Description>autocalibrate the colors of an object. Parameter is either "yellow" (to calibrate the yellow  goal) or "ball" (to calibrate the ball)</Description>
+        <Destination>localisation</Destination>
+        <CommandIndex>9</CommandIndex>
+        <ParametersPattern>string </ParametersPattern>
+        <AnswerPattern>string </AnswerPattern>
+    </CommandSpecification>
     <CommandSpecification>
         <Name>ServosOutofthebox</Name>
         <Description>configure out of the box servo with new id</Description>
@@ -688,14 +700,38 @@
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
-        <Name>VisionSaveParameters</Name>
-        <Description>save the remote configuration file. Arg is parameter type.</Description>
+        <Name>VisionSetTasksFrequencies</Name>
+        <Description>set the frequency of the remote vision component to perform its tasks.</Description>
         <Destination>vision</Destination>
-        <CommandIndex>20</CommandIndex>
-        <ParametersPattern>string </ParametersPattern>
+        <CommandIndex>23</CommandIndex>
+        <ParametersPattern>uint </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionStartTask</Name>
+    <Description>tels the vision component to start running repeatedly the given task.</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>24</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionStopTask</Name>
+    <Description>tells the vision component to stop running repeatedly the given task.</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>25</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionSaveParameters</Name>
+    <Description>save the remote configuration file. Arg is parameter type.</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>20</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>SchedulerConfigIsLoaded</Name>
         <Description>Returns 1 if a move scheduler configuration is already loaded, 0 else</Description>
         <Destination>move_scheduler</Destination>
@@ -708,7 +744,106 @@
         <Description>Returns 1 if a low level configuration is already loaded, 0 else</Description>
         <Destination>low_level</Destination>
         <CommandIndex>71</CommandIndex>
-        <ParametersPattern> </ParametersPattern>
+        <ParametersPattern></ParametersPattern>
         <AnswerPattern>ui32 </AnswerPattern>
     </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmError</Name>
+    <Destination>stm</Destination>
+    <CommandIndex>1</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmPing</Name>
+    <Destination>stm</Destination>
+    <CommandIndex>100</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmLoadXMLMachine</Name>
+    <Description>Loads an xml state machine. Parameter is serialized machine. Answer is message.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>2</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmStartMachine</Name>
+    <Description>Starts a Machine. Parameter is machine name.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>3</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmStopMachine</Name>
+    <Description>Stops a Machine. Parameter is machine name.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>4</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmKillMachine</Name>
+    <Description>Kills a Machine. Parameter is machine name.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>5</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmGetStates</Name>
+    <Description>Get states of machines. Answer is list of machine names then list of state names.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>6</CommandIndex>
+    <ParametersPattern></ParametersPattern>
+    <AnswerPattern>string[] string[]</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>StmGetState</Name>
+    <Description>Get states of a machine. Answer is machine name then state name.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>7</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern>string string</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    
+    <Name>StmGetMachinesInfo</Name>
+    <Description>Get info from machines. Answer is list of machine names then list of infos.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>8</CommandIndex>
+    <ParametersPattern></ParametersPattern>
+    <AnswerPattern>string[] string[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>StmSetMachineAttributes</Name>
+    <Description>Set values of attributes of a machine.List of keys followed by list of values.</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>9</CommandIndex>
+    <ParametersPattern>string string[] float[]</ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>StmGetMachineAttributes</Name>
+    <Description>Get float values of attributes of a machine.List of keys. Returns list values</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>10</CommandIndex>
+    <ParametersPattern>string string[]</ParametersPattern>
+    <AnswerPattern>float[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>StmEvaluateExpression</Name>
+    <Description>Evaluates an expression in the context of the machine</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>11</CommandIndex>
+    <ParametersPattern>string string</ParametersPattern>
+    <AnswerPattern>float</AnswerPattern>
+  </CommandSpecification>
+
 </ArrayOfCommandSpecification>
