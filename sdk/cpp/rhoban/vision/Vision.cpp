@@ -106,7 +106,7 @@ namespace Rhoban
             vector<ui32> widths;
             vector<ui32> heights;
             vector<ui8> colors;
-            names.push_back("bgr");
+            names.push_back("ballcalibration");
             widths.push_back(300);
             heights.push_back(200);
             colors.push_back(0);
@@ -124,9 +124,6 @@ namespace Rhoban
                 vector< vector <byte> > data = response
                     ->read_array_array();
                 cv::Mat tmpMat = cv::imdecode(cv::Mat(data[0]), 1);
-                cv::circle(tmpMat, 
-                    cv::Point(tmpMat.cols/2, tmpMat.rows/2), 
-                    50, cv::Scalar(255, 255, 255), 4);
                 cv::imshow("calibration", tmpMat);
                 delete response;
                 char input = cv::waitKey(1);
