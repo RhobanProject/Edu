@@ -57,7 +57,9 @@ class StateMachineLoader(RepeatedTask):
             machine.play(wait_stop, duration, False)
    
     def startMachine(self, machineName, duration = float("inf")):
+        print('Getting machine')
         machine = self.getMachine(machineName)
+        print('Starting machine')
         machine.machine.play(False, duration, False)
 
     def kill(self, machineName):

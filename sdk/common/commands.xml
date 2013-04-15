@@ -120,11 +120,11 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerGetLoadedMoves</Name>
-        <Description>get the list of moves loaded in the move scheduler and their status</Description>
+        <Description>get the list of moves loaded in the move scheduler and their status and errors</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>46</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string[] string[]</AnswerPattern>
+        <AnswerPattern>string[] string[] string[]</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerKillMove</Name>
@@ -160,11 +160,11 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerGetMoveInfo</Name>
-        <Description>get move info</Description>
+        <Description>get move info. Answer is move name, status and error</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>50</CommandIndex>
         <ParametersPattern>string </ParametersPattern>
-        <AnswerPattern>string string </AnswerPattern>
+        <AnswerPattern>string string string</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>SchedulerSaveMove</Name>
@@ -467,7 +467,23 @@
         <ParametersPattern />
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionGetBallInfo</Name>
+    <Description>ask for ball info. parameters says whether clipping should be used. returns 1) whether ball is detected 2) x 3) y 4) radius</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>21</CommandIndex>
+    <ParametersPattern >bool </ParametersPattern>
+    <AnswerPattern>bool float float float </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionGetGoalInfo</Name>
+    <Description>ask for goal info. returns 1) wheter hte goal is visibla 2) x of center 3) y of center 4) width 5) height</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>22</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>bool float float float float </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>VisionGetBallInfo</Name>
         <Description>Arg is bool clipping. Returns bool isDetected, relative position x, y, radius</Description>
         <Destination>vision</Destination>
@@ -812,11 +828,11 @@
   <CommandSpecification>
     
     <Name>StmGetMachinesInfo</Name>
-    <Description>Get info from machines. Answer is list of machine names then list of infos.</Description>
+    <Description>Get info from machines. Answer is list of machine names then list of statuses then list of errors.</Description>
     <Destination>stm</Destination>
     <CommandIndex>8</CommandIndex>
     <ParametersPattern></ParametersPattern>
-    <AnswerPattern>string[] string[]</AnswerPattern>
+    <AnswerPattern>string[] string[] string[]</AnswerPattern>
   </CommandSpecification>
 
   <CommandSpecification>
