@@ -24,7 +24,7 @@ namespace Rhoban
     void Vision::grabBallInfo(bool clipping)
     {
         Message* response = connection
-            ->VisionGetBallInfo_response((ui8)clipping, 1000);
+            ->VisionGetBallInfo_response((ui8)clipping, 10000);
         isBallDetected = response->read_bool();
         ballRelPosX = response->read_float();
         ballRelPosY = response->read_float();
@@ -36,7 +36,7 @@ namespace Rhoban
     void Vision::grabGoalInfo(string color)
     {
         Message* response = connection
-            ->VisionGetGoalInfo_response(color, 1000);
+            ->VisionGetGoalInfo_response(color, 10000);
         isGoalDetected = response->read_bool();
         goalRelPosX = response->read_float();
         goalRelPosY = response->read_float();
@@ -98,7 +98,7 @@ namespace Rhoban
 
             Message* response = connection
                 ->VisionGetJpegFrames_response(
-                imgNames, widths, heights, colors, 1000);
+                imgNames, widths, heights, colors, 10000);
             display(response);
             
             delete response;
@@ -123,7 +123,7 @@ namespace Rhoban
             while (1) {
                 Message* response = connection
                     ->VisionGetJpegFrames_response(
-                    names, widths, heights, colors, 1000);
+                    names, widths, heights, colors, 10000);
                 names = response->read_string_array();
                 vector< vector <byte> > data = response
                     ->read_array_array();

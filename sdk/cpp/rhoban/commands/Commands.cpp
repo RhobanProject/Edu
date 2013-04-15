@@ -572,18 +572,30 @@ namespace Rhoban
   BallInfoCommand::BallInfoCommand()
   {
     name = "ballinfo";
-    prototype = "<robotName>";
+    prototype = "[-c] <robotName>";
+    options = "c";
     argumentsLength = 1;
-    description = "Monitor Ball info from vision";
+    description = "Monitor Ball info from vision. -c enable clipping";
   }
   
   void BallInfoCommand::execute(Robot *robot, map<char, string> options,
     vector<string> arguments)
   {
+      bool clipping = false;
+      if (options.count('c')) {
+          clipping = true;
+      }
+
       cout << "Reading Ball infos" << endl;
+      cout << "Clipping ";
+      if (clipping) {
+          cout << "On" << endl;
+      } else {
+          cout << "Off" << endl;
+      }
       while (1) {
-          robot->getVision()->grabBallInfo();
-          if (true || robot->getVision()->getIsBallDetected()) {
+          robot->getVision()->grabBallInfo(clipping);
+          if (robot->getVision()->getIsBallDetected()) {
               cout << "posX=" << robot->getVision()->getBallRelPosX() << " ";
               cout << "posY=" << robot->getVision()->getBallRelPosY() << " ";
               cout << "radius=" << robot->getVision()->getBallRelRadius() << endl;
