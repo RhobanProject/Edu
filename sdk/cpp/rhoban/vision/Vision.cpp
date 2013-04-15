@@ -14,11 +14,6 @@ namespace Rhoban
         imgNames(),
         isInitialized(false)
     {
-        //Initialize image names
-        imgNames.push_back("src");
-        imgNames.push_back("bgr");
-        imgNames.push_back("ball");
-        imgNames.push_back("goal");
     }
 
     void Vision::grabBallInfo(bool clipping)
@@ -85,8 +80,9 @@ namespace Rhoban
             
     #ifdef WITH_OPENCV
         void Vision::grabAndDisplayFrames
-            (unsigned int width, unsigned int height)
+            (vector<string>& names, unsigned int width, unsigned int height)
         {
+            imgNames = names;
             vector<ui32> widths;
             vector<ui32> heights;
             vector<ui8> colors;

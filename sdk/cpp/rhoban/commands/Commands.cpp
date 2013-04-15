@@ -541,8 +541,8 @@ namespace Rhoban
   FramesDisplayCommand::FramesDisplayCommand()
   {
     name = "framesdisplay";
-    prototype = "[-w width=300] [-h height=200] <robotName>";
-    options = "w:ih:i";
+    prototype = "[-w width=300] [-h height=200] [-i src,ball,...] <robotName>";
+    options = "w:h:i:";
     argumentsLength = 1;
     description = "Display frames vision camera";
   }
@@ -552,17 +552,30 @@ namespace Rhoban
   {
     unsigned int width = 300;
     unsigned int height = 200;
+    vector<string> imgNames;
+
     if (options.count('w')) {
         width = atoi(options['w'].c_str());
     }
     if (options.count('h')) {
         height = atoi(options['h'].c_str());
     }
+    if (options.count('i')) {
+        string names = options['i'];
+        size_t pos1 = 0;
+        size_t pos2 = 0;
+        while ((pos2 = names.find_first_of(",", pos1)) != string::npos) {
+            imgNames.push_back(names.substr(pos1, pos2-pos1));
+            pos1 = pos2+1;
+        }
+        imgNames.push_back(names.substr(pos1));
+    } else {
+        imgNames.push_back("src");
+    }
     cout << "Displaying vision module " << width << "x" << height << endl;
     #ifdef WITH_OPENCV
         while (1) {
-            robot->getVision()->grabBallInfo();
-            robot->getVision()->grabAndDisplayFrames(width, height);
+            robot->getVision()->grabAndDisplayFrames(imgNames, width, height);
         }
     #else
         cout << "Error: Compilation without OPENCV" << endl;

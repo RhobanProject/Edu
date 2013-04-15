@@ -43,7 +43,8 @@ namespace Rhoban
                 /**
                  * Grab and display one camera frame
                  */
-                void grabAndDisplayFrames(unsigned int width, unsigned int height);
+                void grabAndDisplayFrames(vector<std::string>& names, 
+                    unsigned int width, unsigned int height);
 
                 /**
                  * Do the ball calibration
