@@ -134,8 +134,8 @@ namespace Rhoban
 
             cout << "Starting calibration..." << endl;
             vector<float> dots;
-            dots.push_back(160);
-            dots.push_back(120);
+            dots.push_back(0.0);
+            dots.push_back(0.0);
             Message* response = connection
                 ->LocalisationPatternCalibrate_response(
                 "ball", dots, 60000);
