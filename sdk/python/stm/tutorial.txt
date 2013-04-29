@@ -1,0 +1,48 @@
+****************************************************************************************************
+******** ********
+********  Tuto de prise en main de la com entre machines à états                            ********
+********   mouvements et module vision                                                      ********
+******** ********
+****************************************************************************************************
+
+v1.0 Hugo, avril 2013
+
+1. compiler RhobanServer avec tous les modules à "on"
+
+2. éditer le fichier
+    Environments\RhobanServer\Robocup\RhobanServerConfig.yml
+et y mettre les valeurs qui conviennent dans les différenetes rubriques, exemple
+
+server:
+     mode : fake
+     port : 7777
+     stm_server_path : 'C:\Users\Hugo\Documents\GitHub\Edu\sdk\python\stm\stm_server_main.py'
+     command_store : 'C:\Users\Hugo\Documents\GitHub\Boards\Rhoban.Communication\commands.xml'
+
+3. lancer le serveur
+      RhobanServer.exe
+   avec pour répertoire courant
+      Environments\RhobanServer\Robocup
+
+    si "stm_server_path" a étét correctement renseigné, le chargeur de machine à états (stmloader)
+    devrait se charger automatiquement
+
+4. via l'IHM (ou le sdk) on peut se familiariser avec les différents aspects des machines à états, aka state machines aka stm
+   lancer l'IHM avec pour environnement "Environments\RobotBoard\StmTest"
+
+-> piloter une machine à états (stm) via l'IHM
+    la stm "DrunkSailor" permet de tester le chargement/lancement/arrêt/monitoring d'une machine à état amusante
+    dans l'IHM l'interface est la même que pour le contrôle des mouvements
+
+-> un mouvement peut affecter des valeurs aux variables d'une stm
+    lancer la stm "STMTest" puis le mouvement "DemoWrite" pour voir comment un mouvement peut affecter des valeurs aux variables une stm
+
+-> un mouvement peut lire les variables d'une stm
+    lancer la stm "STMTest" puis le mouvement "DemoEvalStm" pour voir comment un mouvement peut lire les variables d'une stm ou évaluer des expressions
+
+-> un mouvement peut contrôler une stm
+    pour resusciter automatiquement le DrunkSailor encore et encore, lancer la stm "DrunkSailor" puis le mouvement "DemoControlStm"
+
+-> une stm peut communiquer avec les composantes serveurs, par exemple la vision
+    lancer la stm "StmBallsClose" pour voir comment une stm peut interroger la composante vision
+    un autre exemple est donné par le mouvement "DemoBallDetector" qui interroge la composante vision et envoie les valeurs à la stm "StmBallLeftRight"

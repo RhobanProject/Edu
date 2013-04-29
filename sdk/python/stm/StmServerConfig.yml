@@ -1,5 +1,0 @@
-stm:
-     server : localhost
-     port : 7777
-     command_store : '../../common/commands.xml'
-
