@@ -39,7 +39,6 @@ Motors::Motors(Connection *connection) : Thread()
 
 Motors::~Motors()
 {
-	delete configuration;
 }
 
 void Motors::setConfig(MoveSchedulerConfig *config)
