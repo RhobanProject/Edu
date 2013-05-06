@@ -30,7 +30,7 @@ args.command_store = 'commands.xml'
 
 '''config file'''
 try :
-    config = yaml.load(open('StmServerConfig.yaml', 'rb').read())
+    config = yaml.load(open('StmServerConfig.yml', 'rb').read())
     for param in ['server','port','command_store'] :
         if param in config['stm']:
             setattr(args,param,config['stm'][param])

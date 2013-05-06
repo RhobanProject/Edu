@@ -74,7 +74,7 @@ class StateMachineServer(StateMachineLoader):
         response = self.connection.ServerEcho_response('Hello', 'you')
 
         if response is not None and response[0] == 'Hello' and response[1] == 'you':
-            print("[" + str(datetime.datetime.now()) + '] Connection alive')
+            print("[" + str(datetime.datetime.now()) + '] STM Server: Connection alive')
         else :
             raise Exception('Connection dead')
 
