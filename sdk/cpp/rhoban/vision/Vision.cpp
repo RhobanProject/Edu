@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <opencv.hpp>
+    
+#ifdef WITH_OPENCV
+    #include <opencv.hpp>
+#endif
 
 #include "Vision.hpp"
 

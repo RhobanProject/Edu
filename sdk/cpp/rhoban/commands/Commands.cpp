@@ -490,7 +490,8 @@ namespace Rhoban
   SensorsCommand::SensorsCommand()
   {
     name = "sensors";
-    prototype = "<robotName>";
+    prototype = "[-f frequency] <robotName>";
+    options = "f:";
     argumentsLength = 1;
     description = "Monitor the sensors values";
   }
@@ -498,10 +499,17 @@ namespace Rhoban
   void SensorsCommand::execute(Robot *robot, map<char, string> options,
 			       vector<string> arguments)
   {
-    robot->getSensors()->start(5);
     string fmttitle = " | %10s | %10s |\n";
     string fmtloaded = " | %10s | %10d |\n";
     string fmtnotloaded = " | %10s | %10s |\n";
+    
+    float frequency;
+    if(options.count('f'))
+      frequency = atof(options['f'].c_str());
+    else
+      frequency = 5;
+    
+    robot->getSensors()->start(frequency);
   
     while(1)
       {
@@ -534,7 +542,7 @@ namespace Rhoban
 	  cout << "-";
 	cout << endl;
 	
-	syst_wait_ms(500);
+	syst_wait_ms(1000/frequency);
       }
   }    
 
