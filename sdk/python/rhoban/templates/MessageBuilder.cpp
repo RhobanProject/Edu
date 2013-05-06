@@ -25,7 +25,13 @@ namespace Rhoban
 
   ui32 MessageBuilder::getUid()
   {
-    return uid++;
+      ui32 tmp; 
+
+      mutex.lock();
+      tmp = uid++;
+      mutex.unlock();
+
+      return tmp;
   }
 
   <METHODS>

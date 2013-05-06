@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include <threading/Mutex.h>
+
 #include <communication/types.h>
 #include <communication/Message.h>
 
@@ -33,7 +35,9 @@ namespace Rhoban
 <METHODS_PROTOTYPES>
 
     protected:
-    ui32 uid;
+
+    Mutex mutex;
+    volatile ui32 uid;
 
     ui32 getUid();
   };
