@@ -81,10 +81,11 @@ void Robots::loadYaml(string filename)
 					else
 						host = "localhost";
 
-					if(it.second().FindValue("port"))
+					if(it.second().FindValue("port")) {
 						it.second()["port"] >> port;
-					else
-						port = 12345;
+					} else {
+						port = 7777;
+                                        }
 
 					robots[name]->connect(host.c_str(), port);
 				}
