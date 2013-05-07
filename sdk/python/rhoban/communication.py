@@ -53,7 +53,7 @@ class Connection(tcp.TCPClient):
     def setStore(self, store):
         self.store = store
 
-    def sendMessageReceive(self, message, timeout = 5):
+    def sendMessageReceive(self, message, timeout = 1):
         if not self.connected :
             raise Exception("Cannot send message: disconnected")
 
@@ -70,6 +70,7 @@ class Connection(tcp.TCPClient):
             del self.mailbox.entries[message.uid]
             return response
 
+        print('Got no response to message')
         return None
 
     def sendMessageCallback(self, message, callback):
@@ -421,9 +422,11 @@ class ParameterPattern:
     typesMapping = {
         'float': [float, 'f', 4],
         'ui32': [int, 'I', 4],
+        'uint': [int, 'I', 4],
         'int': [int, 'i', 4],
         'byte': [int, 'B', 1],
         'string': [str, 's', 1],
+        'bool': [bool, '?', 1],
     }
 
     def __init__(self, specification, baseType = None):

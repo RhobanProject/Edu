@@ -15,7 +15,7 @@ from yaml import load as load
 from xml.dom import minidom
 from importlib import import_module
 from time import time
-
+import datetime
 
 '''
 The straightforward way to create a StateMachine is from yaml files (see the examples folder)
@@ -84,6 +84,9 @@ class StateMachine(RepeatedTask):
         '''The playing status of the machine'''
         self.status = self.Status.Stopped
 
+        '''The error status of the machine'''
+        self.error = ""
+
         '''The date where playing begins'''
         self.begin = time()
         
@@ -112,7 +115,12 @@ class StateMachine(RepeatedTask):
         if self.status == self.Status.Stopped :
             if self.debug: print("Starting machine \'" + self.name+"\'")
             globals()[self.name] = self
-            if self.preamble: exec(self.preamble)
+            if self.preamble:
+                try :
+                    exec(self.preamble)
+                except Exception as e:
+                    self.error = "[" + str(datetime.datetime.now().time()) + "] " + str(e)
+                    print("Exception in machine "+ self.name + ": "+ str(e))
             for line in self.preamble.splitlines() :
                 imports = line.split(' ')
                 if len(imports) >= 2:
@@ -268,6 +276,7 @@ class StateMachine(RepeatedTask):
                     self.stop()
             self.lock.release()
         except Exception as e:
+            self.error = "[" + str(datetime.datetime.now().time()) + "] " + str(e)
             print("Exception in machine "+ self.name + ": "+ str(e))
             pass
         #raise e

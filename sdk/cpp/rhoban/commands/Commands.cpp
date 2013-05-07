@@ -490,7 +490,8 @@ namespace Rhoban
   SensorsCommand::SensorsCommand()
   {
     name = "sensors";
-    prototype = "<robotName>";
+    prototype = "[-f frequency] <robotName>";
+    options = "f:";
     argumentsLength = 1;
     description = "Monitor the sensors values";
   }
@@ -498,10 +499,17 @@ namespace Rhoban
   void SensorsCommand::execute(Robot *robot, map<char, string> options,
 			       vector<string> arguments)
   {
-    robot->getSensors()->start(5);
     string fmttitle = " | %10s | %10s |\n";
     string fmtloaded = " | %10s | %10d |\n";
     string fmtnotloaded = " | %10s | %10s |\n";
+    
+    float frequency;
+    if(options.count('f'))
+      frequency = atof(options['f'].c_str());
+    else
+      frequency = 5;
+    
+    robot->getSensors()->start(frequency);
   
     while(1)
       {
@@ -534,7 +542,131 @@ namespace Rhoban
 	  cout << "-";
 	cout << endl;
 	
-	syst_wait_ms(500);
+	syst_wait_ms(1000/frequency);
       }
   }    
+
+  FramesDisplayCommand::FramesDisplayCommand()
+  {
+    name = "framesdisplay";
+    prototype = "[-w width=300] [-h height=200] [-i src,ball,...] <robotName>";
+    options = "w:h:i:";
+    argumentsLength = 1;
+    description = "Display frames vision camera";
+  }
+  
+  void FramesDisplayCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+    unsigned int width = 300;
+    unsigned int height = 200;
+    vector<string> imgNames;
+
+    if (options.count('w')) {
+        width = atoi(options['w'].c_str());
+    }
+    if (options.count('h')) {
+        height = atoi(options['h'].c_str());
+    }
+    if (options.count('i')) {
+        string names = options['i'];
+        size_t pos1 = 0;
+        size_t pos2 = 0;
+        while ((pos2 = names.find_first_of(",", pos1)) != string::npos) {
+            imgNames.push_back(names.substr(pos1, pos2-pos1));
+            pos1 = pos2+1;
+        }
+        imgNames.push_back(names.substr(pos1));
+    } else {
+        imgNames.push_back("src");
+    }
+    cout << "Displaying vision module " << width << "x" << height << endl;
+    #ifdef WITH_OPENCV
+        while (1) {
+            robot->getVision()->grabAndDisplayFrames(imgNames, width, height);
+        }
+    #else
+        cout << "Error: Compilation without OPENCV" << endl;
+    #endif
+  }
+  
+  BallInfoCommand::BallInfoCommand()
+  {
+    name = "ballinfo";
+    prototype = "[-c] <robotName>";
+    options = "c";
+    argumentsLength = 1;
+    description = "Monitor Ball info from vision. -c enable clipping";
+  }
+  
+  void BallInfoCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+      bool clipping = false;
+      if (options.count('c')) {
+          clipping = true;
+      }
+
+      cout << "Reading Ball infos" << endl;
+      cout << "Clipping ";
+      if (clipping) {
+          cout << "On" << endl;
+      } else {
+          cout << "Off" << endl;
+      }
+      while (1) {
+          robot->getVision()->grabBallInfo(clipping);
+          if (robot->getVision()->getIsBallDetected()) {
+              cout << "posX=" << robot->getVision()->getBallRelPosX() << " ";
+              cout << "posY=" << robot->getVision()->getBallRelPosY() << " ";
+              cout << "radius=" << robot->getVision()->getBallRelRadius() << endl;
+          } else {
+              cout << "No ball detected" << endl;
+          }
+      }
+  }
+  
+  GoalInfoCommand::GoalInfoCommand()
+  {
+    name = "goalinfo";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "Monitor Goal info from vision";
+  }
+  
+  void GoalInfoCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+      cout << "Reading Goal infos" << endl;
+      while (1) {
+          robot->getVision()->grabGoalInfo();
+          if (robot->getVision()->getIsGoalDetected()) {
+              cout << "posX=" << robot->getVision()->getGoalRelPosX() << " ";
+              cout << "posY=" << robot->getVision()->getGoalRelPosY() << " ";
+              cout << "width=" << robot->getVision()->getGoalRelWidth() << " ";
+              cout << "height=" << robot->getVision()->getGoalRelHeight() << endl;
+          } else {
+              cout << "No goal detected" << endl;
+          }
+      }
+  }
+  
+  BallCalibrationCommand::BallCalibrationCommand()
+  {
+    name = "ballcalibration";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "Calibrate the ball detection process";
+  }
+  
+  void BallCalibrationCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+    cout << "Calibrating ball detection process" << endl;
+    #ifdef WITH_OPENCV
+      robot->getVision()->ballCalibration();
+    #else
+      cout << "Error: Compilation without OPENCV" << endl;
+    #endif
+  }
 }

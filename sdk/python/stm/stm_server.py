@@ -33,6 +33,7 @@ class StateMachineServer(StateMachineLoader):
                            'StmSetMachineAttributes':self.processSetMachineAttributes,
                            'StmGetMachineAttributes':self.processGetMachineAttributes,
                            'StmEvaluateExpression':self.processEvaluateExpression,
+                           'StmPing':self.processPing,
                            }
         
         self.store = com.CommandsStore()
@@ -42,7 +43,7 @@ class StateMachineServer(StateMachineLoader):
     def start(self):
         self.connection = com.Connection()
         self.connection.setStore(self.store)
-        self.connection_keeper =  RepeatedTask(1,self.connectIfNeeded)
+        self.connection_keeper =  RepeatedTask(10,self.connectIfNeeded)
         self.connection_keeper.start()
 
     def connectIfNeeded(self):
@@ -73,21 +74,28 @@ class StateMachineServer(StateMachineLoader):
         response = self.connection.ServerEcho_response('Hello', 'you')
 
         if response is not None and response[0] == 'Hello' and response[1] == 'you':
-            print("[" + str(datetime.datetime.now()) + '] Connection alive')
+            print("[" + str(datetime.datetime.now()) + '] STM Server: Connection alive')
         else :
             raise Exception('Connection dead')
 
     def error(self, message):
         print('Received error ' + message[0] + "\n")
         
+    def processPing(self, message):
+        return [ message[0] ]
+    
     def processGetStatesMessage(self, message):
         return [ self.machines.keys() , [machine.machine.state.name for machine in self.machines.values()] ]
 
     def processGetStateMessage(self, message):
-        return [ message[0] , self.getMachine(message[0]).machine.state.name]
-    
+        state = self.getMachine(message[0]).machine.state
+        if state is not None :
+            return [ message[0] , state.name]
+        else :
+            return [ message[0] , 'Initial']
+        
     def processGetMachinesInfo(self,message):
-        return [ self.machines.keys() , [machine.machine.statusString() for machine in self.machines.values()] ]
+        return [ self.machines.keys() , [machine.machine.statusString() for machine in self.machines.values()] , [machine.machine.error for machine in self.machines.values()] ]
         
     def processLoadXMLMachineMessage(self, message):
         xml = message[0]
@@ -104,6 +112,7 @@ class StateMachineServer(StateMachineLoader):
             raise Exception("Unknown machine '" + name + "'")
             
     def processStartMachineMessage(self,message):
+        print('Starting machine ' + message[0]) 
         self.startMachine(message[0]);
         return ['Started machine ' + message[0]]
 
@@ -119,8 +128,10 @@ class StateMachineServer(StateMachineLoader):
     def processSetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
         machine.machine.set_attributes(message[1],message[2])
+        return []
         
     def processGetMachineAttributes(self, message):
+        #print("Stm loader sending attributes")
         machine = self.getMachine(message[0])
         return [machine.machine.get_attributes(message[1])]
 
@@ -131,18 +142,23 @@ class StateMachineServer(StateMachineLoader):
     def incomingMessageProcessor(self, message):
         try :
             if message.specification.name in self.callbacks:
+                #print('Processing message ' + message.specification.name)
                 callback = self.callbacks[message.specification.name];
                 if(callback != None) : 
                     self.lock.acquire()
                     try :
                         data = callback(message.data)
                         if data != None :
+                            #print('Sending answer to ' + message.specification.name)
                             self.connection.sendAnswer(message, data)
+                        #else :
+                            #print('No answer to ' + message.specification.name)
                         self.lock.release()
 
                     except Exception as e :
                         self.lock.release()
-                        self.connection.sendAnswer(message, [str(e)], 'StmError')
+                        print("Error '" + str(e) + "', failed to process command '" + message.specification.name + "'")
+                        #self.connection.sendAnswer(message, [str(e)], 'StmError')
 
         except Exception as e:
             print("Got exception " + str(e) + " while receiving message: " + str(message.uid))

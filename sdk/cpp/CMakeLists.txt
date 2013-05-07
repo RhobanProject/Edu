@@ -11,6 +11,9 @@ option(TESTS
 option(ROBOARD
     "Compile for ROBOARD" OFF)
 
+option(WITH_OPENCV
+    "Compile with opencv (vision display)" OFF)
+
 if (NOT RHOBANMATH)
     add_definitions(-DNO_RHOBANMATH)
 endif (NOT RHOBANMATH)
@@ -51,7 +54,8 @@ set(RHOBAN_SOURCES
     rhoban/commands/HelpCommand.cpp
     rhoban/commands/RhobanMain.cpp
     rhoban/commands/RobotCommand.cpp
-    rhoban/commands/RobotsCommand.cpp    
+    rhoban/commands/RobotsCommand.cpp
+    rhoban/vision/Vision.cpp
     rhoban/robot/test/testyaml.cpp 
     )
 
@@ -61,6 +65,12 @@ set(TESTS_SOURCES
 
 set(COMMANDS_SOURCES
     )
+
+if (WITH_OPENCV)
+    #Require OpenCV for vision display
+    find_package(OpenCV REQUIRED)
+    add_definitions(-DWITH_OPENCV)
+endif (WITH_OPENCV)
 
 include_directories("${PROJECT_SOURCE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/rhoban")
@@ -91,4 +101,10 @@ add_library(RhobanSDKMain ${EXE_SOURCES})
 target_link_libraries(sdk ${EXTRA_LIBS})
 target_link_libraries(RhobanSDK ${EXTRA_LIBS})
 target_link_libraries(RhobanSDKMain ${EXTRA_LIBS})
+
+if (WITH_OPENCV)
+    target_link_libraries(sdk ${OpenCV_LIBS})
+    target_link_libraries(RhobanSDK ${OpenCV_LIBS})
+    target_link_libraries(RhobanSDKMain ${OpenCV_LIBS})
+endif (WITH_OPENCV)
 
