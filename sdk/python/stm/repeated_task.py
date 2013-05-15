@@ -36,9 +36,9 @@ class RepeatedTask(Thread):
 
     def cancel(self):
         """Stop the timer if it hasn't finished yet"""
-        self.lock.acquire()
+        #self.lock.acquire()
         self.finished.set()
-        self.lock.release()
+        #self.lock.release()
 
     def run(self):
         while not self.finished.is_set() :

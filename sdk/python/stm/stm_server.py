@@ -128,7 +128,6 @@ class StateMachineServer(StateMachineLoader):
     def processSetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
         machine.machine.set_attributes(message[1],message[2])
-        return []
         
     def processGetMachineAttributes(self, message):
         #print("Stm loader sending attributes")

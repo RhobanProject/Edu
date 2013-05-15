@@ -107,42 +107,55 @@ class StateMachine(RepeatedTask):
     optionally waits for the machine to be stopped before returning
     last option is used by the stm_loader to prevent creation of too many threads'''
     def play(self, wait_stopped = False, duration = float("inf"), threaded = True):
-        self.lock.acquire()
-        for submachine in self.submachines.values() :
-            submachine.play(False, duration, threaded)
-        self.begin = time()
-        self.duration = duration
-        if self.status == self.Status.Stopped :
-            if self.debug: print("Starting machine \'" + self.name+"\'")
-            globals()[self.name] = self
-            if self.preamble:
-                try :
-                    exec(self.preamble)
-                except Exception as e:
-                    self.error = "[" + str(datetime.datetime.now().time()) + "] " + str(e)
-                    print("Exception in machine "+ self.name + ": "+ str(e))
-            for line in self.preamble.splitlines() :
-                imports = line.split(' ')
-                if len(imports) >= 2:
-                    if imports[0]=='def':
-                        globals()[imports[1][:-3]] = locals()[imports[1][:-3]]
-                    elif imports[0]=='import':
-                        import_module(imports[1])
-                    elif imports[0]=='from' and imports[2]=='import' :
-                        if len(imports) == 4:
-                            globals()[imports[3]] = getattr(__import__(imports[1]), imports[3])
-                        elif len(imports) == 6 and imports[4]=='as':
-                            globals()[imports[5]] = getattr(__import__(imports[1]), imports[3]) 
-
-            self.set_state("Initial")
-            self.status = self.Status.Playing
-            if threaded:
-                RepeatedTask.start(self)
-                
-        elif self.status == self.Status.Suspended :
-            if self.debug : print("Resuming machine \'"+ self.name+"\'")
-            self.status = self.Status.Playing
-        self.lock.release()
+        try :
+            self.lock.acquire()
+            for submachine in self.submachines.values() :
+                submachine.play(False, duration, threaded)
+            self.begin = time()
+            self.duration = duration
+            if self.status == self.Status.Stopped :
+                if self.debug: print("Starting machine \'" + self.name+"\'")
+                globals()[self.name] = self
+                if self.preamble:
+                    try :
+                        exec(self.preamble)
+                    except Exception as e:
+                        self.error = "[" + str(datetime.datetime.now().time()) + "] " + " Failed to exec preamble : " + str(e)
+                        print("Failed to exec preamble of machine "+ self.name + ": "+ str(e))
+                        if threaded:
+                            for submachine in self.submachines.values():
+                                submachine.stop()
+                            RepeatedTask.cancel(self)
+                            self.state = self.states["Initial"]
+                        
+                for line in self.preamble.splitlines() :
+                    imports = line.split(' ')
+                    if len(imports) >= 2:
+                        if imports[0]=='def':
+                            globals()[imports[1][:-3]] = locals()[imports[1][:-3]]
+                        elif imports[0]=='import':
+                            import_module(imports[1])
+                        elif imports[0]=='from' and imports[2]=='import' :
+                            if len(imports) == 4:
+                                globals()[imports[3]] = getattr(__import__(imports[1]), imports[3])
+                            elif len(imports) == 6 and imports[4]=='as':
+                                globals()[imports[5]] = getattr(__import__(imports[1]), imports[3]) 
+    
+                self.set_state("Initial")
+                self.status = self.Status.Playing
+                if threaded:
+                    RepeatedTask.start(self)
+                    
+            elif self.status == self.Status.Suspended :
+                if self.debug : print("Resuming machine \'"+ self.name+"\'")
+                self.status = self.Status.Playing
+            self.lock.release()
+            
+        except Exception as e:
+            self.error = "[" + str(datetime.datetime.now().time()) + "] " + " Failed to step machine : " + str(e)
+            print("Failed to step machine "+ self.name + ": "+ str(e))
+            self.lock.release()
+            
         if wait_stopped:
             self.wait_stopped()
 
@@ -156,14 +169,12 @@ class StateMachine(RepeatedTask):
 
     '''Stops the machine execution, and stops the thread as well'''            
     def stop(self, threaded = True):
-        self.lock.acquire()
         if self.debug : print("Stopping machine \'"+ self.name+"\'")
+        RepeatedTask.cancel(self)
         self.status = self.Status.Stopped
         for submachine in self.submachines.values():
             submachine.stop()
-        RepeatedTask.cancel(self)
         self.state = self.states["Initial"]
-        self.lock.release()
        
     '''creates a list of machines from a yaml file'''
     @classmethod
@@ -181,6 +192,7 @@ class StateMachine(RepeatedTask):
     '''creates a list of machines from an xml stream'''
     @classmethod
     def from_xml_stream(cls, stream):
+        print(stream)
         xmldoc = minidom.parseString(stream)
         return StateMachine.from_xml_doc(xmldoc)
 
@@ -227,14 +239,18 @@ class StateMachine(RepeatedTask):
   
     '''Changes the machine state'''
     def set_state(self, state_name):
-        self.lock.acquire()
-        state = self.states[state_name]
-        if state is not self.state:
-            self.bye()
+        try :
+            self.lock.acquire()
+            state = self.states[state_name]
+            if state is not self.state:
+                self.bye()
+                self.state = state
+                self.enter()
             self.state = state
-            self.enter()
-        self.state = state
-        self.lock.release()
+            self.lock.release()
+        except Exception as e:
+            self.lock.release()
+            raise e
     
     def set_attributes(self, keys, values):
         if len(keys) != len(values):
