@@ -113,8 +113,8 @@ void Motors::pullValues()
 {
 	try
 	{
-		Message *values = connection->ServosGetValues_response(1,10000);
-		processValues(values);
+		Message values = connection->ServosGetValues_response(1,10000);
+		processValues(&values);
 	}
 	catch(string exc)
 	{

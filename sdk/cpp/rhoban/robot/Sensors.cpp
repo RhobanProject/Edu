@@ -74,18 +74,13 @@ namespace Rhoban
     sensors.clear();
     running = 1;
 
-    Message *response = connection->LowLevelGetAnalogicSensors_response();
-    if(response == NULL)
-      cout << "Unable to get the sensors values" << endl;
-    
-    else
-      {
-	vector<string> names = response->read_string_array();
+    Message response = connection->LowLevelGetAnalogicSensors_response();
+
+	vector<string> names = response.read_string_array();
 	for(int i=0; i<names.size(); ++i)
 	  sensors[names[i]] = new Sensor(names[i]);
 	
 	Thread::start(NULL);
-      }
   }
 
   void Sensors::execute()

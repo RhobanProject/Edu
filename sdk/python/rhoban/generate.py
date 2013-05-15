@@ -103,11 +103,11 @@ def generate_connection(store, out_dir):
         methods += "           }\n\n"
 
         # Direct answer
-        prototypes += "                Message *{0}_response({1});\n".format(name, allArgumentsTimeoutProt)
-        methods += "           Message *Connection::{0}_response({1})\n".format(name, allArgumentsTimeout)
+        prototypes += "                Message {0}_response({1});\n".format(name, allArgumentsTimeoutProt)
+        methods += "           Message Connection::{0}_response({1})\n".format(name, allArgumentsTimeout)
         methods += "           {\n"
-        methods += "                   Message *message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
-        methods += "                   Message * answer = sendMessageReceive(message, timeout);\n"
+        methods += "                   Message * message = commandsStore->getBuilder()->{0}({1});\n".format(name, allArgumentNames)
+        methods += "                   Message answer = sendMessageReceive(message, timeout);\n"
         methods += "                   delete message;\n"
         methods += "                   return answer;\n"
         methods += "           }\n\n"

@@ -24,8 +24,7 @@ Moves::Moves(Connection *connection)
 
 void Moves::loadMove(string path)
 {
-	Message * response = connection->SchedulerLoadXMLMove_response(file_to_string(path));
-	delete response;
+	connection->SchedulerLoadXMLMove_response(file_to_string(path));
 }
 
 void Moves::startMove(string name, ui32 duration, ui32 smooth)
@@ -50,9 +49,8 @@ void Moves::killMove(string name)
 
 vector<string> Moves::getLoadedMoves()
 {
-	Message * response = connection->SchedulerGetLoadedMoves_response();
-	vector<string> answer = response->read_string_array();
-	delete response;
+	Message response = connection->SchedulerGetLoadedMoves_response();
+	vector<string> answer = response.read_string_array();
 	return answer;
 }
 
@@ -68,18 +66,16 @@ LinearSpline Moves::getSpline(string movename, string splineName)
 	LinearSpline spline;
 	try
 	{
-		Message * answer = connection->SchedulerGetCompressedRecordedSpline_response(movename, splineName,10000);
+		Message answer = connection->SchedulerGetCompressedRecordedSpline_response(movename, splineName,10000);
 
-		string movename = answer->read_string();
-		string splinename = answer->read_string();
-		string stream = answer->read_string();
+		string movename = answer.read_string();
+		string splinename = answer.read_string();
+		string stream = answer.read_string();
 
 		//we serialize and deserialize to check everything is fine
 		spline.Serializable::from_xml(stream);
 
-		vector < vector < float > > values = answer->read_float_array_array();
-
-		delete answer;
+		vector < vector < float > > values = answer.read_float_array_array();
 
 		spline.importRawData(values);
 

@@ -92,9 +92,8 @@ ui32 Robot::serverVersion()
 {
 	try
 	{
-		Message * response = connection->ServerGetVersion_response(10000);
-		uint answer = response->read_uint();
-		delete response;
+		Message response = connection->ServerGetVersion_response(10000);
+		uint answer = response.read_uint();
 		return answer;
 	}
 	catch(string exc)
@@ -111,9 +110,9 @@ int Robot::testConnection()
 
 	cout << "Testing echo\"Hello world\"..." << endl;
 
-	Message * response = connection->ServerEcho_response("Hello ","world", 10000);
-	string s1 = response->read_string();
-	string s2 = response->read_string();
+	Message response = connection->ServerEcho_response("Hello ","world", 10000);
+	string s1 = response.read_string();
+	string s2 = response.read_string();
 
 	cout << " Echo : " << s1 << s2 << endl;
 
@@ -122,7 +121,6 @@ int Robot::testConnection()
 	else
 		cout << "Connection test failed." << endl;
 
-	delete response;
 }
 
 void Robot::loadLowLevelConfig(string filename, bool force)

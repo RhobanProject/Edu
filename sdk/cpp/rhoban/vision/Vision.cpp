@@ -21,27 +21,24 @@ namespace Rhoban
 
     void Vision::grabBallInfo(bool clipping)
     {
-        Message* response = connection
+        Message response = connection
             ->VisionGetBallInfo_response((ui8)clipping, 10000);
-        isBallDetected = response->read_bool();
-        ballRelPosX = response->read_float();
-        ballRelPosY = response->read_float();
-        ballRelRadius = response->read_float();
-
-        delete response;
+        isBallDetected = response.read_bool();
+        ballRelPosX = response.read_float();
+        ballRelPosY = response.read_float();
+        ballRelRadius = response.read_float();
     }
     
     void Vision::grabGoalInfo(string color)
     {
-        Message* response = connection
-            ->VisionGetGoalInfo_response(color, 10000);
-        isGoalDetected = response->read_bool();
-        goalRelPosX = response->read_float();
-        goalRelPosY = response->read_float();
-        goalRelWidth = response->read_float();
-        goalRelHeight = response->read_float();
+        Message response = connection
+            ->VisionGetGoalInfo_response(10000);
+        isGoalDetected = response.read_bool();
+        goalRelPosX = response.read_float();
+        goalRelPosY = response.read_float();
+        goalRelWidth = response.read_float();
+        goalRelHeight = response.read_float();
 
-        delete response;
     }
             
     bool Vision::getIsBallDetected() const
@@ -95,12 +92,11 @@ namespace Rhoban
                 colors.push_back(0);
             }
 
-            Message* response = connection
+            Message response = connection
                 ->VisionGetJpegFrames_response(
                 imgNames, widths, heights, colors, 10000);
-            display(response);
+            display(&response);
             
-            delete response;
         }
                 
         void Vision::ballCalibration()
@@ -120,15 +116,14 @@ namespace Rhoban
             cout << "press space key " << endl;
             cout << "and stay still !" << endl;
             while (1) {
-                Message* response = connection
+                Message response = connection
                     ->VisionGetJpegFrames_response(
                     names, widths, heights, colors, 10000);
-                names = response->read_string_array();
+                names = response.read_string_array();
                 vector< vector <byte> > data = response
-                    ->read_array_array();
+                    .read_array_array();
                 cv::Mat tmpMat = cv::imdecode(cv::Mat(data[0]), 1);
                 cv::imshow("calibration", tmpMat);
-                delete response;
                 char input = cv::waitKey(1);
                 if (input == ' ') {
                     break;
@@ -139,11 +134,10 @@ namespace Rhoban
             vector<float> dots;
             dots.push_back(0.0);
             dots.push_back(0.0);
-            Message* response = connection
+            Message response = connection
                 ->LocalisationPatternCalibrate_response(
                 "ball", dots, 60000);
-            cout << response->read_string() << endl;
-            delete response;
+            cout << response.read_string() << endl;
             
             cv::destroyWindow("calibration");
         }

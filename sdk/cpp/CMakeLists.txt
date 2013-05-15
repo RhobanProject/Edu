@@ -30,6 +30,8 @@ set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUti
 set(RHOBAN_COMMON_DIRECTORY "${PROJECT_SOURCE_DIR}/common" CACHE STRING "RhobanCommon directory")
 set(YAML_HEADERS "${RHOBAN_UTILS_DIRECTORY}/yaml-cpp/include" CACHE STRING "Yaml headers directory")
 
+
+
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
 

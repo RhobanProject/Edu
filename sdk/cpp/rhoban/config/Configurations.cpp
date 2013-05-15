@@ -38,9 +38,8 @@ bool Configurations::isMoveSchedulerConfigLoaded()
 {
 	try
 	{
-		Message * response = connection->SchedulerConfigIsLoaded_response(10000);
-		bool answer = response->read_uint();
-		delete response;
+		Message response = connection->SchedulerConfigIsLoaded_response(10000);
+		bool answer = response.read_uint();
 		return answer;
 	}
 	catch(string exc)
@@ -71,9 +70,8 @@ bool Configurations::isLowLevelConfigLoaded()
 		{
 			try
 			{
-				Message *response = connection->LowLevelConfigIsLoaded_response(1000);
-				bool answer = response->read_uint();
-				delete response;
+				Message response = connection->LowLevelConfigIsLoaded_response(1000);
+				bool answer = response.read_uint();
 				return answer;
 			}catch(string exc)
 			{
