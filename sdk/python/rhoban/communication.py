@@ -142,8 +142,12 @@ class Connection(tcp.TCPClient):
 
                 self.buffer += self.receive(1024)
 
-            message.readData(self.store)
-            
+            try:
+                message.readData(self.store)
+            except Exception as e:
+                print("Connection received header but failed to reads message data: " + str(e))
+                raise e
+                
         except Exception as e:
             print("Connection caught exception " + str(e) + " while receiving message")
             raise e
@@ -206,7 +210,7 @@ class Mailbox(threading.Thread):
     
                 if message == None:
                     break
-    
+
                 uid = message.uid
                 
                 if message.isAnswer and uid in self.entries:
@@ -263,11 +267,14 @@ class Message:
 
     def readData(self, store):
         self.specification = store.getSpecification(self)
-        if self.isAnswer :
-            self.data = self.specification.answerPattern.readData(self.data)
-        else :
-            self.data = self.specification.parametersPattern.readData(self.data)
-        
+        try :
+            if self.isAnswer :
+                self.data = self.specification.answerPattern.readData(self.data)
+            else :
+                self.data = self.specification.parametersPattern.readData(self.data)
+        except Exception as e:
+            print("Failed to read data for command '" + self.specification.name)
+            raise e
 
 """
     Créateur de message
@@ -321,7 +328,6 @@ class CommandsStore:
         if not hasattr(xmldoc,'childNodes') :
             raise Exception("Failed to parse xml file "+ filename);
         
-
         def getText(command, name):
             tag = command.getElementsByTagName(name)
             if tag != []:
