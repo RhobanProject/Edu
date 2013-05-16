@@ -18,9 +18,22 @@
 
 namespace Rhoban
 {
-	Connection::Connection(CommandsStore *commandsStore_) : BaseConnection(), commandsStore(commandsStore_)
+	Connection::Connection(CommandsStore *commandsStore_) 
+            : BaseConnection(), commandsStore(commandsStore_), ownCommandStore(false)
 	{
+            if (commandsStore == NULL) {
+                commandsStore = new CommandsStore;
+                ownCommandStore = true;
+            }
 	}
+
+        Connection::~Connection()
+        {
+            if (ownCommandStore) {
+                delete commandsStore;
+                commandsStore = NULL;
+            }
+        }
 
     <METHODS>
 }

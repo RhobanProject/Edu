@@ -30,11 +30,15 @@ namespace Rhoban
     class Connection : public BaseConnection
     {
         public:
-            Connection(CommandsStore *commandsStore_);
+            Connection(CommandsStore *commandsStore_ = NULL);
+            virtual ~Connection();
 
-			CommandsStore *commandsStore;
+            CommandsStore *commandsStore;
 
             <METHODS_PROTOTYPES>
+
+        protected:
+                bool ownCommandStore;
     };
 }
 
