@@ -50,6 +50,7 @@ class StateMachineLoader(RepeatedTask):
         if machine.name in self.machines :
             self.lock.release()
             raise Exception("Machine " + machine.name + " already loaded")
+        machine.loader = self
         self.machines[machine.name] = StateMachineLoader.ScheduledMachine(machine)
         self.update_frequencies()
         self.lock.release()
@@ -57,10 +58,16 @@ class StateMachineLoader(RepeatedTask):
             machine.play(wait_stop, duration, False)
    
     def startMachine(self, machineName, duration = float("inf")):
-        print('Getting machine')
         machine = self.getMachine(machineName)
-        print('Starting machine')
         machine.machine.play(False, duration, False)
+
+    def stopMachine(self, machineName):
+        machine = self.getMachine(machineName)
+        machine.machine.stop()
+
+    def setState(self, machineName, stateName):
+        machine = self.getMachine(machineName)
+        machine.machine.set_state(stateName)
 
     def kill(self, machineName):
         self.lock.acquire()
