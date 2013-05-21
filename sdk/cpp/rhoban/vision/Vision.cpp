@@ -85,7 +85,7 @@ namespace Rhoban
             imgNames = names;
             vector<ui32> widths;
             vector<ui32> heights;
-            vector<ui8> colors;
+            vector<bool> colors;
             for (size_t i=0;i<imgNames.size();i++) {
                 widths.push_back(width);
                 heights.push_back(height);
@@ -101,10 +101,11 @@ namespace Rhoban
                 
         void Vision::ballCalibration()
         {
+            /*
             vector<string> names;
             vector<ui32> widths;
             vector<ui32> heights;
-            vector<ui8> colors;
+            vector<bool> colors;
             names.push_back("ballcalibration");
             widths.push_back(300);
             heights.push_back(200);
@@ -140,6 +141,7 @@ namespace Rhoban
             cout << response.read_string() << endl;
             
             cv::destroyWindow("calibration");
+            */
         }
 
         void Vision::initWindows()
