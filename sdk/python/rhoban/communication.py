@@ -34,9 +34,10 @@ class Connection(tcp.TCPClient):
         self.length = 0
         self.counter = 0
         self.connect()
-
+        self.stopped = False
 
     def connect(self):
+        self.stopped = False
         super(Connection, self).connectTo(self.hostname, self.port)
         if self.connected :
             self.mailbox = Mailbox(self, self.receptionCallback)
@@ -44,6 +45,7 @@ class Connection(tcp.TCPClient):
 
 
     def stop(self):
+        self.stopped = True
         self.close()
         self.connected = False
 
@@ -149,7 +151,8 @@ class Connection(tcp.TCPClient):
                 raise e
                 
         except Exception as e:
-            print("Connection caught exception " + str(e) + " while receiving message")
+            if not self.stopped:
+                print("Connection caught exception " + str(e) + " while receiving message")
             raise e
 
         return message
@@ -231,8 +234,9 @@ class Mailbox(threading.Thread):
                         print("Exception " + str(e) + " while processing incoming message " + str(message.uid))
 
             except Exception as e:
-                print("Mailbox caught exception '" + str(e)  + "', disconnecting")
-                self.connection.stop()
+                if not self.connection.stopped:
+                    print("Mailbox caught exception '" + str(e)  + "', disconnecting")
+                    self.connection.stop()
                  
     def garbageCollect(self):
         for uid in self.entries:
