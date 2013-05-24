@@ -118,7 +118,7 @@
         <ParametersPattern>ui32 string </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
         <Name>SchedulerGetLoadedMoves</Name>
         <Description>get the list of moves loaded in the move scheduler and their status and errors</Description>
         <Destination>move_scheduler</Destination>
@@ -144,7 +144,7 @@
     </CommandSpecification>
   <CommandSpecification>
     <Name>SchedulerStoreXMLMove</Name>
-    <Description>store an xml move remotely. Params are serialization, spline bocks, spline datas</Description>
+    <Description>store an xml move remotely. Params are serialization, spline block names, spline datas</Description>
     <Destination>move_scheduler</Destination>
     <CommandIndex>51</CommandIndex>
     <ParametersPattern>string string[] float[][][]</ParametersPattern>
@@ -176,19 +176,19 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>JoypadGetValues</Name>
-        <Description>get joypad values, return the 32 button values and then the 12 joypad axis values</Description>
+        <Description>get joypad values, return the names and then the 12 joypad axis values and then the 32 button values</Description>
         <Destination>low_level</Destination>
         <CommandIndex>51</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>byte[] int[] </AnswerPattern>
+        <AnswerPattern>string[] float[][] bool[][] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>JoypadSetValues</Name>
         <Description>set joypad values, first the 32 button values and then the 12 joypad axis values</Description>
         <Destination>low_level</Destination>
         <CommandIndex>52</CommandIndex>
-        <ParametersPattern>byte[] int[] </ParametersPattern>
-        <AnswerPattern>string </AnswerPattern>
+        <ParametersPattern>bool[] int[] </ParametersPattern>
+        <AnswerPattern></AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServosCompliant</Name>
@@ -222,15 +222,23 @@
         <ParametersPattern>ui32 </ParametersPattern>
         <AnswerPattern>byte[] float[] float[] float[] </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
-        <Name>SchedulerGetAvailableMoves</Name>
-        <Description>get the list of moves stored remotely</Description>
+  <CommandSpecification>
+    <Name>ServosGetFewValues</Name>
+    <Description>get actual values of some servos in degree. The parameter is the list of servo ids.</Description>
+    <Destination>low_level</Destination>
+    <CommandIndex>21</CommandIndex>
+    <ParametersPattern>byte[] </ParametersPattern>
+    <AnswerPattern>float[] </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+        <Name>SchedulerGetRemoteMoves</Name>
+        <Description>get the list of moves stored remotely. Return move names, filenames and modified time.</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>47</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string[] </AnswerPattern>
+        <AnswerPattern>string[] string[] string[] </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
         <Name>ServosSetValues</Name>
         <Description>set all values passing the encoding then four arrays containing ids, goal angle, goal speed, max load</Description>
         <Destination>low_level</Destination>
@@ -284,7 +292,15 @@
         <ParametersPattern>string </ParametersPattern>
         <AnswerPattern>string string[] float[][] </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>SchedulerGetMoveValues</Name>
+    <Description>get the values of some blocks of a move.</Description>
+    <Destination>move_scheduler</Destination>
+    <CommandIndex>55</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string string[] float[][] </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>SchedulerCrossFade</Name>
         <Description>cross fade two moves. Params are name of the first move, name of the second move and duration in ms.</Description>
         <Destination>move_scheduler</Destination>
@@ -428,7 +444,15 @@
         <ParametersPattern>string ui32 ui32 bool </ParametersPattern>
         <AnswerPattern>string byte[] </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>VisionGetPngFrames</Name>
+    <Description>ask png frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>8</CommandIndex>
+    <ParametersPattern>string[] ui32[] ui32[] bool[] </ParametersPattern>
+    <AnswerPattern>string[] byte[][] </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>VisionGetJpegFrames</Name>
         <Description>ask jpeg frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
         <Destination>vision</Destination>
@@ -484,6 +508,14 @@
     <AnswerPattern>bool float float float float bool bool bool</AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
+    <Name>VisionGetFullGoalInfo</Name>
+    <Description>ask for all goal info. See GoalLines::to_vector() for encoding description</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>24</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>float[]</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
     <Name>VisionGetTasks</Name>
     <Description>ask the frequency of the task manager, the list of current tasks and theirs frequencies and actual frequencies and parameters.</Description>
     <Destination>vision</Destination>
@@ -533,13 +565,13 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>LocalisationGetField</Name>
-        <Description>get the image of the field. 0 means only field, 1 means with loc tag, 2 means with database tag</Description>
+        <Description>get the loc state and image of the field. 0 means only field, 1 means with loc tag, 2 means with database tag</Description>
         <Destination>localisation</Destination>
         <CommandIndex>5</CommandIndex>
         <ParametersPattern>ui32 </ParametersPattern>
-        <AnswerPattern />
+      <AnswerPattern >float[] byte[]</AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
         <Name>LocalisationAddSample</Name>
         <Description>add sample. parameters are coordinates.</Description>
         <Destination>localisation</Destination>
@@ -581,12 +613,28 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>LocalisationGetState</Name>
-        <Description>get x y coordinates and direction of the goal</Description>
+        <Description>get x y relative coordinates and direction (degrees) of the player and x y relative coordinates of the ball</Description>
         <Destination>localisation</Destination>
         <CommandIndex>2</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>float float float </AnswerPattern>
+        <AnswerPattern>float[]</AnswerPattern>
     </CommandSpecification>
+  <CommandSpecification>
+    <Name>LocalisationSetPlayerState</Name>
+    <Description>set known coordinates of the player. x, y, (between -1 and 1) and cap (in degrees and clockwise direction) and state (0 up 1 down)</Description>
+    <Destination>localisation</Destination>
+    <CommandIndex>9</CommandIndex>
+    <ParametersPattern>float float float ui32</ParametersPattern>
+      <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>LocalisationSetBallPosition</Name>
+    <Description>set known coordinates of the ball. x, y (between -1 and 1)</Description>
+    <Destination>localisation</Destination>
+    <CommandIndex>10</CommandIndex>
+    <ParametersPattern >float float</ParametersPattern>
+      <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
   <CommandSpecification>
     <Name>VisionAreaCalibrate</Name>
     <Description>calibrate using area selection method. The size of each array is a multiple of 4. it contains the top left (x1,y1) and width and height of the rectangles in relative coordinates (0 to 1). Returns message ans list of tagged frames.</Description>

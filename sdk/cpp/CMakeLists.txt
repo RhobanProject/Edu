@@ -70,7 +70,7 @@ set(COMMANDS_SOURCES
 
 if (WITH_OPENCV)
     #Require OpenCV for vision display
-    find_package(OpenCV REQUIRED)
+    find_package(OpenCV 2)
     add_definitions(-DWITH_OPENCV)
 endif (WITH_OPENCV)
 
@@ -108,5 +108,6 @@ if (WITH_OPENCV)
     target_link_libraries(sdk ${OpenCV_LIBS})
     target_link_libraries(RhobanSDK ${OpenCV_LIBS})
     target_link_libraries(RhobanSDKMain ${OpenCV_LIBS})
+    include_directories("${OpenCV_DIR}/include")
 endif (WITH_OPENCV)
 

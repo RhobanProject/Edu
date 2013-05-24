@@ -5,6 +5,10 @@
 #include <string>
 #include "communication/Connection.h"
 
+#ifdef WITH_OPENCV
+#include <opencv2/opencv.hpp>
+#endif
+
 namespace Rhoban
 {
     class Vision
@@ -44,6 +48,18 @@ namespace Rhoban
                  * Grab and display one camera frame
                  */
                 void grabAndDisplayFrames(vector<std::string>& names, 
+                    unsigned int width, unsigned int height);
+
+                cv::Mat grabJpegFrame(std::string name,
+                                    unsigned int width, unsigned int height);
+
+                cv::Mat grabPngFrame(std::string name,
+                    unsigned int width, unsigned int height);
+
+                map<std::string, cv::Mat> grabPngFrames(vector<std::string> names,
+                    unsigned int width, unsigned int height);
+
+                map<std::string, cv::Mat> grabJpegFrames(vector<std::string> names,
                     unsigned int width, unsigned int height);
 
                 /**

@@ -94,6 +94,8 @@ class StateMachine(RepeatedTask):
         self.duration = float("inf")
         
         self.debug = debug
+        
+        self.threaded = False
               
     def statusString(self):
         if self.status == self.Status.Playing:
@@ -145,6 +147,7 @@ class StateMachine(RepeatedTask):
                 self.status = self.Status.Playing
                 if threaded:
                     RepeatedTask.start(self)
+                self.threaded = threaded
                     
             elif self.status == self.Status.Suspended :
                 if self.debug : print("Resuming machine \'"+ self.name+"\'")
@@ -168,9 +171,10 @@ class StateMachine(RepeatedTask):
         self.lock.release()
 
     '''Stops the machine execution, and stops the thread as well'''            
-    def stop(self, threaded = True):
+    def stop(self):
         if self.debug : print("Stopping machine \'"+ self.name+"\'")
-        RepeatedTask.cancel(self)
+        if self.threaded:
+            RepeatedTask.cancel(self)
         self.status = self.Status.Stopped
         for submachine in self.submachines.values():
             submachine.stop()
