@@ -73,7 +73,7 @@ class Motors(threading.Thread):
         loads = []
 
         for name, motor in self.motors.items():
-            if motor.goalAngle != None and motor.currentAngle != None and motor.currentSpeed != None and motor.dirty:
+            if motor.goalAngle != None and motor.goalSpeed != None and motor.goalLoad != None and motor.dirty:
                 ids += [motor.id]
                 angles += [int(motor.goalAngle*1000)]
                 speeds += [int(motor.goalSpeed*1023)]
