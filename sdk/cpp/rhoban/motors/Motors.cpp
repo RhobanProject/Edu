@@ -45,13 +45,14 @@ void Motors::setConfig(MoveSchedulerConfig *config)
 {
 	this->configuration = config;
 
-	vector<ServoConfig>::iterator it;
+	map<string, ServoConfig>::iterator it;
 	for(it = configuration->servos_config.servos.begin();
 			it != configuration->servos_config.servos.end(); ++it)
 	{
-		motors[it->Name] = new Motor(it->Id, it->Name,
-				it->IniAngle, it->ZeroAngle);
-		idMotors[it->Id] = motors[it->Name];
+                ServoConfig &config = (*it).second;
+                string name = config.Name;
+		motors[name] = new Motor(config.Id, config.Name, config.IniAngle, config.ZeroAngle);
+		idMotors[config.Id] = motors[name];
 	}
 }
 
