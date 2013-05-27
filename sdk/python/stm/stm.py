@@ -120,15 +120,11 @@ class StateMachine(RepeatedTask):
                 globals()[self.name] = self
                 if self.preamble:
                     try :
-                        exec(self.preamble)
+                        exec(self.preamble, globals())
                     except Exception as e:
                         self.error = "[" + str(datetime.datetime.now().time()) + "] " + " Failed to exec preamble : " + str(e)
                         print("Failed to exec preamble of machine "+ self.name + ": "+ str(e))
-                        if threaded:
-                            for submachine in self.submachines.values():
-                                submachine.stop()
-                            RepeatedTask.cancel(self)
-                            self.state = self.states["Initial"]
+                        raise Exception(self.error)
                         
                 for line in self.preamble.splitlines() :
                     imports = line.split(' ')
@@ -284,7 +280,10 @@ class StateMachine(RepeatedTask):
         try:
             self.lock.acquire()
             if self.status == self.Status.Playing :
-                self.loop()
+                try:
+                    self.loop()
+                except Exception as e:
+                    raise Exception("Failed to loop in state '" + self.state.name + "': " + str(e))
                 if self.debug: print("Transition of machine " + self.name + " in state "+ self.state.name)
                 self.set_state(self.transition())
                 if time() - self.begin > self.duration:
@@ -302,12 +301,16 @@ class StateMachine(RepeatedTask):
         #raise e
 
     ''' Performs the transition and returns the name of the new state'''
-    def transition(self):  
-        for transition in self.state.transitions:
-            if not transition.condition or eval(transition.condition):
-                if transition.do :
-                    exec(transition.do)
-                return transition.next
+    def transition(self):
+        try:  
+            for transition in self.state.transitions:
+                if not transition.condition or eval(transition.condition, globals(), globals()):
+                    if transition.do :
+                        exec(transition.do, globals())
+                    return transition.next
+        except Exception as e:
+            raise Exception("Failed to compute transition in state '" + self.state.name + "': " + str(e))
+
         return self.state.name
                   
     '''If the chain is non empty, add_tag associates the value chain to the key 'tag'

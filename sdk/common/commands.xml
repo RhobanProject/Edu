@@ -246,7 +246,15 @@
         <ParametersPattern>ui32 byte[] int[] ui32[] ui32[] </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
+    <Name>SetRelativeServosAngles</Name>
+    <Description>set relative servos angles passing the encoding then two arrays containing names and goal angles in degrees</Description>
+    <Destination>move_scheduler</Destination>
+    <CommandIndex>74</CommandIndex>
+    <ParametersPattern>string[] float[]</ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
         <Name>SchedulerLoadMoveFile</Name>
         <Description>loads a move stored remotely</Description>
         <Destination>move_scheduler</Destination>
@@ -275,13 +283,6 @@
         <Destination>low_level</Destination>
         <CommandIndex>24</CommandIndex>
         <ParametersPattern>string </ParametersPattern>
-        <AnswerPattern>string </AnswerPattern>
-    </CommandSpecification>
-    <CommandSpecification>
-        <Name>ErrorForLowLevel</Name>
-        <Destination>low_level</Destination>
-        <CommandIndex>1</CommandIndex>
-        <ParametersPattern />
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -370,7 +371,7 @@
     <Destination>move_scheduler</Destination>
     <CommandIndex>73</CommandIndex>
     <ParametersPattern>string ui32 </ParametersPattern>
-    <AnswerPattern>string</AnswerPattern>
+    <AnswerPattern></AnswerPattern>
   </CommandSpecification>
     <CommandSpecification>
         <Name>LowLevelLoadConfig</Name>
@@ -547,7 +548,8 @@
         <ParametersPattern />
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+
+  <CommandSpecification>
         <Name>LocalisationGetDatabase</Name>
         <Description>get the loc database</Description>
         <Destination>localisation</Destination>
@@ -634,6 +636,38 @@
     <CommandIndex>10</CommandIndex>
     <ParametersPattern >float float</ParametersPattern>
       <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>LocalisationSetFrequency</Name>
+    <Description>set maximal frequency of the localisation thread</Description>
+    <Destination>localisation</Destination>
+    <CommandIndex>11</CommandIndex>
+    <ParametersPattern >float</ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>LocalisationGetFrequency</Name>
+    <Description>get maximal frequency and real frequency of the localisation thread</Description>
+    <Destination>localisation</Destination>
+    <CommandIndex>12</CommandIndex>
+    <ParametersPattern ></ParametersPattern>
+    <AnswerPattern>float float</AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>LocalisationGetStdDev</Name>
+    <Description>get std dev filter parameters</Description>
+    <Destination>localisation</Destination>
+    <CommandIndex>14</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>float float </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>LocalisationSetStdDev</Name>
+    <Description>set std dev filter parameters</Description>
+    <Destination>localisation</Destination>
+    <CommandIndex>13</CommandIndex>
+    <ParametersPattern>float float </ParametersPattern> />
+    <AnswerPattern></AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
     <Name>VisionAreaCalibrate</Name>
