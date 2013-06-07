@@ -251,8 +251,16 @@
     <Description>set relative servos angles passing the encoding then two arrays containing names and goal angles in degrees</Description>
     <Destination>move_scheduler</Destination>
     <CommandIndex>74</CommandIndex>
-    <ParametersPattern>string[] float[]</ParametersPattern>
+    <ParametersPattern>string[] float[] </ParametersPattern>
     <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>GetRelativeServosAngles</Name>
+    <Description>get relative servo angles, response contains servo names and relative angles in degree</Description>
+    <Destination>move_scheduler</Destination>
+    <CommandIndex>75</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string[] float[] </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
         <Name>SchedulerLoadMoveFile</Name>
