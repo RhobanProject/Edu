@@ -84,8 +84,15 @@ class Robot(object):
 
     def loadEnvironment(self, environment):
         self.setEnvironment(environment)
-        self.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'LowLevelConfig.xml'))
-        self.loadMoveSchedulerConfig(os.path.join(environment, 'ConfigFiles', 'MoveSchedulerConfig.xml'))
+        if os.path.exists(os.path.join(environment, 'LowLevelConfig.xml')):
+            self.loadLowLevelConfig(os.path.join(environment, 'LowLevelConfig.xml'))
+        else:
+            self.loadLowLevelConfig(os.path.join(environment, 'ConfigFiles', 'LowLevelConfig.xml'))
+
+        if os.path.exists(os.path.join(environment, 'MoveSchedulerConfig.xml')):
+            self.loadMoveSchedulerConfig(os.path.join(environment, 'MoveSchedulerConfig.xml'))
+        else:
+            self.loadMoveSchedulerConfig(os.path.join(environment, 'ConfigFiles', 'MoveSchedulerConfig.xml'))
 
     def setEnvironment(self, environment):
         self.environment = environment

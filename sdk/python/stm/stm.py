@@ -98,12 +98,18 @@ class StateMachine(RepeatedTask):
         self.threaded = False
               
     def statusString(self):
+        status = ''
+
         if self.status == self.Status.Playing:
-            return 'Playing'
+            status = 'Playing'
         elif self.status == self.Status.Stopped:
-            return 'Stopped'
+            status = 'Stopped'
         elif self.status == self.Status.Suspended:
-            return 'Suspended'
+            status = 'Suspended'
+
+        status += ' ('+str(self.state)+')'
+
+        return status
         
     '''Plays the machine for the given duration
     optionally waits for the machine to be stopped before returning

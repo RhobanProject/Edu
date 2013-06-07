@@ -251,8 +251,16 @@
     <Description>set relative servos angles passing the encoding then two arrays containing names and goal angles in degrees</Description>
     <Destination>move_scheduler</Destination>
     <CommandIndex>74</CommandIndex>
-    <ParametersPattern>string[] float[]</ParametersPattern>
+    <ParametersPattern>string[] float[] </ParametersPattern>
     <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>GetRelativeServosAngles</Name>
+    <Description>get relative servo angles, response contains servo names and relative angles in degree</Description>
+    <Destination>move_scheduler</Destination>
+    <CommandIndex>75</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string[] float[] </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
         <Name>SchedulerLoadMoveFile</Name>
@@ -298,7 +306,7 @@
     <Description>get the values of some blocks of a move.</Description>
     <Destination>move_scheduler</Destination>
     <CommandIndex>55</CommandIndex>
-    <ParametersPattern>string string[]</ParametersPattern>
+    <ParametersPattern>string string[] </ParametersPattern>
     <AnswerPattern>string string[] float[][] </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
@@ -539,7 +547,17 @@
     <CommandIndex>24</CommandIndex>
     <ParametersPattern>string float</ParametersPattern> />
     <AnswerPattern>string</AnswerPattern>
-  </CommandSpecification>
+</CommandSpecification>
+
+  <CommandSpecification>
+    <Name>VisionGetTags</Name>
+    <Description>Get the available frame tags</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>35</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string[]</AnswerPattern>
+</CommandSpecification>
+
   <CommandSpecification>
         <Name>LocalisationError</Name>
         <Description>error from loc</Description>
