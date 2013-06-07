@@ -264,6 +264,10 @@ class StateMachine(RepeatedTask):
             values.append(float(getattr(self, key)))
         return values
 
+    '''try to use connection to find attribute'''
+    def __getattr__(self, name):
+        return self.connection.name
+
     def evaluate(self, expression):
         return float(eval(expression))
         
