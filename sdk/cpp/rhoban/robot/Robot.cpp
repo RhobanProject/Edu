@@ -21,6 +21,7 @@
 #include "Robot.h"
 #include "Moves.h"
 #include "Sensors.h"
+#include "file_mngt.h"
 
 using namespace std;
 
@@ -53,13 +54,24 @@ void Robot::loadEnvironment(string environment)
 		this->setEnvironment(environment);
 		checkFixEnvironmentPath();
 
-		string env1 = this->environment;
-		string env2 = this->environment;
-		env1.append("ConfigFiles/LowLevelConfig.xml");
-		env2.append("ConfigFiles/MoveSchedulerConfig.xml");
+                string env1, env2;
 
-		this->loadLowLevelConfig(env1);
-		this->loadMoveSchedulerConfig(env2);
+		env1 = this->environment + "LowLevelConfig.xml";
+
+                if (file_exists(env1)) {
+                    this->loadLowLevelConfig(env1);
+                } else {
+		    env1 = this->environment + "ConfigFiles/LowLevelConfig.xml";
+        	    this->loadLowLevelConfig(env1);
+                }
+		
+                env2 = this->environment + "MoveSchedulerConfig.xml";
+                if (file_exists(env2)) {
+    		    this->loadMoveSchedulerConfig(env2);
+                } else {
+                    env2 = this->environment + "ConfigFiles/MoveSchedulerConfig.xml";
+		    this->loadMoveSchedulerConfig(env2);
+                }
 	}
 	catch(string exc)
 	{
