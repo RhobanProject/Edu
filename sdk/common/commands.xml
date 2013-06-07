@@ -298,7 +298,7 @@
     <Description>get the values of some blocks of a move.</Description>
     <Destination>move_scheduler</Destination>
     <CommandIndex>55</CommandIndex>
-    <ParametersPattern>string </ParametersPattern>
+    <ParametersPattern>string string[] </ParametersPattern>
     <AnswerPattern>string string[] float[][] </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
@@ -539,7 +539,17 @@
     <CommandIndex>24</CommandIndex>
     <ParametersPattern>string float</ParametersPattern> />
     <AnswerPattern>string</AnswerPattern>
-  </CommandSpecification>
+</CommandSpecification>
+
+  <CommandSpecification>
+    <Name>VisionGetTags</Name>
+    <Description>Get the available frame tags</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>35</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string[]</AnswerPattern>
+</CommandSpecification>
+
   <CommandSpecification>
         <Name>LocalisationError</Name>
         <Description>error from loc</Description>
