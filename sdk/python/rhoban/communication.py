@@ -397,7 +397,7 @@ class ParametersPattern:
 
     def getData(self, *args):
         if len(args) != len(self.patterns):
-            raise Exception('Arguments error, found %s arguments where %s expected' % (len(args), len(self.patterns)))
+            raise Exception('%s: Arguments error, found %s arguments where %s expected' % (self.name, len(args), len(self.patterns)))
 
         data = b''
 

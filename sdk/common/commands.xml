@@ -305,7 +305,7 @@
     <Name>SchedulerGetMoveValues</Name>
     <Description>get the values of some blocks of a move.</Description>
     <Destination>move_scheduler</Destination>
-    <CommandIndex>55</CommandIndex>
+    <CommandIndex>54</CommandIndex>
     <ParametersPattern>string string[] </ParametersPattern>
     <AnswerPattern>string string[] float[][] </AnswerPattern>
   </CommandSpecification>
