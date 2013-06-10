@@ -54,9 +54,9 @@ class StateMachineServer(StateMachineLoader):
                 self.testConnection()
                 self.registerAsComponent()
                 print("[" + str(datetime.datetime.now()) + "] Stm server connected to server")       
-            else :
-                self.testConnection()
-                pass
+#            else :
+ #               self.testConnection()
+  #              pass
         except Exception as e :
             print("[" + str(datetime.datetime.now()) + "] Stm server: connection dead: " + str(e))
             self.connection.stop()

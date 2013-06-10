@@ -107,7 +107,10 @@ class StateMachine(RepeatedTask):
         elif self.status == self.Status.Suspended:
             status = 'Suspended'
 
-        status += ' ('+str(self.state)+')'
+        if self.state == None:
+            status += ' (Initial)'
+        else:
+            status += ' ('+ self.state.name+')'
 
         return status
         
