@@ -305,7 +305,7 @@
     <Name>SchedulerGetMoveValues</Name>
     <Description>get the values of some blocks of a move.</Description>
     <Destination>move_scheduler</Destination>
-    <CommandIndex>54</CommandIndex>
+    <CommandIndex>55</CommandIndex>
     <ParametersPattern>string string[] </ParametersPattern>
     <AnswerPattern>string string[] float[][] </AnswerPattern>
   </CommandSpecification>
@@ -541,21 +541,13 @@
     <AnswerPattern>string[] float[] float[] string[] string[][]</AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
-    <Name>VisionSetTaskFrequency</Name>
-    <Description>set task frequency and parameters.</Description>
+    <Name>VisionSetTaskParameters</Name>
+    <Description>set task frequency and its parameters. Setting frequency to 0 (resp >0) stops (resp starts) the task. </Description>
     <Destination>vision</Destination>
     <CommandIndex>23</CommandIndex>
     <ParametersPattern>string float  string[]</ParametersPattern> />
-    <AnswerPattern>string</AnswerPattern>
+    <AnswerPattern></AnswerPattern>
   </CommandSpecification>
-  <CommandSpecification>
-    <Name>VisionSetTaskFrequency</Name>
-    <Description>set the frequency of a task. Can be used to start/stop a task frequency and change the frequency of an already running task.</Description>
-    <Destination>vision</Destination>
-    <CommandIndex>24</CommandIndex>
-    <ParametersPattern>string float</ParametersPattern> />
-    <AnswerPattern>string</AnswerPattern>
-</CommandSpecification>
 
   <CommandSpecification>
     <Name>VisionGetTags</Name>
