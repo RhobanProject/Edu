@@ -6,18 +6,17 @@ Created on 27 janv. 2013
 
 from repeated_task import RepeatedTask
 from stm_loader import StateMachineLoader
+from threading import RLock
 from stm import StateMachine
 import rhoban.communication as com
 from rhoban.communication import CommandsStore
 import datetime
-
 
 class StateMachineServer(StateMachineLoader):
     
     def __init__(self,  hostname = 'localhost', port = 12345, storeFileName = '../common/commands.xml'):
 
         print("Creating StmServer connected to " + hostname + ":" + str(port))
-        StateMachineLoader.__init__(self)
         
         self.hostname = hostname
         self.port = port
@@ -38,6 +37,9 @@ class StateMachineServer(StateMachineLoader):
         
         self.store = com.CommandsStore()
         self.store.parseXml(storeFileName)
+        self.pending_messages = []
+        self.lock_messages = RLock()
+        StateMachineLoader.__init__(self)
 
 
     def start(self):
@@ -46,6 +48,27 @@ class StateMachineServer(StateMachineLoader):
         self.connection_keeper =  RepeatedTask(10,self.connectIfNeeded)
         self.connection_keeper.start()
 
+    '''Asynchronous reception and processing of messages
+       messages are stored in an array and processed when no machine is stepping
+       this is necessary for machine to send and get messages without creating race conditions in the mailbox
+    '''
+        
+    def incomingMessageProcessor(self, message):
+        self.lock_messages.acquire()
+        self.pending_messages.append(message)
+        self.lock_messages.release()
+
+    def processPendingMessages(self):
+        self.lock_messages.acquire()
+        for message in self.pending_messages:
+            self.processMessage(message)
+        self.pending_messages = []
+        self.lock_messages.release()
+
+    def step(self):
+        StateMachineLoader.step(self)
+        self.processPendingMessages()
+        
     def connectIfNeeded(self):
         try :
             if (not self.connection.connected):
@@ -95,7 +118,8 @@ class StateMachineServer(StateMachineLoader):
             return [ message[0] , 'Initial']
         
     def processGetMachinesInfo(self,message):
-        return [ self.machines.keys() , [machine.machine.statusString() for machine in self.machines.values()] , [machine.machine.error for machine in self.machines.values()] ]
+        answer = [ self.machines.keys() , [machine.machine.statusString() for machine in self.machines.values()] , [machine.machine.error for machine in self.machines.values()] ]
+        return answer
         
     def processLoadXMLMachineMessage(self, message):
         xml = message[0]
@@ -138,26 +162,24 @@ class StateMachineServer(StateMachineLoader):
         machine = self.getMachine(message[0])
         return [machine.machine.evaluate(message[1])]
         
-    def incomingMessageProcessor(self, message):
+    def processMessage(self, message):
         try :
             if message.specification.name in self.callbacks:
-                #print('Processing message ' + message.specification.name)
                 callback = self.callbacks[message.specification.name];
                 if(callback != None) : 
                     self.lock.acquire()
                     try :
                         data = callback(message.data)
                         if data != None :
-                            #print('Sending answer to ' + message.specification.name)
                             self.connection.sendAnswer(message, data)
                         #else :
-                            #print('No answer to ' + message.specification.name)
+                        #    print('No answer to ' + message.specification.name)
                         self.lock.release()
 
                     except Exception as e :
                         self.lock.release()
                         print("Error '" + str(e) + "', failed to process command '" + message.specification.name + "'")
-                        #self.connection.sendAnswer(message, [str(e)], 'StmError')
+                        self.connection.sendAnswer(message, [str(e)], 'StmError')
 
         except Exception as e:
             print("Got exception " + str(e) + " while receiving message: " + str(message.uid))

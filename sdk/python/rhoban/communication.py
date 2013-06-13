@@ -60,12 +60,13 @@ class Connection(tcp.TCPClient):
             raise Exception("Cannot send message: disconnected")
 
         entry = MailboxEntry(self.store.getSpecification(message))
-        entry.event = threading.Event()
+        entry.condition = threading.Condition()
 
-        entry.event.clear()
         self.mailbox.entries[message.uid] = entry
+        entry.condition.acquire()
         self.sendMessage(message)
-        entry.event.wait(timeout)
+        entry.condition.wait(timeout)
+        entry.condition.release()
 
         if message.uid in self.mailbox.entries:
             response = self.mailbox.entries[message.uid].response
@@ -190,7 +191,7 @@ class MailboxEntry:
         self.response = None
         self.specification = specification
         self.callback = None
-        self.event = None
+        self.condition = None
 
     def expires(self):
         return time.time()-self.creation > 300
@@ -220,8 +221,10 @@ class Mailbox(threading.Thread):
                     entry = self.entries[uid]
                     entry.response = message.data
     
-                    if entry.event != None:
-                        entry.event.set()
+                    if entry.condition != None:
+                        entry.condition.acquire()
+                        entry.condition.notify()
+                        entry.condition.release()
     
                     if entry.callback != None:
                         entry.callback(entry.response)

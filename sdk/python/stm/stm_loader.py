@@ -89,9 +89,16 @@ class StateMachineLoader(RepeatedTask):
         self.lock.release()
     
     def step(self):
+        self.lock.acquire()
         for machine in self.machines.values():
-            machine.counter = machine.counter + 1
-            if machine.counter >= machine.max_counter :
-                machine.counter = 0
-                machine.machine.step()
+            try:
+                machine.counter = machine.counter + 1
+                if machine.counter >= machine.max_counter :
+                    machine.counter = 0
+                    machine.machine.step()
+            except Exception as e:
+                print("Exception '" + str(e) + "' when stepping machine '" + machine.name +" in state " + machine.state.name)
+        self.lock.release()
+        
+            
                 
