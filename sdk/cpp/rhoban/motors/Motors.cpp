@@ -192,26 +192,14 @@ void Motors::processValues(Message *values)
 
 void Motors::goToZero(int duration, bool verbose)
 {
-	pullValues();
-
-	map<string, Motor *>::iterator it;
-	for(it = motors.begin(); it != motors.end(); ++it)
-		it->second->setAngle(it->second->getZeroAngle());
-
-	raiseLoad(duration, verbose);
+        connection->SchedulerTakeRefPosition("Zero", 1000);
 }
 
 void Motors::goToInit(int duration, bool verbose)
 {
 	try
 	{
-		pullValues();
-
-		map<string, Motor *>::iterator it;
-		for(it = motors.begin(); it != motors.end(); ++it)
-			it->second->setRelAngle(0);
-
-		raiseLoad(duration, verbose);
+                connection->SchedulerTakeRefPosition("Ini", 1000);
 	}
 	catch(string exc)
 	{
