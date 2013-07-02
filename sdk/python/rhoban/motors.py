@@ -101,18 +101,10 @@ class Motors(threading.Thread):
                     motor.goalLoad = max(0, motor.currentLoad)
     
     def goToZero(self, duration = 5, verbose = False):
-        self.pullValues()
-        for name, motor in self.motors.items():
-            motor.setAngle(motor.zeroAngle)
-
-        self.raiseLoad(duration, verbose)
+        self.connection.SchedulerTakeRefPosition('Zero', duration*1000)
 
     def goToInit(self, duration = 5, verbose = False):
-        self.pullValues()
-        for name, motor in self.motors.items():
-            motor.setRelAngle(0)
-
-        self.raiseLoad(duration, verbose)
+        self.connection.SchedulerTakeRefPosition('Ini', duration*1000)
 
     def raiseLoad(self, duration = 5, verbose = False):
         cs = duration * 100
