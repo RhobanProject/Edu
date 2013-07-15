@@ -31,8 +31,9 @@ class StateMachineServer(StateMachineLoader):
                            'StmGetMachinesInfo':self.processGetMachinesInfo,
                            'StmSetMachineAttributes':self.processSetMachineAttributes,
                            'StmGetMachineAttributes':self.processGetMachineAttributes,
-                           'StmEvaluateExpression':self.processEvaluateExpression,
+                           'StmEvaluatePythonExpressions':self.processEvaluatePythonExpressions,
                            'StmPing':self.processPing,
+                           'StmGetAndSetMachineAttributes':self.StmGetAndSetMachineAttributes
                            }
         
         self.store = com.CommandsStore()
@@ -149,18 +150,32 @@ class StateMachineServer(StateMachineLoader):
         self.kill(message[0])
         return ['Killed machine ' + message[0]]
       
+      
     def processSetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
         machine.machine.set_attributes(message[1],message[2])
         
     def processGetMachineAttributes(self, message):
-        #print("Stm loader sending attributes")
         machine = self.getMachine(message[0])
         return [machine.machine.get_attributes(message[1])]
 
-    def processEvaluateExpression(self, message):
+    def StmGetAndSetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
-        return [machine.machine.evaluate(message[1])]
+        machine.machine.set_attributes(message[1],message[2])
+        return [machine.machine.get_attributes(message[3])]
+        
+    def processEvaluatePythonExpressions(self, message):
+        if message[0] :
+            machine = self.getMachine(message[0])
+            machine.x = message[2]
+            return [ [ machine.machine.evaluate(expression) for expression in message[1] ] ]
+        else :
+            x = message[2]
+            answer = []
+            for expression in message[1] :
+                answer.append( float( eval(expression) ) )
+            return [ answer ]
+             
         
     def processMessage(self, message):
         try :

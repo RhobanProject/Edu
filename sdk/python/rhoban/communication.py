@@ -407,23 +407,24 @@ class ParametersPattern:
         try:
             for (argument, pattern) in zip(args, self.patterns):
                 data += pattern.getData(argument)
-        except (ValueError, TypeError):
-            raise TypeError('Bad arguments')
+        except (ValueError, TypeError) as e:
+            raise TypeError('Bad arguments: ' + str(e))
 
         return data
 
     def readData(self, data):
         arguments = []
-
+        l = len(data)
+        
         try:
             for pattern in self.patterns:
                 (data, argument) = pattern.readData(data)
                 arguments += [argument]
         except Exception as e:
-            raise IOError('Unable to read arguments from data for command %s (%s)' + str(e) % (self.name, repr(data)))
+            raise IOError('Unable to read arguments from data (%s)' + str(e) % (repr(data)))
 
         if data:
-            raise IOError('Remaining %d bytes of data for command %s (%s)' % (len(data), self.name, repr(data)))
+            raise IOError('Remaining %d/%d bytes of data (%s)' % (len(data), l, repr(data)))
 
         return arguments
 

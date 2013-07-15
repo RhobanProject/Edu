@@ -42,11 +42,15 @@ class RepeatedTask(Thread):
 
     def run(self):
         while not self.finished.is_set() :
-            self.lock.acquire()
-            self.function()
-            self.lock.release()
-            #print("Repeated timer waiting " + str(self.interval) + " at " + str(time()))
-            self.finished.wait(self.interval)
+            try :
+                self.lock.acquire()
+                self.function()
+                self.lock.release()
+                #print("Repeated timer waiting " + str(self.interval) + " at " + str(time()))
+                self.finished.wait(self.interval)
+            except :
+                self.lock.release()
+                self.finished.wait(self.interval)
                    
     '''Waits for the machine to be stopped'''
     def wait_stopped(self):
