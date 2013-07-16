@@ -96,6 +96,10 @@ class StateMachine(RepeatedTask):
         self.debug = debug
         
         self.threaded = False
+        
+        self.globals = globals()
+        self.locals = locals()
+        
               
     def statusString(self):
         status = ''
@@ -129,7 +133,7 @@ class StateMachine(RepeatedTask):
                 globals()[self.name] = self
                 if self.preamble:
                     try :
-                        exec(self.preamble, globals())
+                        exec(self.preamble, self.globals, self.locals)
                     except Exception as e:
                         self.error = "[" + str(datetime.datetime.now().time()) + "] " + " Failed to exec preamble : " + str(e)
                         print("Failed to exec preamble of machine "+ self.name + ": "+ str(e))
@@ -278,16 +282,16 @@ class StateMachine(RepeatedTask):
         return self.connection.name'''
 
     def evaluate(self, expression):
-        return float(eval(expression))
+        return float( eval( expression, self.globals, self.locals) )
         
     def enter(self):
-        if self.state and self.state.enter : exec(self.state.enter)
+        if self.state and self.state.enter : exec(self.state.enter, self.globals, self.locals)
 
     def bye(self):
-        if self.state and self.state.bye : exec(self.state.bye)
+        if self.state and self.state.bye : exec(self.state.bye, self.globals, self.locals)
 
     def loop(self):
-        if self.state and self.state.loop : exec(self.state.loop)
+        if self.state and self.state.loop : exec(self.state.loop, self.globals, self.locals)
 
     def step(self):
         try:
@@ -317,9 +321,9 @@ class StateMachine(RepeatedTask):
     def transition(self):
         try:  
             for transition in self.state.transitions:
-                if not transition.condition or eval(transition.condition, globals(), globals()):
+                if not transition.condition or eval(transition.condition, self.globals, self.locals):
                     if transition.do :
-                        exec(transition.do, globals())
+                        exec(transition.do, self.globals, self.locals)
                     return transition.next
         except Exception as e:
             raise Exception("Failed to compute transition in state '" + self.state.name + "': " + str(e))
