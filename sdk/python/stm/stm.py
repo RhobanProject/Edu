@@ -269,12 +269,12 @@ class StateMachine(RepeatedTask):
         if len(keys) != len(values):
             raise Exception("Cannot set variables: not same number of keys and values")
         for i in range(len(keys)):
-            setattr(self,keys[i],values[i])
+            exec("self."+ keys[i] + "=" + str(values[i]), self.globals, self.locals)
         
     def get_attributes(self, keys):
         values = []
         for key in keys:
-            values.append(float(getattr(self, key)))
+            values.append( float( eval("self."+ key, self.globals, self.locals) ) )
         return values
 
     '''try to use connection to find attribute
