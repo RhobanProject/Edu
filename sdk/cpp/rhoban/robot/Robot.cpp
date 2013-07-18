@@ -216,6 +216,11 @@ void Robot::updateConstant(string moveName, string constantName, string value)
 {
 	moves->updateConstant(moveName, constantName, atof(value.c_str()));
 }
+    
+void Robot::updateBlockXML(string moveName, string xml)
+{
+    moves->updateBlockXML(moveName, xml);
+}
 
 void Robot::emergency()
 {

@@ -63,6 +63,7 @@ namespace Rhoban
     void killMove(string name);
     vector<string> getLoadedMoves();
     void updateConstant(string moveName, string constantName, string value);
+    void updateBlockXML(string moveName, string xml);
     void emergency();
     void stop();
 

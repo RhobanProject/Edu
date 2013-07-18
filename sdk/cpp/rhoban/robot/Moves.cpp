@@ -61,6 +61,11 @@ void Moves::updateConstant(string moveName, string constantName, float value)
 	connection->SchedulerUpdateConstant(moveName, constantName, values);
 }
 
+void Moves::updateBlockXML(string moveName, string xml)
+{
+    connection->SchedulerUpdateBlock(moveName, xml);
+}
+
 LinearSpline Moves::getSpline(string movename, string splineName)
 {
 	LinearSpline spline;

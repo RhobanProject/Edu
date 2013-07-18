@@ -33,6 +33,7 @@ namespace Rhoban
     void killMove(string name);
     vector<string> getLoadedMoves();
     void updateConstant(string moveName, string constantName, float value);
+    void updateBlockXML(string moveName, string xml);
     
     LinearSpline getSpline(string movename = "Recorder", string splinename = "SplineRecorder");
     void setSpline(const LinearSpline & spline, string movename= "Recorder");
