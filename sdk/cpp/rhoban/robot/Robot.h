@@ -62,7 +62,7 @@ namespace Rhoban
     void stopMove(string name, ui32 smooth = 500);
     void killMove(string name);
     vector<string> getLoadedMoves();
-    void updateConstant(string moveName, string constantName, string value);
+    void updateConstant(string moveName, string constantName, float value);
     void updateBlockXML(string moveName, string xml);
     void emergency();
     void stop();

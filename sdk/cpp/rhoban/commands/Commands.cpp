@@ -209,7 +209,7 @@ namespace Rhoban
   void UpdateConstantCommand::execute(Robot *robot, map<char, string> options, 
 				      vector<string> arguments)
   {
-    robot->updateConstant(arguments[0], arguments[1], arguments[2]);
+    robot->updateConstant(arguments[0], arguments[1], atof(arguments[2].c_str()));
   }  
 
   
