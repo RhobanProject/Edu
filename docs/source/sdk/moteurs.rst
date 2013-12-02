@@ -116,11 +116,11 @@ C++ :
     robot.motors.start(30); // Lance le dispatcher moteur à 30Hz
     robot.allCompliant(); // Relache les servos
 
-    robot.motors["Right"].setLoad(1.0); // Met la charge de "Right" au maximum
+    robot.motors["Right"]->setLoad(1.0); // Met la charge de "Right" au maximum
 
     while (1) {
         // Recopie l'angle du servo "Left" dans "Right"
-        robot.motors["Right"].setAngle(robot.motors["Left"].getAngle())
+        robot.motors["Right"]->setAngle(robot.motors["Left"]->getAngle())
         // Dort un peu
         usleep(50000);
     }
