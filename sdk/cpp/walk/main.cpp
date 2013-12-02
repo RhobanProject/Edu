@@ -12,8 +12,8 @@
 #include <cstdlib>
 #include <main/Command.h>
 #include <timing/sleep.h>
-
 #include <ticks.h>
+#include "walking.h"
 
 #include <rhoban/robot/Robots.h>
 
@@ -25,6 +25,7 @@ int main(int argc, char **argv)
     try
     {
         Robots robots;
+        setup();
 
         cout << "Starting " << endl;
 
@@ -34,14 +35,17 @@ int main(int argc, char **argv)
         Motors *motors = robot->getMotors();
 
         cout << "Starting motors " << endl;
-        motors->start(30);
-        syst_wait_ms(1000);
+        motors->start(50);
+        ms_sleep(100);
+
+        // motors->get("Coude D")->setAngle(-10);
 
         while (true) {
-            cout << motors->get("Bassin Lat")->getAngle() << endl;
-            ms_sleep(100);
+            tick(*robot);
+            ms_sleep(20);
         }
 
+        ms_sleep(25);
         cout << "Bye bye" << endl;
         robots.stop();
     }
