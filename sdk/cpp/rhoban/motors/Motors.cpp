@@ -139,28 +139,21 @@ namespace Rhoban
     {
         map<string, Motor *>::iterator it;
 
-        vector<byte> ids;
-        vector<int> angles;
-        vector<ui32> speeds;
-        vector<ui32> loads;
+        vector<float> angles;
+        vector<string> names;
 
-        for(it = motors.begin(); it != motors.end(); ++it)
-        {
+        for(it = motors.begin(); it != motors.end(); ++it) {
             if(it->second->isDirty()
                     && it->second->getGoalAngleInit()
                     && it->second->getCurrentAngleInit()
-                    && it->second->getCurrentSpeedInit())
-            {
-                ids.push_back   ((byte) (it->second->getId())             );
-                angles.push_back((int)  (it->second->getGoalAngle()*1000) );
-                speeds.push_back((ui32) (it->second->getGoalSpeed()*1023) );
-                loads.push_back ((ui32) (it->second->getGoalLoad()*1023)  );
+                    && it->second->getCurrentSpeedInit()) {
+                names.push_back(it->first);
+                angles.push_back((int)  (it->second->getGoalAngle()) );
             }
         }
 
-        if(ids.size())
-        {
-            connection->ServosSetValues(1, ids, angles, speeds, loads);
+        if(names.size()) {
+            connection->SetRelativeServosAngles(names, angles);
         }
     }
 
