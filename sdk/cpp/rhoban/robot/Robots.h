@@ -27,6 +27,7 @@ namespace Rhoban
 
     size_t len();
     Robot *operator[](string name);
+    Robot *get(string name);
     
     void loadYaml(string filename);
     void stop();
