@@ -36,6 +36,7 @@ namespace Rhoban
 
     size_t len();
     Motor *operator[](string name);
+    Motor *get(string name);
 
     void start(int frequency);
     void stop();
