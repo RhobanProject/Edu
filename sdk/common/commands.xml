@@ -1010,12 +1010,26 @@
   </CommandSpecification>
 
   <CommandSpecification>
-      <Name>StmEvaluateExpression</Name>
-      <Description>Evaluates an expression in the context of the machine</Description>
+      <Name>StmEvaluatePythonExpressions</Name>
+      <Description>Evaluates a list of expressions in the context of the machine.
+      First parameter is name of the machine.
+      Second parameter is the list of expressions.
+      Third parameter is the value of entries.
+      If first parameter is the empty string then the expressions are
+      evaluated in the context of the machine scheduler.</Description>
       <Destination>stm</Destination>
       <CommandIndex>11</CommandIndex>
-      <ParametersPattern>string string</ParametersPattern>
-      <AnswerPattern>float</AnswerPattern>
+      <ParametersPattern>string string[] float[]</ParametersPattern>
+      <AnswerPattern>float[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>StmGetAndSetMachineAttributes</Name>
+    <Description>SEt float values and get float values of attributes of a machine. Parameters are name of the machine, list of variables to set, list of values, list of variables to get. Returns list values</Description>
+    <Destination>stm</Destination>
+    <CommandIndex>12</CommandIndex>
+    <ParametersPattern>string string[] float[] string[]</ParametersPattern>
+    <AnswerPattern>float[]</AnswerPattern>
   </CommandSpecification>
 
 </ArrayOfCommandSpecification>

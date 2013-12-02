@@ -212,9 +212,14 @@ vector<string> Robot::getLoadedMoves()
 	return moves->getLoadedMoves();
 }
 
-void Robot::updateConstant(string moveName, string constantName, string value)
+void Robot::updateConstant(string moveName, string constantName, float value)
 {
-	moves->updateConstant(moveName, constantName, atof(value.c_str()));
+	moves->updateConstant(moveName, constantName, value);
+}
+    
+void Robot::updateBlockXML(string moveName, string xml)
+{
+    moves->updateBlockXML(moveName, xml);
 }
 
 void Robot::emergency()
