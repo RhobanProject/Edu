@@ -1,0 +1,8 @@
+commands: ../../common/commands.xml
+
+robots:
+    walker:
+        host: 127.0.0.1 # Adresse de connexion
+        port: 7777 # Port (Si différent de 12345)
+        environment: '/home/rhoban/Environments/RhobanServer'
+
