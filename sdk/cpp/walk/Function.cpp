@@ -1,4 +1,4 @@
-#include "function.h"
+#include "Function.h"
 
 Function::Function() : nbPoints(0)
 {

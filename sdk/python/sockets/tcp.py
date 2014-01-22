@@ -20,9 +20,9 @@ class TCPClient(object):
             if self.socket != None:
                 self.close()
             self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-            self.socket.connect((hostname, port))
+            self.socket.connect((hostname, int(port)))
             self.connected = True
-        except Exception  as e:
+        except Exception as e:
             print("TCPClient failed to connect " + str(e))
             self.connected = False
         self.socketLock.release()

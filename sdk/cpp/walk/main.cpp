@@ -15,18 +15,18 @@
 #include <timing/sleep.h>
 #include <ticks.h>
 #include <configfile/ConfigFile.h>
-#include "walking.h"
+#include "SigmabanWalk.h"
 
 #include <rhoban/robot/Robots.h>
 
 using namespace std;
 using namespace Rhoban;
 
-Robot *robot;
+SigmabanWalk walk(8.6, 13.73, 3);
 
 void stop(int x)
 {
-    zero(*robot);
+    walk.zero();
     ms_sleep(50);
     exit(0);
 }
@@ -35,40 +35,34 @@ int main(int argc, char **argv)
 {
     signal(SIGINT, stop);
 
-    ConfigFile walk("walk.yml");
-    walk.useCommandArgs(argc, argv);
-    loadConfig(walk);
-    walk.help();
+    ConfigFile config("walk.yml");
+    config.useCommandArgs(argc, argv);
+    walk.loadConfig(config);
+    config.help();
 
-    try
-    {
+    try {
         Robots robots;
-        setup();
 
         cout << "Starting " << endl;
 
-        // Charge la configuration et connecte les robots
         robots.loadYaml("config.yml");
-        robot = robots["django"];
+        Robot *robot = robots["django"];
+        walk.setRobot(robot);
         Motors *motors = robot->getMotors();
 
         cout << "Starting motors " << endl;
         motors->start(100);
         ms_sleep(100);
 
-        // motors->get("Coude D")->setAngle(-10);
-
         while (true) {
-            tick(*robot);
+            walk.tick(0.01);
             ms_sleep(10);
         }
 
         ms_sleep(25);
         cout << "Bye bye" << endl;
         robots.stop();
-    }
-    catch(string exc)
-    {
+    } catch(string exc) {
         cout << "Received exception " << exc << endl;
         exit(0);
     }

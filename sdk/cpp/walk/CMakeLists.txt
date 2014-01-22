@@ -26,8 +26,9 @@ add_subdirectory(${RHOBAN_MATH_DIRECTORY} math)
 # Sources, ajoutez ici les fichiers constituant votre code
 set(SOURCES
         main.cpp
-        walking.cpp
-        function.cpp
+        ClockWalk.cpp
+        Function.cpp
+        SigmabanWalk.cpp
     )
 
    
