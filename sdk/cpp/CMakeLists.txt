@@ -26,11 +26,9 @@ option(RHOBANMATH
     "Enables RhobanMath support" OFF)
 
 # Useful for getting common compiling
-set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
-set(RHOBAN_COMMON_DIRECTORY "${PROJECT_SOURCE_DIR}/common" CACHE STRING "RhobanCommon directory")
-set(YAML_HEADERS "${RHOBAN_UTILS_DIRECTORY}/yaml-cpp/include" CACHE STRING "Yaml headers directory")
-
-
+set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory" CACHE STRING "")
+set(RHOBAN_COMMON_DIRECTORY "${PROJECT_SOURCE_DIR}/common" CACHE STRING "RhobanCommon directory" CACHE STRING "")
+set(YAML_HEADERS "${RHOBAN_UTILS_DIRECTORY}/yaml-cpp/include" CACHE STRING "Yaml headers directory" CACHE STRING "")
 
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
 set(COMMAND_STORE "${PROJECT_SOURCE_DIR}/../common/commands.xml")
@@ -81,11 +79,13 @@ if(RHOBANMATH)
 endif(RHOBANMATH)
 
 # Adding common & utils
-foreach(DIRECTORY common utils)
-    add_subdirectory("${PROJECT_SOURCE_DIR}/${DIRECTORY}")
-    include_directories("${PROJECT_SOURCE_DIR}/${DIRECTORY}")
-    include_directories("${PROJECT_BINARY_DIR}/${DIRECTORY}")
-endforeach(DIRECTORY)
+add_subdirectory("${RHOBAN_COMMON_DIRECTORY}" common)
+include_directories("${RHOBAN_COMMON_DIRECTORY}")
+include_directories("${PROJECT_BINARY_DIR}/common")
+
+add_subdirectory("${RHOBAN_UTILS_DIRECTORY}" utils)
+include_directories("${RHOBAN_UTILS_DIRECTORY}")
+include_directories("${PROJECT_BINARY_DIR}/utils")
 
 include_directories("${YAML_HEADERS}")
 

@@ -7,12 +7,14 @@
  * Licence Creative Commons *CC BY-NC-SA
  * http://creativecommons.org/licenses/by-nc-sa/3.0
  *************************************************/
+#include <signal.h>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <main/Command.h>
 #include <timing/sleep.h>
 #include <ticks.h>
+#include <configfile/ConfigFile.h>
 #include "walking.h"
 
 #include <rhoban/robot/Robots.h>
@@ -20,8 +22,24 @@
 using namespace std;
 using namespace Rhoban;
 
+Robot *robot;
+
+void stop(int x)
+{
+    zero(*robot);
+    ms_sleep(50);
+    exit(0);
+}
+
 int main(int argc, char **argv)
 {
+    signal(SIGINT, stop);
+
+    ConfigFile walk("walk.yml");
+    walk.useCommandArgs(argc, argv);
+    loadConfig(walk);
+    walk.help();
+
     try
     {
         Robots robots;
@@ -31,18 +49,18 @@ int main(int argc, char **argv)
 
         // Charge la configuration et connecte les robots
         robots.loadYaml("config.yml");
-        Robot *robot = robots["django"];
+        robot = robots["django"];
         Motors *motors = robot->getMotors();
 
         cout << "Starting motors " << endl;
-        motors->start(50);
+        motors->start(100);
         ms_sleep(100);
 
         // motors->get("Coude D")->setAngle(-10);
 
         while (true) {
             tick(*robot);
-            ms_sleep(20);
+            ms_sleep(10);
         }
 
         ms_sleep(25);

@@ -19,7 +19,7 @@ double offsetC = -6; // , "OffsetC", -6);
 
 double phase = 0.5; // , "Sinus phases", 0.5);
 
-double timeGain = 2.0; //, "TimeGain", 2.0);
+double timeGain = 1.0; //, "TimeGain", 2.0);
 
 double lR = 0.0; //, "FordwardAmplitude", 0.0);
 double lPhi = 0.0; // , "FordwardAmplitude", 0.0);
@@ -30,7 +30,7 @@ double rPhi = 0.0; //, "FordwardAmplitude", 0.0);
 double riseGain = 3.0; //, "Rise height", 3.0);
 double stepGain = 38; // , "Rise ste", 38.0);
 double barGain = 15; // , "Rise ste", 15.0);
-double ampGain = 1.0; // , "Amp gain", 0.0);
+double ampGain = 2.0; // , "Amp gain", 0.0);
 
 float barPhase = 0.06; //, "BP", 0.06);
 
@@ -38,7 +38,27 @@ float leftGain = 1.0; //, "Left Gain", 1.0);
 float rightGain = 1.0; //, "Right Gain", 1.0);
 float barOffset = 0.0; //, "Bar Offset", 0.0);
 
+float legGap = 10;
+
 volatile static double barDelta = 0.05;
+
+void loadConfig(ConfigFile &config)
+{
+    config.read("walk", "legGap", 5, legGap);
+    config.read("walk", "offset", -16, offset);
+    config.read("walk", "offsetC", -6, offsetC);
+
+    config.read("walk", "phase", 0.5, phase);
+
+    config.read("walk", "barPhase", 0.06, barPhase);
+    config.read("walk", "barGain", 5.0, barGain);
+    config.read("walk", "barOffset", 0.0, barOffset);
+
+    config.read("walk", "timeGain", 1.0, timeGain);
+    config.read("walk", "riseGain", 3.0, riseGain);
+    config.read("walk", "stepGain", 38.0, stepGain);
+    config.read("walk", "ampGain", 2.0, ampGain);
+}
     
 void barSpline(double delta)
 {
@@ -122,7 +142,7 @@ void setup()
  */
 void tick(Robot &robot)
 {
-    t += 0.02*timeGain; // 20ms
+    t += 0.01*timeGain; // 20ms
 
     while (t > 1) t -= 1;
     while (t < 0) t += 1;
@@ -142,20 +162,40 @@ void tick(Robot &robot)
     double l1, l2, l3;
     computeIKpolar(lR+lRise, offset+lPhi+lStep, &l1, &l2, &l3);
 
-    cout << l1 << endl;
     motors->get("Cuisse G")->setAngle(l1);
-//    servos_command(SERVO_L1, l1);
-//    servos_command(SERVO_L2, l2);
-//    servos_command(SERVO_L3, l3+offsetC);
+    motors->get("Epaule G Long")->setAngle(l1*0.3);
+    motors->get("Genou G")->setAngle(l2);
+    motors->get("Cheville G")->setAngle(-l3-offsetC);
 
     double rRise = L1+L2+L3-rise.getMod(t+phase)*riseGain*abs(ampGain);
     double rStep = step.getMod(t+phase)*stepGain*ampGain*rightGain;
     double r1, r2, r3;
     computeIKpolar(rR+rRise, offset+rPhi+rStep, &r1, &r2, &r3);
-//    servos_command(SERVO_R1, -r1);
-//    servos_command(SERVO_R2, -r2);
-//    servos_command(SERVO_R3, -r3-offsetC);
+    
+    motors->get("Cuisse D")->setAngle(-r1);
+    motors->get("Epaule D Long")->setAngle(-r1*0.3);
+    motors->get("Genou D")->setAngle(-r2);
+    motors->get("Cheville D")->setAngle(r3+offsetC);
+
+    motors->get("Hanche G Lat")->setAngle(-legGap);
+    motors->get("Hanche D Lat")->setAngle(legGap);
 
     double b = bar.getMod(t+barPhase)*barGain*ampGain;
-//    servos_command(SERVO_bar, b+barOffset);
+    motors->get("Bassin Lat")->setAngle(b+barOffset);
+}
+
+void zero(Robot &robot)
+{
+    Motors *motors = robot.getMotors();
+    motors->get("Cuisse G")->setAngle(0);
+    motors->get("Epaule G Long")->setAngle(0);
+    motors->get("Genou G")->setAngle(0);
+    motors->get("Cheville G")->setAngle(0);
+    motors->get("Cuisse D")->setAngle(0);
+    motors->get("Epaule D Long")->setAngle(0);
+    motors->get("Genou D")->setAngle(0);
+    motors->get("Cheville D")->setAngle(0);
+    motors->get("Hanche G Lat")->setAngle(0);
+    motors->get("Hanche D Lat")->setAngle(0);
+    motors->get("Bassin Lat")->setAngle(0);
 }
