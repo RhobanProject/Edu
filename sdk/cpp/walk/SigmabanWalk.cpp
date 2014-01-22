@@ -27,6 +27,8 @@ void SigmabanWalk::tick(double elapsed)
         motors->get("Cheville D")->setAngle(a_r3);
         motors->get("Hanche G Lat")->setAngle(a_lhip);
         motors->get("Hanche D Lat")->setAngle(a_rhip);
+        motors->get("Hanche G Rot")->setAngle(a_lhip_rot);
+        motors->get("Hanche D Rot")->setAngle(a_rhip_rot);
         motors->get("Bassin Lat")->setAngle(a_bar);
     }
 }
@@ -47,5 +49,7 @@ void SigmabanWalk::zero()
         motors->get("Hanche G Lat")->setAngle(0);
         motors->get("Hanche D Lat")->setAngle(0);
         motors->get("Bassin Lat")->setAngle(0);
+        motors->get("Hanche G Rot")->setAngle(0);
+        motors->get("Hanche D Rot")->setAngle(0);
     }
 }

@@ -62,9 +62,12 @@ class ClockWalk
         // Bar delta (for its spline)
         double barDelta;
 
+        // Turning
+        double turn;
+
         // Computed angles
-        float a_l1, a_l2, a_l3, a_larm, a_lhip;
-        float a_r1, a_r2, a_r3, a_rarm, a_rhip;
+        float a_l1, a_l2, a_l3, a_larm, a_lhip, a_lhip_rot;
+        float a_r1, a_r2, a_r3, a_rarm, a_rhip, a_rhip_rot;
         float a_bar;
 };
 

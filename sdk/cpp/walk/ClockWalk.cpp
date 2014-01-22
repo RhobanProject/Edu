@@ -73,6 +73,7 @@ void ClockWalk::loadConfig(ConfigFile &config)
     CLOCKWALK_CONFIG(ampGain);
     CLOCKWALK_CONFIG(leftGain);
     CLOCKWALK_CONFIG(rightGain);
+    CLOCKWALK_CONFIG(turn);
 }
 
 void ClockWalk::computeIK(double X, double Z, double phi, double *t1, double *t2, double *t3)
@@ -125,6 +126,7 @@ void ClockWalk::tick(double elapsed)
 
     a_l1 = l1;
     a_larm = l1*0.3;
+    a_lhip_rot = step.getMod(t)*turn*ampGain*((turn<0) ? 0.4 : 1);
     a_l2 = l2;
     a_l3 = -l3-offsetAnkle;
     a_lhip = -legGap;
@@ -136,10 +138,11 @@ void ClockWalk::tick(double elapsed)
 
     a_r1 = -r1;
     a_rarm = -r1*0.3;
+    a_rhip_rot = step.getMod(t+phase)*turn*ampGain*((turn>0) ? 0.4 : 1);
     a_r2 = -r2;
     a_r3 = r3+offsetAnkle;
     a_rhip = legGap;
 
     double b = bar.getMod(t+barPhase)*barGain*ampGain;
-    a_bar = b+barOffset;
+    a_bar = -(b+barOffset);
 }
