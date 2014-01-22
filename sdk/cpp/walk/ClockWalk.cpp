@@ -27,7 +27,7 @@ ClockWalk::ClockWalk(double L1_, double L2_, double L3_)
     riseGain(3.0), stepGain(40), ampGain(2.0),
     barPhase(0.06), barOffset(0.0), barGain(15),
     leftGain(1.0), rightGain(1.0),
-    legGap(10), barDelta(0.05)
+    legGap(5), barDelta(0.05)
 {
     // Rising
     rise.addPoint(0,0);
@@ -57,23 +57,22 @@ void ClockWalk::barSpline(double delta)
 
 void ClockWalk::loadConfig(ConfigFile &config)
 {
-    config.read("walk", "legGap", 5, legGap);
-    config.read("walk", "offset", -16, offset);
-    config.read("walk", "offsetAnkle", -6, offsetAnkle);
+#define CLOCKWALK_CONFIG(entry) \
+    config.read("walk", #entry, entry, entry)
 
-    config.read("walk", "phase", 0.5, phase);
-
-    config.read("walk", "barPhase", 0.06, barPhase);
-    config.read("walk", "barGain", 5.0, barGain);
-    config.read("walk", "barOffset", 0.0, barOffset);
-
-    config.read("walk", "timeGain", 1.0, timeGain);
-    config.read("walk", "riseGain", 3.0, riseGain);
-    config.read("walk", "stepGain", 38.0, stepGain);
-    config.read("walk", "ampGain", 2.0, ampGain);
-
-    config.read("walk", "leftGain", 1.0, leftGain);
-    config.read("walk", "rightGain", 1.0, rightGain);
+    CLOCKWALK_CONFIG(legGap);
+    CLOCKWALK_CONFIG(offset);
+    CLOCKWALK_CONFIG(offsetAnkle);
+    CLOCKWALK_CONFIG(phase);
+    CLOCKWALK_CONFIG(barPhase);
+    CLOCKWALK_CONFIG(barGain);
+    CLOCKWALK_CONFIG(barOffset);
+    CLOCKWALK_CONFIG(timeGain);
+    CLOCKWALK_CONFIG(riseGain);
+    CLOCKWALK_CONFIG(stepGain);
+    CLOCKWALK_CONFIG(ampGain);
+    CLOCKWALK_CONFIG(leftGain);
+    CLOCKWALK_CONFIG(rightGain);
 }
 
 void ClockWalk::computeIK(double X, double Z, double phi, double *t1, double *t2, double *t3)
