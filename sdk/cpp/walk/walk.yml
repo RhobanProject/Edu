@@ -1,0 +1,15 @@
+
+walk:
+    offset: -29
+    timeGain: 1.95
+    riseGain: 40
+    offsetAnkle: -3
+    stepGain: 68
+    barGain: 12
+    barPhase: 0.01
+    turn: 0
+    barOffset: 0
+    barDelta: 0.05
+    armsGain: 5
+    ampGain: 0.6
+
