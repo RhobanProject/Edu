@@ -25,16 +25,16 @@ namespace Rhoban
   public:
     Sensor(string name);
     
-    ui32 getValue();
+    double getValue();
     
     void setName(string name);
     string getName();
-    void setValues(vector<ui32> values);
-    vector<ui32> getValues();
+    void setValues(vector<double> values);
+    vector<double> getValues();
 
   protected:
     string name;
-    vector<ui32> values;
+    vector<double> values;
   };
 }
  

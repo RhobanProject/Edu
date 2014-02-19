@@ -435,7 +435,7 @@
         <Destination>low_level</Destination>
         <CommandIndex>45</CommandIndex>
         <ParametersPattern>string[] ui32 </ParametersPattern>
-        <AnswerPattern>string[] ui32[][] </AnswerPattern>
+        <AnswerPattern>string[] float[][] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>SetPwmsRates</Name>

@@ -500,7 +500,7 @@ namespace Rhoban
 			       vector<string> arguments)
   {
     string fmttitle = " | %10s | %10s |\n";
-    string fmtloaded = " | %10s | %10d |\n";
+    string fmtloaded = " | %10s | %10f |\n";
     string fmtnotloaded = " | %10s | %10s |\n";
     
     float frequency;

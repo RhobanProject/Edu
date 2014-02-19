@@ -34,7 +34,7 @@ namespace Rhoban
     Sensor *operator[](string name);
     bool isRunning();
 
-    void setSensorValues(string name, vector<ui32> values);
+    void setSensorValues(string name, vector<double> values);
     bool hasSensorNamed(string name);
 
     void stop();

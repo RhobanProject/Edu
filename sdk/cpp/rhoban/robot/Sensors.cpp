@@ -25,7 +25,7 @@ namespace Rhoban
     
     vector<string> names = response->read_string_array();
 
-    vector< vector<ui32> > values = response->read_uint_array_array();
+    vector< vector<double> > values = response->read_double_array_array();
     for(int i=0; i<names.size(); ++i)
       {
 	if(self->hasSensorNamed(names[i]))
@@ -53,7 +53,7 @@ namespace Rhoban
     return running;
   }
 
-  void Sensors::setSensorValues(string name, vector<ui32> values)
+  void Sensors::setSensorValues(string name, vector<double> values)
   {
     sensors[name]->setValues(values);
   }

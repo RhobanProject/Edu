@@ -21,7 +21,7 @@ namespace Rhoban
     this->name = name;
   }
     
-  ui32 Sensor::getValue()
+  double Sensor::getValue()
   {
     if(!values.empty())
       return values[0];
@@ -37,12 +37,12 @@ namespace Rhoban
     return name;
   }
 
-  void Sensor::setValues(vector<ui32> values)
+  void Sensor::setValues(vector<double> values)
   {
     this->values = values;
   }
 
-  vector<ui32> Sensor::getValues()
+  vector<double> Sensor::getValues()
   {
     return values;
   }
