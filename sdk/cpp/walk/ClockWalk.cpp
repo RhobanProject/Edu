@@ -27,19 +27,22 @@ ClockWalk::ClockWalk(double L1_, double L2_, double L3_)
     riseGain(3.0), stepGain(40), ampGain(1.0),
     barPhase(0.06), barOffset(0.0), barGain(15),
     leftGain(1.0), rightGain(1.0),
-    legGap(5), barDelta(0.05), armsGain(1.0)
+    legGap(5), barDelta(0.05), armsGain(1.0),
+    feetLatGain(2)
 {
+#define TESTGAIN 1.3
+
     // Rising
     rise.addPoint(0,0);
-    rise.addPoint(0.1,1);
-    rise.addPoint(0.2,0);
+    rise.addPoint(0.1*TESTGAIN,1);
+    rise.addPoint(0.2*TESTGAIN,0);
     rise.addPoint(1,0);
 
     // Stepping
-    step.addPoint(0,0);
-    step.addPoint(0.05,0);
-    step.addPoint(0.15,1);
-    step.addPoint(1,0);
+    step.addPoint(0,-0.5);
+    step.addPoint(0.05*TESTGAIN,-0.5);
+    step.addPoint(0.15*TESTGAIN,0.5);
+    step.addPoint(1,-0.5);
 
     // Bar
     barSpline(barDelta);
@@ -76,6 +79,7 @@ void ClockWalk::loadConfig(ConfigFile &config)
     CLOCKWALK_CONFIG(turn);
     CLOCKWALK_CONFIG(barDelta);
     CLOCKWALK_CONFIG(armsGain);
+    CLOCKWALK_CONFIG(feetLatGain);
     
     barSpline(barDelta);
 }
@@ -149,4 +153,6 @@ void ClockWalk::tick(double elapsed)
     a_bar = -(b+barOffset);
     a_larm = -a_bar*armsGain;
     a_rarm = -a_bar*armsGain;
+    a_l3lat = a_bar*feetLatGain;
+    a_r3lat = a_bar*feetLatGain;
 }
