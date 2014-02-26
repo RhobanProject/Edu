@@ -43,6 +43,11 @@ namespace Rhoban
     return sensors.size();
   }
   
+  Sensor *Sensors::get(string name)
+  {
+    return sensors[name];
+  }
+  
   Sensor *Sensors::operator[](string name)
   {
     return sensors[name];

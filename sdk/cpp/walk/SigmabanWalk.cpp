@@ -13,6 +13,10 @@ void SigmabanWalk::setRobot(Robot *robot_)
 void SigmabanWalk::tick(double elapsed)
 {
     if (robot != NULL) {
+        Sensors *sensors = robot->getSensors();
+
+        cout << sensors->get("Pitch")->getValue() << endl;
+
         ClockWalk::tick(elapsed);
 
         Motors *motors = robot->getMotors();

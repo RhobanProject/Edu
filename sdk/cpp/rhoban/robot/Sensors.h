@@ -32,6 +32,7 @@ namespace Rhoban
     
     size_t len();
     Sensor *operator[](string name);
+    Sensor *get(string name);
     bool isRunning();
 
     void setSensorValues(string name, vector<double> values);

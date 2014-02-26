@@ -46,12 +46,14 @@ int main(int argc, char **argv)
         cout << "Starting " << endl;
 
         robots.loadYaml("config.yml");
-        Robot *robot = robots["django"];
+        Robot *robot = robots["local"];
         walk.setRobot(robot);
         Motors *motors = robot->getMotors();
+        Sensors *sensors = robot->getSensors();
 
         cout << "Starting motors " << endl;
         motors->start(100);
+        sensors->start(100);
         ms_sleep(100);
 
         while (true) {
