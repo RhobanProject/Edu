@@ -21,14 +21,15 @@
  */
 ClockWalk::ClockWalk(double L1_, double L2_, double L3_)
     : L1(L1_), L2(L2_), L3(L3_),
-    t(0), timeGain(1.0), offset(-16), offsetAnkle(-6),
+    t(0.0), timeGain(1.0), offset(-16), offsetAnkle(-6),
     phase(0.5), 
     lR(0), lPhi(0), rR(0), rPhi(0),
     riseGain(3.0), stepGain(40), ampGain(1.0),
     barPhase(0.06), barOffset(0.0), barGain(15),
     leftGain(1.0), rightGain(1.0),
-    legGap(5), barDelta(0.05), armsGain(1.0),
-    feetLatGain(2)
+    legGap(5), barDelta(0.05), armsGain(1.0), turn(0),
+    feetLatGain(2), lateralGain(0), feetRot(0), longOffset(0),
+    yaw(0), pitch(0), roll(0)
 {
 #define TESTGAIN 1.3
 
@@ -80,6 +81,11 @@ void ClockWalk::loadConfig(ConfigFile &config)
     CLOCKWALK_CONFIG(barDelta);
     CLOCKWALK_CONFIG(armsGain);
     CLOCKWALK_CONFIG(feetLatGain);
+    CLOCKWALK_CONFIG(lateralGain);
+    CLOCKWALK_CONFIG(feetRot);
+    CLOCKWALK_CONFIG(longOffset);
+    CLOCKWALK_CONFIG(lR);
+    CLOCKWALK_CONFIG(rR);
     
     barSpline(barDelta);
 }
@@ -133,7 +139,7 @@ void ClockWalk::tick(double elapsed)
     computeIKpolar(lR+lRise, ampGain*offset+lPhi+lStep, &l1, &l2, &l3);
 
     a_l1 = l1;
-    a_lhip_rot = step.getMod(t)*turn*ampGain*((turn<0) ? 0.4 : 1);
+    a_lhip_rot = step.getMod(t)*turn*ampGain*((turn<0) ? 0.4 : 1) + feetRot;
     a_l2 = l2;
     a_l3 = -l3-offsetAnkle;
     a_lhip = -legGap;
@@ -144,10 +150,10 @@ void ClockWalk::tick(double elapsed)
     computeIKpolar(rR+rRise, ampGain*offset+rPhi+rStep, &r1, &r2, &r3);
 
     a_r1 = -r1;
-    a_rhip_rot = step.getMod(t+phase)*turn*ampGain*((turn>0) ? 0.4 : 1);
+    a_rhip_rot = step.getMod(t+phase)*turn*ampGain*((turn>0) ? 0.4 : 1) - feetRot;
     a_r2 = -r2;
     a_r3 = r3+offsetAnkle;
-    a_rhip = legGap;
+    a_rhip = legGap + step.getMod(t+phase)*lateralGain;
 
     double b = bar.getMod(t+barPhase)*barGain*ampGain;
     a_bar = -(b+barOffset);
@@ -155,4 +161,8 @@ void ClockWalk::tick(double elapsed)
     a_rarm = -a_bar*armsGain;
     a_l3lat = a_bar*feetLatGain;
     a_r3lat = a_bar*feetLatGain;
+
+    a_long = longOffset;
+
+    cout << pitch << endl;
 }

@@ -7,13 +7,13 @@
  * Licence Creative Commons *CC BY-NC-SA
  * http://creativecommons.org/licenses/by-nc-sa/3.0
  *************************************************/
-#include <signal.h>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <main/Command.h>
 #include <timing/sleep.h>
 #include <ticks.h>
+#include <signal.h>
 #include <configfile/ConfigFile.h>
 #include "SigmabanWalk.h"
 

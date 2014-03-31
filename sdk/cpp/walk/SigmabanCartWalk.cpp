@@ -1,16 +1,16 @@
-#include "SigmabanWalk.h"
+#include "SigmabanCartWalk.h"
 
-SigmabanWalk::SigmabanWalk(double L1, double L2, double L3)
-    : ClockWalk(L1, L2, L3), robot(NULL)
+SigmabanCartWalk::SigmabanCartWalk(double L1, double L2)
+    : CartWalk(L1, L2), robot(NULL)
 {
 }
 
-void SigmabanWalk::setRobot(Robot *robot_)
+void SigmabanCartWalk::setRobot(Robot *robot_)
 {
     robot = robot_;
 }
 
-void SigmabanWalk::tick(double elapsed)
+void SigmabanCartWalk::tick(double elapsed)
 {
     static double pitchSmooth = 0;
 
@@ -21,7 +21,7 @@ void SigmabanWalk::tick(double elapsed)
         pitchSmooth = pitch*0.01+pitchSmooth*0.99;
         pitchSmooth *= 0.7;
 
-        ClockWalk::tick(elapsed);
+        CartWalk::tick(elapsed);
 
         Motors *motors = robot->getMotors();
 
@@ -35,16 +35,16 @@ void SigmabanWalk::tick(double elapsed)
         motors->get("Cheville D")->setAngle(a_r3);
         motors->get("Hanche G Lat")->setAngle(a_lhip);
         motors->get("Hanche D Lat")->setAngle(a_rhip);
+
         motors->get("Hanche G Rot")->setAngle(a_lhip_rot);
         motors->get("Hanche D Rot")->setAngle(a_rhip_rot);
-        motors->get("Bassin Lat")->setAngle(a_bar);
+
         motors->get("Pied D")->setAngle(a_r3lat);
         motors->get("Pied G")->setAngle(a_l3lat);
-        motors->get("Bassin Long")->setAngle(a_long + pitchSmooth);
     }
 }
 
-void SigmabanWalk::zero()
+void SigmabanCartWalk::zero()
 {
     if (robot != NULL) {
         Motors *motors = robot->getMotors();
