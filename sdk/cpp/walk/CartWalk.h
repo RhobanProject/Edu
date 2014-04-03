@@ -5,53 +5,63 @@
 #include "Function.h"
 #include "SigmabanLeg.h"
 
-class CartWalk
+namespace Rhoban
 {
-    public:
-        CartWalk(double L1, double L2);
-        void loadConfig(ConfigFile &config);
-        
-        // Current time
-        double t;
-        
-        // Splines
-        Function rise;
-        Function step;
-        Function swing;
+    class CartWalk
+    {
+        public:
+            CartWalk(double L1, double L2);
+            void loadConfig(ConfigFile &config);
 
-        // Parameters
-        double timeGain;
+            // Current time
+            double t;
 
-        double stepGain;
-        double lateralStepGain;
+            // Splines
+            Function rise;
+            Function step;
+            Function swing;
 
-        double xOffset;
-        double yOffset;
-        double yLat;
-        double zOffset;
-        double hipOffset;
+            // Time gain (frequency)
+            double timeGain;
 
-        double riseGain;
+            // Position offset
+            double xOffset;
+            double yOffset;
+            double yLat;
+            double zOffset;
+            double hipOffset;
 
-        double swingGain;
-        double swingHeight;
-        double swingPhase;
+            // Rising of the steps
+            double riseGain;
 
-        double turn;
+            // Swinging
+            double swingGain;
+            double swingHeight;
+            double swingPhase;
 
-        double armsGain;
+            // Arms
+            double armsGain;
 
-        // Sizes
-        double L1, L2, L3;
+            // Stepping
+            double stepGain;
 
-        virtual void tick(double elapsed);
-        
-        float a_l1, a_l2, a_l3, a_larm, a_lhip, a_lhip_rot;
-        float a_r1, a_r2, a_r3, a_rarm, a_rhip, a_rhip_rot;
-        float a_l3lat, a_r3lat;
+            // Lateral stepping
+            double lateralStepGain;
 
-    protected:
-        SigmabanLeg legModel;
-};
+            // Turning
+            double turn;
+
+            // Sizes
+            double L1, L2, L3;
+
+            virtual void tick(double elapsed);
+
+            float a_l_hip_pitch, a_l_knee, a_l_foot_pitch, a_l_arm, a_l_hip_roll, a_l_hip_yaw, a_l_foot_roll;
+            float a_r_hip_pitch, a_r_knee, a_r_foot_pitch, a_r_arm, a_r_hip_roll, a_r_hip_yaw, a_r_foot_roll;
+
+        protected:
+            SigmabanLeg legModel;
+    };
+}
 
 #endif // _CART_WALK_H

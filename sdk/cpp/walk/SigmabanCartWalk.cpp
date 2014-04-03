@@ -25,22 +25,22 @@ void SigmabanCartWalk::tick(double elapsed)
 
         Motors *motors = robot->getMotors();
 
-        motors->get("Cuisse G")->setAngle(a_l1);
-        motors->get("Epaule G Long")->setAngle(a_larm);
-        motors->get("Genou G")->setAngle(a_l2);
-        motors->get("Cheville G")->setAngle(a_l3);
-        motors->get("Cuisse D")->setAngle(a_r1);
-        motors->get("Epaule D Long")->setAngle(a_rarm);
-        motors->get("Genou D")->setAngle(a_r2);
-        motors->get("Cheville D")->setAngle(a_r3);
-        motors->get("Hanche G Lat")->setAngle(a_lhip);
-        motors->get("Hanche D Lat")->setAngle(a_rhip);
+        motors->get("Cuisse G")->setAngle(a_l_hip_pitch);
+        motors->get("Epaule G Long")->setAngle(a_l_arm);
+        motors->get("Genou G")->setAngle(a_l_knee);
+        motors->get("Cheville G")->setAngle(a_l_foot_pitch);
+        motors->get("Cuisse D")->setAngle(a_r_hip_pitch);
+        motors->get("Epaule D Long")->setAngle(a_r_arm);
+        motors->get("Genou D")->setAngle(a_r_knee);
+        motors->get("Cheville D")->setAngle(a_r_foot_pitch);
+        motors->get("Hanche G Lat")->setAngle(a_l_hip_roll);
+        motors->get("Hanche D Lat")->setAngle(a_r_hip_roll);
 
-        motors->get("Hanche G Rot")->setAngle(a_lhip_rot);
-        motors->get("Hanche D Rot")->setAngle(a_rhip_rot);
+        motors->get("Hanche G Rot")->setAngle(a_l_hip_yaw);
+        motors->get("Hanche D Rot")->setAngle(a_r_hip_yaw);
 
-        motors->get("Pied D")->setAngle(a_r3lat);
-        motors->get("Pied G")->setAngle(a_l3lat);
+        motors->get("Pied G")->setAngle(a_l_foot_roll);
+        motors->get("Pied D")->setAngle(a_r_foot_roll);
     }
 }
 
