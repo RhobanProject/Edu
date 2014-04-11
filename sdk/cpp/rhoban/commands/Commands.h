@@ -160,6 +160,15 @@ namespace Rhoban
 		 vector<string> arguments);
   };  
 
+  // Dumper en CSV tous les capteur et moteurs
+  class DumpCommand : public RobotCommand
+  {
+  public:
+    DumpCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
+
   // Afficher la webcam du module vision
   class FramesDisplayCommand : public RobotCommand
   {

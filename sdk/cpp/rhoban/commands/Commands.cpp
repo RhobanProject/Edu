@@ -546,6 +546,85 @@ namespace Rhoban
       }
   }    
 
+  DumpCommand::DumpCommand()
+  {
+    name = "dump";
+    prototype = "[-f frequency] [-c] <robotName>";
+    options = "f:c";
+    argumentsLength = 1;
+    description = "Dump into CSV all motors and sensors read values";
+  }
+  
+  void DumpCommand::execute(Robot *robot, map<char, string> options,
+			       vector<string> arguments)
+  {
+      float frequency;
+      if(options.count('f'))
+          frequency = atof(options['f'].c_str());
+      else
+          frequency = 5;
+
+      robot->getSensors()->start(frequency);
+      robot->getMotors()->start(frequency);
+      //robot->getMotors()->start(3*frequency);
+      map<string, Sensor*> sensors;
+      map<string, Sensor*>::iterator itS;
+      map<string, Motor*> motors;
+      map<string, Motor*>::iterator itM;
+
+      printf("###\n");
+      printf("### Dump %s\n", robot->getName().c_str());
+      printf("###\n");
+      int index = 1;
+      sensors = robot->getSensors()->getSensors();
+      for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
+      {
+          printf("### %d -> %s\n", index, itS->second->getName().c_str());
+          index++;
+      }
+      motors = robot->getMotors()->getMotors();
+      for(itM=motors.begin(); itM!=motors.end(); ++itM)
+      {
+          printf("### %d -> %s\n", index, itM->second->getName().c_str());
+          index++;
+      }
+      printf("###\n");
+      printf("#");
+      for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
+      {
+          printf("%s ", itS->second->getName().c_str());
+      }
+      for(itM=motors.begin(); itM!=motors.end(); ++itM)
+      {
+          printf("%s ", itM->second->getName().c_str());
+      }
+      printf("\n");
+      while (1) {
+          sensors = robot->getSensors()->getSensors();
+          for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
+          {
+              if(!itS->second->getValues().empty()) {
+                  printf("%f ", itS->second->getValue());
+              } else {
+                  printf("0 "); 
+              }
+          }
+            
+          motors = robot->getMotors()->getMotors();
+          for(itM=motors.begin(); itM!=motors.end(); ++itM)
+          {
+              if(itM->second->getLastUpdate()) {
+                  printf("%f ", itM->second->getRelAngle());
+              } else {
+                  printf("0 ");
+              }
+          }
+
+          printf("\n");
+          syst_wait_ms(1000/frequency);
+      }
+  }
+
   FramesDisplayCommand::FramesDisplayCommand()
   {
     name = "framesdisplay";
