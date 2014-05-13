@@ -27,6 +27,7 @@ namespace Rhoban
         ballRelPosX = response.read_float();
         ballRelPosY = response.read_float();
         ballRelRadius = response.read_float();
+        unsigned int timestamp = response.read_uint();
     }
     
     void Vision::grabGoalInfo(string color)

@@ -518,11 +518,11 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetBallInfo</Name>
-        <Description>ask for ball info. parameters says whether clipping should be used. returns 1) whether ball is detected 2) x 3) y 4) radius</Description>
+        <Description>ask for ball info. parameters says whether clipping should be used. returns 1) whether ball is detected 2) x 3) y 4) radius 5) monolithic timestamp</Description>
         <Destination>vision</Destination>
         <CommandIndex>21</CommandIndex>
         <ParametersPattern >bool </ParametersPattern>
-        <AnswerPattern>bool float float float </AnswerPattern>
+        <AnswerPattern>bool float float float uint</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetGoalInfo</Name>
