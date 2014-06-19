@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser()
 #-db DATABSE -u USERNAME -p PASSWORD -size 20
 parser.add_argument("-s", "--server", help="Server ip address")
 parser.add_argument("-p", "--port", help="Server port", type=int)
-parser.add_argument("-c", "--command_store", help="Command store address")
+parser.add_argument("-c", "--command_store", help="Path to command store")
 
 
 class expando:

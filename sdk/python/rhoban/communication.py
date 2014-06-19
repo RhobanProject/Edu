@@ -322,7 +322,10 @@ class CommandsStore:
         'move_scheduler': 4,
         'vision': 5,
         'localisation': 6,
-        'stm': 7
+        'stm': 7,
+        'robocup': 8,
+        'audio': 9,
+        'traktor': 10
     }
 
     def __init__(self):
