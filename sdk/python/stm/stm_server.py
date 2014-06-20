@@ -181,6 +181,7 @@ class StateMachineServer(StateMachineLoader):
         try :
             if message.specification.name in self.callbacks:
                 callback = self.callbacks[message.specification.name];
+                print("Processing message " + message.specification.name + " " +  str( message.uid ) );
                 if(callback != None) : 
                     self.lock.acquire()
                     try :
