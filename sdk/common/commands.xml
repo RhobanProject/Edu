@@ -4,14 +4,6 @@
         <Name>ErrorMessage</Name>
         <Description>error msg</Description>
         <Destination>error</Destination>
-        <CommandIndex>0</CommandIndex>
-        <ParametersPattern />
-        <AnswerPattern>string </AnswerPattern>
-    </CommandSpecification>
-    <CommandSpecification>
-        <Name>ErrorMessage</Name>
-        <Description>error msg</Description>
-        <Destination>error</Destination>
         <CommandIndex>1</CommandIndex>
         <ParametersPattern />
         <AnswerPattern>string </AnswerPattern>
@@ -30,14 +22,14 @@
         <Destination>server</Destination>
         <CommandIndex>0</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>ui32 </AnswerPattern>
+        <AnswerPattern>uint </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServerRegisterComponent</Name>
         <Description>register component in server. Parameter is component number.</Description>
         <Destination>server</Destination>
         <CommandIndex>5</CommandIndex>
-        <ParametersPattern>ui32</ParametersPattern>
+        <ParametersPattern>uint</ParametersPattern>
         <AnswerPattern>string</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -75,7 +67,7 @@
         <Description>starts a move, arguments are name of the move and duration and smooth duration</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>42</CommandIndex>
-        <ParametersPattern>string ui32 ui32 </ParametersPattern>
+        <ParametersPattern>string uint uint </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -83,7 +75,7 @@
         <Description>stops a move. Parameter are movename and smooth duration</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>43</CommandIndex>
-        <ParametersPattern>string ui32 </ParametersPattern>
+        <ParametersPattern>string uint </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -107,7 +99,7 @@
         <Description>test a spline position, first parameter is name of the move, second is name of the spline, third is affix, fourth is length in msecs</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>65</CommandIndex>
-        <ParametersPattern>string string float ui32 </ParametersPattern>
+        <ParametersPattern>string string float uint </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -123,7 +115,7 @@
         <Description>performs scan, param is maxpingid and scan type</Description>
         <Destination>low_level</Destination>
         <CommandIndex>9</CommandIndex>
-        <ParametersPattern>ui32 string </ParametersPattern>
+        <ParametersPattern>uint string </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -220,15 +212,15 @@
         <Destination>low_level</Destination>
         <CommandIndex>54</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>byte[] byte[] byte[] byte[] ui32[] ui32[] ui32[] ui32 </AnswerPattern>
+        <AnswerPattern>byte[] byte[] byte[] byte[] uint[] uint[] uint[] uint </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServosGetValues</Name>
-        <Description>get actual values. returns four arrays containing ids, angles, speeds, loads respectively. The parameter is the value encoding.</Description>
+        <Description>get actual values. returns four arrays containing ids, angles, speeds, loads and goals respectively. The parameter is the value encoding.</Description>
         <Destination>low_level</Destination>
         <CommandIndex>20</CommandIndex>
-        <ParametersPattern>ui32 </ParametersPattern>
-        <AnswerPattern>byte[] float[] float[] float[] </AnswerPattern>
+        <ParametersPattern>uint </ParametersPattern>
+        <AnswerPattern>byte[] float[] float[] float[] float[]</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServosGetFewValues</Name>
@@ -251,7 +243,7 @@
         <Description>set all values passing the encoding then four arrays containing ids, goal angle, goal speed, max load</Description>
         <Destination>low_level</Destination>
         <CommandIndex>22</CommandIndex>
-        <ParametersPattern>ui32 byte[] int[] ui32[] ui32[] </ParametersPattern>
+        <ParametersPattern>uint byte[] int[] uint[] uint[] </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -291,7 +283,7 @@
         <Destination>low_level</Destination>
         <CommandIndex>23</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string string ui32 ui32 ui32 ui32 ui32 ui32 ui32 </AnswerPattern>
+        <AnswerPattern>string string uint uint uint uint uint uint uint </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>ServosInit</Name>
@@ -330,7 +322,7 @@
         <Description>cross fade two moves. Params are name of the first move, name of the second move and duration in ms.</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>56</CommandIndex>
-        <ParametersPattern>string string ui32 </ParametersPattern>
+        <ParametersPattern>string string uint </ParametersPattern>
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -394,7 +386,7 @@
         <Description>first param is "Ini" or "Zero" and second is duration in ms.</Description>
         <Destination>move_scheduler</Destination>
         <CommandIndex>73</CommandIndex>
-        <ParametersPattern>string ui32 </ParametersPattern>
+        <ParametersPattern>string uint </ParametersPattern>
         <AnswerPattern></AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -419,7 +411,7 @@
         <Destination>low_level</Destination>
         <CommandIndex>42</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string[] ui32[] ui32[] </AnswerPattern>
+        <AnswerPattern>string[] uint[] uint[] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>LowLevelGetPwms</Name>
@@ -427,15 +419,15 @@
         <Destination>low_level</Destination>
         <CommandIndex>43</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>string[] ui32[] float[] string[] </AnswerPattern>
+        <AnswerPattern>string[] uint[] float[] string[] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>GetSensorsValues</Name>
         <Description>asks for arg2 last values of the sensors with name arg1</Description>
         <Destination>low_level</Destination>
         <CommandIndex>45</CommandIndex>
-        <ParametersPattern>string[] ui32 </ParametersPattern>
-        <AnswerPattern>string[] float[][] </AnswerPattern>
+        <ParametersPattern>string[] uint </ParametersPattern>
+        <AnswerPattern>string[] uint[][] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>SetPwmsRates</Name>
@@ -453,28 +445,30 @@
         <ParametersPattern />
         <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  
+
+  <CommandSpecification>
         <Name>VisionGetIplFrame</Name>
         <Description>ask a frame. Arg is image name then width depth and black/white. Returns name width height channels depth widthstep data</Description>
         <Destination>vision</Destination>
         <CommandIndex>6</CommandIndex>
-        <ParametersPattern>string ui32 ui32 ui32 </ParametersPattern>
-        <AnswerPattern>string ui32 ui32 ui32 ui32 ui32 byte[] </AnswerPattern>
+        <ParametersPattern>string uint uint uint </ParametersPattern>
+        <AnswerPattern>string uint uint uint uint uint byte[] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetJpegFrame</Name>
         <Description>ask a jpeg frame. Arg is image name then width depth and black/white. Returns name and data</Description>
         <Destination>vision</Destination>
         <CommandIndex>7</CommandIndex>
-        <ParametersPattern>string ui32 ui32 bool </ParametersPattern>
+        <ParametersPattern>string uint uint bool </ParametersPattern>
         <AnswerPattern>string byte[] </AnswerPattern>
     </CommandSpecification>
-    <CommandSpecification>
+  <CommandSpecification>
         <Name>VisionGetPngFrames</Name>
         <Description>ask png frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
         <Destination>vision</Destination>
         <CommandIndex>8</CommandIndex>
-        <ParametersPattern>string[] ui32[] ui32[] bool[] </ParametersPattern>
+        <ParametersPattern>string[] uint[] uint[] bool[] </ParametersPattern>
         <AnswerPattern>string[] byte[][] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
@@ -482,15 +476,8 @@
         <Description>ask jpeg frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
         <Destination>vision</Destination>
         <CommandIndex>17</CommandIndex>
-        <ParametersPattern>string[] ui32[] ui32[] bool[] </ParametersPattern>
+        <ParametersPattern>string[] uint[] uint[] bool[] </ParametersPattern>
         <AnswerPattern>string[] byte[][] </AnswerPattern>
-    </CommandSpecification>
-    <CommandSpecification>
-        <Name>ErrorFromVision</Name>
-        <Destination>vision</Destination>
-        <CommandIndex>1</CommandIndex>
-        <ParametersPattern />
-        <AnswerPattern>string </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetCameraParameters</Name>
@@ -518,11 +505,11 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetBallInfo</Name>
-        <Description>ask for ball info. parameters says whether clipping should be used. returns 1) whether ball is detected 2) x 3) y 4) radius 5) monolithic timestamp</Description>
+        <Description>ask for ball info. parameters says whether clipping should be used. returns 1) whether ball is detected 2) x 3) y 4) radius</Description>
         <Destination>vision</Destination>
         <CommandIndex>21</CommandIndex>
         <ParametersPattern >bool </ParametersPattern>
-        <AnswerPattern>bool float float float uint</AnswerPattern>
+        <AnswerPattern>bool float float float </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetGoalInfo</Name>
@@ -596,7 +583,7 @@
     <Description>get the loc state and image of the field. 0 means only field, 1 means with loc tag, 2 means with database tag</Description>
     <Destination>localisation</Destination>
     <CommandIndex>5</CommandIndex>
-    <ParametersPattern>ui32 </ParametersPattern>
+    <ParametersPattern>uint </ParametersPattern>
     <AnswerPattern >float[] byte[]</AnswerPattern>
 </CommandSpecification>
 <CommandSpecification>
@@ -652,7 +639,7 @@
     <Description>set known coordinates of the player. x, y, (between -1 and 1) and cap (in degrees and clockwise direction) and state (0 up 1 down)</Description>
     <Destination>localisation</Destination>
     <CommandIndex>9</CommandIndex>
-    <ParametersPattern>float float float ui32</ParametersPattern>
+    <ParametersPattern>float float float uint</ParametersPattern>
     <AnswerPattern></AnswerPattern>
 </CommandSpecification>
 <CommandSpecification>
@@ -756,7 +743,7 @@
       <Description>configure out of the box servo with new id</Description>
       <Destination>low_level</Destination>
       <CommandIndex>80</CommandIndex>
-      <ParametersPattern>ui32 </ParametersPattern>
+      <ParametersPattern>uint </ParametersPattern>
       <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
@@ -764,7 +751,7 @@
       <Description>change servo id. First param is oldid then newid</Description>
       <Destination>low_level</Destination>
       <CommandIndex>81</CommandIndex>
-      <ParametersPattern>ui32 ui32 </ParametersPattern>
+      <ParametersPattern>uint uint </ParametersPattern>
       <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
@@ -836,7 +823,7 @@
       <Description>reconfigure all servos with default values. Parameter is max_id</Description>
       <Destination>low_level</Destination>
       <CommandIndex>85</CommandIndex>
-      <ParametersPattern>ui32 </ParametersPattern>
+      <ParametersPattern>uint </ParametersPattern>
       <AnswerPattern>string </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
@@ -909,7 +896,7 @@
       <Destination>move_scheduler</Destination>
       <CommandIndex>72</CommandIndex>
       <ParametersPattern> </ParametersPattern>
-      <AnswerPattern>ui32 </AnswerPattern>
+      <AnswerPattern>uint </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
       <Name>LowLevelConfigIsLoaded</Name>
@@ -917,7 +904,7 @@
       <Destination>low_level</Destination>
       <CommandIndex>71</CommandIndex>
       <ParametersPattern></ParametersPattern>
-      <AnswerPattern>ui32 </AnswerPattern>
+      <AnswerPattern>uint </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
       <Name>StmError</Name>
@@ -1014,7 +1001,7 @@
       <Description>Evaluates a list of expressions in the context of the machine.
       First parameter is name of the machine.
       Second parameter is the list of expressions.
-      Third parameter is the value of entries.
+      Thirs parameter is the value of entries.
       If first parameter is the empty string then the expressions are
       evaluated in the context of the machine scheduler.</Description>
       <Destination>stm</Destination>
@@ -1032,4 +1019,184 @@
     <AnswerPattern>float[]</AnswerPattern>
   </CommandSpecification>
 
+  <CommandSpecification>
+    <Name>AudioGetPhases</Name>
+    <Description>
+      Get phases.
+      Parameter is time interval.
+      Answer: first value is the date, then the actual time interval and the sequence of values. 
+    </Description>
+    <Destination>audio</Destination>
+    <CommandIndex>2</CommandIndex>
+    <ParametersPattern>float</ParametersPattern>
+    <AnswerPattern>float float float[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioGetKeyPhases</Name>
+    <Description>Get key phases. Returns listof key dates, list of key values, list of phases x, intervals and values.</Description>
+    <Destination>audio</Destination>
+    <CommandIndex>3</CommandIndex>
+    <ParametersPattern>float</ParametersPattern>
+    <AnswerPattern>float[] bool[] float[] float[] float[][]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioGetDemodulatedChips</Name>
+    <Description>Get demodulated chips. Params: chips date (s), chips period (s), list of codes, list of chips for each code.</Description>
+    <Destination>audio</Destination>
+    <CommandIndex>4</CommandIndex>
+    <ParametersPattern>float</ParametersPattern>
+    <AnswerPattern>int[] float[][] float[][] bool[][][]</AnswerPattern>
+  </CommandSpecification>
+
+
+  <CommandSpecification>
+    <Name>AudioGetDemodulatedBits</Name>
+    <Description>Get demodulated bits. Params: chips date (s), list of bits for each code.</Description>
+    <Destination>audio</Destination>
+    <CommandIndex>5</CommandIndex>
+    <ParametersPattern></ParametersPattern>
+    <AnswerPattern>int[] float[][] bool[][]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioGetDemodulatedChars</Name>
+    <Description>Get demodulated chars.</Description>
+    <Destination>audio</Destination>
+    <CommandIndex>6</CommandIndex>
+    <ParametersPattern></ParametersPattern>
+    <AnswerPattern>uint[] string[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioGetAutoDemodulatedChips</Name>
+    <Description>Get demodulated chips. Param: period. Outputs: list of dates and list of values.</Description>
+    <Destination>audio</Destination>
+    <CommandIndex>7</CommandIndex>
+    <ParametersPattern>float</ParametersPattern>
+    <AnswerPattern>float[] bool[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioGetContinousPhase</Name>
+    <Description>
+      Get continous phases.
+      Parameter is time interval.
+      Answer: first value is the date, then the actual time interval and the sequence of values.
+    </Description>
+    <Destination>audio</Destination>
+    <CommandIndex>8</CommandIndex>
+    <ParametersPattern>float</ParametersPattern>
+    <AnswerPattern>float float float[]</AnswerPattern>
+  </CommandSpecification>
+
+
+  <CommandSpecification>
+    <Name>WeederVisionError</Name>
+    <Description>Error from traktor vision module</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>1</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>WeederVisionGetJpegFrame</Name>
+    <Description>ask a jpeg frame. Arg is image name then width depth and black/white. Returns name and data</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>7</CommandIndex>
+    <ParametersPattern>string uint uint bool </ParametersPattern>
+    <AnswerPattern>string byte[] </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>WeederVisionGetJpegFrames</Name>
+    <Description>ask jpeg frames. Args are image names then widths depths and black/white. Returns names and datas</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>17</CommandIndex>
+    <ParametersPattern>string[] uint[] uint[] bool[] </ParametersPattern>
+    <AnswerPattern>string[] byte[][] </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+    <Name>WeederGetParameters</Name>
+    <Description>get parameters. Arg is parameters type. Return value is parameter type and serialized parameters.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>18</CommandIndex>
+    <ParametersPattern>string </ParametersPattern>
+    <AnswerPattern>string string </AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederSetParameters</Name>
+    <Description>set parameters. Arg is type and then serialized parameter object.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>19</CommandIndex>
+    <ParametersPattern>string string </ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederSaveParameters</Name>
+    <Description>save parameters. Arg is type.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>20</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+
+  <CommandSpecification>
+    <Name>WeederVisionSetZone</Name>
+    <Description>Set zone parameters</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>21</CommandIndex>
+    <ParametersPattern>float[]</ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+
+  <CommandSpecification>
+    <Name>WeederGetMotionState</Name>
+    <Description>Get info from motion control. pos, angle, target angle, velocity, start, end up, Ipid.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>22</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>float float float float float bool bool bool float </AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederSetJackVelocity</Name>
+    <Description>Sets velocity of the jack</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>23</CommandIndex>
+    <ParametersPattern>float</ParametersPattern> />
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederSetJackTargetAngle</Name>
+    <Description>Sets angle of the jack</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>25</CommandIndex>
+    <ParametersPattern>float</ParametersPattern> />
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederSetJackPosition</Name>
+    <Description>Sets position of the jack</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>26</CommandIndex>
+    <ParametersPattern>float</ParametersPattern> />
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederSetMotionMode</Name>
+    <Description>Sets motion mode</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>24</CommandIndex>
+    <ParametersPattern>uint</ParametersPattern> />
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+  
 </ArrayOfCommandSpecification>
