@@ -95,9 +95,9 @@ class StateMachineServer(StateMachineLoader):
             raise Exception('No answer to register component command')
 
     def testConnection(self):
-        response = self.connection.ServerEcho_response('Hello', 'you')
+        response = self.connection.ServerEcho_response("Hello", "you")
 
-        if response is not None and response[0] == 'Hello' and response[1] == 'you':
+        if response is not None and response[0] == "Hello" and response[1] == "you":
             print("[" + str(datetime.datetime.now()) + '] STM Server: Connection alive')
         else :
             raise Exception('Connection dead')
@@ -121,13 +121,16 @@ class StateMachineServer(StateMachineLoader):
     def processGetMachinesInfo(self,message):
         answer = [ self.machines.keys() , [machine.machine.statusString() for machine in self.machines.values()] , [machine.machine.error for machine in self.machines.values()] ]
         return answer
-        
+
     def processLoadXMLMachineMessage(self, message):
         xml = message[0]
         print("Loading machine " + xml )
         machine = StateMachine.from_xml_stream(xml)
         self.load(machine, False, float("inf"), True)
-        machine.connection = self.connection
+        for key in self.store.commands:
+            setattr( machine, key, getattr(self.connection, key) )
+            setattr( machine, key+"_response", getattr(self.connection, key+"_response") )
+        machine.GetMoveValues = lambda movename, blocknames : machine.SchedulerGetOutputValues_response(movename,blocknames)
         return ['Loaded machine ' + machine.name]
 
     def getMachine(self, name):
