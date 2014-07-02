@@ -65,6 +65,10 @@ class StateMachineLoader(RepeatedTask):
         machine = self.getMachine(machineName)
         machine.machine.stop()
 
+    def suspendMachine(self, machineName):
+        machine = self.getMachine(machineName)
+        machine.machine.suspend()
+
     def setState(self, machineName, stateName):
         machine = self.getMachine(machineName)
         machine.machine.set_state(stateName)
