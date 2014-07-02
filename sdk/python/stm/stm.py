@@ -69,6 +69,9 @@ class StateMachine(RepeatedTask):
         
         '''The preamble'''
         self.preamble = ""
+
+        '''The code executed on stop'''
+        self.onstop = ""
         
         '''The dict of states (name-> state)'''
         self.states = {}
@@ -128,6 +131,7 @@ class StateMachine(RepeatedTask):
                 submachine.play(False, duration, threaded)
             self.begin = time()
             self.duration = duration
+            self.error = ""
             if self.status == self.Status.Stopped :
                 if self.debug: print("Starting machine \'" + self.name+"\'")
                 globals()[self.name] = self
@@ -142,9 +146,9 @@ class StateMachine(RepeatedTask):
                 for line in self.preamble.splitlines() :
                     imports = line.split(' ')
                     if len(imports) >= 2:
-                        if imports[0]=='def':
-                            globals()[imports[1][:-3]] = locals()[imports[1][:-3]]
-                        elif imports[0]=='import':
+#                        if imports[0]=='def':
+#                            globals()[imports[1][:-3]] = locals()[imports[1][:-3]]
+                        if imports[0]=='import':
                             import_module(imports[1])
                         elif imports[0]=='from' and imports[2]=='import' :
                             if len(imports) == 4:
@@ -181,13 +185,21 @@ class StateMachine(RepeatedTask):
 
     '''Stops the machine execution, and stops the thread as well'''            
     def stop(self):
-        if self.debug : print("Stopping machine \'"+ self.name+"\'")
-        if self.threaded:
-            RepeatedTask.cancel(self)
-        self.status = self.Status.Stopped
-        for submachine in self.submachines.values():
-            submachine.stop()
-        self.state = self.states["Initial"]
+        if self.status == self.Status.Playing or self.status == self.Status.Suspended :
+           if self.debug : print("Stopping machine \'"+ self.name+"\'")
+           if self.threaded:
+               RepeatedTask.cancel(self)
+           self.status = self.Status.Stopped
+           for submachine in self.submachines.values():
+               submachine.stop()
+           if self.onstop:
+               try :
+                  exec(self.onstop, self.globals, self.locals)
+               except Exception as e:
+                  self.error = "[" + str(datetime.datetime.now().time()) + "] " + " Failed to exec onstop : " + str(e)
+                  print("Failed to exec onstop of machine "+ self.name + ": "+ str(e))
+                  raise Exception(self.error)
+           self.state = self.states["Initial"]
        
     '''creates a list of machines from a yaml file'''
     @classmethod
@@ -415,6 +427,7 @@ class StateMachine(RepeatedTask):
         StateMachine.add_tag('description',self.description,result)
         StateMachine.add_tag('frequency',self.frequency,result)
         StateMachine.add_tag('preamble',self.preamble,result)
+        StateMachine.add_tag('onstop',self.onstop,result)
         states = []
         for state in self.states.values() :
             states.append(state.toTree())
@@ -437,6 +450,8 @@ class StateMachine(RepeatedTask):
         if mapping.__contains__('frequency') :
             machine.frequency = float(StateMachine.get_tag('frequency' , mapping))
         machine.preamble += StateMachine.get_tag('preamble' , mapping)
+        machine.onstop += StateMachine.get_tag('onstop' , mapping)
+
         if mapping.__contains__('states') :
             states = mapping['states']
             print("Found " + str(len(states)) + " states")

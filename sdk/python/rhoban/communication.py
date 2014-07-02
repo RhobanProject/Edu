@@ -107,7 +107,7 @@ class Connection(tcp.TCPClient):
         answer = Message(incomingMessage.uid, incomingMessage.destination, incomingMessage.source, specification.command )
         answer.isAnswer = True
         answer.data = specification.answerPattern.getData(*data)
-        print("Sending answer to command '" + specification.name + "'");
+        #print("Sending answer to command '" + specification.name + "'");
         self.transmit(answer.getRaw())
 
     def processData(self):
