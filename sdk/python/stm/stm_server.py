@@ -112,11 +112,13 @@ class StateMachineServer(StateMachineLoader):
         return [ self.machines.keys() , [machine.machine.state.name for machine in self.machines.values()] ]
 
     def processGetStateMessage(self, message):
-        state = self.getMachine(message[0]).machine.state
-        if state is not None :
-            return [ message[0] , state.name]
-        else :
-            return [ message[0] , 'Initial']
+        try:
+            state = self.getMachine(message[0]).machine.state
+            if state is not None :
+                return [ message[0] , state.name]
+        except:
+            print("Unknown machine '"+message[0]+"'")
+        return [ message[0] , 'Initial']
         
     def processGetMachinesInfo(self,message):
         answer = [ self.machines.keys() , [machine.machine.statusString() for machine in self.machines.values()] , [machine.machine.error for machine in self.machines.values()] ]
