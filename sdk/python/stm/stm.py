@@ -134,6 +134,7 @@ class StateMachine(RepeatedTask):
             self.error = ""
             if self.status == self.Status.Stopped :
                 if self.debug: print("Starting machine \'" + self.name+"\'")
+                self.state = None
                 globals()[self.name] = self
                 if self.preamble:
                     try :
