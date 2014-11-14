@@ -112,12 +112,11 @@ class StateMachineServer(StateMachineLoader):
         return [ self.machines.keys() , [machine.machine.state.name for machine in self.machines.values()] ]
 
     def processGetStateMessage(self, message):
-        try:
-            state = self.getMachine(message[0]).machine.state
-            if state is not None :
+        machine = self.getMachine(message[0])
+        if machine :
+            state = machine.machine.state
+            if state :
                 return [ message[0] , state.name]
-        except:
-            print("Unknown machine '"+message[0]+"'")
         return [ message[0] , 'Initial']
         
     def processGetMachinesInfo(self,message):
@@ -139,7 +138,7 @@ class StateMachineServer(StateMachineLoader):
         if name in self.machines :
             return self.machines[name]
         else :
-            raise Exception("Unknown machine '" + name + "'")
+            return None;
             
     def processStartMachineMessage(self,message):
         print('Starting machine ' + message[0]) 
@@ -148,8 +147,12 @@ class StateMachineServer(StateMachineLoader):
 
     def processStopMachineMessage(self,message):
         machine = self.getMachine(message[0])
-        machine.machine.stop()
-        return ['Stopped machine ' + message[0]]
+        if machine :
+            machine.machine.stop()
+            return ['Stopped machine ' + message[0]]
+        else :
+            return ['Unknown machine ' + message[0]]
+
 
     def processKillMachineMessage(self,message):
         self.kill(message[0])
@@ -158,22 +161,32 @@ class StateMachineServer(StateMachineLoader):
       
     def processSetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
-        machine.machine.set_attributes(message[1],message[2])
+        if machine :
+            machine.machine.set_attributes(message[1],message[2])
         
     def processGetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
-        return [machine.machine.get_attributes(message[1])]
+        if machine :
+            return [machine.machine.get_attributes(message[1])]
+        else:
+            return []
 
     def StmGetAndSetMachineAttributes(self, message):
         machine = self.getMachine(message[0])
-        machine.machine.set_attributes(message[1],message[2])
-        return [machine.machine.get_attributes(message[3])]
+        if machine :
+            machine.machine.set_attributes(message[1],message[2])
+            return [machine.machine.get_attributes(message[3])]
+        else :
+            return []
         
     def processEvaluatePythonExpressions(self, message):
         if message[0] :
             machine = self.getMachine(message[0])
-            machine.x = message[2]
-            return [ [ machine.machine.evaluate(expression) for expression in message[1] ] ]
+            if machine :
+                machine.x = message[2]
+                return [ [ machine.machine.evaluate(expression) for expression in message[1] ] ]
+            else :
+                return []
         else :
             x = message[2]
             answer = []
