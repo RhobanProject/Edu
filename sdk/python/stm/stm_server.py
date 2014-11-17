@@ -48,6 +48,9 @@ class StateMachineServer(StateMachineLoader):
         self.connection.setStore(self.store)
         self.connection_keeper =  RepeatedTask(10,self.connectIfNeeded)
         self.connection_keeper.start()
+        self.move_monitor = RepeatedTask(0.2,self.askValues)
+        self.move_monitor.start()
+
 
     '''Asynchronous reception and processing of messages
        messages are stored in an array and processed when no machine is stepping
@@ -70,6 +73,22 @@ class StateMachineServer(StateMachineLoader):
         StateMachineLoader.step(self)
         self.processPendingMessages()
         
+    '''asks values of moves in the remote move scheduler'''
+    def askValues(self):
+        try :
+            if (self.connection.connected):
+                for machine in self.machines.values():
+                    if machine.machine.monitored_states:
+                        states = machine.machine.monitored_states
+                        for move in states:
+                            response = self.connection.SchedulerGetMoveValues_response(move,states[move].keys())
+                            if response and len(response) >= 3 :
+                                for i in range(0, len(response[1])) :
+                                    machine.machine.monitored_states[move][response[1][i]] = response[2][i]
+        except Exception as e :
+            print("[" + str(datetime.datetime.now()) + "] Stm move monitor: exception: " + str(e))
+
+    '''connect to server if needed'''
     def connectIfNeeded(self):
         try :
             if (not self.connection.connected):

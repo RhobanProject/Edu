@@ -305,7 +305,7 @@
         <Name>SchedulerGetMoveValues</Name>
         <Description>get the values of some blocks of a move.</Description>
         <Destination>move_scheduler</Destination>
-        <CommandIndex>55</CommandIndex>
+        <CommandIndex>54</CommandIndex>
         <ParametersPattern>string string[] </ParametersPattern>
         <AnswerPattern>string string[] float[][] </AnswerPattern>
     </CommandSpecification>
@@ -425,9 +425,9 @@
         <Name>GetSensorsValues</Name>
         <Description>asks for arg2 last values of the sensors with name arg1</Description>
         <Destination>low_level</Destination>
+      <ParametersPattern>string[] uint </ParametersPattern>
+      <AnswerPattern>string[] float[][] </AnswerPattern>
         <CommandIndex>45</CommandIndex>
-        <ParametersPattern>string[] uint </ParametersPattern>
-        <AnswerPattern>string[] uint[][] </AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>SetPwmsRates</Name>
@@ -513,11 +513,11 @@
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetGoalInfo</Name>
-        <Description>ask for goal info. returns 1) wheter the goal is visible 2) x of center 3) y of center 4) width 5) height 6/7/8) whether left top right are detected</Description>
+        <Description>ask for goal info. returns base1_detected, base1_x, base1_y, base2_detected, base2_x, base2_y</Description>
         <Destination>vision</Destination>
         <CommandIndex>22</CommandIndex>
         <ParametersPattern />
-        <AnswerPattern>bool float float float float bool bool bool</AnswerPattern>
+        <AnswerPattern>bool float float bool float float</AnswerPattern>
     </CommandSpecification>
     <CommandSpecification>
         <Name>VisionGetFullGoalInfo</Name>
@@ -1020,16 +1020,24 @@
   </CommandSpecification>
 
   <CommandSpecification>
+    <Name>AudioError</Name>
+    <Destination>audio</Destination>
+    <CommandIndex>1</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string </AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
     <Name>AudioGetPhases</Name>
     <Description>
       Get phases.
       Parameter is time interval.
-      Answer: first value is the date, then the actual time interval and the sequence of values. 
+      Answer: first value is the date, then the actual time interval and the sequence of squences of values values. 
     </Description>
     <Destination>audio</Destination>
     <CommandIndex>2</CommandIndex>
     <ParametersPattern>float</ParametersPattern>
-    <AnswerPattern>float float float[]</AnswerPattern>
+    <AnswerPattern>float[] float[] float[][]</AnswerPattern>
   </CommandSpecification>
 
   <CommandSpecification>
@@ -1091,6 +1099,49 @@
     <AnswerPattern>float float float[]</AnswerPattern>
   </CommandSpecification>
 
+  <CommandSpecification>
+    <Name>AudioSetParameters</Name>
+    <Description>
+      Sets audio parameters. Sends a serialized representation (2nd arg) of parameters of the given type (1st arg).
+    </Description>
+    <Destination>audio</Destination>
+    <CommandIndex>9</CommandIndex>
+    <ParametersPattern>string string </ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioGetParameters</Name>
+    <Description>
+      Gets audio parameters. Returns a serialized representation of parameters of the given type (1st arg).
+    </Description>
+    <Destination>audio</Destination>
+    <CommandIndex>10</CommandIndex>
+    <ParametersPattern>string</ParametersPattern>
+    <AnswerPattern>string string</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioSaveParameters</Name>
+    <Description>
+      Save parameters on disk.
+    </Description>
+    <Destination>audio</Destination>
+    <CommandIndex>11</CommandIndex>
+    <ParametersPattern></ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>AudioReset</Name>
+    <Description>
+      Resets audio system.
+    </Description>
+    <Destination>audio</Destination>
+    <CommandIndex>12</CommandIndex>
+    <ParametersPattern></ParametersPattern>
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
 
   <CommandSpecification>
     <Name>WeederVisionError</Name>
@@ -1146,21 +1197,21 @@
 
   <CommandSpecification>
     <Name>WeederVisionSetZone</Name>
-    <Description>Set zone parameters</Description>
+    <Description>Set zone parameters. First parameter is camera nb</Description>
     <Destination>traktor</Destination>
     <CommandIndex>21</CommandIndex>
-    <ParametersPattern>float[]</ParametersPattern>
+    <ParametersPattern>int float[]</ParametersPattern>
     <AnswerPattern></AnswerPattern>
   </CommandSpecification>
 
 
   <CommandSpecification>
     <Name>WeederGetMotionState</Name>
-    <Description>Get info from motion control. pos, angle, target angle, velocity, start, end up, Ipid.</Description>
+    <Description>Get info from motion control. pos, angle, target angle, velocity, start, end up, Ipid, P, P_GPS, gps pos, dir, nearest.</Description>
     <Destination>traktor</Destination>
     <CommandIndex>22</CommandIndex>
     <ParametersPattern />
-    <AnswerPattern>float float float float float bool bool bool float </AnswerPattern>
+    <AnswerPattern>float float float float float bool bool bool float float float string string string</AnswerPattern>
   </CommandSpecification>
 
   <CommandSpecification>
@@ -1198,5 +1249,41 @@
     <ParametersPattern>uint</ParametersPattern> />
     <AnswerPattern></AnswerPattern>
   </CommandSpecification>
-  
+
+  <CommandSpecification>
+    <Name>WeederGetGpsCloud</Name>
+    <Description>Gets gps cloud. Returns array of e0,n0,e1,n1,... for each receiver.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>27</CommandIndex>
+    <ParametersPattern></ParametersPattern> />
+    <AnswerPattern>float[][]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederGetGpsPositions</Name>
+    <Description>Gets gps positions. Returns two arrays, one of current posiitons, the other of closest in the cloud</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>28</CommandIndex>
+    <ParametersPattern></ParametersPattern> />
+    <AnswerPattern>float[] float[]</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederVisionGetState</Name>
+    <Description>Gets vision state. Returns autodetect, camera selected, vision correction, debug info.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>29</CommandIndex>
+    <ParametersPattern></ParametersPattern> />
+    <AnswerPattern>bool int int string</AnswerPattern>
+  </CommandSpecification>
+
+  <CommandSpecification>
+    <Name>WeederVisionSetState</Name>
+    <Description>Sets vision state: autodetect, camera selected.</Description>
+    <Destination>traktor</Destination>
+    <CommandIndex>30</CommandIndex>
+    <ParametersPattern>bool int</ParametersPattern> />
+    <AnswerPattern></AnswerPattern>
+  </CommandSpecification>
+
 </ArrayOfCommandSpecification>

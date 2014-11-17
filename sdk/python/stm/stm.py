@@ -96,8 +96,12 @@ class StateMachine(RepeatedTask):
         '''The total playing duration'''
         self.duration = float("inf")
         
+        '''The map of monitored moves to the map from states to output values'''
+        self.monitored_states = {}
+
         self.debug = debug
         
+        '''True if the machine is animated by a thread, falseif anaimated by calls to step (by an stm loader for example)'''
         self.threaded = False
         
         self.globals = globals()
@@ -268,21 +272,22 @@ class StateMachine(RepeatedTask):
             self.lock.acquire()
             state = self.states[state_name]
             if state is not self.state:
-                self.bye()
-                self.state = state
-                self.enter()
+                if self.state and self.state.bye : exec(self.state.bye, self.globals, self.locals)
+                if state and state.enter : exec(state.enter, self.globals, self.locals)
             self.state = state
             self.lock.release()
         except Exception as e:
             self.lock.release()
             raise e
     
+    '''sets a machine variable'''
     def set_attributes(self, keys, values):
         if len(keys) != len(values):
             raise Exception("Cannot set variables: not same number of keys and values")
         for i in range(len(keys)):
             exec("self."+ keys[i] + "=" + str(values[i]), self.globals, self.locals)
         
+    '''gets a machine variable'''
     def get_attributes(self, keys):
         values = []
         for key in keys:
@@ -293,24 +298,17 @@ class StateMachine(RepeatedTask):
     def __getattr__(self, name):
         return self.connection.name'''
 
+    '''evaluates a n expression in the context of a machine'''
     def evaluate(self, expression):
         return float( eval( expression, self.globals, self.locals) )
-        
-    def enter(self):
-        if self.state and self.state.enter : exec(self.state.enter, self.globals, self.locals)
 
-    def bye(self):
-        if self.state and self.state.bye : exec(self.state.bye, self.globals, self.locals)
-
-    def loop(self):
-        if self.state and self.state.loop : exec(self.state.loop, self.globals, self.locals)
-
+    '''performs one step of the stm'''
     def step(self):
         try:
             self.lock.acquire()
             if self.status == self.Status.Playing :
                 try:
-                    self.loop()
+                    if self.state and self.state.loop : exec(self.state.loop, self.globals, self.locals)
                 except Exception as e:
                     raise Exception("Failed to loop in state '" + self.state.name + "': " + str(e))
                 if self.debug: print("Transition of machine " + self.name + " in state "+ self.state.name)
@@ -328,6 +326,15 @@ class StateMachine(RepeatedTask):
             print("Exception in machine "+ self.name + ": "+ str(e))
             pass
         #raise e
+
+    '''adds the state from a given move to the list of monitored states'''
+    def monitor(self, move, state):
+        if not move in self.monitored_states:
+            self.monitored_states[move] = {}
+        if not state in self.monitored_states[move]:
+            self.monitored_states[move][state] = None
+        return self.monitored_states[move][state]
+
 
     ''' Performs the transition and returns the name of the new state'''
     def transition(self):
@@ -488,7 +495,7 @@ class StateMachine(RepeatedTask):
                     machine.submachines[submachine.name] = submachine
                     print("Created submachine " + submachine.name)
         return machine
-    
+
     '''
        Create a GraphVIZ representation 
     '''
