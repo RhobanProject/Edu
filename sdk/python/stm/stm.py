@@ -107,6 +107,8 @@ class StateMachine(RepeatedTask):
         self.globals = globals()
         self.locals = locals()
         
+        '''Minimal time to spend in the current state'''
+        self.min_ticks = 0
               
     def statusString(self):
         status = ''
@@ -309,7 +311,11 @@ class StateMachine(RepeatedTask):
             self.lock.acquire()
             if self.status == self.Status.Playing :
                 try:
-                    if self.state and self.state.loop : exec(self.state.loop, self.globals, self.locals)
+                    if self.state and self.state.loop :
+                        if self.min_ticks > 0 :
+                           self.min_ticks = self.min_ticks - 1
+                        else :
+                            exec(self.state.loop, self.globals, self.locals)
                 except Exception as e:
                     raise Exception("Failed to loop in state '" + self.state.name + "': " + str(e))
                 if self.debug: print("Transition of machine " + self.name + " in state "+ self.state.name)
@@ -371,14 +377,14 @@ class StateMachine(RepeatedTask):
         def toTree(self):
             result = {}
             StateMachine.add_tag('condition',self.condition,result)
-            StateMachine.add_tag('do',self.do,result)
+            StateMachine.add_tag('fire',self.do,result)
             StateMachine.add_tag('next',self.next,result)
             return result
 
         '''build the transition from a map'''
         def from_tree(self, mapping):
             self.condition = StateMachine.get_tag('condition' , mapping)
-            self.do = StateMachine.get_tag('do' , mapping)
+            self.do = StateMachine.get_tag('fire' , mapping)
             self.next = StateMachine.get_tag('next' , mapping)
         
         
