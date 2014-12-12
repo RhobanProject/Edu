@@ -20,7 +20,7 @@ namespace Rhoban
 #include <string>
 #include <communication/BaseConnection.h>
 #include <communication/CommandsStore.h>
-#include <utils/types.h>
+#include <types.h>
 #include <motors/Motors.h>
 #include <config/Configurations.h>
 #include "Moves.h"
