@@ -56,7 +56,7 @@ namespace Rhoban
     
     // Moves
     string moveFileName(string name);
-    void loadMove(string name);
+    void loadMove(string name, bool rawPath = false);
     void startMove(string name, ui32 duration = 0, ui32 smooth = 500);
     void pauseMove(string name);
     void stopMove(string name, ui32 smooth = 500);

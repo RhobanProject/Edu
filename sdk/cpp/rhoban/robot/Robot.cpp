@@ -160,11 +160,13 @@ string Robot::moveFileName(string name)
 	return retval;
 }
 
-void Robot::loadMove(string name)
+void Robot::loadMove(string name, bool rawPath)
 {
 	string filename = name;
-	filename.append(".graphics");
-	filename = moveFileName(filename);
+        if (!rawPath) {
+	    filename.append(".graphics");
+	    filename = moveFileName(filename);
+        }
 
 	ifstream ifile(filename.c_str());
 	bool fileExists = (bool)ifile;
