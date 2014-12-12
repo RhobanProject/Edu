@@ -49,6 +49,9 @@ namespace Rhoban
     double getZeroAngle();
     void setGoalAngle(double angle);
     double getGoalAngle();
+    void setCurrentGoal(double goal);
+    double getCurrentGoal();
+    double getCurrentRelGoal();
     void setCurrentAngle(double angle);
     double getCurrentAngle();
     void setGoalSpeed(double speed);
@@ -77,6 +80,7 @@ namespace Rhoban
 
     double goalAngle;
     double currentAngle;
+    double currentGoal;
 
     double goalSpeed;
     double currentSpeed;

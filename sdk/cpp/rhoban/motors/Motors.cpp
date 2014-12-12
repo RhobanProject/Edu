@@ -163,6 +163,7 @@ namespace Rhoban
         vector<float> angles= values->read_float_array();
         vector<float> speeds= values->read_float_array();
         vector<float> loads= values->read_float_array();
+        vector<float> goals= values->read_float_array();
 
         for(int i=0; i < ids.size(); ++i)
         {
@@ -173,6 +174,8 @@ namespace Rhoban
                 idMotors[ids[i]]->setCurrentAngle((double)angles[i]);
                 if(idMotors[ids[i]]->getGoalAngleInit() == 0)
                     idMotors[ids[i]]->setGoalAngle(idMotors[ids[i]]->getAngle());
+
+                idMotors[ids[i]]->setCurrentGoal((double)goals[i]);
 
                 idMotors[ids[i]]->setCurrentSpeed((double)speeds[i]/1023);
                 if(idMotors[ids[i]]->getGoalSpeedInit() == 0)

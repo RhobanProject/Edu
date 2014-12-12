@@ -390,7 +390,7 @@ namespace Rhoban
   {
     name = "monitor";
     prototype = "[-f frequency] [-i] <robotName>";
-    options = "f:i";
+    options = "f:ic";
     argumentsLength = 1;
     description = "Monitors the servos (-i sorts by id)";
   }
@@ -399,8 +399,10 @@ namespace Rhoban
 			       vector<string> arguments)
   {
     string fmttitle = " | %-10s | %-4s | %-7s | %-12s | %-8s | %-8s |\n";
-    string fmtloaded = " | %-10.10s | %-4d | %-7s | %-12f | %-7d%% | %-7d%% |\n";
+    string fmtloaded = " | %-10.10s | %-4d | %-7s | %-12f | %-12f | %-7d%% |\n";
     string fmtnotloaded = " | %-10.10s | %-4d | %-7s | %-12c | %-8c | %-8c |\n";
+
+    bool csv = options.count('c') > 0;
 
     float frequency;
     if(options.count('f'))
@@ -418,69 +420,85 @@ namespace Rhoban
 	    
     while(1)
       {
-	cout << " Monitoring " << robot->getName() << endl;
+          if (csv) {
+            motors = robot->getMotors()->getMotors();
+                    
+            for(it=motors.begin(); it!=motors.end(); ++it)
+              {
+                if(it->second->getLastUpdate()) {
+                    printf("%g/%g ",
+                         it->second->getRelAngle(),
+                         it->second->getCurrentRelGoal());
+                } else {
+                    printf("0 ");
+                }
+              }
+            printf("\n");
+          } else {
+            cout << " Monitoring " << robot->getName() << endl;
 
-	cout << " ";
-	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
-	  cout << "-";
-	cout << endl;
-	printf(fmttitle.c_str(), 
-	       "Name", "Id", "Present", "Angle", "Load", "Speed");
-	cout << " ";
-	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
-	  cout << "-";
-	cout << endl;
-	
-	if(options.count('i'))
-	  {
-	    idmotors = robot->getMotors()->getIdMotors();
-	    
-	    for(idit=idmotors.begin(); idit!=idmotors.end(); ++idit)
-	      {
-		if(idit->second->getLastUpdate())
-		  printf(fmtloaded.c_str(), 
-			 idit->second->getName().c_str(), 
-			 idit->second->getId(), 
-			 "Yes", 
-			 idit->second->getAngle(), 
-			 (int)(100*idit->second->getLoad()), 
-			 (int)(100*idit->second->getLoad()));
-		else
-		  {
-		    printf(fmtnotloaded.c_str(), 
-			   idit->second->getName().c_str(), 
-			   idit->second->getId(), 
-			   "No", '-', '-', '-');
-		  }		  
-	      }
-	  }
-	
-	else // (!options.count('i'))
-	  {
-	    motors = robot->getMotors()->getMotors();
-	    	    
-	    for(it=motors.begin(); it!=motors.end(); ++it)
-	      {
-		if(it->second->getLastUpdate())
-		  printf(fmtloaded.c_str(), 
-			 it->second->getName().c_str(), 
-			 it->second->getId(), 
-			 "Yes", 
-			 it->second->getAngle(), 
-			 (int)(100*it->second->getLoad()), 
-			 (int)(100*it->second->getLoad()));
-		else
-		  printf(fmtnotloaded.c_str(), 
-			 it->second->getName().c_str(), 
-			 it->second->getId(), 
-			 "No", '-', '-', '-');
-	      }
-	  }
+            cout << " ";
+            for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
+              cout << "-";
+            cout << endl;
+            printf(fmttitle.c_str(), 
+                   "Name", "Id", "Present", "Angle", "Goal", "Speed");
+            cout << " ";
+            for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
+              cout << "-";
+            cout << endl;
+            
+            if(options.count('i'))
+              {
+                idmotors = robot->getMotors()->getIdMotors();
+                
+                for(idit=idmotors.begin(); idit!=idmotors.end(); ++idit)
+                  {
+                    if(idit->second->getLastUpdate())
+                      printf(fmtloaded.c_str(), 
+                             idit->second->getName().c_str(), 
+                             idit->second->getId(), 
+                             "Yes", 
+                             idit->second->getRelAngle(),
+                             idit->second->getCurrentRelGoal(),
+                             (int)(100*idit->second->getLoad()));
+                    else
+                      {
+                        printf(fmtnotloaded.c_str(), 
+                               idit->second->getName().c_str(), 
+                               idit->second->getId(), 
+                               "No", '-', '-', '-');
+                      }		  
+                  }
+              }
+            
+            else // (!options.count('i'))
+              {
+                motors = robot->getMotors()->getMotors();
+                        
+                for(it=motors.begin(); it!=motors.end(); ++it)
+                  {
+                    if(it->second->getLastUpdate())
+                      printf(fmtloaded.c_str(), 
+                             it->second->getName().c_str(), 
+                             it->second->getId(), 
+                             "Yes", 
+                             it->second->getRelAngle(), 
+                             it->second->getCurrentRelGoal(),
+                             (int)(100*it->second->getLoad()));
+                    else
+                      printf(fmtnotloaded.c_str(), 
+                             it->second->getName().c_str(), 
+                             it->second->getId(), 
+                             "No", '-', '-', '-');
+                  }
+              }
 
-	cout << " ";
-	for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
-	  cout << "-";
-	cout << endl;
+            cout << " ";
+            for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
+              cout << "-";
+            cout << endl;
+          }
 	
 	syst_wait_ms(1000/frequency);
       }
@@ -490,8 +508,8 @@ namespace Rhoban
   SensorsCommand::SensorsCommand()
   {
     name = "sensors";
-    prototype = "[-f frequency] <robotName>";
-    options = "f:";
+    prototype = "[-f frequency] [-c] <robotName>";
+    options = "f:c";
     argumentsLength = 1;
     description = "Monitor the sensors values";
   }
@@ -503,6 +521,7 @@ namespace Rhoban
     string fmtloaded = " | %10s | %10f |\n";
     string fmtnotloaded = " | %10s | %10s |\n";
     
+    bool csv = options.count('c');
     float frequency;
     if(options.count('f'))
       frequency = atof(options['f'].c_str());
@@ -513,34 +532,49 @@ namespace Rhoban
   
     while(1)
       {
-	cout << " Monitoring sensors of " << robot->getName() << endl;
-	
-	cout << " ";
-	for(int i=0; i<(10+10+3+2+2); ++i)
-	  cout << "-";
-	cout << endl;
-	printf(fmttitle.c_str(), "Name", "Value");
-	cout << " ";
-	for(int i=0; i<(10+10+3+2+2); ++i)
-	  cout << "-";
-	cout << endl;
+          if (csv) {
+            map<string, Sensor*> sensors = robot->getSensors()->getSensors();
+            map<string, Sensor*>::iterator it;
+            for(it=sensors.begin(); it!=sensors.end(); ++it)
+              {
+                if(!it->second->getValues().empty()) {
+                    printf("%f ", it->second->getValue());
+                } else {
+                  printf("0 "); 
+                }
+              }
+            printf("\n");
 
-	map<string, Sensor*> sensors = robot->getSensors()->getSensors();
-	map<string, Sensor*>::iterator it;
-	for(it=sensors.begin(); it!=sensors.end(); ++it)
-	  {
-	    if(!it->second->getValues().empty())
-	      printf(fmtloaded.c_str(), 
-		     it->second->getName().c_str(), it->second->getValue());
-	    else
-	      printf(fmtnotloaded.c_str(), 
-		     it->second->getName().c_str(), "?");
-	  }
-	
-	cout << " ";
-	for(int i=0; i<(10+10+3+2+2); ++i)
-	  cout << "-";
-	cout << endl;
+          } else {
+            cout << " Monitoring sensors of " << robot->getName() << endl;
+            
+            cout << " ";
+            for(int i=0; i<(10+10+3+2+2); ++i)
+              cout << "-";
+            cout << endl;
+            printf(fmttitle.c_str(), "Name", "Value");
+            cout << " ";
+            for(int i=0; i<(10+10+3+2+2); ++i)
+              cout << "-";
+            cout << endl;
+
+            map<string, Sensor*> sensors = robot->getSensors()->getSensors();
+            map<string, Sensor*>::iterator it;
+            for(it=sensors.begin(); it!=sensors.end(); ++it)
+              {
+                if(!it->second->getValues().empty())
+                  printf(fmtloaded.c_str(), 
+                         it->second->getName().c_str(), it->second->getValue());
+                else
+                  printf(fmtnotloaded.c_str(), 
+                         it->second->getName().c_str(), "?");
+              }
+            
+            cout << " ";
+            for(int i=0; i<(10+10+3+2+2); ++i)
+              cout << "-";
+            cout << endl;
+          }
 	
 	syst_wait_ms(1000/frequency);
       }
@@ -580,16 +614,22 @@ namespace Rhoban
       sensors = robot->getSensors()->getSensors();
       for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
       {
-          printf("### %d -> %s\n", index, itS->second->getName().c_str());
+          printf("### %d -> [sensor] %s\n", index, itS->second->getName().c_str());
           index++;
       }
       motors = robot->getMotors()->getMotors();
       for(itM=motors.begin(); itM!=motors.end(); ++itM)
       {
-          printf("### %d -> %s\n", index, itM->second->getName().c_str());
+          printf("### %d -> [position] %s\n", index, itM->second->getName().c_str());
+          index++;
+      }
+      for(itM=motors.begin(); itM!=motors.end(); ++itM)
+      {
+          printf("### %d -> [goal] %s\n", index, itM->second->getName().c_str());
           index++;
       }
       printf("###\n");
+      /*
       printf("#");
       printf("timestamp ");
       for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
@@ -601,6 +641,7 @@ namespace Rhoban
           printf("%s ", itM->second->getName().c_str());
       }
       printf("\n");
+      */
       while (1) {
           //Timestamp
           struct timespec tp;
@@ -622,6 +663,14 @@ namespace Rhoban
           {
               if(itM->second->getLastUpdate()) {
                   printf("%f ", itM->second->getRelAngle());
+              } else {
+                  printf("0 ");
+              }
+          }
+          for(itM=motors.begin(); itM!=motors.end(); ++itM)
+          {
+              if(itM->second->getLastUpdate()) {
+                  printf("%f ", itM->second->getCurrentRelGoal());
               } else {
                   printf("0 ");
               }
