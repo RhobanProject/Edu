@@ -575,7 +575,8 @@ namespace Rhoban
       printf("###\n");
       printf("### Dump %s\n", robot->getName().c_str());
       printf("###\n");
-      int index = 1;
+      printf("### 1 -> timestamp\n");
+      int index = 2;
       sensors = robot->getSensors()->getSensors();
       for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
       {
@@ -590,6 +591,7 @@ namespace Rhoban
       }
       printf("###\n");
       printf("#");
+      printf("timestamp ");
       for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
       {
           printf("%s ", itS->second->getName().c_str());
@@ -600,6 +602,11 @@ namespace Rhoban
       }
       printf("\n");
       while (1) {
+          //Timestamp
+          struct timespec tp;
+          clock_gettime(CLOCK_MONOTONIC, &tp);
+          printf("%d ", tp.tv_sec*1000+tp.tv_nsec/1000000);
+    
           sensors = robot->getSensors()->getSensors();
           for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
           {
