@@ -30,6 +30,7 @@ namespace Rhoban
     currentSpeedInit = 0;
     goalLoadInit = 0;
     currentLoadInit = 0;
+    currentGoal = 0;
   }
 
   bool Motor::isDirty()
@@ -42,6 +43,21 @@ namespace Rhoban
     setGoalAngle(angle);
     setDirty(1);
     goalAngleInit = 1;
+  }
+
+  void Motor::setCurrentGoal(double goal)
+  {
+      currentGoal = goal;
+  }
+
+  double Motor::getCurrentGoal()
+  {
+      return currentGoal;
+  }
+
+  double Motor::getCurrentRelGoal()
+  {
+      return (currentGoal - iniAngle - zeroAngle);
   }
 
   void Motor::setRelAngle(double angle)
