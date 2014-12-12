@@ -609,7 +609,7 @@ namespace Rhoban
       printf("###\n");
       printf("### Dump %s\n", robot->getName().c_str());
       printf("###\n");
-      printf("### 1 -> timestamp\n");
+      printf("### 1 -> Timestamp (ms)\n");
       int index = 2;
       sensors = robot->getSensors()->getSensors();
       for(itS=sensors.begin(); itS!=sensors.end(); ++itS)
