@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{dda841fa-2f01-45f7-a9a1-f8e0bac0496b}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>stm\stm_server_main.py</StartupFile>
+    <SearchPath>.;..\python;zmq_win;C:\Users\Hugo\Documents\GitHub\Edu\sdk\python;C:\Users\Hugo\Documents\GitHub\Edu\sdk\python\stm</SearchPath>
+    <WorkingDirectory>C:\Users\Hugo\Documents\GitHub\Environnement - Django\RhobanServer</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments />
+    <InterpreterPath />
+    <InterpreterArguments />
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
+    <InterpreterVersion>3.4</InterpreterVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Compile Include="generate.py" />
+    <Compile Include="sdk.py" />
+    <Compile Include="test.py" />
+    <Compile Include="tests.py" />
+    <Compile Include="rhoban\commands.py" />
+    <Compile Include="rhoban\communication.py" />
+    <Compile Include="rhoban\configurations.py" />
+    <Compile Include="rhoban\generate.py" />
+    <Compile Include="rhoban\main.py" />
+    <Compile Include="rhoban\motion.py" />
+    <Compile Include="rhoban\motors.py" />
+    <Compile Include="rhoban\robot.py" />
+    <Compile Include="rhoban\sensors.py" />
+    <Compile Include="rhoban\__init__.py" />
+    <Compile Include="sockets\tcp.py" />
+    <Compile Include="sockets\__init__.py" />
+    <Compile Include="stm\repeated_task.py" />
+    <Compile Include="stm\stm.py" />
+    <Compile Include="stm\stm_loader.py" />
+    <Compile Include="stm\stm_server.py" />
+    <Compile Include="stm\stm_server_main.py" />
+    <Compile Include="stm\test.py" />
+    <Compile Include="stm\__init__.py" />
+    <Compile Include="stm\examples\dice_machine.py" />
+    <Compile Include="stm\examples\drunk_sailor.py" />
+    <Compile Include="stm\examples\examples.py" />
+    <Compile Include="stm\examples\ping_pong.py" />
+    <Compile Include="tests\patterns.py" />
+    <Compile Include="tests\specification.py" />
+    <Compile Include="tests\__init__.py" />
+    <Compile Include="yaml\composer.py" />
+    <Compile Include="yaml\constructor.py" />
+    <Compile Include="yaml\cyaml.py" />
+    <Compile Include="yaml\dumper.py" />
+    <Compile Include="yaml\emitter.py" />
+    <Compile Include="yaml\error.py" />
+    <Compile Include="yaml\events.py" />
+    <Compile Include="yaml\loader.py" />
+    <Compile Include="yaml\nodes.py" />
+    <Compile Include="yaml\parser.py" />
+    <Compile Include="yaml\reader.py" />
+    <Compile Include="yaml\representer.py" />
+    <Compile Include="yaml\resolver.py" />
+    <Compile Include="yaml\scanner.py" />
+    <Compile Include="yaml\serializer.py" />
+    <Compile Include="yaml\tokens.py" />
+    <Compile Include="yaml\__init__.py" />
+    <Content Include="stm\tutorial.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="rhoban" />
+    <Folder Include="sockets" />
+    <Folder Include="stm" />
+    <Folder Include="stm\examples" />
+    <Folder Include="tests" />
+    <Folder Include="yaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.4" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

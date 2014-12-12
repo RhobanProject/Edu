@@ -59,27 +59,28 @@ class StateMachineLoader(RepeatedTask):
    
     def startMachine(self, machineName, duration = float("inf")):
         machine = self.getMachine(machineName)
-        machine.machine.play(False, duration, False)
+        if machine :
+            machine.machine.play(False, duration, False)
 
     def stopMachine(self, machineName):
         machine = self.getMachine(machineName)
-        machine.machine.stop()
+        if machine :
+            machine.machine.stop()
 
     def suspendMachine(self, machineName):
         machine = self.getMachine(machineName)
-        machine.machine.suspend()
+        if machine :
+            machine.machine.suspend()
 
     def setState(self, machineName, stateName):
         machine = self.getMachine(machineName)
-        machine.machine.set_state(stateName)
+        if machine :
+            machine.machine.set_state(stateName)
 
     def kill(self, machineName):
         self.lock.acquire()
         if machineName in self.machines :
             del self.machines[machineName]
-        else :
-            self.lock.release()
-            raise Exception("Unknown machine '" + machineName + "'")
         self.lock.release()
         
     def update_frequencies(self):

@@ -23,7 +23,7 @@ class TCPClient(object):
             self.socket.connect((hostname, int(port)))
             self.connected = True
         except Exception as e:
-            print("TCPClient failed to connect " + str(e))
+            print("TCPClient failed to connect to " + hostname + ":" + str(port))
             self.connected = False
         self.socketLock.release()
 
