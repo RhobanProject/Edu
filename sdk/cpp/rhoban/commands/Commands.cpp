@@ -442,7 +442,7 @@ namespace Rhoban
               cout << "-";
             cout << endl;
             printf(fmttitle.c_str(), 
-                   "Name", "Id", "Present", "Angle", "Goal", "Speed");
+                   "Name", "Id", "Present", "RelAngle", "RelGoal", "Speed");
             cout << " ";
             for(int i=0; i<((10+4+7+12+8+8)+(5*3)+(2*2)); ++i)
               cout << "-";
