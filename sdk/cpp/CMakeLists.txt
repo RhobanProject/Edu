@@ -83,6 +83,8 @@ add_subdirectory("${RHOBAN_COMMON_DIRECTORY}" common)
 include_directories("${RHOBAN_COMMON_DIRECTORY}")
 include_directories("${PROJECT_BINARY_DIR}/common")
 
+set (ENABLE_ZMQ ON)
+set (ZMQ_VERSION "3.2")
 add_subdirectory("${RHOBAN_UTILS_DIRECTORY}" utils)
 include_directories("${RHOBAN_UTILS_DIRECTORY}")
 include_directories("${PROJECT_BINARY_DIR}/utils")
