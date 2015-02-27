@@ -713,7 +713,7 @@ namespace Rhoban
         }
         imgNames.push_back(names.substr(pos1));
     } else {
-        imgNames.push_back("src");
+        imgNames.push_back("source");
     }
     cout << "Displaying vision module " << width << "x" << height << endl;
     #ifdef WITH_OPENCV

@@ -26,8 +26,8 @@ option(RHOBANMATH
     "Enables RhobanMath support" OFF)
 
 # Useful for getting common compiling
-set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/utils" CACHE STRING "RhobanUtils directory")
-set(RHOBAN_COMMON_DIRECTORY "${PROJECT_SOURCE_DIR}/common" CACHE STRING "RhobanCommon directory")
+set(RHOBAN_UTILS_DIRECTORY "${PROJECT_SOURCE_DIR}/../../../Utils" CACHE STRING "RhobanUtils directory")
+set(RHOBAN_COMMON_DIRECTORY "${PROJECT_SOURCE_DIR}/../../../Common" CACHE STRING "RhobanCommon directory")
 set(YAML_HEADERS "${RHOBAN_UTILS_DIRECTORY}/yaml-cpp/include" CACHE STRING "Yaml headers directory" CACHE STRING "")
 
 set(GENERATE_PY "${PROJECT_SOURCE_DIR}/../python/generate.py")
