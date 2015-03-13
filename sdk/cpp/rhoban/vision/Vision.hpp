@@ -42,6 +42,13 @@ namespace Rhoban
             float getGoalRelPosY() const;
             float getGoalRelWidth() const;
             float getGoalRelHeight() const;
+
+            /**
+             * Logging options
+             */
+            void startLog() const;
+            void startLog(uint timeMS) const;
+            void endLog() const;
             
             #ifdef WITH_OPENCV
                 /**

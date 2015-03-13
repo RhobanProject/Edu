@@ -804,4 +804,38 @@ namespace Rhoban
       cout << "Error: Compilation without OPENCV" << endl;
     #endif
   }
+  
+  StartLogCommand::StartLogCommand()
+  {
+    name = "startlog";
+    prototype = "[-t <time>] <robotName>";
+    options = "t:";
+    argumentsLength = 1;
+    description = "Start logs on specified robot";
+  }
+  
+  void StartLogCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+    if (options.count('t')) {
+      robot->getVision()->startLog(stoi(options['t']));
+    }
+    else {
+      robot->getVision()->startLog();
+    }
+  }
+  
+  EndLogCommand::EndLogCommand()
+  {
+    name = "endlog";
+    prototype = "<robotName>";
+    argumentsLength = 1;
+    description = "End logs on specified robot";
+  }
+  
+  void EndLogCommand::execute(Robot *robot, map<char, string> options,
+    vector<string> arguments)
+  {
+    robot->getVision()->endLog();
+  }
 }

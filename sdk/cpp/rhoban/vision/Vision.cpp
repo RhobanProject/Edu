@@ -78,7 +78,25 @@ namespace Rhoban
     {
         return goalRelHeight;
     }
-            
+
+    void Vision::startLog() const
+    {
+        Message response = connection
+            ->VisionStartLog_response(10000);
+    }
+
+    void Vision::startLog(uint timeMS) const
+    {
+        Message response = connection
+            ->VisionStartLogWithTime_response(timeMS,10000);
+    }
+
+    void Vision::endLog() const
+    {
+        Message response = connection
+            ->VisionEndLog_response(10000);
+    }
+
     #ifdef WITH_OPENCV
         void Vision::grabAndDisplayFrames
             (vector<string>& names, unsigned int width, unsigned int height)

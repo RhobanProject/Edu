@@ -204,6 +204,24 @@ namespace Rhoban
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
+  
+  // Calibration de la détection de la balle
+  class StartLogCommand : public RobotCommand
+  {
+  public:
+    StartLogCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
+  
+  // Calibration de la détection de la balle
+  class EndLogCommand : public RobotCommand
+  {
+  public:
+    EndLogCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
 }
 
 #endif // COMMANDS_H

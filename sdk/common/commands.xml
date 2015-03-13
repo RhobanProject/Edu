@@ -554,6 +554,32 @@
 </CommandSpecification>
 
 <CommandSpecification>
+    <Name>VisionStartLog</Name>
+    <Description>Start logging image from vision</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>60</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string</AnswerPattern>
+</CommandSpecification>
+<CommandSpecification>
+    <Name>VisionStartLogWithTime</Name>
+    <Description>Start logging image from vision for a given time</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>62</CommandIndex>
+    <ParametersPattern >uint </ParametersPattern>
+    <AnswerPattern>string</AnswerPattern>
+</CommandSpecification>
+<CommandSpecification>
+    <Name>VisionEndLog</Name>
+    <Description>End logging image from vision</Description>
+    <Destination>vision</Destination>
+    <CommandIndex>61</CommandIndex>
+    <ParametersPattern />
+    <AnswerPattern>string</AnswerPattern>
+</CommandSpecification>
+
+
+<CommandSpecification>
     <Name>LocalisationError</Name>
     <Description>error from loc</Description>
     <Destination>localisation</Destination>
