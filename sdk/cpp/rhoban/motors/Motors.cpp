@@ -148,7 +148,7 @@ namespace Rhoban
                     && it->second->getCurrentAngleInit()
                     && it->second->getCurrentSpeedInit()) {
                 names.push_back(it->first);
-                angles.push_back((int)  (it->second->getGoalAngle()) );
+                angles.push_back(it->second->getGoalAngle());
             }
         }
 
