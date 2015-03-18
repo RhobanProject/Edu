@@ -49,6 +49,8 @@ namespace Rhoban
     manager.addCommand(new BallInfoCommand, "vision"); 
     manager.addCommand(new GoalInfoCommand, "vision"); 
     manager.addCommand(new BallCalibrationCommand, "vision"); 
+    manager.addCommand(new StartLogCommand, "vision"); 
+    manager.addCommand(new EndLogCommand, "vision"); 
   }
 
   void RhobanMain::run()

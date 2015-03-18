@@ -933,6 +933,30 @@
       <AnswerPattern>uint </AnswerPattern>
   </CommandSpecification>
   <CommandSpecification>
+      <Name>LowLevelStartLog</Name>
+      <Description>Start the dump of lowlevel values to Logs folder</Description>
+      <Destination>low_level</Destination>
+      <CommandIndex>100</CommandIndex>
+      <ParametersPattern></ParametersPattern>
+      <AnswerPattern>uint </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+      <Name>LowLevelStartLogWithTime</Name>
+      <Description>Start the dump of lowlevel values to Logs folder for a given time</Description>
+      <Destination>low_level</Destination>
+      <CommandIndex>101</CommandIndex>
+      <ParametersPattern>uint</ParametersPattern>
+      <AnswerPattern>uint </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
+      <Name>LowLevelEndLog</Name>
+      <Description>Stop current lowlevel logging tasks</Description>
+      <Destination>low_level</Destination>
+      <CommandIndex>102</CommandIndex>
+      <ParametersPattern></ParametersPattern>
+      <AnswerPattern>uint </AnswerPattern>
+  </CommandSpecification>
+  <CommandSpecification>
       <Name>StmError</Name>
       <Destination>stm</Destination>
       <CommandIndex>1</CommandIndex>

@@ -818,10 +818,15 @@ namespace Rhoban
     vector<string> arguments)
   {
     if (options.count('t')) {
-      robot->getVision()->startLog(stoi(options['t']));
+      int timeMS = stoi(options['t']);
+      robot->getVision()->startLog(timeMS);
+      Message response = robot->getConnection()
+        ->LowLevelStartLogWithTime_response(timeMS, 10000);
     }
     else {
       robot->getVision()->startLog();
+      Message response = robot->getConnection()
+        ->LowLevelStartLog_response(10000);
     }
   }
   
@@ -837,5 +842,7 @@ namespace Rhoban
     vector<string> arguments)
   {
     robot->getVision()->endLog();
+      Message response = robot->getConnection()
+        ->LowLevelEndLog_response(10000);
   }
 }

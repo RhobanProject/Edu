@@ -205,7 +205,7 @@ namespace Rhoban
 		 vector<string> arguments);
   };
   
-  // Calibration de la détection de la balle
+  // Lance les logs (low-level + vision) des données brutes du robots
   class StartLogCommand : public RobotCommand
   {
   public:
@@ -214,7 +214,7 @@ namespace Rhoban
 		 vector<string> arguments);
   };
   
-  // Calibration de la détection de la balle
+  // Stop les logs (low-level + vision) des données brutes du robots
   class EndLogCommand : public RobotCommand
   {
   public:
