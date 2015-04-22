@@ -49,6 +49,15 @@ namespace Rhoban
     void execute(Robot *robot, map<char, string> options, 
 		 vector<string> arguments);
   };
+  
+  // Commande de lancement de mouvement
+  class ListMovesCommand : public RobotCommand
+  {
+  public:
+    ListMovesCommand();
+    void execute(Robot *robot, map<char, string> options, 
+		 vector<string> arguments);
+  };
 
   // Commande de lancement de mouvement
   class StartMoveCommand : public RobotCommand

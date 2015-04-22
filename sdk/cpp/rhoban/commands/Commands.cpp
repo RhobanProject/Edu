@@ -152,6 +152,30 @@ namespace Rhoban
   {
     robot->killMove(arguments[0]);
   }
+  
+  ListMovesCommand::ListMovesCommand()
+  {
+    name = "listmoves";
+    prototype = "<robot>";
+    argumentsLength = 0;
+    description = "List the moves";
+  }
+
+  void ListMovesCommand::execute(Robot *robot, map<char, string> options, 
+				 vector<string> arguments)
+  {
+    int duration = 0;
+    int smooth = 500;
+
+    auto response = robot->getConnection()->SchedulerGetLoadedMoves_response();
+    auto moves = response.read_string_array();
+    auto status = response.read_string_array();
+    auto errors = response.read_string_array();
+
+    for (int k=0; k<moves.size(); k++) {
+        std::cout << moves[k] << " " << status[k] << std::endl;
+    }
+  }
 
   
   StartMoveCommand::StartMoveCommand()

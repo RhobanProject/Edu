@@ -30,6 +30,7 @@ namespace Rhoban
     manager.addCommand(new LoadMoveCommand, "moves");
     manager.addCommand(new KillMoveCommand, "moves");
     manager.addCommand(new StartMoveCommand, "moves");
+    manager.addCommand(new ListMovesCommand, "moves");
     manager.addCommand(new StopMoveCommand, "moves");
     manager.addCommand(new UpdateConstantCommand, "moves");
     
