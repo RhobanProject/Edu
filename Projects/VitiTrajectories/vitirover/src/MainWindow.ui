@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>912</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="SimulationViewer" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>860</width>
+     <height>0</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>912</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="fieldDockWidget">
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Terrain</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="FieldInformationWidget" name="fieldDockContent"/>
+  </widget>
+  <widget class="QDockWidget" name="controlDockWidget">
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Contrôles</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="Controler" name="controlDockContent"/>
+  </widget>
+  <widget class="QDockWidget" name="robotDockWidget">
+   <property name="windowTitle">
+    <string>Robot</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="RobotInformationWidget" name="robotDockContent"/>
+  </widget>
+  <widget class="QDockWidget" name="mapControldockWidget">
+   <property name="windowTitle">
+    <string>Contrôle génération Carte</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="MapControlWidget" name="mapControlDockContents"/>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SimulationViewer</class>
+   <extends>QWidget</extends>
+   <header>../src/SimulationViewer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Controler</class>
+   <extends>QWidget</extends>
+   <header>../src/Controler.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FieldInformationWidget</class>
+   <extends>QWidget</extends>
+   <header>../src/FieldInformationWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RobotInformationWidget</class>
+   <extends>QWidget</extends>
+   <header>../src/RobotInformationWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MapControlWidget</class>
+   <extends>QWidget</extends>
+   <header>../src/MapControlWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

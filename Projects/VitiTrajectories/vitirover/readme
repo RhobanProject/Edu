@@ -1,0 +1,33 @@
+Autheurs :	Antoine Morillon
+	   	Florian Boudinet
+		Jeremy Chapron
+
+Date :		Decembre 2012
+Lieu :		Enseirb-Matmeca
+
+
+
+__________________________________
+____Architecture
+
+
+-/vitirover
+	-/bin		Repertoire contenant les executables 
+	-/src		Sources du projet
+	-/conf		Fichiers de configuration (YAML)
+	-/media		Media utiliser dans la simulation (texture etc...)
+
+__________________________________
+____Utilisation
+
+
+cd ${YOUR_PATH}/vitirover
+mkdir bin
+cd bin
+cmake ..
+make
+./bin/EXECUTABLE_NAME
+
+
+==> Ou alors, ouvrir CMakeLists.txt avec QtCreator, suivre les indication pour generer le Makefile a partire du CMakeLists.
+    *Pas d'arguments pour utiliser le CMakeLists.
